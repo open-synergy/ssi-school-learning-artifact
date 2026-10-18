@@ -57,6 +57,14 @@
                 type="text/javascript"
                 src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_rubric_tour.js"
             />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/school_student_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/partner_consent_purpose_tour.js"
+            />
         </xpath>
     </template>
 </odoo>

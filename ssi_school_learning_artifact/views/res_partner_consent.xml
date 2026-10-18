@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="res_partner_consent_view_tree_learning_artifact" model="ir.ui.view">
+    <field name="name">res.partner.consent - tree (learning artifact)</field>
+    <field name="model">res.partner.consent</field>
+    <field name="priority">20</field>
+    <field name="arch" type="xml">
+        <tree edit="false" delete="false">
+            <field name="consent_date" />
+            <field name="partner_id" />
+            <field name="school_id" />
+            <field name="purpose_id" />
+            <field name="consent_type" />
+            <field name="consent_level" />
+            <field name="date_expiry" />
+        </tree>
+    </field>
+</record>
+
+<record id="res_partner_consent_view_form_learning_artifact" model="ir.ui.view">
+    <field name="name">res.partner.consent - form (learning artifact)</field>
+    <field name="model">res.partner.consent</field>
+    <field name="priority">20</field>
+    <field name="arch" type="xml">
+        <form edit="false" delete="false">
+            <sheet>
+                <group name="consent_1" colspan="4" col="2">
+                    <group name="consent_1_1" colspan="1" col="2">
+                        <field name="partner_id" />
+                        <field name="school_id" />
+                        <field name="notice_id" />
+                        <field name="purpose_id" />
+                        <field name="consent_type" />
+                        <field
+                                name="consent_level"
+                                attrs="{'invisible': [('consent_type', '!=', 'grant')]}"
+                            />
+                    </group>
+                    <group name="consent_1_2" colspan="1" col="2">
+                        <field name="consent_date" />
+                        <field name="date_expiry" />
+                        <field name="channel" />
+                    </group>
+                </group>
+                <group name="consent_2" colspan="4" col="1">
+                    <field
+                            name="limited_preference"
+                            attrs="{'invisible': [('consent_level', '!=', 'limited')]}"
+                        />
+                    <field name="note" />
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="res_partner_consent_action" model="ir.actions.act_window">
+    <field name="name">Data Privacy Consents</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">res.partner.consent</field>
+    <field name="view_mode">tree,form</field>
+    <field
+            name="view_ids"
+            eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('res_partner_consent_view_tree_learning_artifact')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('res_partner_consent_view_form_learning_artifact')})]"
+        />
+</record>
+</odoo>

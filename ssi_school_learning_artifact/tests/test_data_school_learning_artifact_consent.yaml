@@ -1,0 +1,739 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Consent Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Consent Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Consent Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Consent Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Consent Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Consent Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create first student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "First Student Contact for Consent Test"
+
+    - step: "Setup - create first student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "First Student for Consent Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create second student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Second Student Contact for Consent Test"
+
+    - step: "Setup - create second student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Second Student for Consent Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Consent Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Consent Test"
+        code: "/"
+
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Consent Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+
+    - step: "Setup - create inventory purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_inventory"
+      values:
+        name: "Purpose inventory for Consent Test"
+        code: "/"
+        learning_artifact_usage: "inventory"
+
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Consent Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Consent Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Consent Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+
+    - step: "Setup - create purpose without learning artifact usage"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_other"
+      values:
+        name: "Purpose other for Consent Test"
+        code: "/"
+
+scenarios:
+  - name: "Full publication consent recorded after the artifact exists"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "full"
+          inventory_consent:
+            type: "value"
+            expected: "unknown"
+          assessment_consent:
+            type: "value"
+            expected: "unknown"
+          promotion_consent:
+            type: "value"
+            expected: "unknown"
+
+      - step: "Assert limited_publication_student_ids is empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          limited_publication_student_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+      - step: "Assert refused_publication_student_ids is empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          refused_publication_student_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "One limited student limits the publication of the artifact"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record grant limited consent of student_b"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_b.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+          limited_preference: "Only inside the school"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "limited"
+
+      - step: "Assert limited_publication_student_ids"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          limited_publication_student_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: student_b"
+
+      - step: "Assert refused_publication_student_ids is empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          refused_publication_student_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "A later withdrawal refuses the publication"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Withdraw publication later"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "refused"
+
+      - step: "Assert refused_publication_student_ids"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          refused_publication_student_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: student_a"
+
+      - step: "Assert limited_publication_student_ids is empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          limited_publication_student_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "Consent recorded for another school is ignored"
+    steps:
+      - step: "Create the other school"
+        action: "create"
+        model: "school"
+        save_as: "school_other"
+        values:
+          name: "Other School for Consent Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          branch_id: "REC: branch.id"
+
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school_other.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "unknown"
+
+  - name: "Artifact without any consent record is not recorded"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          inventory_consent:
+            type: "value"
+            expected: "unknown"
+          assessment_consent:
+            type: "value"
+            expected: "unknown"
+          publication_consent:
+            type: "value"
+            expected: "unknown"
+          promotion_consent:
+            type: "value"
+            expected: "unknown"
+
+  - name: "A refused student beats a student without consent"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+
+      - step: "Record withdraw  consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "refused"
+
+  - name: "A student without consent beats a full student"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "unknown"
+
+  - name: "Purpose without learning artifact usage is ignored"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_other.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert artifact consent"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          inventory_consent:
+            type: "value"
+            expected: "unknown"
+          assessment_consent:
+            type: "value"
+            expected: "unknown"
+          publication_consent:
+            type: "value"
+            expected: "unknown"
+          promotion_consent:
+            type: "value"
+            expected: "unknown"
+
+  - name: "Unrecorded inventory consent does not block the submit by default"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+  - name: "Full inventory consent lets the submit pass when the school requires it"
+    steps:
+      - step: "Require the inventory consent on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_inventory_consent: true
+
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Record grant full consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+  - name: "Refused inventory consent blocks the submit"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Record withdraw  consent of student_a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "refused the inventory consent"
+
+  - name: "Unrecorded inventory consent blocks the submit when the school requires it"
+    steps:
+      - step: "Require the inventory consent on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_inventory_consent: true
+
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "has no inventory consent recorded"
+
+  - name: "A consent record cannot be modified by a regular user"
+    steps:
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "consent_record"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Write the consent as a regular user"
+        action: "write"
+        target: "consent_record"
+        as_user: "base.user_admin"
+        values:
+          consent_level: "limited"
+        expect_error:
+          type: "UserError"
+          message_contains: "immutable"

@@ -5,3 +5,4 @@ odoo14-addon-ssi-transaction-confirm-mixin
 odoo14-addon-ssi-transaction-open-mixin
 odoo14-addon-ssi-transaction-cancel-mixin
 odoo14-addon-ssi-decorator
+odoo14-addon-ssi-partner-data-privacy-consent

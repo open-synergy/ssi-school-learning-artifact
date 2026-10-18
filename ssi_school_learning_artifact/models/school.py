@@ -41,3 +41,13 @@ class School(models.Model):  # pylint: disable=too-few-public-methods
             "a phase before it can be submitted."
         ),
     )
+    learning_artifact_require_inventory_consent = fields.Boolean(
+        string="Learning Artifact Requires Inventory Consent",
+        default=False,
+        help=(
+            "If checked, a learning artifact of this school cannot be "
+            "submitted while a student has no inventory consent recorded. "
+            "A student who refused the inventory consent always blocks "
+            "the submission."
+        ),
+    )

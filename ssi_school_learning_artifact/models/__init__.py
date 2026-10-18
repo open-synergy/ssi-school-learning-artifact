@@ -16,4 +16,7 @@ from . import school_distinctive_program  # noqa: F401
 from . import school_distinctive_program_component  # noqa: F401
 from . import school_graduate_profile  # noqa: F401
 from . import school  # noqa: F401
+from . import school_student  # noqa: F401
+from . import partner_consent_purpose  # noqa: F401
+from . import res_partner_consent  # noqa: F401
 from . import school_learning_artifact  # noqa: F401

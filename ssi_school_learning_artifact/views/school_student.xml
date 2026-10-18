@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_student_view_form_learning_artifact" model="ir.ui.view">
+    <field name="name">school_student - form (learning artifact)</field>
+    <field name="model">school_student</field>
+    <field name="inherit_id" ref="ssi_school.school_student_view_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//div[@name='div_smart_buttons']" position="inside">
+                <button
+                        name="action_open_learning_artifact_consent"
+                        string="Artifact Consents"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-check-square-o"
+                        groups="ssi_school_learning_artifact.school_learning_artifact_consent_officer_group"
+                    >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Artifact Consents</span>
+                    </div>
+                </button>
+            </xpath>
+        </data>
+    </field>
+</record>
+</odoo>

@@ -16,6 +16,7 @@
                         <field name="learning_artifact_require_component" />
                         <field name="learning_artifact_require_dimension" />
                         <field name="learning_artifact_require_phase" />
+                        <field name="learning_artifact_require_inventory_consent" />
                     </group>
                 </page>
             </xpath>
