@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo14-addon-ssi_school_learning_artifact',
         'odoo14-addon-ssi_school_learning_artifact_character',
+        'odoo14-addon-ssi_school_learning_artifact_operating_unit',
     ],
     classifiers=[
         'Programming Language :: Python',

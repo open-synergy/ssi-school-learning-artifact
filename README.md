@@ -23,6 +23,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [ssi_school_learning_artifact](ssi_school_learning_artifact/) | 14.0.1.3.0 |  | School Learning Artifact
 [ssi_school_learning_artifact_character](ssi_school_learning_artifact_character/) | 14.0.1.0.1 |  | School Learning Artifact - Character Tag
+[ssi_school_learning_artifact_operating_unit](ssi_school_learning_artifact_operating_unit/) | 14.0.1.0.1 |  | School Learning Artifact - Operating Unit
 
 [//]: # (end addons)
 
