@@ -1,0 +1,243 @@
+scenarios:
+  - name: "Users see the artifacts of their own operating units only"
+    steps:
+      - step: "Create partner of operating unit A"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_a_partner"
+        values:
+          name: "Artifact Visibility OU A Partner"
+
+      - step: "Create partner of operating unit B"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_b_partner"
+        values:
+          name: "Artifact Visibility OU B Partner"
+
+      - step: "Create operating unit A"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_a"
+        values:
+          name: "Artifact Visibility OU A"
+          code: "LAVSOUA"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_a_partner.id"
+
+      - step: "Create operating unit B"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_b"
+        values:
+          name: "Artifact Visibility OU B"
+          code: "LAVSOUB"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_b_partner.id"
+
+      - step: "Create grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type"
+        values:
+          name: "Grade Type for Artifact Visibility"
+          code: "/"
+          sequence: 10
+
+      - step: "Create school of operating unit A"
+        action: "create"
+        model: "school"
+        save_as: "school_a"
+        values:
+          name: "School A for Artifact Visibility"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create school of operating unit B"
+        action: "create"
+        model: "school"
+        save_as: "school_b"
+        values:
+          name: "School B for Artifact Visibility"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create grade"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade"
+        values:
+          name: "Grade for Artifact Visibility"
+          code: "/"
+          sequence: 10
+          type_id: "REC: grade_type.id"
+
+      - step: "Create class of school A"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_a"
+        values:
+          name: "Class A for Artifact Visibility"
+          code: "/"
+          school_id: "REC: school_a.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create class of school B"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_b"
+        values:
+          name: "Class B for Artifact Visibility"
+          code: "/"
+          school_id: "REC: school_b.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create academic year"
+        action: "create"
+        model: "school_academic_year"
+        save_as: "academic_year"
+        values:
+          name: "Year for Artifact Visibility"
+          code: "/"
+          date_start: "2026-07-01"
+          date_end: "2027-06-30"
+
+      - step: "Create artifact of operating unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Visibility Activity A"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of operating unit B"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_b"
+        values:
+          school_id: "REC: school_b.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_b.id"
+          activity_name: "Visibility Activity B"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Check the artifacts carry the operating unit of their school"
+        action: "assert"
+        target: "artifact_b"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_b"
+
+      - step: "Create user of operating unit A only"
+        action: "create"
+        model: "res.users"
+        save_as: "user_a"
+        values:
+          name: "Artifact Visibility User A"
+          login: "artifact.visibility.a@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create user of operating units A and B"
+        action: "create"
+        model: "res.users"
+        save_as: "user_ab"
+        values:
+          name: "Artifact Visibility User AB"
+          login: "artifact.visibility.ab@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id", "REC: ou_b.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create user of the Company group with operating unit A only"
+        action: "create"
+        model: "res.users"
+        save_as: "user_company"
+        values:
+          name: "Artifact Visibility User Company"
+          login: "artifact.visibility.company@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "User of unit A does not find the artifact of unit B"
+        action: "search"
+        model: "school_learning_artifact"
+        as_user: "user_a"
+        domain: [["id", "=", "REC: artifact_b.id"]]
+        save_as: "found_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the artifact of unit A"
+        action: "search"
+        model: "school_learning_artifact"
+        as_user: "user_a"
+        domain: [["id", "=", "REC: artifact_a.id"]]
+        save_as: "found_a_by_a"
+        expect_count: 1
+
+      - step: "User of units A and B finds both artifacts"
+        action: "search"
+        model: "school_learning_artifact"
+        as_user: "user_ab"
+        domain: [["id", "in", ["REC: artifact_a.id", "REC: artifact_b.id"]]]
+        save_as: "found_by_ab"
+        expect_count: 2
+
+      - step: "User of the Company group finds both artifacts"
+        action: "search"
+        model: "school_learning_artifact"
+        as_user: "user_company"
+        domain: [["id", "in", ["REC: artifact_a.id", "REC: artifact_b.id"]]]
+        save_as: "found_by_company"
+        expect_count: 2

@@ -1,0 +1,261 @@
+scenarios:
+  - name: "Operating unit of the artifact is derived from the school"
+    steps:
+      - step: "Create partner of operating unit A"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_a_partner"
+        values:
+          name: "Artifact Derive OU A Partner"
+
+      - step: "Create partner of operating unit B"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_b_partner"
+        values:
+          name: "Artifact Derive OU B Partner"
+
+      - step: "Create operating unit A"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_a"
+        values:
+          name: "Artifact Derive OU A"
+          code: "LADVOUA"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_a_partner.id"
+
+      - step: "Create operating unit B"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_b"
+        values:
+          name: "Artifact Derive OU B"
+          code: "LADVOUB"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_b_partner.id"
+
+      - step: "Create grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type"
+        values:
+          name: "Grade Type for Artifact Derive OU"
+          code: "/"
+          sequence: 10
+
+      - step: "Create school S1 with exactly one operating unit B"
+        action: "create"
+        model: "school"
+        save_as: "school_1"
+        values:
+          name: "School S1 for Artifact Derive OU"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create school S2 with operating units A and B"
+        action: "create"
+        model: "school"
+        save_as: "school_2"
+        values:
+          name: "School S2 for Artifact Derive OU"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id", "REC: ou_b.id"]]]
+
+      - step: "Create school S3 without operating unit"
+        action: "create"
+        model: "school"
+        save_as: "school_3"
+        values:
+          name: "School S3 for Artifact Derive OU"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+
+      - step: "Create grade"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade"
+        values:
+          name: "Grade for Artifact Derive OU"
+          code: "/"
+          sequence: 10
+          type_id: "REC: grade_type.id"
+
+      - step: "Create class of S1"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_1"
+        values:
+          name: "Class S1 for Artifact Derive OU"
+          code: "/"
+          school_id: "REC: school_1.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create class of S2"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_2"
+        values:
+          name: "Class S2 for Artifact Derive OU"
+          code: "/"
+          school_id: "REC: school_2.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create class of S3"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_3"
+        values:
+          name: "Class S3 for Artifact Derive OU"
+          code: "/"
+          school_id: "REC: school_3.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create academic year"
+        action: "create"
+        model: "school_academic_year"
+        save_as: "academic_year"
+        values:
+          name: "Year for Artifact Derive OU"
+          code: "/"
+          date_start: "2026-07-01"
+          date_end: "2027-06-30"
+
+      - step: "Get the admin user"
+        action: "ref"
+        xml_id: "base.user_admin"
+        save_as: "admin"
+
+      - step: "Give the admin user operating unit A as default"
+        action: "write"
+        target: "admin"
+        values:
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create artifact of S1 as the user whose default unit is A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_1"
+        as_user: "base.user_admin"
+        values:
+          school_id: "REC: school_1.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_1.id"
+          activity_name: "Derive Activity 1"
+          media_type: "photo"
+
+      - step: "Operating unit follows the single operating unit of S1"
+        action: "assert"
+        target: "artifact_1"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_b"
+
+      - step: "Create artifact of S2 as the user whose default unit is A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_2"
+        as_user: "base.user_admin"
+        values:
+          school_id: "REC: school_2.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_2.id"
+          activity_name: "Derive Activity 2"
+          media_type: "photo"
+
+      - step: "Several operating units on S2 keep the default unit A"
+        action: "assert"
+        target: "artifact_2"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_a"
+
+      - step: "Create artifact of S3 as the user whose default unit is A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_3"
+        as_user: "base.user_admin"
+        values:
+          school_id: "REC: school_3.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_3.id"
+          activity_name: "Derive Activity 3"
+          media_type: "photo"
+
+      - step: "No operating unit on S3 keeps the default unit A"
+        action: "assert"
+        target: "artifact_3"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_a"
+
+      - step: "Create artifact of S1 with explicit operating unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_4"
+        as_user: "base.user_admin"
+        values:
+          school_id: "REC: school_1.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_1.id"
+          activity_name: "Derive Activity 4"
+          media_type: "photo"
+          operating_unit_id: "REC: ou_a.id"
+
+      - step: "Explicit operating unit A wins over S1"
+        action: "assert"
+        target: "artifact_4"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_a"
+
+      - step: "Change the school of the artifact of S2 to S1"
+        action: "write"
+        target: "artifact_2"
+        as_user: "base.user_admin"
+        values:
+          school_id: "REC: school_1.id"
+          grade_class_id: "REC: class_1.id"
+
+      - step: "Operating unit is derived again from S1"
+        action: "assert"
+        target: "artifact_2"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_b"
+
+      - step: "Write only the operating unit of the artifact"
+        action: "write"
+        target: "artifact_2"
+        as_user: "base.user_admin"
+        values:
+          operating_unit_id: "REC: ou_a.id"
+
+      - step: "Operating unit written alone is kept"
+        action: "assert"
+        target: "artifact_2"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_a"
+
+      - step: "Select S1 on a new artifact form"
+        action: "form"
+        model: "school_learning_artifact"
+        save: false
+        values:
+          school_id: "REC: school_1"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected: "REC: ou_b"
