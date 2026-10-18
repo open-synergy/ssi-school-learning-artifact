@@ -131,10 +131,13 @@ odoo.define(
                     },
 
                     // Flow 6 -- Enter the score of the aspect row.
+                    // 14.0 list cells carry no name attribute; the columns of the
+                    // Scores table are Aspect, Score, Assessor, Scored On, so the
+                    // Score cell is the second one (index 1).
                     {
                         content: "Click the Score cell of the aspect row",
                         trigger:
-                            ".o_data_row:contains(TOUR Aspect One) .o_data_cell[name='score']",
+                            ".o_data_row:contains(TOUR Aspect One) .o_data_cell:eq(1)",
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                     {

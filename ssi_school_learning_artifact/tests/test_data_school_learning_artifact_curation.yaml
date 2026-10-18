@@ -1688,6 +1688,8 @@ scenarios:
                 [
                   "REF: base.group_user",
                   "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
                 ],
               ],
             ]
@@ -1882,6 +1884,24 @@ scenarios:
                   "REF: base.group_user",
                   "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
                 ],
+              ],
+            ]
+
+      - step: "Get the admin user"
+        action: "ref"
+        xml_id: "base.user_admin"
+        save_as: "admin_user"
+
+      - step: "Give the admin company data ownership to see the creator artifact"
+        action: "write"
+        target: "admin_user"
+        values:
+          groups_id:
+            [
+              [
+                4,
+                "REF:
+                ssi_school_learning_artifact.school_learning_artifact_company_group",
               ],
             ]
 
