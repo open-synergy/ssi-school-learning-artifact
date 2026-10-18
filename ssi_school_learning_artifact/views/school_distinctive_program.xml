@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_distinctive_program_view_search" model="ir.ui.view">
+    <field name="name">school_distinctive_program - search</field>
+    <field name="model">school_distinctive_program</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//search" position="inside">
+                <field name="branch_id" />
+                <group expand="0" string="Group By">
+                    <filter
+                            name="group_by_branch_id"
+                            string="Branch"
+                            context="{'group_by': 'branch_id'}"
+                        />
+                </group>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_distinctive_program_view_tree" model="ir.ui.view">
+    <field name="name">school_distinctive_program - tree</field>
+    <field name="model">school_distinctive_program</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="branch_id" />
+                <field name="abbreviation" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_distinctive_program_view_form" model="ir.ui.view">
+    <field name="name">school_distinctive_program - form</field>
+    <field name="model">school_distinctive_program</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="abbreviation" />
+                <field name="branch_id" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="component" string="Components">
+                    <field name="component_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="abbreviation" />
+                        </tree>
+                        <form>
+                            <group name="component_group" colspan="4" col="2">
+                                <field name="code" />
+                                <field name="name" />
+                                <field name="abbreviation" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_distinctive_program_action" model="ir.actions.act_window">
+    <field name="name">Distinctive Programs</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">school_distinctive_program</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="school_distinctive_program_menu"
+        name="Distinctive Programs"
+        parent="menu_school_learning_artifact_configuration"
+        action="school_distinctive_program_action"
+        groups="school_distinctive_program_group"
+        sequence="150"
+    />
+
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_learning_artifact_dimension_view_search" model="ir.ui.view">
+    <field name="name">school_learning_artifact_dimension - search</field>
+    <field name="model">school_learning_artifact_dimension</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//search" position="inside">
+                <field name="school_ids" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_dimension_view_form" model="ir.ui.view">
+    <field name="name">school_learning_artifact_dimension - form</field>
+    <field name="model">school_learning_artifact_dimension</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="school_ids" widget="many2many_tags" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_dimension_action" model="ir.actions.act_window">
+    <field name="name">Learning Artifact Dimensions</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">school_learning_artifact_dimension</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="school_learning_artifact_dimension_menu"
+        name="Dimensions"
+        parent="menu_school_learning_artifact_configuration"
+        action="school_learning_artifact_dimension_action"
+        groups="school_learning_artifact_dimension_group"
+        sequence="130"
+    />
+
+</odoo>
