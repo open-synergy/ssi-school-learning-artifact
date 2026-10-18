@@ -51,3 +51,53 @@ class School(models.Model):  # pylint: disable=too-few-public-methods
             "the submission."
         ),
     )
+    showcase_min_publication_consent = fields.Selection(
+        string="Showcase Minimum Publication Consent",
+        selection=[
+            ("full", "Full"),
+            ("limited", "Limited"),
+        ],
+        default="full",
+        required=True,
+        help=(
+            "Lowest aggregate publication consent of the students that "
+            "lets an artifact of this school into the showcase. With "
+            "Full, an artifact with a limited consent needs the "
+            "treatment below."
+        ),
+    )
+    showcase_limited_treatment = fields.Selection(
+        string="Showcase Limited Consent Treatment",
+        selection=[
+            ("block", "Block"),
+            ("review", "Review Task"),
+        ],
+        default="block",
+        required=True,
+        help=(
+            "What happens to an artifact with a limited publication "
+            "consent. Block keeps it out of the showcase. Review Task "
+            "lets it in after a reviewer marked the consent as "
+            "reviewed."
+        ),
+    )
+    showcase_exclude_refused_member = fields.Boolean(
+        string="Showcase Ignores Refusing Students",
+        default=False,
+        help=(
+            "If checked, the students who refused the publication are "
+            "left out when the publication consent of an artifact is "
+            "checked for the showcase, as long as one student remains. "
+            "They must then not be recognizable in the content."
+        ),
+    )
+    showcase_consent_reviewer_group_id = fields.Many2one(
+        string="Showcase Consent Reviewer Group",
+        comodel_name="res.groups",
+        ondelete="restrict",
+        help=(
+            "Group whose users can mark a limited publication consent "
+            "as reviewed. Leave empty to let anyone who may edit the "
+            "artifact do it."
+        ),
+    )

@@ -52,6 +52,15 @@ _CONSENT_DEPENDS = (
     "student_ids.contact_id.consent_ids.consent_date",
 )
 
+_SHOWCASE_CONSENT_DEPENDS = _CONSENT_DEPENDS + (
+    "publication_consent",
+    "assessment_consent",
+    "consent_reviewed",
+    "school_id.showcase_min_publication_consent",
+    "school_id.showcase_limited_treatment",
+    "school_id.showcase_exclude_refused_member",
+)
+
 
 class SchoolLearningArtifact(models.Model):
     """
@@ -68,7 +77,11 @@ class SchoolLearningArtifact(models.Model):
     Cancel from draft, confirm and reject. The parental consent of the
     students per usage is read from the data privacy consent log and
     shown as the strictest consent of the students; a refused
-    inventory consent blocks the submission. Every school specific choice
+    inventory consent blocks the submission. A curated artifact is
+    placed on the showcase board, an internal record of the selection,
+    the production per channel and the distribution of the artifact,
+    whose stages, channels and rules are configuration data; the
+    showcase itself happens outside Odoo. Every school specific choice
     (areas, categories, dimensions, phases, distinctive programs,
     graduate profiles, link prefix and the required-field switches) is
     configuration data kept per school or per branch, never hard-coded
@@ -595,6 +608,98 @@ class SchoolLearningArtifact(models.Model):
         help="The students who withdrew the consent to publish this artifact.",
     )
 
+    showcase_stage_id = fields.Many2one(
+        string="Showcase Stage",
+        comodel_name="school_learning_artifact_showcase_stage",
+        ondelete="restrict",
+        tracking=True,
+        copy=False,
+        group_expand="_read_group_showcase_stage_ids",
+        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        help=(
+            "The stage of the artifact on the showcase board. Moving "
+            "into a stage may require an eligible curation status, a "
+            "publication consent that allows the showcase, or "
+            "membership of a group, as configured on the stage. Every "
+            "move is logged in the chatter with the user and the time."
+        ),
+    )
+    showcase_channel_ids = fields.Many2many(
+        string="Planned Channels",
+        comodel_name="school_learning_artifact_showcase_channel",
+        relation="school_la_showcase_planned_channel_rel",
+        column1="artifact_id",
+        column2="channel_id",
+        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        help="The channels planned to showcase this artifact.",
+    )
+    production_ids = fields.One2many(
+        string="Showcase Productions",
+        comodel_name="school_learning_artifact_showcase_production",
+        inverse_name="artifact_id",
+        help="The content produced for each channel of the showcase.",
+    )
+    actual_channel_ids = fields.Many2many(
+        string="Actual Channels",
+        comodel_name="school_learning_artifact_showcase_channel",
+        relation="school_la_showcase_actual_channel_rel",
+        column1="artifact_id",
+        column2="channel_id",
+        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        help=(
+            "The channels through which the artifact was actually "
+            "distributed, outside Odoo."
+        ),
+    )
+    distribution_note = fields.Text(
+        string="Distribution Note",
+        help="Any remark about the distribution of the artifact.",
+    )
+    consent_review_required = fields.Boolean(
+        string="Consent Review Required",
+        compute="_compute_showcase_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "Checked when the publication consent of the artifact is "
+            "limited and the school treats it as a review task."
+        ),
+    )
+    consent_reviewed = fields.Boolean(
+        string="Consent Reviewed",
+        default=False,
+        readonly=True,
+        copy=False,
+        help="Checked when a reviewer examined the limited consent.",
+    )
+    consent_reviewed_by_id = fields.Many2one(
+        string="Consent Reviewed By",
+        comodel_name="res.users",
+        readonly=True,
+        copy=False,
+        help="The user who marked the limited consent as reviewed.",
+    )
+    showcase_consent_ok = fields.Boolean(
+        string="Showcase Consent OK",
+        compute="_compute_showcase_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "Checked when the parental consent allows the artifact into "
+            "the showcase, following the consent policy of its school."
+        ),
+    )
+    promotion_allowed = fields.Boolean(
+        string="Promotion Allowed",
+        compute="_compute_promotion_allowed",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "Checked when the parental consent of every student allows "
+            "the artifact to be used for promotion in full."
+        ),
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
         """Create artifacts and number them right away.
@@ -621,11 +726,16 @@ class SchoolLearningArtifact(models.Model):
         :param vals: values to write
         :return: True
         :raises UserError: when the user may not set the ethics result
+            or may not move the artifact into the showcase stage
         """
         if "ethics_result" in vals:
             self._check_ethics_assessor()
             assessor_id = self.env.uid if vals["ethics_result"] else False
             vals = dict(vals, ethics_assessor_id=assessor_id)
+        if vals.get("showcase_stage_id") and not self.env.context.get(
+            "showcase_stage_assignment"
+        ):
+            self._check_showcase_stage_move(vals["showcase_stage_id"])
         return super().write(vals)
 
     def _check_ethics_assessor(self):
@@ -1261,6 +1371,212 @@ Solution: %s
                 _("The responsible user assessed the artifact"),
                 _("Let another user assess the artifact"),
             )
+
+    @api.model
+    def _read_group_showcase_stage_ids(self, stages, domain, order):
+        """Show every active showcase stage as a column of the board.
+
+        Used as ``group_expand`` of ``showcase_stage_id`` so that empty
+        stages stay visible and a card can be dragged into them.
+
+        :param stages: stages that already hold an artifact
+        :param domain: domain of the board
+        :param order: order of the stages
+        :return: ``school_learning_artifact_showcase_stage`` recordset
+        """
+        return stages.search([], order=order)
+
+    @api.depends(*_SHOWCASE_CONSENT_DEPENDS)
+    def _compute_showcase_consent(self):
+        """Decide whether the consent allows the showcase.
+
+        An artifact whose internal assessment consent is refused never
+        reaches the showcase. Otherwise the effective publication
+        consent decides: a full consent is accepted, a limited consent
+        is accepted when the school accepts it as a minimum or treats
+        it as a review task, and in the latter case only after a
+        reviewer marked it as reviewed. A refused or missing consent is
+        never accepted.
+        """
+        for record in self:
+            effective = record._get_showcase_publication_consent()
+            school = record.school_id
+            treatment_review = school.showcase_limited_treatment == "review"
+            result = False
+            if record.assessment_consent != "refused":
+                if effective == "full":
+                    result = True
+                elif effective == "limited":
+                    if treatment_review:
+                        result = record.consent_reviewed
+                    else:
+                        result = school.showcase_min_publication_consent == "limited"
+            record.showcase_consent_ok = result
+            record.consent_review_required = bool(
+                effective == "limited" and treatment_review
+            )
+
+    def _get_showcase_publication_consent(self):
+        """Return the publication consent that counts for the showcase.
+
+        It is the stored aggregate publication consent. When the school
+        ignores the students who refused the publication, it is
+        calculated again over the other students; with no student left
+        the consent is not recorded.
+
+        :return: ``full``, ``limited``, ``refused`` or ``unknown``
+        """
+        self.ensure_one()
+        result = self.publication_consent
+        if self.school_id.showcase_exclude_refused_member:
+            remaining = self.student_ids - self._get_students_by_consent(
+                "publication", "refused"
+            )
+            result = "unknown"
+            if remaining:
+                result = max(
+                    (
+                        self._get_student_consent_states(student)["publication"]
+                        for student in remaining
+                    ),
+                    key=_CONSENT_RANK.get,
+                )
+        return result
+
+    @api.depends("promotion_consent")
+    def _compute_promotion_allowed(self):
+        """Allow the promotion only with a full promotion consent."""
+        for record in self:
+            record.promotion_allowed = record.promotion_consent == "full"
+
+    def action_mark_consent_reviewed(self):
+        """Mark the limited publication consent as reviewed.
+
+        Records the reviewer on the artifact. When the school names a
+        consent reviewer group, only its users may do it.
+
+        :return: True
+        :raises UserError: when the user is outside the reviewer group
+        """
+        for record in self:
+            record._check_consent_reviewer()
+            record.write(
+                {
+                    "consent_reviewed": True,
+                    "consent_reviewed_by_id": self.env.uid,
+                }
+            )
+        return True
+
+    def _check_consent_reviewer(self):
+        """Reject marking the consent as reviewed outside the group.
+
+        Nothing is checked for the superuser or for a school that
+        names no consent reviewer group.
+
+        :raises UserError: when the active user is not a reviewer
+        """
+        self.ensure_one()
+        group = self.school_id.showcase_consent_reviewer_group_id
+        if (
+            group
+            and self.env.uid != SUPERUSER_ID
+            and group not in self.env.user.groups_id
+        ):
+            self._raise_showcase_error(
+                _("You are not allowed to review the consent"),
+                _("Ask a user in the group %s to do it") % group.display_name,
+            )
+
+    def _check_showcase_stage_move(self, stage_id):
+        """Reject a move into a showcase stage whose rules are not met.
+
+        A stage may require an eligible curation status, a publication
+        consent that allows the showcase, and membership of one of its
+        allowed groups. The superuser is exempt from the group rule.
+
+        :param stage_id: id of the stage the artifact moves into
+        :raises UserError: when a rule of the stage is not met
+        """
+        stage = self.env["school_learning_artifact_showcase_stage"].browse(stage_id)
+        for record in self:
+            if stage.require_eligible and (
+                record.curation_status_category != "eligible"
+            ):
+                record._raise_showcase_error(
+                    _("The curation status of the artifact is not eligible"),
+                    _("Move the artifact into %s only when it is eligible")
+                    % stage.display_name,
+                )
+            if stage.require_publication_consent and not record.showcase_consent_ok:
+                record._raise_showcase_error(
+                    _("The parental consent does not allow the showcase"),
+                    _("Obtain the consent required by the school first"),
+                )
+            allowed = stage.allowed_group_ids
+            if (
+                allowed
+                and self.env.uid != SUPERUSER_ID
+                and not (allowed & self.env.user.groups_id)
+            ):
+                record._raise_showcase_error(
+                    _("You are not allowed to move the artifact into %s")
+                    % stage.display_name,
+                    _("Ask a user in the allowed groups of the stage to do it"),
+                )
+
+    def _raise_showcase_error(self, problem, solution):
+        """Raise the standard error of the showcase checks.
+
+        :param problem: what is wrong, already translated
+        :param solution: how to fix it, already translated
+        :raises UserError: always
+        """
+        self.ensure_one()
+        error_message = (
+            _(
+                """
+Context: Move learning artifact on the showcase board
+Database ID: %s
+Problem: %s
+Solution: %s
+"""
+            )
+            % (self.id, problem, solution)
+        )
+        raise UserError(error_message)
+
+    @ssi_decorator.post_done_action()
+    def _10_assign_initial_showcase_stage(self):
+        """Give a curated artifact its first showcase stage.
+
+        Post-done hook: the active stage with the lowest sequence that
+        applies to the school is assigned when the artifact has no
+        stage yet. The stage rules are not checked for this first
+        assignment, which is not a move made by a user.
+        """
+        self.ensure_one()
+        if self.showcase_stage_id:
+            return
+        stage = self.env["school_learning_artifact_showcase_stage"].search(
+            self._get_initial_showcase_stage_criteria(),
+            order="sequence asc, id asc",
+            limit=1,
+        )
+        if stage:
+            self.with_context(showcase_stage_assignment=True).write(
+                {"showcase_stage_id": stage.id}
+            )
+
+    def _get_initial_showcase_stage_criteria(self):
+        """Build the search domain for the first showcase stage.
+
+        Extension point: override to narrow the stage choice.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        return self._get_allowed_school_criteria()
 
     def _prepare_done_data(self):
         """Add the curator and the time to the data of the done state.
