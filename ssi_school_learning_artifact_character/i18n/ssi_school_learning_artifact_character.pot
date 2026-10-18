@@ -1,0 +1,221 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ssi_school_learning_artifact_character
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Save character indicator grade status\n"
+"Database ID: %s\n"
+"Problem: Indicator already has a status for this grade type\n"
+"Solution: Keep one status line per grade type for each indicator\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Save learning artifact character tag\n"
+"Database ID: %s\n"
+"Problem: Dominant character tag is filled in while the artifact is marked as not clearly evident\n"
+"Solution: Clear the dominant character tag or uncheck Not Clearly Evident\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_subconstruct_ids
+msgid ""
+"Active sub-constructs that can be tagged. When the grade type of the "
+"artifact has indicator statuses, only the sub-constructs with an Effective "
+"or Partial indicator at that grade type are listed."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_subconstruct_ids
+msgid "Allowed Character Tags"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
+msgid "An additional character sub-construct that appears in this artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_tag_ok
+msgid "Can Tag Character"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model,name:ssi_school_learning_artifact_character.model_school_character_indicator
+msgid "Character Indicator"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model,name:ssi_school_learning_artifact_character.model_school_character_indicator_grade_status
+msgid "Character Indicator Grade Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_learning_artifact_view_form
+msgid "Character Tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_not_evident
+msgid ""
+"Check when no character sub-construct is clearly evident in this artifact. "
+"The dominant tag must then stay empty."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
+msgid "Dominant Character Tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact_character.selection__school_character_indicator_grade_status__status__effective
+msgid "Effective"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_character_indicator_view_form
+msgid "Grade Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator__grade_status_ids
+msgid "Grade Statuses"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
+msgid "Grade Type"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__status
+msgid ""
+"How effective the indicator is at the grade type. Only an Effective or "
+"Partial indicator makes its sub-construct available for tagging a learning "
+"artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__id
+msgid "ID"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__indicator_id
+msgid "Indicator"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_not_evident
+msgid "Not Clearly Evident"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact_character.selection__school_character_indicator_grade_status__status__not_effective
+msgid "Not Effective"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact_character.selection__school_character_indicator_grade_status__status__partial
+msgid "Partial"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_tag_ok
+msgid ""
+"Policy that determines whether the character tags of this artifact can be "
+"filled in."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model,name:ssi_school_learning_artifact_character.model_school_learning_artifact
+msgid "School Learning Artifact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
+msgid "Secondary Character Tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__status
+msgid "Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__indicator_id
+msgid "The character indicator that this status applies to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
+msgid ""
+"The character sub-construct that dominates this artifact. It is a tag of the"
+" activity, not evidence of the character achievement of a student."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
+msgid "The grade type at which the indicator has this status."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator__grade_status_ids
+msgid ""
+"The status of this indicator per grade type. Leave empty when the school "
+"does not filter character tags by grade type."
+msgstr ""
