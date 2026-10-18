@@ -700,7 +700,8 @@ scenarios:
                   "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
                   "REF:
                   ssi_school_learning_artifact.school_learning_artifact_company_group",
-                  "ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
                 ],
               ],
             ]
