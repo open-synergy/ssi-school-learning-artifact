@@ -4,13 +4,19 @@
 
 from datetime import date as datetime_date
 
-from odoo import _, api, fields, models
+from odoo import SUPERUSER_ID, _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.ssi_decorator import ssi_decorator
 
 _DRAFT_EDITABLE = {
     "draft": [
+        ("readonly", False),
+    ],
+}
+
+_OPEN_EDITABLE = {
+    "open": [
         ("readonly", False),
     ],
 }
@@ -23,17 +29,22 @@ class SchoolLearningArtifact(models.Model):
     students. A teacher records the artifact (Draft), submits it for
     curation (Waiting for Approval), may withdraw it again with Restart
     while the curator has not started yet, and the curator starts the
-    curation by approving it (On Progress). The workflow is Draft ->
-    Confirm -> Approve -> Open, plus Cancel from draft, confirm and
-    reject. Every school specific choice (areas, categories,
-    dimensions, phases, distinctive programs, graduate profiles, link
-    prefix and the required-field switches) is configuration data kept
-    per school or per branch, never hard-coded in this module.
+    curation by approving it (On Progress). The curator then fills in
+    the ethics gate and the scores of the rubric of the school, and
+    finishes the curation (Curated). An artifact whose curation status
+    asks for a revision can be reopened a limited number of times. The
+    workflow is Draft -> Confirm -> Approve -> Open -> Done, plus
+    Cancel from draft, confirm and reject. Every school specific choice
+    (areas, categories, dimensions, phases, distinctive programs,
+    graduate profiles, link prefix and the required-field switches) is
+    configuration data kept per school or per branch, never hard-coded
+    in this module.
     """
 
     _name = "school_learning_artifact"
     _inherit = [
         "mixin.transaction_cancel",
+        "mixin.transaction_done",
         "mixin.transaction_open",
         "mixin.transaction_confirm",
     ]
@@ -50,12 +61,13 @@ class SchoolLearningArtifact(models.Model):
     _automatically_insert_open_policy_fields = False
     _automatically_insert_open_button = False
 
-    _statusbar_visible_label = "draft,confirm,open"
+    _statusbar_visible_label = "draft,confirm,open,done"
     _policy_field_order = [
         "confirm_ok",
         "approve_ok",
         "reject_ok",
         "restart_approval_ok",
+        "done_ok",
         "cancel_ok",
         "restart_ok",
         "manual_number_ok",
@@ -64,6 +76,7 @@ class SchoolLearningArtifact(models.Model):
         "action_confirm",
         "action_approve_approval",
         "action_reject_approval",
+        "action_done",
         "%(ssi_transaction_cancel_mixin.base_select_cancel_reason_action)d",
         "action_restart",
     ]
@@ -74,12 +87,19 @@ class SchoolLearningArtifact(models.Model):
         "dom_confirm",
         "dom_reject",
         "dom_open",
+        "dom_done",
         "dom_cancel",
     ]
 
     # Sequence attribute
     _create_sequence_state = "open"
 
+    # Overloading: the done state is shown as Curated.
+    state = fields.Selection(
+        selection_add=[
+            ("done", "Curated"),
+        ],
+    )
     # Overloading: the document number is shown as the artifact code.
     name = fields.Char(
         string="Code",
@@ -332,6 +352,118 @@ class SchoolLearningArtifact(models.Model):
         states=_DRAFT_EDITABLE,
         help="The students' reflection on the activity.",
     )
+    rubric_id = fields.Many2one(
+        string="Rubric",
+        comodel_name="school_learning_artifact_rubric",
+        compute="_compute_rubric_id",
+        store=True,
+        compute_sudo=True,
+        readonly=True,
+        states=_DRAFT_EDITABLE,
+        ondelete="restrict",
+        help=(
+            "The curation rubric of the artifact. It is the active "
+            "rubric of the school, or the fallback rubric without "
+            "schools when the school has none."
+        ),
+    )
+    score_ids = fields.One2many(
+        string="Scores",
+        comodel_name="school_learning_artifact_score",
+        inverse_name="artifact_id",
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help="The scores of the aspects of the rubric.",
+    )
+    ethics_result = fields.Selection(
+        string="Ethics Result",
+        selection=[
+            ("pass", "Pass"),
+            ("fail", "Fail"),
+        ],
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help=(
+            "Result of the ethics gate. It is required to finish the "
+            "curation, and a failed gate gives the ethics fail status "
+            "of the rubric."
+        ),
+    )
+    ethics_reason_id = fields.Many2one(
+        string="Ethics Reason",
+        comodel_name="school_learning_artifact_ethics_reason",
+        ondelete="restrict",
+        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help="The reason why the artifact failed the ethics gate.",
+    )
+    ethics_assessor_id = fields.Many2one(
+        string="Ethics Assessor",
+        comodel_name="res.users",
+        readonly=True,
+        help="The user who set the ethics result.",
+    )
+    total_score = fields.Integer(
+        string="Total Score",
+        compute="_compute_total_score",
+        store=True,
+        compute_sudo=True,
+        help="The sum of the scores of all aspects.",
+    )
+    curation_status_id = fields.Many2one(
+        string="Curation Status",
+        comodel_name="school_learning_artifact_curation_status",
+        compute="_compute_curation_status_id",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "The curation status derived from the ethics result, the "
+            "knockout aspects and the total score."
+        ),
+    )
+    curation_status_category = fields.Selection(
+        string="Curation Status Category",
+        related="curation_status_id.category",
+        store=True,
+        compute_sudo=True,
+        help="The category of the curation status.",
+    )
+    recommendation = fields.Text(
+        string="Recommendation",
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help=(
+            "Advice of the curator to strengthen the artifact. "
+            "Required when the status needs a revision."
+        ),
+    )
+    curator_note = fields.Text(
+        string="Curator Note",
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help=(
+            "Note of the curator. Required as the reason when the "
+            "artifact is not eligible and is archived."
+        ),
+    )
+    curated_by_id = fields.Many2one(
+        string="Curated By",
+        comodel_name="res.users",
+        readonly=True,
+        help="The user who finished the curation.",
+    )
+    date_curated = fields.Datetime(
+        string="Curated On",
+        readonly=True,
+        help="The time the curation was finished.",
+    )
+    revision_count = fields.Integer(
+        string="Revision Count",
+        default=0,
+        readonly=True,
+        help="How many times the artifact was reopened for revision.",
+    )
     allowed_component_ids = fields.Many2many(
         string="Allowed Components",
         comodel_name="school_distinctive_program_component",
@@ -374,11 +506,169 @@ class SchoolLearningArtifact(models.Model):
         :param vals_list: list of value dictionaries
         :return: the created recordset
         """
+        for vals in vals_list:
+            if vals.get("ethics_result"):
+                vals["ethics_assessor_id"] = self.env.uid
         records = super().create(vals_list)
         for record in records.sudo():
             if record.name == "/":
                 record._create_sequence()
         return records
+
+    def write(self, vals):
+        """Write artifacts and record who set the ethics result.
+
+        :param vals: values to write
+        :return: True
+        :raises UserError: when the user may not set the ethics result
+        """
+        if "ethics_result" in vals:
+            self._check_ethics_assessor()
+            assessor_id = self.env.uid if vals["ethics_result"] else False
+            vals = dict(vals, ethics_assessor_id=assessor_id)
+        return super().write(vals)
+
+    def _check_ethics_assessor(self):
+        """Reject setting the ethics result outside the allowed groups.
+
+        Nothing is checked for the superuser or for a rubric that lists
+        no ethics assessor group.
+
+        :raises UserError: when the active user may not set the result
+        """
+        if self.env.uid == SUPERUSER_ID:
+            return
+        user_groups = self.env.user.groups_id
+        for record in self:
+            allowed = record.rubric_id.ethics_assessor_group_ids
+            if allowed and not (allowed & user_groups):
+                record._raise_curation_error(
+                    _("You are not allowed to set the ethics result"),
+                    _("Ask a user in the ethics assessor groups to do it"),
+                )
+
+    @api.depends("school_id")
+    def _compute_rubric_id(self):
+        """Pick the rubric that applies to the school of the artifact.
+
+        The active rubric listing the school wins. Otherwise the
+        active rubric without schools is the fallback. The field stays
+        empty when neither exists.
+        """
+        obj_rubric = self.env["school_learning_artifact_rubric"]
+        for record in self:
+            result = False
+            if record.school_id:
+                rubric = obj_rubric.search(
+                    record._get_rubric_criteria(), order="id asc", limit=1
+                )
+                if not rubric:
+                    rubric = obj_rubric.search(
+                        record._get_fallback_rubric_criteria(),
+                        order="id asc",
+                        limit=1,
+                    )
+                if rubric:
+                    result = rubric
+            record.rubric_id = result
+
+    def _get_rubric_criteria(self):
+        """Build the search domain for the rubric of the school.
+
+        Extension point: override to narrow the rubric choice.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        return [
+            ("school_ids", "in", [self.school_id.id]),
+        ]
+
+    def _get_fallback_rubric_criteria(self):
+        """Build the search domain for the fallback rubric.
+
+        Extension point: override to narrow the fallback choice.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        return [
+            ("school_ids", "=", False),
+        ]
+
+    @api.depends("score_ids.score")
+    def _compute_total_score(self):
+        """Sum the scores of all aspects."""
+        for record in self:
+            result = 0
+            for score in record.score_ids:
+                result += score.score
+            record.total_score = result
+
+    @api.depends(
+        "ethics_result",
+        "total_score",
+        "score_ids.score",
+        "score_ids.criterion_id",
+        "rubric_id",
+        "rubric_id.ethics_fail_status_id",
+        "rubric_id.knockout_status_id",
+        "rubric_id.criterion_ids.knockout_score",
+        "rubric_id.threshold_ids.min_total",
+        "rubric_id.threshold_ids.status_id",
+    )
+    def _compute_curation_status_id(self):
+        """Derive the curation status from the rubric.
+
+        A failed ethics gate gives the ethics fail status. Otherwise
+        a score at or below the knockout score of its aspect gives the
+        knockout status. Otherwise the threshold with the highest
+        minimum that the total reaches gives its status.
+        """
+        for record in self:
+            result = False
+            rubric = record.rubric_id
+            if rubric:
+                result = record._get_curation_status(rubric)
+            record.curation_status_id = result
+
+    def _get_curation_status(self, rubric):
+        """Return the curation status of the artifact for a rubric.
+
+        Extension point: override to change how the status is derived.
+
+        :param rubric: the ``school_learning_artifact_rubric`` in use
+        :return: the status record, or False when none applies
+        """
+        self.ensure_one()
+        result = False
+        if self.ethics_result == "fail":
+            result = rubric.ethics_fail_status_id
+        elif rubric.knockout_status_id and self._has_knockout_score():
+            result = rubric.knockout_status_id
+        else:
+            thresholds = rubric.threshold_ids.filtered(
+                lambda r: r.min_total <= self.total_score
+            )
+            if thresholds:
+                result = thresholds.sorted(
+                    key=lambda r: (r.min_total, r.id), reverse=True
+                )[0].status_id
+        return result
+
+    def _has_knockout_score(self):
+        """Tell whether a given score knocks the artifact out.
+
+        :return: True when a scored aspect with a knockout score has a
+            score at or below it
+        """
+        self.ensure_one()
+        result = False
+        for score in self.score_ids:
+            knockout = score.criterion_id.knockout_score
+            if knockout and score.score and score.score <= knockout:
+                result = True
+        return result
 
     @api.depends("grade_id")
     def _compute_graduate_profile_id(self):
@@ -617,6 +907,175 @@ Solution: %s
         )
         raise UserError(error_message)
 
+    @ssi_decorator.post_open_action()
+    def _10_create_score_rows(self):
+        """Create one score row per aspect of the rubric.
+
+        Post-open hook: runs once the artifact reaches ``open``. Rows
+        are created only when the artifact has none yet, so a reopened
+        artifact keeps the scores it already has.
+        """
+        self.ensure_one()
+        if self.rubric_id and not self.score_ids:
+            self.write(
+                {
+                    "score_ids": [
+                        (0, 0, {"criterion_id": criterion.id})
+                        for criterion in self.rubric_id.criterion_ids
+                    ]
+                }
+            )
+
+    @ssi_decorator.pre_done_check()
+    def _10_check_curation_ethics(self):
+        """Require the ethics result and the scores before finishing.
+
+        Pre-done hook: the rubric and the ethics result are always
+        required. When the ethics gate passed, every aspect must also
+        be scored.
+
+        :raises UserError: when the curation data is incomplete
+        """
+        self.ensure_one()
+        if not self.rubric_id:
+            self._raise_curation_error(
+                _("No rubric applies to the school"),
+                _("Create a rubric for the school or a fallback rubric"),
+            )
+        if not self.ethics_result:
+            self._raise_curation_error(
+                _("Ethics Result is empty"),
+                _("Set the Ethics Result"),
+            )
+        if self.ethics_result == "pass":
+            for score in self.score_ids:
+                if not score.score:
+                    self._raise_curation_error(
+                        _("Aspect %s is not scored") % score.criterion_id.display_name,
+                        _("Score every aspect"),
+                    )
+
+    @ssi_decorator.pre_done_check()
+    def _20_check_curation_note(self):
+        """Require the note that the curation status asks for.
+
+        Pre-done hook: a status in the revision category requires the
+        recommendation, and a status in the not eligible category
+        requires the curator note as the reason of the archive.
+
+        :raises UserError: when the required note is empty
+        """
+        self.ensure_one()
+        category = self.curation_status_category
+        if category == "revision" and not self.recommendation:
+            self._raise_curation_error(
+                _("Recommendation is empty"),
+                _("Write a recommendation for the revision"),
+            )
+        if category == "rejected" and not self.curator_note:
+            self._raise_curation_error(
+                _("Curator Note is empty"),
+                _("Write the reason of the archive in the Curator Note"),
+            )
+
+    @ssi_decorator.pre_done_check()
+    def _30_check_distinct_assessors(self):
+        """Reject one person assessing both assessor slots.
+
+        Pre-done hook: runs only when the rubric requires distinct
+        assessors. The ethics gate counts as the secondary slot.
+
+        :raises UserError: when a user assessed both slots
+        """
+        self.ensure_one()
+        rubric = self.rubric_id
+        if not rubric.require_distinct_assessors:
+            return
+        primary = self._get_slot_assessors("primary")
+        secondary = self._get_slot_assessors("secondary")
+        secondary |= self.ethics_assessor_id
+        common = primary & secondary
+        if common:
+            self._raise_curation_error(
+                _("%s assessed both the primary and secondary slots")
+                % ", ".join(common.mapped("name")),
+                _("Let different users assess the primary and secondary slots"),
+            )
+
+    def _get_slot_assessors(self, slot):
+        """Return the users who scored the aspects of an assessor slot.
+
+        :param slot: ``primary`` or ``secondary``
+        :return: ``res.users`` recordset
+        """
+        self.ensure_one()
+        scores = self.score_ids.filtered(lambda r: r.criterion_id.assessor_slot == slot)
+        return scores.mapped("assessor_id")
+
+    @ssi_decorator.pre_done_check()
+    def _40_check_creator_assessment(self):
+        """Reject the responsible user assessing the own artifact.
+
+        Pre-done hook: runs only when the rubric forbids the creator
+        to assess.
+
+        :raises UserError: when the responsible user assessed it
+        """
+        self.ensure_one()
+        if not self.rubric_id.forbid_creator_assessment:
+            return
+        assessors = self.score_ids.mapped("assessor_id") | self.ethics_assessor_id
+        if self.user_id and self.user_id in assessors:
+            self._raise_curation_error(
+                _("The responsible user assessed the artifact"),
+                _("Let another user assess the artifact"),
+            )
+
+    def _prepare_done_data(self):
+        """Add the curator and the time to the data of the done state.
+
+        :return: dictionary of values to write
+        """
+        result = super()._prepare_done_data()
+        result.update(
+            {
+                "curated_by_id": self.env.uid,
+                "date_curated": fields.Datetime.now(),
+            }
+        )
+        return result
+
+    def _prepare_restart_data(self):
+        """Count the revision when a curated artifact is reopened.
+
+        :return: dictionary of values to write
+        """
+        result = super()._prepare_restart_data()
+        if self.state == "done":
+            result["revision_count"] = self.revision_count + 1
+        return result
+
+    def _raise_curation_error(self, problem, solution):
+        """Raise the standard error of the curation checks.
+
+        :param problem: what is wrong, already translated
+        :param solution: how to fix it, already translated
+        :raises UserError: always
+        """
+        self.ensure_one()
+        error_message = (
+            _(
+                """
+Context: Finish curation of learning artifact
+Database ID: %s
+Problem: %s
+Solution: %s
+"""
+            )
+            % (self.id, problem, solution)
+        )
+        raise UserError(error_message)
+
     @api.model
     def _get_policy_field(self):
         res = super()._get_policy_field()
@@ -627,6 +1086,7 @@ Solution: %s
             "restart_ok",
             "restart_approval_ok",
             "open_ok",
+            "done_ok",
             "cancel_ok",
             "manual_number_ok",
         ]

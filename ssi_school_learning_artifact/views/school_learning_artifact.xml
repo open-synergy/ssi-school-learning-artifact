@@ -18,6 +18,7 @@
                 <field name="school_id" />
                 <field name="grade_class_id" />
                 <field name="student_ids" />
+                <field name="curation_status_id" />
                 <group expand="0" string="Group By">
                     <filter
                             name="group_by_school_id"
@@ -38,6 +39,11 @@
                             name="group_by_media_type"
                             string="Media Type"
                             context="{'group_by': 'media_type'}"
+                        />
+                    <filter
+                            name="group_by_curation_status_id"
+                            string="Curation Status"
+                            context="{'group_by': 'curation_status_id'}"
                         />
                     <filter
                             name="group_by_category_id"
@@ -89,6 +95,7 @@
                 <field name="activity_type" />
                 <field name="media_type" />
                 <field name="graduate_profile_id" />
+                <field name="curation_status_id" />
             </xpath>
             <xpath expr="//group[@name='header_center']" position="inside">
                 <field name="student_ids" widget="many2many_tags" />
@@ -128,6 +135,53 @@
                     </group>
                     <group name="reflection_student" string="Student Reflection">
                         <field name="student_reflection" nolabel="1" />
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='reflection']" position="after">
+                <page name="curation" string="Curation">
+                    <group name="curation_1" colspan="4" col="2">
+                        <group name="curation_left" colspan="1" col="2">
+                            <field name="rubric_id" />
+                            <field name="ethics_result" />
+                            <field
+                                    name="ethics_reason_id"
+                                    attrs="{'invisible': [('ethics_result', '!=', 'fail')]}"
+                                />
+                            <field name="ethics_assessor_id" />
+                        </group>
+                        <group name="curation_right" colspan="1" col="2">
+                            <field name="total_score" />
+                            <field name="curation_status_category" />
+                            <field name="revision_count" />
+                            <field name="curated_by_id" />
+                            <field name="date_curated" />
+                        </group>
+                    </group>
+                    <group name="curation_score" string="Scores">
+                        <field name="score_ids" nolabel="1">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="sequence" invisible="1" />
+                                <field name="criterion_id" readonly="1" />
+                                <field name="score" />
+                                <field name="assessor_id" />
+                                <field name="date_score" />
+                            </tree>
+                            <form>
+                                <group name="score_group" colspan="4" col="2">
+                                    <field name="criterion_id" readonly="1" />
+                                    <field name="score" />
+                                    <field name="assessor_id" />
+                                    <field name="date_score" />
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group name="curation_recommendation" string="Recommendation">
+                        <field name="recommendation" nolabel="1" />
+                    </group>
+                    <group name="curation_note" string="Curator Note">
+                        <field name="curator_note" nolabel="1" />
                     </group>
                 </page>
             </xpath>

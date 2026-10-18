@@ -87,6 +87,10 @@
 </record>
 
 <!-- Restart -->
+<!-- A curated artifact can be reopened by the validator group only
+     when its status asks for a revision and the rubric still allows
+     one. The policy template keeps one detail per policy field, so the
+     rule for the done state lives in the additional python code. -->
 <record
         id="policy_template_school_learning_artifact_restart"
         model="policy.template_detail"
@@ -99,13 +103,46 @@
     <field name="restrict_state" eval="1" />
     <field
             name="state_ids"
-            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','in',['confirm','cancel','reject'])]"
+            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','in',['confirm','cancel','reject','done'])]"
         />
     <field name="restrict_user" eval="1" />
     <field name="computation_method">use_group</field>
     <field
             name="group_ids"
             eval="[(6,0,[ref('school_learning_artifact_user_group')])]"
+        />
+    <field name="restrict_additional" eval="1" />
+    <field name="additional_python_code">result = True
+if document.state == "done":
+    result = (
+        env.user.has_group(
+            "ssi_school_learning_artifact.school_learning_artifact_validator_group"
+        )
+        and document.curation_status_category == "revision"
+        and document.revision_count &lt; document.rubric_id.max_revision
+    )</field>
+</record>
+
+<!-- Done -->
+<record
+        id="policy_template_school_learning_artifact_done"
+        model="policy.template_detail"
+    >
+    <field name="template_id" ref="policy_template_school_learning_artifact" />
+    <field
+            name="field_id"
+            search="[('model_id.model','=','school_learning_artifact'),('name','=','done_ok')]"
+        />
+    <field name="restrict_state" eval="1" />
+    <field
+            name="state_ids"
+            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','=','open')]"
+        />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+            name="group_ids"
+            eval="[(6,0,[ref('school_learning_artifact_validator_group')])]"
         />
     <field name="restrict_additional" eval="0" />
 </record>

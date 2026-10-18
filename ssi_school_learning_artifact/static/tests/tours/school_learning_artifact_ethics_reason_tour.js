@@ -1,0 +1,107 @@
+// Copyright 2026 OpenSynergy Indonesia
+// Copyright 2026 PT. Simetri Sinergi Indonesia
+// License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+odoo.define(
+    "ssi_school_learning_artifact.school_learning_artifact_ethics_reason_tour",
+    function (require) {
+        "use strict";
+
+        var tour = require("web_tour.tour");
+
+        // Flow 1 of the IK: "Open the School > Configuration > Learning
+        // Artifact > Ethics Reasons menu." "Learning Artifact"
+        // (menu_school_learning_artifact_configuration) is a level-3 grouping
+        // menuitem without action, rendered by 14.0 as a non-clickable dropdown
+        // header without data-menu-xmlid, so there is no step for it.
+        function openList() {
+            return [
+                tour.stepUtils.showAppsMenuItem(),
+                {
+                    content: "Open the School app",
+                    trigger: '.o_app[data-menu-xmlid="ssi_school.menu_school_root"]',
+                },
+                {
+                    content: "Open the Configuration menu",
+                    trigger:
+                        '.o_menu_sections [data-menu-xmlid="ssi_school.menu_school_configuration"]',
+                },
+                {
+                    content: "Open the Ethics Reasons menu",
+                    trigger:
+                        '.o_menu_sections [data-menu-xmlid="ssi_school_learning_artifact.school_learning_artifact_ethics_reason_menu"]',
+                },
+                {
+                    content: "Learning Artifact Ethics Reasons list is displayed",
+                    trigger:
+                        ".o_control_panel .breadcrumb-item.active:contains(Learning Artifact Ethics Reasons)",
+                    extra_trigger: ".o_list_view",
+                    run: function () {
+                        // Assertion only; do not trigger the default click action.
+                    },
+                },
+            ];
+        }
+
+        // IK: docs/school_learning_artifact_ethics_reason/01-create.md
+        tour.register(
+            "ssi_school_learning_artifact_school_learning_artifact_ethics_reason_create",
+            {
+                test: true,
+                url: "/web",
+            },
+            [].concat(
+                // Flow 1 -- Open the menu.
+                openList(),
+                [
+                    // Flow 2 -- Click the New button. (14.0: "Create")
+                    {
+                        content: "Click New",
+                        trigger: ".o_list_button_add",
+                        extra_trigger: ".o_list_view",
+                    },
+                    {
+                        content: "Form is open in edit mode",
+                        trigger: ".o_form_view.o_form_editable",
+                        run: function () {
+                            // Assertion only; do not trigger the default click action.
+                        },
+                    },
+                ],
+                // Flow 3 -- Fill in the required fields.
+                [
+                    {
+                        content: "Fill in the name",
+                        trigger: ".o_field_widget[name='name']",
+                        extra_trigger: ".o_form_view.o_form_editable",
+                        run: "text TOUR Ethics Reason Create",
+                    },
+                    {
+                        content: "Fill in the code",
+                        trigger: ".o_field_widget[name='code']",
+                        extra_trigger: ".o_form_view.o_form_editable",
+                        run: "text TOURERS01",
+                    },
+                ],
+                [
+                    // Flow 4 -- Click Save.
+                    {
+                        content: "Save the record",
+                        trigger: ".o_form_button_save",
+                    },
+
+                    // Post-Condition -- a new record is created and active.
+                    {
+                        content: "Record is saved",
+                        trigger:
+                            ".o_control_panel .breadcrumb-item.active:contains(TOUR Ethics Reason Create)",
+                        extra_trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only; do not trigger the default click action.
+                        },
+                    },
+                ]
+            )
+        );
+    }
+);
