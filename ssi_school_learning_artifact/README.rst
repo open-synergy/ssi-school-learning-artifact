@@ -26,6 +26,16 @@ artifact shows the strictest consent of its students per usage, and it cannot
 be submitted when a student refused the inventory consent (or has no inventory
 consent recorded, when the school requires it).
 
+A curated artifact is also placed on a showcase board. The showcase is an
+internal record of the selection of the artifact, the content produced for
+each channel and the distribution, which happens outside Odoo. The stages and
+the channels are configuration data per school, a stage can require an eligible
+curation status, a publication consent that allows the showcase, or membership
+of a group, and every move of a card is logged in the chatter. The consent
+policy of the showcase is set per school: the lowest accepted publication
+consent, whether a limited consent is blocked or becomes a review task, and
+whether the students who refused the publication are left out.
+
 
 Work Instruction
 ================
@@ -40,6 +50,9 @@ Learning Artifact
 * `Cancel Learning Artifact <docs/school_learning_artifact/05-cancel.html>`_
 * `Curate Learning Artifact <docs/school_learning_artifact/06-curate.html>`_
 * `Reopen Learning Artifact for Revision <docs/school_learning_artifact/07-reopen.html>`_
+* `Select Learning Artifact for Showcase <docs/school_learning_artifact/08-select-for-showcase.html>`_
+* `Record Showcase Production of Learning Artifact <docs/school_learning_artifact/09-produce-showcase.html>`_
+* `Review Limited Publication Consent of Learning Artifact <docs/school_learning_artifact/10-review-limited-consent.html>`_
 
 Learning Artifact Area
 ----------------------
@@ -60,6 +73,16 @@ Learning Artifact Ethics Reason
 -------------------------------
 
 * `Create Learning Artifact Ethics Reason <docs/school_learning_artifact_ethics_reason/01-create.html>`_
+
+Learning Artifact Showcase Stage
+--------------------------------
+
+* `Create Learning Artifact Showcase Stage <docs/school_learning_artifact_showcase_stage/01-create.html>`_
+
+Learning Artifact Showcase Channel
+----------------------------------
+
+* `Create Learning Artifact Showcase Channel <docs/school_learning_artifact_showcase_channel/01-create.html>`_
 
 Learning Artifact Rubric
 ------------------------

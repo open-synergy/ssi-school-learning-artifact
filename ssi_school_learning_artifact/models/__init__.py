@@ -19,4 +19,7 @@ from . import school  # noqa: F401
 from . import school_student  # noqa: F401
 from . import partner_consent_purpose  # noqa: F401
 from . import res_partner_consent  # noqa: F401
+from . import school_learning_artifact_showcase_stage  # noqa: F401
+from . import school_learning_artifact_showcase_channel  # noqa: F401
+from . import school_learning_artifact_showcase_production  # noqa: F401
 from . import school_learning_artifact  # noqa: F401

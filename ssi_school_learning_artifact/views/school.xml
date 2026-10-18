@@ -18,6 +18,15 @@
                         <field name="learning_artifact_require_phase" />
                         <field name="learning_artifact_require_inventory_consent" />
                     </group>
+                    <group name="showcase_config" string="Showcase" colspan="4" col="2">
+                        <field name="showcase_min_publication_consent" />
+                        <field name="showcase_limited_treatment" />
+                        <field name="showcase_exclude_refused_member" />
+                        <field
+                                name="showcase_consent_reviewer_group_id"
+                                options="{'no_create': True}"
+                            />
+                    </group>
                 </page>
             </xpath>
         </data>

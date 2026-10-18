@@ -1,0 +1,1454 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Showcase Test"
+        code: "/"
+        sequence: 10
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Showcase Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Showcase Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Showcase Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Showcase Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+    - step: "Setup - create contact a"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact a for Showcase Test"
+    - step: "Setup - create student a"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student a for Showcase Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create contact b"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Student Contact b for Showcase Test"
+    - step: "Setup - create student b"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Student b for Showcase Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Showcase Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Showcase Test"
+        code: "/"
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Showcase Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+    - step: "Setup - create eligible status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_eligible"
+      values:
+        name: "Showcase Status eligible"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create revision status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_revision"
+      values:
+        name: "Showcase Status revision"
+        code: "/"
+        category: "revision"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rejected status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_rejected"
+      values:
+        name: "Showcase Status rejected"
+        code: "/"
+        category: "rejected"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rubric"
+      action: "create"
+      model: "school_learning_artifact_rubric"
+      save_as: "rubric"
+      values:
+        name: "Rubric for Showcase Test"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+        ethics_fail_status_id: "REC: st_rejected.id"
+        criterion_ids:
+          - - 0
+            - 0
+            - sequence: 10
+              code: "A1"
+              name: "Aspect A1"
+              max_score: 3
+              knockout_score: 0
+              assessor_slot: "primary"
+        threshold_ids:
+          - - 0
+            - 0
+            - min_total: 3
+              status_id: "REC: st_eligible.id"
+          - - 0
+            - 0
+            - min_total: 1
+              status_id: "REC: st_revision.id"
+    - step: "Setup - create initial stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_initial"
+      values:
+        name: "Initial Stage"
+        code: "/"
+        sequence: 10
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create gated stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_gated"
+      values:
+        name: "Gated Stage"
+        code: "/"
+        sequence: 20
+        require_eligible: true
+        require_publication_consent: true
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+scenarios:
+  - name: "CRUD of showcase stage and channel"
+    steps:
+      - step: "Create stage"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_crud"
+        values:
+          name: "CRUD Stage"
+          code: "/"
+          sequence: 5
+          fold: true
+      - step: "Assert stage"
+        action: "assert"
+        target: "stage_crud"
+        asserts:
+          sequence:
+            type: "value"
+            expected: 5
+          fold:
+            type: "value"
+            expected: true
+          require_eligible:
+            type: "value"
+            expected: false
+      - step: "Write stage"
+        action: "write"
+        target: "stage_crud"
+        values:
+          require_eligible: true
+      - step: "Assert stage after write"
+        action: "assert"
+        target: "stage_crud"
+        asserts:
+          require_eligible:
+            type: "value"
+            expected: true
+      - step: "Create channel"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_crud"
+        values:
+          name: "CRUD Channel"
+          code: "/"
+          content_guideline: "Keep it short"
+      - step: "Write channel"
+        action: "write"
+        target: "channel_crud"
+        values:
+          content_guideline: "Keep it long"
+      - step: "Assert channel"
+        action: "assert"
+        target: "channel_crud"
+        asserts:
+          content_guideline:
+            type: "value"
+            expected: "Keep it long"
+      - step: "Unlink channel"
+        action: "unlink"
+        target: "channel_crud"
+      - step: "Unlink stage"
+        action: "unlink"
+        target: "stage_crud"
+  - name: "Production content word count"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create channel"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel"
+        values:
+          name: "Word Channel"
+          code: "/"
+      - step: "Create production"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "production"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel.id"
+          content: "a b c d"
+      - step: "Assert word count"
+        action: "assert"
+        target: "production"
+        asserts:
+          content_word_count:
+            type: "value"
+            expected: 4
+  - name: "Done gives the lowest sequence stage that applies to the school"
+    steps:
+      - step: "Create other school"
+        action: "create"
+        model: "school"
+        save_as: "school_other"
+        values:
+          name: "Other School for Showcase Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+      - step: "Create stage stage_lowest"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_lowest"
+        values:
+          name: "stage_lowest"
+          code: "/"
+          sequence: 5
+          school_ids: [[6, 0, ["REC: school.id"]]]
+      - step: "Create stage of another school"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_foreign"
+        values:
+          name: "Foreign Stage"
+          code: "/"
+          sequence: 1
+          school_ids: [[6, 0, ["REC: school_other.id"]]]
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Assert no stage before done"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "value"
+            operator: "is_falsy"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert initial stage"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_lowest"
+  - name: "Eligible artifact with full publication consent moves into the gated stage"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Move artifact to stage_gated"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+      - step: "Assert artifact is in stage_gated"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_gated"
+  - name: "Revision category is rejected by a stage that requires eligible"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 1
+      - step: "Recommend on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Improve it"
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert category"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_category:
+            type: "value"
+            expected: "revision"
+      - step: "Move artifact to stage_gated is rejected"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "not eligible"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+  - name: "Limited consent with minimum full and treatment block is rejected"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant limited publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert consent not ok"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_consent_ok:
+            type: "value"
+            expected: false
+          consent_review_required:
+            type: "value"
+            expected: false
+      - step: "Move artifact to stage_gated is rejected"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "does not allow the showcase"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+  - name: "Limited consent with treatment review needs the review first"
+    steps:
+      - step: "Create user reviewer"
+        action: "create"
+        model: "res.users"
+        save_as: "reviewer"
+        values:
+          name: "Showcase Tester reviewer"
+          login: "showcase.reviewer.review@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                ],
+              ],
+            ]
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant limited publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Set showcase policy of the school"
+        action: "write"
+        target: "school"
+        values:
+          showcase_limited_treatment: "review"
+      - step: "Assert review required"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_consent_ok:
+            type: "value"
+            expected: false
+          consent_review_required:
+            type: "value"
+            expected: true
+          consent_reviewed:
+            type: "value"
+            expected: false
+      - step: "Move artifact to stage_gated is rejected"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "does not allow the showcase"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+      - step: "Review the consent"
+        action: "call"
+        target: "artifact"
+        method: "action_mark_consent_reviewed"
+        as_user: "reviewer"
+        asserts:
+          consent_reviewed:
+            type: "value"
+            expected: true
+      - step: "Assert reviewed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_consent_ok:
+            type: "value"
+            expected: true
+          consent_reviewed_by_id:
+            type: "m2o"
+            expected: "REC: reviewer"
+      - step: "Move artifact to stage_gated"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+      - step: "Assert artifact is in stage_gated"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_gated"
+  - name: "Only the reviewer group may mark the consent as reviewed"
+    steps:
+      - step: "Create reviewer group"
+        action: "create"
+        model: "res.groups"
+        save_as: "reviewer_group"
+        values:
+          name: "Showcase Consent Reviewers review"
+      - step: "Create user outsider"
+        action: "create"
+        model: "res.users"
+        save_as: "outsider"
+        values:
+          name: "Showcase Tester outsider"
+          login: "showcase.outsider.review@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+      - step: "Create user insider"
+        action: "create"
+        model: "res.users"
+        save_as: "insider"
+        values:
+          name: "Showcase Tester insider"
+          login: "showcase.insider.review@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REC: reviewer_group.id",
+                ],
+              ],
+            ]
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant limited publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Set showcase policy of the school"
+        action: "write"
+        target: "school"
+        values:
+          showcase_limited_treatment: "review"
+          showcase_consent_reviewer_group_id: "REC: reviewer_group.id"
+      - step: "Outsider cannot mark the consent as reviewed"
+        action: "call"
+        target: "artifact"
+        method: "action_mark_consent_reviewed"
+        as_user: "outsider"
+        expect_error:
+          type: "UserError"
+          message_contains: "not allowed to review the consent"
+      - step: "Insider marks the consent as reviewed"
+        action: "call"
+        target: "artifact"
+        method: "action_mark_consent_reviewed"
+        as_user: "insider"
+        asserts:
+          consent_reviewed:
+            type: "value"
+            expected: true
+  - name: "Refusing student is ignored when the school switches it on"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record withdraw full publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+      - step: "Record grant full publication consent of b"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_b.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert consent not ok without flag"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "refused"
+          showcase_consent_ok:
+            type: "value"
+            expected: false
+      - step: "Set showcase policy of the school"
+        action: "write"
+        target: "school"
+        values:
+          showcase_exclude_refused_member: true
+      - step: "Assert consent ok with flag"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_consent_ok:
+            type: "value"
+            expected: true
+      - step: "Move artifact to stage_gated"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+      - step: "Assert artifact is in stage_gated"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_gated"
+  - name: "Refused assessment consent keeps the artifact out of the showcase"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full publication consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Record withdraw full assessment consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_assessment.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert consent not ok"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "full"
+          assessment_consent:
+            type: "value"
+            expected: "refused"
+          showcase_consent_ok:
+            type: "value"
+            expected: false
+      - step: "Move artifact to stage_gated is rejected"
+        action: "write"
+        target: "artifact"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "does not allow the showcase"
+        values:
+          showcase_stage_id: "REC: stage_gated.id"
+  - name: "Stage with allowed groups rejects a user outside them"
+    steps:
+      - step: "Create selector group"
+        action: "create"
+        model: "res.groups"
+        save_as: "selector_group"
+        values:
+          name: "Showcase Selectors group"
+      - step: "Create user outsider"
+        action: "create"
+        model: "res.users"
+        save_as: "outsider"
+        values:
+          name: "Showcase Tester outsider"
+          login: "showcase.outsider.group@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+      - step: "Create user insider"
+        action: "create"
+        model: "res.users"
+        save_as: "insider"
+        values:
+          name: "Showcase Tester insider group"
+          login: "showcase.insider.group@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REC: selector_group.id",
+                ],
+              ],
+            ]
+      - step: "Create restricted stage"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_restricted"
+        values:
+          name: "Restricted Stage"
+          code: "/"
+          sequence: 40
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          allowed_group_ids: [[6, 0, ["REC: selector_group.id"]]]
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Ethics pass artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          score: 3
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Move artifact to stage_restricted is rejected"
+        action: "write"
+        target: "artifact"
+        as_user: "outsider"
+        expect_error:
+          type: "UserError"
+          message_contains: "not allowed to move"
+        values:
+          showcase_stage_id: "REC: stage_restricted.id"
+      - step: "Move artifact to stage_restricted"
+        action: "write"
+        target: "artifact"
+        as_user: "insider"
+        values:
+          showcase_stage_id: "REC: stage_restricted.id"
+      - step: "Assert artifact is in stage_restricted"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_restricted"
+  - name: "Promotion is allowed only with a full promotion consent of every student"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full promotion consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_promotion.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Record grant full promotion consent of b"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_b.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_promotion.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Assert promotion allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          promotion_allowed:
+            type: "value"
+            expected: true
+      - step: "Record withdraw full promotion consent of b"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_b.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_promotion.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+      - step: "Assert promotion not allowed after withdraw"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          promotion_allowed:
+            type: "value"
+            expected: false
+  - name: "A student without promotion consent blocks the promotion"
+    steps:
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id", "REC: student_b.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full promotion consent of a"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_promotion.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Assert promotion not allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          promotion_allowed:
+            type: "value"
+            expected: false
