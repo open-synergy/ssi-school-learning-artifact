@@ -41,6 +41,22 @@
                 type="text/javascript"
                 src="/ssi_school_learning_artifact/static/tests/tours/school_graduate_profile_tour.js"
             />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_curation_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_curation_status_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_ethics_reason_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_rubric_tour.js"
+            />
         </xpath>
     </template>
 </odoo>

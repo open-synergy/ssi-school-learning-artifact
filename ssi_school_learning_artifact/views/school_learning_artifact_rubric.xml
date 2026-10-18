@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_learning_artifact_rubric_view_search" model="ir.ui.view">
+    <field name="name">school_learning_artifact_rubric - search</field>
+    <field name="model">school_learning_artifact_rubric</field>
+    <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//search" position="inside">
+                <field name="school_ids" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_rubric_view_form" model="ir.ui.view">
+    <field name="name">school_learning_artifact_rubric - form</field>
+    <field name="model">school_learning_artifact_rubric</field>
+    <field name="inherit_id" ref="ssi_master_data_mixin.mixin_master_data_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="school_ids" widget="many2many_tags" />
+                <field name="ethics_fail_status_id" />
+                <field name="knockout_status_id" />
+                <field name="max_revision" />
+                <field name="ethics_assessor_group_ids" widget="many2many_tags" />
+                <field name="require_distinct_assessors" />
+                <field name="forbid_creator_assessment" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="criterion" string="Aspects">
+                    <field name="criterion_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="code" />
+                            <field name="name" />
+                            <field name="min_score" />
+                            <field name="max_score" />
+                            <field name="knockout_score" />
+                            <field name="assessor_slot" />
+                            <field name="assessor_group_ids" widget="many2many_tags" />
+                        </tree>
+                        <form>
+                            <group name="criterion_group" colspan="4" col="2">
+                                <field name="sequence" />
+                                <field name="code" />
+                                <field name="name" />
+                                <field name="description" />
+                                <field name="min_score" />
+                                <field name="max_score" />
+                                <field name="knockout_score" />
+                                <field name="assessor_slot" />
+                                <field
+                                        name="assessor_group_ids"
+                                        widget="many2many_tags"
+                                    />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+                <page name="threshold" string="Thresholds">
+                    <field name="threshold_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="min_total" />
+                            <field name="status_id" />
+                        </tree>
+                        <form>
+                            <group name="threshold_group" colspan="4" col="2">
+                                <field name="min_total" />
+                                <field name="status_id" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_rubric_action" model="ir.actions.act_window">
+    <field name="name">Learning Artifact Rubrics</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">school_learning_artifact_rubric</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="school_learning_artifact_rubric_menu"
+        name="Rubrics"
+        parent="menu_school_learning_artifact_configuration"
+        action="school_learning_artifact_rubric_action"
+        groups="school_learning_artifact_rubric_group"
+        sequence="180"
+    />
+
+</odoo>

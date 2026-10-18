@@ -1,0 +1,2890 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Curation Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Curation Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Curation Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Curation Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Curation Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Curation Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Student Contact for Curation Test"
+
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student"
+      values:
+        name: "Student for Curation Test"
+        code: "/"
+        contact_id: "REC: contact.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Curation Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Curation Test"
+        code: "/"
+
+    - step: "Setup - create statuses"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_eligible"
+      values:
+        name: "Status Eligible"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+    - step: "Setup - create revision status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_revision"
+      values:
+        name: "Status Revision"
+        code: "/"
+        category: "revision"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+    - step: "Setup - create archive status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_archive"
+      values:
+        name: "Status Archive"
+        code: "/"
+        category: "archive"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+    - step: "Setup - create rejected status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_rejected"
+      values:
+        name: "Status Rejected"
+        code: "/"
+        category: "rejected"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+scenarios:
+  - name: "CRUD of status, ethics reason and rubric"
+    steps:
+      - step: "Create ethics reason"
+        action: "create"
+        model: "school_learning_artifact_ethics_reason"
+        save_as: "reason"
+        values:
+          name: "Reason CRUD"
+          code: "TSTLAER01"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_crud"
+        values:
+          name: "Rubric rubric_crud"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Assert rubric_crud"
+        action: "assert"
+        target: "rubric_crud"
+        asserts:
+          active:
+            type: "value"
+            expected: True
+          criterion_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 4
+          threshold_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 3
+          max_revision:
+            type: "value"
+            expected: 1
+
+      - step: "Rename ethics reason"
+        action: "write"
+        target: "reason"
+        values:
+          name: "Reason CRUD Renamed"
+
+      - step: "Assert reason renamed"
+        action: "assert"
+        target: "reason"
+        asserts:
+          name:
+            type: "value"
+            expected: "Reason CRUD Renamed"
+
+      - step: "Archive status"
+        action: "write"
+        target: "st_archive"
+        values:
+          active: false
+
+      - step: "Assert status archived"
+        action: "assert"
+        target: "st_archive"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+          category:
+            type: "value"
+            expected: "archive"
+
+  - name: "Approve creates one score row per aspect and 3/3/3/3 is eligible"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          score_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 4
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 3"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 3
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 3"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 3
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 12
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_eligible"
+          curation_status_category:
+            type: "value"
+            expected: "eligible"
+
+  - name: "Score 3/2/2/2 totals 9 and needs revision"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 2"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 2
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 2"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 2
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 2"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 2
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 9
+          curation_status_category:
+            type: "value"
+            expected: "revision"
+
+  - name: "Three aspect rubric with thresholds 8/6/3"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 8
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 6
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          score_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 3
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 2"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 2
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 8
+          curation_status_category:
+            type: "value"
+            expected: "eligible"
+
+  - name: "Knockout aspect gives the knockout status"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 1"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 1
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 3"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 3
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 3"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 3
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_archive"
+          curation_status_category:
+            type: "value"
+            expected: "archive"
+
+  - name: "Failed ethics gate gives the ethics fail status and Done needs no scores"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result fail on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "fail"
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_rejected"
+
+      - step: "Write curator note"
+        action: "write"
+        target: "artifact"
+        values:
+          curator_note: "Not suitable for the school"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curated_by_id:
+            type: "value"
+            operator: "is_truthy"
+          date_curated:
+            type: "value"
+            operator: "is_truthy"
+
+  - name: "Revision with recommendation is done and the validator reopens it"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 2"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 2
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 2"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 2
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 2"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 2
+
+      - step: "Write recommendation"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Strengthen the reflection"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Reopen with Restart"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+          revision_count:
+            type: "value"
+            expected: 1
+
+  - name: "Done without ethics result is rejected"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Done artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Ethics Result is empty"
+
+  - name: "Revision category without recommendation is rejected"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 2"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 2
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 2"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 2
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 2"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 2
+
+      - step: "Done artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Recommendation is empty"
+
+  - name: "Score above the maximum is rejected"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 4"
+        action: "write"
+        target: "score_A2"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "outside"
+        values:
+          score: 4
+
+  - name: "Distinct assessors rule rejects one user on both slots"
+    steps:
+      - step: "Create user curator"
+        action: "create"
+        model: "res.users"
+        save_as: "curator"
+        values:
+          name: "Curation Tester curator"
+          login: "curation.distinct@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          require_distinct_assessors: true
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        as_user: "curator"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        as_user: "curator"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 3"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 3
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 3"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 3
+
+      - step: "Done artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "assessed both"
+
+  - name: "Creator assessment is rejected when the rubric forbids it"
+    steps:
+      - step: "Create user creator"
+        action: "create"
+        model: "res.users"
+        save_as: "creator"
+        values:
+          name: "Curation Tester creator"
+          login: "curation.creator@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          forbid_creator_assessment: true
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REC: creator.id"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        as_user: "creator"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 3"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 3
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 3"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 3
+
+      - step: "Done artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "responsible user assessed"
+
+  - name: "User outside the assessor groups cannot score"
+    steps:
+      - step: "Create assessor group"
+        action: "create"
+        model: "res.groups"
+        save_as: "assessor_group"
+        values:
+          name: "Curation Test Assessors"
+
+      - step: "Create user outsider"
+        action: "create"
+        model: "res.users"
+        save_as: "outsider"
+        values:
+          name: "Curation Tester outsider"
+          login: "curation.outsider@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+
+      - step: "Create user insider"
+        action: "create"
+        model: "res.users"
+        save_as: "insider"
+        values:
+          name: "Curation Tester insider"
+          login: "curation.insider@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REC: assessor_group.id",
+                ],
+              ],
+            ]
+
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+                assessor_group_ids: [[6, 0, ["REC: assessor_group.id"]]]
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find score A1 of artifact_out"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1_out"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3_out"
+        action: "write"
+        target: "score_A1_out"
+        as_user: "outsider"
+        expect_error:
+          type: "UserError"
+          message_contains: "not allowed to score"
+        values:
+          score: 3
+
+      - step: "Find score A1 of artifact_in"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1_in"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3_in"
+        action: "write"
+        target: "score_A1_in"
+        as_user: "insider"
+        values:
+          score: 3
+
+      - step: "Assert artifact"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 3
+
+  - name: "Restart from done is rejected when the category is eligible"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 3"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 3
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 3"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 3
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 3"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 3
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Restart an eligible curated artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "not allowed to restart"
+
+  - name: "Reopen is refused once the revision limit is reached"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result pass on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "pass"
+
+      - step: "Find score A1 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "score_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A1 of artifact with 3"
+        action: "write"
+        target: "score_A1"
+        values:
+          score: 3
+
+      - step: "Find score A2 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A2"]]
+        save_as: "score_A2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A2 of artifact with 2"
+        action: "write"
+        target: "score_A2"
+        values:
+          score: 2
+
+      - step: "Find score A3 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A3"]]
+        save_as: "score_A3"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A3 of artifact with 2"
+        action: "write"
+        target: "score_A3"
+        values:
+          score: 2
+
+      - step: "Find score A4 of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A4"]]
+        save_as: "score_A4"
+        limit: 1
+        expect_count: 1
+
+      - step: "Score A4 of artifact with 2"
+        action: "write"
+        target: "score_A4"
+        values:
+          score: 2
+
+      - step: "Write recommendation"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Strengthen the reflection"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "First reopen"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        asserts:
+          revision_count:
+            type: "value"
+            expected: 1
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Second reopen is refused"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "not allowed to restart"
+
+  - name: "Rejected category without curator note is rejected"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric"
+        values:
+          name: "Rubric rubric"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create complete artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Set ethics result fail on artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          ethics_result: "fail"
+
+      - step: "Done artifact is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Curator Note is empty"
+
+  - name: "School with its own rubric uses it and another school uses the fallback"
+    steps:
+      - step: "Create rubric"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_own"
+        values:
+          name: "Rubric rubric_own"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                max_score: 3
+                knockout_score: 1
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 30
+                code: "A3"
+                name: "Aspect A3"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+            - - 0
+              - 0
+              - sequence: 40
+                code: "A4"
+                name: "Aspect A4"
+                max_score: 3
+                knockout_score: 0
+                assessor_slot: "primary"
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 10
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_revision.id"
+            - - 0
+              - 0
+              - min_total: 4
+                status_id: "REC: st_archive.id"
+
+      - step: "Create fallback rubric without schools"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_fallback"
+        values:
+          name: "Fallback Rubric"
+          code: "/"
+          ethics_fail_status_id: "REC: st_rejected.id"
+
+      - step: "Create second school"
+        action: "create"
+        model: "school"
+        save_as: "school_b"
+        values:
+          name: "School B for Curation Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          branch_id: "REC: branch.id"
+
+      - step: "Create complete artifact artifact_a"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact A"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Create complete artifact artifact_b"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_b"
+        values:
+          school_id: "REC: school_b.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact B"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert artifact_a"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_own"
+
+      - step: "Assert artifact_b"
+        action: "assert"
+        target: "artifact_b"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_fallback"

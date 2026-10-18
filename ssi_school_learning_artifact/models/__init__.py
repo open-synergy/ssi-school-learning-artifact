@@ -6,6 +6,12 @@ from . import school_learning_artifact_area  # noqa: F401
 from . import school_learning_artifact_category  # noqa: F401
 from . import school_learning_artifact_dimension  # noqa: F401
 from . import school_learning_artifact_phase  # noqa: F401
+from . import school_learning_artifact_curation_status  # noqa: F401
+from . import school_learning_artifact_ethics_reason  # noqa: F401
+from . import school_learning_artifact_rubric  # noqa: F401
+from . import school_learning_artifact_rubric_criterion  # noqa: F401
+from . import school_learning_artifact_rubric_threshold  # noqa: F401
+from . import school_learning_artifact_score  # noqa: F401
 from . import school_distinctive_program  # noqa: F401
 from . import school_distinctive_program_component  # noqa: F401
 from . import school_graduate_profile  # noqa: F401

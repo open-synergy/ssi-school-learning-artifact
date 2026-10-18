@@ -9,10 +9,14 @@ School Learning Artifact
 Inventory of learning artifacts (photos, videos and documents of learning
 activities and achievements) for schools. A teacher records an artifact,
 submits it for curation, and may withdraw it until the curator starts the
-curation. Everything specific to a school or a branch - learning areas,
-categories, dimensions, phases, distinctive programs and their components,
-graduate profiles, the link prefix and the required fields - is configuration
-data, not module data.
+curation. The curator then fills in the ethics gate and scores the aspects of
+the rubric of the school; the module calculates the total and the curation
+status, and the curation is finished with the Done action. A curated artifact
+whose status needs a revision can be reopened a limited number of times.
+Everything specific to a school or a branch - learning areas, categories,
+dimensions, phases, distinctive programs and their components, graduate
+profiles, curation rubrics, statuses and ethics reasons, the link prefix and
+the required fields - is configuration data, not module data.
 
 
 Work Instruction
@@ -26,6 +30,8 @@ Learning Artifact
 * `Withdraw Learning Artifact from Curation <docs/school_learning_artifact/03-withdraw.html>`_
 * `Start Curation of Learning Artifact <docs/school_learning_artifact/04-start-curation.html>`_
 * `Cancel Learning Artifact <docs/school_learning_artifact/05-cancel.html>`_
+* `Curate Learning Artifact <docs/school_learning_artifact/06-curate.html>`_
+* `Reopen Learning Artifact for Revision <docs/school_learning_artifact/07-reopen.html>`_
 
 Learning Artifact Area
 ----------------------
@@ -36,6 +42,21 @@ Learning Artifact Category
 --------------------------
 
 * `Create Learning Artifact Category <docs/school_learning_artifact_category/01-create.html>`_
+
+Learning Artifact Curation Status
+---------------------------------
+
+* `Create Learning Artifact Curation Status <docs/school_learning_artifact_curation_status/01-create.html>`_
+
+Learning Artifact Ethics Reason
+-------------------------------
+
+* `Create Learning Artifact Ethics Reason <docs/school_learning_artifact_ethics_reason/01-create.html>`_
+
+Learning Artifact Rubric
+------------------------
+
+* `Create Learning Artifact Rubric <docs/school_learning_artifact_rubric/01-create.html>`_
 
 Learning Artifact Dimension
 ---------------------------
