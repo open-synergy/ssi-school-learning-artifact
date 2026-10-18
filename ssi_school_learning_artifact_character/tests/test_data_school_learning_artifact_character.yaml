@@ -428,25 +428,6 @@ scenarios:
           name: "Other Grade Type S5"
           code: "/"
           sequence: 30
-      - step: "Create other grade"
-        action: "create"
-        model: "school_grade"
-        save_as: "grade_other"
-        values:
-          name: "Other Grade S5"
-          code: "/"
-          sequence: 30
-          type_id: "REC: grade_type_other.id"
-      - step: "Create other grade class"
-        action: "create"
-        model: "school_grade_class"
-        save_as: "grade_class_other"
-        values:
-          name: "Other Class S5"
-          code: "/"
-          school_id: "REC: school.id"
-          grade_id: "REC: grade_other.id"
-          capacity: 30
       - step: "Create indicator indicator_a"
         action: "create"
         model: "school_character_indicator"
@@ -459,7 +440,7 @@ scenarios:
           grade_status_ids:
             - - 0
               - 0
-              - grade_type_id: "REC: grade_type.id"
+              - grade_type_id: "REC: grade_type_other.id"
                 status: "partial"
       - step: "Create indicator indicator_b"
         action: "create"
@@ -473,7 +454,7 @@ scenarios:
           grade_status_ids:
             - - 0
               - 0
-              - grade_type_id: "REC: grade_type.id"
+              - grade_type_id: "REC: grade_type_other.id"
                 status: "not_effective"
       - step: "Create artifact artifact"
         action: "create"
@@ -482,7 +463,7 @@ scenarios:
         values:
           school_id: "REC: school.id"
           academic_year_id: "REC: academic_year.id"
-          grade_class_id: "REC: grade_class_other.id"
+          grade_class_id: "REC: grade_class.id"
           activity_name: "Character Activity"
           media_type: "photo"
           user_id: "REF: base.user_admin"

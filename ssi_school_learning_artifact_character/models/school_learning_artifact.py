@@ -65,6 +65,12 @@ class SchoolLearningArtifact(models.Model):
         ),
     )
 
+    @api.model
+    def _get_policy_field(self):
+        res = super()._get_policy_field()
+        res.append("character_tag_ok")
+        return res
+
     @api.depends("grade_type_id")
     def _compute_allowed_subconstruct_ids(self):
         """List the character sub-constructs usable for the artifact.
