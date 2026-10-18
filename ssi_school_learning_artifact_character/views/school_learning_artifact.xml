@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_learning_artifact_view_form" model="ir.ui.view">
+    <field name="name">school_learning_artifact - form (character tag)</field>
+    <field name="model">school_learning_artifact</field>
+    <field
+            name="inherit_id"
+            ref="ssi_school_learning_artifact.school_learning_artifact_view_form"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//group[@name='policy_2']" position="inside">
+                <field name="character_tag_ok" />
+            </xpath>
+            <xpath expr="//field[@name='allowed_phase_ids']" position="after">
+                <field name="allowed_subconstruct_ids" invisible="1" />
+            </xpath>
+            <xpath expr="//page[@name='activity']" position="after">
+                <page name="character" string="Character Tag">
+                    <group name="character_1" colspan="4" col="2">
+                        <group name="character_left" colspan="1" col="2">
+                            <field
+                                    name="primary_subconstruct_id"
+                                    attrs="{'readonly': [('character_tag_ok', '=', False)]}"
+                                    options="{'no_create': True}"
+                                />
+                            <field
+                                    name="secondary_subconstruct_id"
+                                    attrs="{'readonly': [('character_tag_ok', '=', False)]}"
+                                    options="{'no_create': True}"
+                                />
+                        </group>
+                        <group name="character_right" colspan="1" col="2">
+                            <field
+                                    name="character_not_evident"
+                                    attrs="{'readonly': [('character_tag_ok', '=', False)]}"
+                                />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+</odoo>
