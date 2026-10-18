@@ -18,6 +18,39 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
+"Context: Finish curation of learning artifact\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Score learning artifact\n"
+"Database ID: %s\n"
+"Problem: Score %s is outside %s - %s of aspect %s\n"
+"Solution: Enter a score within the range of the aspect\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Score learning artifact\n"
+"Database ID: %s\n"
+"Problem: You are not allowed to score aspect %s\n"
+"Solution: Ask a user in the assessor groups of the aspect to score it\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"\n"
 "Context: Submit learning artifact for curation\n"
 "Database ID: %s\n"
 "Problem: %s\n"
@@ -27,7 +60,20 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
+msgid "%s assessed both the primary and secondary slots"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
 msgid "%s is empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__knockout_score
+msgid ""
+"A score at or below this value knocks the artifact out. Zero means the "
+"aspect never knocks out."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -54,8 +100,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_needaction
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_needaction
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction
 msgid "Action Needed"
 msgstr ""
 
@@ -65,8 +114,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__active
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__active
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__active
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__active
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__active
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__active
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__active
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__active
 msgid "Active"
 msgstr ""
 
@@ -92,8 +144,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_ids
 msgid "Activities"
 msgstr ""
 
@@ -114,8 +169,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_exception_decoration
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_exception_decoration
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_exception_decoration
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_exception_decoration
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
 
@@ -136,8 +194,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_state
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_state
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_state
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_state
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_state
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_state
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_state
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_state
 msgid "Activity State"
 msgstr ""
 
@@ -153,9 +214,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_type_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_type_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_type_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_type_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_type_icon
 msgid "Activity Type Icon"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__recommendation
+msgid ""
+"Advice of the curator to strengthen the artifact. Required when the status "
+"needs a revision."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -219,6 +290,11 @@ msgid "Approved"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__archive
+msgid "Archive"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__area_type
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_area_view_search
 msgid "Area Type"
@@ -230,14 +306,55 @@ msgid "Areas"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Ask a user in the ethics assessor groups to do it"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__criterion_id
+msgid "Aspect"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Aspect %s is not scored"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__criterion_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_rubric_view_form
+msgid "Aspects"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__assessor_id
+msgid "Assessor"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__assessor_group_ids
+msgid "Assessor Groups"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__assessor_slot
+msgid "Assessor Slot"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
@@ -265,6 +382,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__confirm_ok
 msgid "Can Confirm"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__done_ok
+msgid "Can Finished"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -312,6 +434,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__category_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__category
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_status_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "Category"
 msgstr ""
@@ -339,8 +463,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__code
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__code
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__code
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__code
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__code
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__code
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__code
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__code
 msgid "Code"
 msgstr ""
 
@@ -402,14 +530,26 @@ msgid "Correct the Link so that it starts with %s"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Create a rubric for the school or a fallback rubric"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -420,9 +560,63 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__done
+msgid "Curated"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__curated_by_id
+msgid "Curated By"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__date_curated
+msgid "Curated On"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Curation"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__curation_status_id
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
+msgid "Curation Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__curation_status_category
+msgid "Curation Status Category"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_curation_status_menu
+msgid "Curation Statuses"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__curator_note
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Curator Note"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Curator Note is empty"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -432,6 +626,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__description
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__description
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Description"
 msgstr ""
@@ -473,8 +668,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -512,13 +713,72 @@ msgid "Document"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__done_ok
+msgid ""
+"Done policy\n"
+"\n"
+"* If active user can see and execute 'Done' button"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__eligible
+msgid "Eligible"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_stage__end
 msgid "End"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__ethics_assessor_id
+msgid "Ethics Assessor"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__ethics_assessor_group_ids
+msgid "Ethics Assessor Groups"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__ethics_fail_status_id
+msgid "Ethics Fail Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__ethics_reason_id
+msgid "Ethics Reason"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_ethics_reason_menu
+msgid "Ethics Reasons"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__ethics_result
+msgid "Ethics Result"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Ethics Result is empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__description
+msgid "Explanation of how to score the aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_type__extracurricular
 msgid "Extracurricular"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__ethics_result__fail
+msgid "Fail"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -534,8 +794,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_follower_ids
 msgid "Followers"
 msgstr ""
 
@@ -546,8 +809,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_channel_ids
 msgid "Followers (Channels)"
 msgstr ""
 
@@ -558,8 +824,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
@@ -570,9 +839,17 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_type_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_type_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_type_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_type_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_type_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_type_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_type_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__forbid_creator_assessment
+msgid "Forbid Creator Assessment"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -606,8 +883,38 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_distinctive_program_component_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_distinctive_program_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_area_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_status_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "Group By"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__assessor_group_ids
+msgid ""
+"Groups allowed to score this aspect. Leave empty to let every user with "
+"access do it."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__ethics_assessor_group_ids
+msgid ""
+"Groups allowed to set the ethics result. Leave empty to let every user with "
+"access do it."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__max_score
+msgid "Highest score that can be given to this aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__max_revision
+msgid "How many times an artifact that needs revision can be reopened."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
+msgid "How many times the artifact was reopened for revision."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -618,8 +925,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__id
 msgid "ID"
 msgstr ""
 
@@ -630,8 +943,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_exception_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_exception_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_exception_icon
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_exception_icon
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_exception_icon
 msgid "Icon"
 msgstr ""
 
@@ -642,8 +958,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_exception_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_exception_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_exception_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_exception_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_exception_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_exception_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_exception_icon
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
 
@@ -681,11 +1000,24 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_unread
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_needaction
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_unread
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_needaction
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__require_distinct_assessors
+msgid ""
+"If checked, nobody may assess both a primary and a secondary slot, the "
+"ethics gate counting as secondary."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -695,9 +1027,17 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_has_error
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_has_error
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__forbid_creator_assessment
+msgid "If checked, the responsible user of the artifact may not assess it."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -717,8 +1057,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_is_follower
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_is_follower
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_is_follower
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_is_follower
 msgid "Is Follower"
 msgstr ""
 
@@ -730,6 +1073,16 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__knockout_score
+msgid "Knockout Score"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__knockout_status_id
+msgid "Knockout Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component____last_update
@@ -737,8 +1090,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -749,8 +1108,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -761,8 +1126,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -772,6 +1143,7 @@ msgid "Learning Area"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__artifact_id
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.menu_school_learning_artifact_configuration
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_view_form_learning_artifact
 msgid "Learning Artifact"
@@ -798,6 +1170,16 @@ msgid "Learning Artifact Category"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_curation_status_group
+msgid "Learning Artifact Curation Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_curation_status_action
+msgid "Learning Artifact Curation Statuses"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_dimension_group
 msgid "Learning Artifact Dimension"
 msgstr ""
@@ -805,6 +1187,16 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_dimension_action
 msgid "Learning Artifact Dimensions"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_ethics_reason_group
+msgid "Learning Artifact Ethics Reason"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_ethics_reason_action
+msgid "Learning Artifact Ethics Reasons"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -838,10 +1230,32 @@ msgid "Learning Artifact Requires Phase"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_rubric_group
+msgid "Learning Artifact Rubric"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_rubric_action
+msgid "Learning Artifact Rubrics"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_action
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.menu_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_menu
 msgid "Learning Artifacts"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Let another user assess the artifact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Let different users assess the primary and secondary slots"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -857,14 +1271,27 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__min_score
+msgid "Lowest score that can be given to this aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__min_total
+msgid "Lowest total score that reaches this threshold."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
 
@@ -882,8 +1309,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__active
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__active
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__active
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__active
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__active
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__active
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__active
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__active
 msgid ""
 "Master data status\n"
 "\n"
@@ -899,8 +1329,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__code
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__code
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__code
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__code
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__code
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__code
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__code
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__code
 msgid ""
 "Master data unique identifier.\n"
 "\n"
@@ -908,6 +1341,24 @@ msgid ""
 "* Click 'Generate Code' button to automatically assign code.\n"
 "  Sequence template mush be set to perform this action\n"
 "  Only master data with '/' code will be assign automatic code"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__max_revision
+msgid "Maximum Revision"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__max_score
+msgid "Maximum Score"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__category
+msgid ""
+"Meaning of the status for the workflow. Eligible means the artifact passed "
+"the curation, Needs Revision allows it to be reopened, Archive keeps it out "
+"of use and Not Eligible archives it with the reason of the curator."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -928,8 +1379,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_has_error
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_has_error
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 msgid "Message Delivery error"
 msgstr ""
 
@@ -940,9 +1394,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_ids
 msgid "Messages"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__min_score
+msgid "Minimum Score"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__min_total
+msgid "Minimum Total"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -952,8 +1419,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__my_activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__my_activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__my_activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__my_activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
 
@@ -963,9 +1433,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__name
 msgid "Name"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__name
+msgid "Name of the aspect."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -979,14 +1458,22 @@ msgid "Need Validation"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__revision
+msgid "Needs Revision"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_date_deadline
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
 
@@ -997,8 +1484,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_summary
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_summary
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_summary
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_summary
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_summary
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_summary
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_summary
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
 
@@ -1009,8 +1499,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_type_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_type_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_type_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_type_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_type_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_type_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_type_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
 
@@ -1022,7 +1515,18 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
+msgid "No rubric applies to the school"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
 msgid "No student is selected"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__rejected
+msgid "Not Eligible"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1032,9 +1536,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__note
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__note
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__note
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__note
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__note
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__note
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__note
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__note
 msgid "Note"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__curator_note
+msgid ""
+"Note of the curator. Required as the reason when the artifact is not "
+"eligible and is archived."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1044,8 +1558,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
 
@@ -1056,8 +1573,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
@@ -1068,8 +1588,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_needaction_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_needaction_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr ""
 
@@ -1080,8 +1603,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_has_error_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_has_error_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
 
@@ -1092,8 +1618,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__message_unread_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_unread_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 msgid "Number of unread messages"
 msgstr ""
 
@@ -1102,6 +1631,17 @@ msgstr ""
 msgid ""
 "Number of words in the description. Informative only, it never blocks the "
 "artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__sequence
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__sequence
+msgid "Order of the aspect in the rubric."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__ethics_result__pass
+msgid "Pass"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1132,6 +1672,11 @@ msgid "Policy Template"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__assessor_slot__primary
+msgid "Primary Assessor"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__primary_component_id
 msgid "Primary Component"
 msgstr ""
@@ -1158,6 +1703,18 @@ msgid "Province"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__recommendation
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Recommendation"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Recommendation is empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Reflection"
 msgstr ""
@@ -1173,6 +1730,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
 msgid "Rejected"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__require_distinct_assessors
+msgid "Require Distinct Assessors"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1194,8 +1756,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__activity_user_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_user_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_user_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_user_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_user_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_user_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_user_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_user_id
 msgid "Responsible User"
 msgstr ""
 
@@ -1216,8 +1781,32 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__ethics_result
+msgid ""
+"Result of the ethics gate. It is required to finish the curation, and a "
+"failed gate gives the ethics fail status of the rubric."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__reviewer_id
 msgid "Reviewer"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
+msgid "Revision Count"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__rubric_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__rubric_id
+msgid "Rubric"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_rubric_menu
+msgid "Rubrics"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1263,8 +1852,18 @@ msgid "School Learning Artifact Category"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_curation_status
+msgid "School Learning Artifact Curation Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_dimension
 msgid "School Learning Artifact Dimension"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_ethics_reason
+msgid "School Learning Artifact Ethics Reason"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1273,9 +1872,32 @@ msgid "School Learning Artifact Phase"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_rubric
+msgid "School Learning Artifact Rubric"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_rubric_criterion
+msgid "School Learning Artifact Rubric Aspect"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_rubric_threshold
+msgid "School Learning Artifact Rubric Threshold"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_score
+msgid "School Learning Artifact Score"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__school_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__school_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__school_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
 msgid "Schools"
 msgstr ""
 
@@ -1301,6 +1923,54 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__school_ids
+msgid ""
+"Schools that can use this reason. Leave empty to make the reason available "
+"to every school."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
+msgid ""
+"Schools that can use this status. Leave empty to make the status available "
+"to every school."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
+msgid ""
+"Schools that use this rubric. Leave empty to make this the fallback rubric "
+"of the schools without a rubric."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__score
+msgid "Score"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Score every aspect"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__date_score
+msgid "Scored On"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__score_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Scores"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__assessor_slot__secondary
+msgid "Secondary Assessor"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__secondary_component_id
 msgid "Secondary Component"
 msgstr ""
@@ -1313,7 +1983,20 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__sequence
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__sequence
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__sequence
 msgid "Sequence"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Set the Ethics Result"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__code
+msgid "Short code of the aspect, for example A1."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1345,19 +2028,44 @@ msgid "State"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__status_id
+msgid "Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program_component__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_state
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_state
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_state
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_state
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_state
 msgid ""
 "Status based on activities\n"
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__ethics_fail_status_id
+msgid "Status given to an artifact that fails the ethics gate."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__knockout_status_id
+msgid ""
+"Status given to an artifact when an aspect scores at or below its knockout "
+"score."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__status_id
+msgid "Status given when the total score reaches this threshold."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1394,10 +2102,20 @@ msgid "The academic year in which the activity took place."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__criterion_ids
+msgid "The aspects that the curator scores."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__branch_id
 msgid ""
 "The branch that owns this program. Every school unit of the branch inherits "
 "it."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__curation_status_category
+msgid "The category of the curation status."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1410,6 +2128,20 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__component_ids
 msgid "The components that make up this program."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
+msgid ""
+"The curation rubric of the artifact. It is the active rubric of the school, "
+"or the fallback rubric without schools when the school has none."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__curation_status_id
+msgid ""
+"The curation status derived from the ethics result, the knockout aspects and"
+" the total score."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1466,6 +2198,11 @@ msgid "The kind of media that documents the activity."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__artifact_id
+msgid "The learning artifact that this score belongs to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__dimension_id
 msgid ""
 "The learning dimension covered by this artifact. Required when the school "
@@ -1485,6 +2222,39 @@ msgid "The level at which an achievement was reached, if any."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__threshold_ids
+msgid ""
+"The minimum total scores and the status each one gives. The highest minimum "
+"that the total reaches wins."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__ethics_reason_id
+msgid "The reason why the artifact failed the ethics gate."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "The responsible user assessed the artifact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__criterion_id
+msgid "The rubric aspect that this score rates."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__rubric_id
+msgid "The rubric that this aspect belongs to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__rubric_id
+msgid "The rubric that this threshold belongs to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__school_id
 msgid ""
 "The school unit that owns this artifact. Its configuration decides which "
@@ -1494,6 +2264,17 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
 msgid "The school unit that owns this learning area."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__score
+msgid ""
+"The score given to the aspect. Zero means the aspect is not scored yet."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__score_ids
+msgid "The scores of the aspects of the rubric."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1521,8 +2302,49 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__total_score
+msgid "The sum of the scores of all aspects."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__teacher_reflection
 msgid "The teacher's reflection on the activity."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__date_curated
+msgid "The time the curation was finished."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__date_score
+msgid "The time the score was given."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__curated_by_id
+msgid "The user who finished the curation."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__assessor_id
+msgid "The user who gave the score."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__ethics_assessor_id
+msgid "The user who set the ethics result."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__threshold_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_rubric_view_form
+msgid "Thresholds"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__total_score
+msgid "Total Score"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1545,8 +2367,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__activity_exception_decoration
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__activity_exception_decoration
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__activity_exception_decoration
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
 
@@ -1557,8 +2382,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_unread
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_unread
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 msgid "Unread Messages"
 msgstr ""
 
@@ -1569,8 +2397,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr ""
 
@@ -1624,8 +2455,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__website_message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__website_message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
@@ -1636,8 +2470,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__website_message_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__website_message_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_ethics_reason__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 msgid "Website communication history"
 msgstr ""
 
@@ -1647,6 +2484,29 @@ msgid "Whether the activity is intra-, co- or extracurricular."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__assessor_slot
+msgid "Which assessor slot scores this aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__description_word_count
 msgid "Word Count"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Write a recommendation for the revision"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Write the reason of the archive in the Curator Note"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "You are not allowed to set the ethics result"
 msgstr ""
