@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_view_form_learning_artifact" model="ir.ui.view">
+    <field name="name">school - form (learning artifact)</field>
+    <field name="model">school</field>
+    <field name="inherit_id" ref="ssi_school.school_view_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//notebook" position="inside">
+                <page name="learning_artifact" string="Learning Artifact">
+                    <group name="learning_artifact_config" colspan="4" col="2">
+                        <field name="learning_artifact_link_prefix" />
+                        <field name="learning_artifact_require_component" />
+                        <field name="learning_artifact_require_dimension" />
+                        <field name="learning_artifact_require_phase" />
+                    </group>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+</odoo>

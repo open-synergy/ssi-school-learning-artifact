@@ -1,0 +1,405 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Master Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Master Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Master Test"
+        code: "/"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Master Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+scenarios:
+  - name: "CRUD learning artifact area"
+    steps:
+      - step: "Create area"
+        action: "create"
+        model: "school_learning_artifact_area"
+        save_as: "area"
+        values:
+          name: "Area CRUD"
+          code: "TSTLAAREA01"
+          school_id: "REC: school.id"
+          area_type: "activity"
+
+      - step: "Assert area created"
+        action: "assert"
+        target: "area"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          active:
+            type: "value"
+            expected: true
+          area_type:
+            type: "value"
+            expected: "activity"
+
+      - step: "Rename area"
+        action: "write"
+        target: "area"
+        values:
+          name: "Area CRUD Renamed"
+
+      - step: "Assert area renamed"
+        action: "assert"
+        target: "area"
+        asserts:
+          name:
+            type: "value"
+            expected: "Area CRUD Renamed"
+
+      - step: "Archive area"
+        action: "write"
+        target: "area"
+        values:
+          active: false
+
+      - step: "Assert area archived"
+        action: "assert"
+        target: "area"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "CRUD learning artifact category"
+    steps:
+      - step: "Create category"
+        action: "create"
+        model: "school_learning_artifact_category"
+        save_as: "category"
+        values:
+          name: "Category CRUD"
+          code: "TSTLACAT01"
+
+      - step: "Assert category created"
+        action: "assert"
+        target: "category"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Rename category"
+        action: "write"
+        target: "category"
+        values:
+          name: "Category CRUD Renamed"
+
+      - step: "Assert category renamed"
+        action: "assert"
+        target: "category"
+        asserts:
+          name:
+            type: "value"
+            expected: "Category CRUD Renamed"
+
+      - step: "Archive category"
+        action: "write"
+        target: "category"
+        values:
+          active: false
+
+      - step: "Assert category archived"
+        action: "assert"
+        target: "category"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "CRUD learning artifact dimension"
+    steps:
+      - step: "Create dimension"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension"
+        values:
+          name: "Dimension CRUD"
+          code: "TSTLADIM01"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+
+      - step: "Assert dimension created"
+        action: "assert"
+        target: "dimension"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Rename dimension"
+        action: "write"
+        target: "dimension"
+        values:
+          name: "Dimension CRUD Renamed"
+
+      - step: "Assert dimension renamed"
+        action: "assert"
+        target: "dimension"
+        asserts:
+          name:
+            type: "value"
+            expected: "Dimension CRUD Renamed"
+
+      - step: "Archive dimension"
+        action: "write"
+        target: "dimension"
+        values:
+          active: false
+
+      - step: "Assert dimension archived"
+        action: "assert"
+        target: "dimension"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "CRUD learning artifact phase"
+    steps:
+      - step: "Create phase"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase"
+        values:
+          name: "Phase CRUD"
+          code: "TSTLAPHA01"
+
+      - step: "Assert phase created"
+        action: "assert"
+        target: "phase"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          active:
+            type: "value"
+            expected: true
+
+      - step: "Rename phase"
+        action: "write"
+        target: "phase"
+        values:
+          name: "Phase CRUD Renamed"
+
+      - step: "Assert phase renamed"
+        action: "assert"
+        target: "phase"
+        asserts:
+          name:
+            type: "value"
+            expected: "Phase CRUD Renamed"
+
+      - step: "Archive phase"
+        action: "write"
+        target: "phase"
+        values:
+          active: false
+
+      - step: "Assert phase archived"
+        action: "assert"
+        target: "phase"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "CRUD graduate profile"
+    steps:
+      - step: "Create profile"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile"
+        values:
+          name: "Profile CRUD"
+          code: "TSTLAGPR01"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Assert profile created"
+        action: "assert"
+        target: "profile"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          active:
+            type: "value"
+            expected: true
+          grade_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: grade"
+
+      - step: "Rename profile"
+        action: "write"
+        target: "profile"
+        values:
+          name: "Profile CRUD Renamed"
+
+      - step: "Assert profile renamed"
+        action: "assert"
+        target: "profile"
+        asserts:
+          name:
+            type: "value"
+            expected: "Profile CRUD Renamed"
+
+      - step: "Archive profile"
+        action: "write"
+        target: "profile"
+        values:
+          active: false
+
+      - step: "Assert profile archived"
+        action: "assert"
+        target: "profile"
+        asserts:
+          active:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "CRUD distinctive program with inline components"
+    steps:
+      - step: "Create program with two components"
+        action: "create"
+        model: "school_distinctive_program"
+        save_as: "program"
+        values:
+          name: "Program CRUD"
+          code: "TSTLAPRG01"
+          abbreviation: "PCRUD"
+          branch_id: "REC: branch.id"
+          component_ids:
+            - - 0
+              - 0
+              - name: "Component CRUD One"
+                code: "TSTLACMP01A"
+                abbreviation: "C1"
+            - - 0
+              - 0
+              - name: "Component CRUD Two"
+                code: "TSTLACMP01B"
+                abbreviation: "C2"
+
+      - step: "Assert program and components"
+        action: "assert"
+        target: "program"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          component_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 2
+
+      - step: "Rename program"
+        action: "write"
+        target: "program"
+        values:
+          name: "Program CRUD Renamed"
+
+      - step: "Assert program renamed"
+        action: "assert"
+        target: "program"
+        asserts:
+          name:
+            type: "value"
+            expected: "Program CRUD Renamed"
+
+      - step: "Delete the program"
+        action: "unlink"
+        target: "program"
+
+      - step: "Assert the components were deleted with the program"
+        action: "search"
+        model: "school_distinctive_program_component"
+        domain:
+          - ["code", "in", ["TSTLACMP01A", "TSTLACMP01B"]]
+        save_as: "remaining_components"
+        expect_count: 0
+
+  - name: "CRUD distinctive program component"
+    steps:
+      - step: "Create program"
+        action: "create"
+        model: "school_distinctive_program"
+        save_as: "program"
+        values:
+          name: "Program for Component CRUD"
+          code: "TSTLAPRG02"
+          branch_id: "REC: branch.id"
+
+      - step: "Create component"
+        action: "create"
+        model: "school_distinctive_program_component"
+        save_as: "component"
+        values:
+          name: "Component CRUD"
+          code: "TSTLACMP02"
+          abbreviation: "CC"
+          program_id: "REC: program.id"
+
+      - step: "Assert component"
+        action: "assert"
+        target: "component"
+        asserts:
+          program_id:
+            type: "m2o"
+            expected: "REC: program"
+          abbreviation:
+            type: "value"
+            expected: "CC"
+
+      - step: "Rename component"
+        action: "write"
+        target: "component"
+        values:
+          name: "Component CRUD Renamed"
+
+      - step: "Assert component renamed"
+        action: "assert"
+        target: "component"
+        asserts:
+          name:
+            type: "value"
+            expected: "Component CRUD Renamed"

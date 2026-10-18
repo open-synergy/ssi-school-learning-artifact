@@ -1,0 +1,13 @@
+# Copyright 2026 OpenSynergy Indonesia
+# Copyright 2026 PT. Simetri Sinergi Indonesia
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from . import school_learning_artifact_area  # noqa: F401
+from . import school_learning_artifact_category  # noqa: F401
+from . import school_learning_artifact_dimension  # noqa: F401
+from . import school_learning_artifact_phase  # noqa: F401
+from . import school_distinctive_program  # noqa: F401
+from . import school_distinctive_program_component  # noqa: F401
+from . import school_graduate_profile  # noqa: F401
+from . import school  # noqa: F401
+from . import school_learning_artifact  # noqa: F401

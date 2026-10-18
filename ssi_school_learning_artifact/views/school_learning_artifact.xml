@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_learning_artifact_view_search" model="ir.ui.view">
+    <field name="name">school_learning_artifact - search</field>
+    <field name="model">school_learning_artifact</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//search" position="inside">
+                <field name="activity_name" />
+                <field name="school_id" />
+                <field name="grade_class_id" />
+                <field name="student_ids" />
+                <group expand="0" string="Group By">
+                    <filter
+                            name="group_by_school_id"
+                            string="School"
+                            context="{'group_by': 'school_id'}"
+                        />
+                    <filter
+                            name="group_by_academic_year_id"
+                            string="Academic Year"
+                            context="{'group_by': 'academic_year_id'}"
+                        />
+                    <filter
+                            name="group_by_grade_class_id"
+                            string="Class"
+                            context="{'group_by': 'grade_class_id'}"
+                        />
+                    <filter
+                            name="group_by_media_type"
+                            string="Media Type"
+                            context="{'group_by': 'media_type'}"
+                        />
+                    <filter
+                            name="group_by_category_id"
+                            string="Category"
+                            context="{'group_by': 'category_id'}"
+                        />
+                </group>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_view_tree" model="ir.ui.view">
+    <field name="name">school_learning_artifact - tree</field>
+    <field name="model">school_learning_artifact</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="date" />
+                <field name="school_id" />
+                <field name="academic_year_id" />
+                <field name="grade_class_id" />
+                <field name="activity_name" />
+                <field name="media_type" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_view_form" model="ir.ui.view">
+    <field name="name">school_learning_artifact - form</field>
+    <field name="model">school_learning_artifact</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="school_id" />
+                <field name="academic_year_id" />
+                <field name="grade_class_id" />
+                <field name="grade_id" />
+                <field name="grade_type_id" />
+            </xpath>
+            <xpath expr="//group[@name='header_right']" position="inside">
+                <field name="date" />
+                <field name="activity_name" />
+                <field name="activity_type" />
+                <field name="media_type" />
+                <field name="graduate_profile_id" />
+            </xpath>
+            <xpath expr="//group[@name='header_center']" position="inside">
+                <field name="student_ids" widget="many2many_tags" />
+                <field name="allowed_component_ids" invisible="1" />
+                <field name="allowed_dimension_ids" invisible="1" />
+                <field name="allowed_phase_ids" invisible="1" />
+            </xpath>
+            <xpath expr="//page[1]" position="before">
+                <page name="activity" string="Activity">
+                    <group name="activity_1" colspan="4" col="2">
+                        <group name="activity_left" colspan="1" col="2">
+                            <field name="learning_area_id" />
+                            <field name="category_id" />
+                            <field name="activity_stage" />
+                            <field name="achievement_level" />
+                        </group>
+                        <group name="activity_right" colspan="1" col="2">
+                            <field name="primary_component_id" />
+                            <field name="secondary_component_id" />
+                            <field name="dimension_id" />
+                            <field name="phase_id" />
+                        </group>
+                    </group>
+                </page>
+                <page name="media" string="Media">
+                    <group name="media_1" colspan="4" col="2">
+                        <field name="link_url" widget="url" />
+                        <field name="description_word_count" />
+                    </group>
+                    <group name="media_description" string="Description">
+                        <field name="description" nolabel="1" />
+                    </group>
+                </page>
+                <page name="reflection" string="Reflection">
+                    <group name="reflection_teacher" string="Teacher Reflection">
+                        <field name="teacher_reflection" nolabel="1" />
+                    </group>
+                    <group name="reflection_student" string="Student Reflection">
+                        <field name="student_reflection" nolabel="1" />
+                    </group>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_action" model="ir.actions.act_window">
+    <field name="name">Learning Artifacts</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">school_learning_artifact</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="school_learning_artifact_menu"
+        name="Learning Artifacts"
+        parent="menu_school_learning_artifact"
+        action="school_learning_artifact_action"
+        groups="school_learning_artifact_viewer_group"
+        sequence="10"
+    />
+
+</odoo>

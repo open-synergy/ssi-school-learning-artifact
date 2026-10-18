@@ -1,0 +1,687 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Learning Artifact Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Learning Artifact Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Learning Artifact Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Learning Artifact Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Learning Artifact Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Learning Artifact Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Student Contact for Learning Artifact Test"
+
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student"
+      values:
+        name: "Student for Learning Artifact Test"
+        code: "/"
+        contact_id: "REC: contact.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Learning Artifact Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Learning Artifact Test"
+        code: "/"
+
+scenarios:
+  - name: "Create artifact fills code and computed fields"
+    steps:
+      - step: "Create graduate profile covering the grade"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile"
+        values:
+          name: "Profile for Computed Fields Test"
+          code: "TSTLAGP01"
+          sequence: 5
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create draft artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Computed Fields Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert code, grade and graduate profile"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          name:
+            type: "value"
+            operator: "not_equals"
+            expected: "/"
+          state:
+            type: "value"
+            expected: "draft"
+          grade_id:
+            type: "m2o"
+            expected: "REC: grade"
+          grade_type_id:
+            type: "m2o"
+            expected: "REC: grade_type"
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile"
+
+  - name: "Components follow the branch of the school"
+    steps:
+      - step: "Create second school in the same branch"
+        action: "create"
+        model: "school"
+        save_as: "school_same_branch"
+        values:
+          name: "Second School Same Branch"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          branch_id: "REC: branch.id"
+
+      - step: "Create other branch"
+        action: "create"
+        model: "school_branch"
+        save_as: "branch_other"
+        values:
+          name: "Other Branch for Component Test"
+          code: "/"
+
+      - step: "Create school in the other branch"
+        action: "create"
+        model: "school"
+        save_as: "school_other_branch"
+        values:
+          name: "School Other Branch"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          branch_id: "REC: branch_other.id"
+
+      - step: "Create program of the branch"
+        action: "create"
+        model: "school_distinctive_program"
+        save_as: "program"
+        values:
+          name: "Program for Component Test"
+          code: "TSTLAPRG02"
+          branch_id: "REC: branch.id"
+
+      - step: "Create component of the program"
+        action: "create"
+        model: "school_distinctive_program_component"
+        save_as: "component"
+        values:
+          name: "Component for Component Test"
+          code: "TSTLACMP02"
+          program_id: "REC: program.id"
+
+      - step: "Create artifact of the first school"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_first"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Component Activity First"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of the second school of the branch"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_second"
+        values:
+          school_id: "REC: school_same_branch.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Component Activity Second"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of the school of the other branch"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_other"
+        values:
+          school_id: "REC: school_other_branch.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Component Activity Other"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert component is allowed for the first school"
+        action: "assert"
+        target: "artifact_first"
+        asserts:
+          allowed_component_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: component"
+
+      - step: "Assert component is allowed for the second school"
+        action: "assert"
+        target: "artifact_second"
+        asserts:
+          allowed_component_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: component"
+
+      - step: "Assert component is not allowed for the other branch"
+        action: "assert"
+        target: "artifact_other"
+        asserts:
+          allowed_component_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "Dimension without schools is allowed for every school"
+    steps:
+      - step: "Create second school"
+        action: "create"
+        model: "school"
+        save_as: "school_second"
+        values:
+          name: "Second School for Dimension Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+
+      - step: "Create dimension without schools"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension"
+        values:
+          name: "Dimension for Allowed Test"
+          code: "TSTLADIM03"
+
+      - step: "Create artifact of the first school"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_first"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Dimension Activity First"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of the second school"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_second"
+        values:
+          school_id: "REC: school_second.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Dimension Activity Second"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert dimension is allowed for the first school"
+        action: "assert"
+        target: "artifact_first"
+        asserts:
+          allowed_dimension_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: dimension"
+
+      - step: "Assert dimension is allowed for the second school"
+        action: "assert"
+        target: "artifact_second"
+        asserts:
+          allowed_dimension_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: dimension"
+
+  - name: "Description word count"
+    steps:
+      - step: "Create artifact with a three word description"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Word Count Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          description: "one two three"
+
+      - step: "Assert word count"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          description_word_count:
+            type: "value"
+            expected: 3
+
+  - name: "Submit with matching link prefix then withdraw"
+    steps:
+      - step: "Set link prefix on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_link_prefix: "https://drive.example.com/"
+
+      - step: "Create complete artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Submit Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Withdraw with Restart"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "draft"
+
+  - name: "Submit again and start curation by approval"
+    steps:
+      - step: "Create complete artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Curation Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit for curation"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve to start curation"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Assert Restart is no longer available"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          restart_ok:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "Cancel a draft artifact"
+    steps:
+      - step: "Create cancel reason"
+        action: "create"
+        model: "base.cancel_reason"
+        save_as: "reason"
+        values:
+          name: "Learning Artifact Cancel Reason"
+          code: "TSTLACANCEL"
+          global_use: true
+
+      - step: "Create draft artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Cancel Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Cancel through the reason wizard"
+        action: "wizard"
+        model: "base.select_cancel_reason"
+        target: "artifact"
+        as_user: "base.user_admin"
+        values:
+          cancel_reason_id: "REC: reason"
+        method: "action_confirm"
+        asserts:
+          state:
+            type: "value"
+            expected: "cancel"
+
+  - name: "Submit without students is rejected"
+    steps:
+      - step: "Create artifact without students"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "No Student Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit without students"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "No student is selected"
+
+  - name: "Submit without link is rejected"
+    steps:
+      - step: "Create artifact without link"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "No Link Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+
+      - step: "Submit without link"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Link is empty"
+
+  - name: "Submit with link outside the school prefix is rejected"
+    steps:
+      - step: "Set link prefix on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_link_prefix: "https://drive.example.com/"
+
+      - step: "Create artifact with a foreign link"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Foreign Link Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://other.example.org/file"
+
+      - step: "Submit with a foreign link"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "The Link must start with https://drive.example.com/"
+
+  - name: "Dimension required by the school"
+    steps:
+      - step: "Require dimension on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_dimension: true
+
+      - step: "Create artifact without dimension"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Dimension Required Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit without dimension"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Dimension is empty"
+
+  - name: "Dimension not required by the school"
+    steps:
+      - step: "Create artifact without dimension"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Dimension Optional Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit without dimension"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+  - name: "Component required by the school"
+    steps:
+      - step: "Require component on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_component: true
+
+      - step: "Create artifact without component"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Component Required Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit without component"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Primary Component is empty"
+
+  - name: "Changing the school clears the dependent fields"
+    steps:
+      - step: "Create second school"
+        action: "create"
+        model: "school"
+        save_as: "school_second"
+        values:
+          name: "Second School for Onchange Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+
+      - step: "Fill the form, then change the school"
+        action: "form"
+        model: "school_learning_artifact"
+        save: false
+        ops:
+          - set: {school_id: "REC: school"}
+          - set: {grade_class_id: "REC: grade_class"}
+          - set: {learning_area_id: "REC: area"}
+          - assert:
+              grade_class_id:
+                type: "m2o"
+                expected: "REC: grade_class"
+          - set: {school_id: "REC: school_second"}
+          - assert:
+              grade_class_id:
+                type: "value"
+                operator: "is_falsy"
+              learning_area_id:
+                type: "value"
+                operator: "is_falsy"

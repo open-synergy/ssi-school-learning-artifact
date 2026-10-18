@@ -1,0 +1,58 @@
+# Copyright 2026 OpenSynergy Indonesia
+# Copyright 2026 PT. Simetri Sinergi Indonesia
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+{
+    "name": "School Learning Artifact",
+    "version": "14.0.1.0.0",
+    "website": "https://simetri-sinergi.id",
+    # pylint: disable=line-too-long
+    "author": "PT. Simetri Sinergi Indonesia, OpenSynergy Indonesia, Odoo Community Association (OCA)",  # noqa: B950
+    # pylint: enable=line-too-long
+    "license": "AGPL-3",
+    "installable": True,
+    "application": True,
+    "depends": [
+        "ssi_school",
+        "ssi_master_data_mixin",
+        "ssi_transaction_confirm_mixin",
+        "ssi_transaction_open_mixin",
+        "ssi_transaction_cancel_mixin",
+        "ssi_decorator",
+        "web_tour",
+    ],
+    "data": [
+        "security/ir_module_category/school_learning_artifact.xml",
+        "security/res_group/school_learning_artifact.xml",
+        "security/res_group/school_learning_artifact_area.xml",
+        "security/res_group/school_learning_artifact_category.xml",
+        "security/res_group/school_learning_artifact_dimension.xml",
+        "security/res_group/school_learning_artifact_phase.xml",
+        "security/res_group/school_distinctive_program.xml",
+        "security/res_group/school_distinctive_program_component.xml",
+        "security/res_group/school_graduate_profile.xml",
+        "security/ir_model_access/school_learning_artifact.xml",
+        "security/ir_model_access/school_learning_artifact_area.xml",
+        "security/ir_model_access/school_learning_artifact_category.xml",
+        "security/ir_model_access/school_learning_artifact_dimension.xml",
+        "security/ir_model_access/school_learning_artifact_phase.xml",
+        "security/ir_model_access/school_distinctive_program.xml",
+        "security/ir_model_access/school_distinctive_program_component.xml",
+        "security/ir_model_access/school_graduate_profile.xml",
+        "security/ir_rule/school_learning_artifact.xml",
+        "ir_sequence/school_learning_artifact.xml",
+        "sequence_template/school_learning_artifact.xml",
+        "approval_template/school_learning_artifact.xml",
+        "policy_template/school_learning_artifact.xml",
+        "menu.xml",
+        "views/school.xml",
+        "views/school_learning_artifact_area.xml",
+        "views/school_learning_artifact_category.xml",
+        "views/school_learning_artifact_dimension.xml",
+        "views/school_learning_artifact_phase.xml",
+        "views/school_distinctive_program.xml",
+        "views/school_distinctive_program_component.xml",
+        "views/school_graduate_profile.xml",
+        "views/school_learning_artifact.xml",
+        "views/assets.xml",
+    ],
+}
