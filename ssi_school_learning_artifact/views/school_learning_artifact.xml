@@ -139,6 +139,30 @@
                 </page>
             </xpath>
             <xpath expr="//page[@name='reflection']" position="after">
+                <page name="consent" string="Parental Consent">
+                    <group name="consent_1" colspan="4" col="2">
+                        <group name="consent_left" colspan="1" col="2">
+                            <field name="inventory_consent" />
+                            <field name="assessment_consent" />
+                        </group>
+                        <group name="consent_right" colspan="1" col="2">
+                            <field name="publication_consent" />
+                            <field name="promotion_consent" />
+                        </group>
+                    </group>
+                    <group name="consent_limited" string="Limited Publication">
+                        <field
+                                name="limited_publication_student_ids"
+                                widget="many2many_tags"
+                            />
+                    </group>
+                    <group name="consent_refused" string="Refusing Publication">
+                        <field
+                                name="refused_publication_student_ids"
+                                widget="many2many_tags"
+                            />
+                    </group>
+                </page>
                 <page name="curation" string="Curation">
                     <group name="curation_1" colspan="4" col="2">
                         <group name="curation_left" colspan="1" col="2">

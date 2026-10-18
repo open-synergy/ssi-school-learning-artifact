@@ -4,6 +4,7 @@
 
 from . import (  # noqa: F401
     test_school_learning_artifact,
+    test_school_learning_artifact_consent,
     test_school_learning_artifact_curation,
     test_school_learning_artifact_master,
     test_ui_school_learning_artifact,
@@ -18,4 +19,6 @@ from . import (  # noqa: F401
     test_ui_school_distinctive_program,
     test_ui_school_distinctive_program_component,
     test_ui_school_graduate_profile,
+    test_ui_school_student,
+    test_ui_partner_consent_purpose,
 )

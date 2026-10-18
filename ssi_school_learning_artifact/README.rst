@@ -18,6 +18,14 @@ dimensions, phases, distinctive programs and their components, graduate
 profiles, curation rubrics, statuses and ethics reasons, the link prefix and
 the required fields - is configuration data, not module data.
 
+The module also keeps the parental consent of the students. The consent is
+recorded in the data privacy consent log of the contact of the student, once
+per student per school unit, as a full or a limited consent for four usages of
+an artifact: inventory, internal assessment, publication and promotion. Every
+artifact shows the strictest consent of its students per usage, and it cannot
+be submitted when a student refused the inventory consent (or has no inventory
+consent recorded, when the school requires it).
+
 
 Work Instruction
 ================
@@ -82,6 +90,16 @@ Graduate Profile
 ----------------
 
 * `Create Graduate Profile <docs/school_graduate_profile/01-create.html>`_
+
+Student
+-------
+
+* `Record Learning Artifact Consent <docs/school_student/01-record-learning-artifact-consent.html>`_
+
+Consent Purpose
+---------------
+
+* `Set Learning Artifact Usage on a Consent Purpose <docs/partner_consent_purpose/01-set-learning-artifact-usage.html>`_
 
 
 Installation

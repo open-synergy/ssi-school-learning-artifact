@@ -21,6 +21,37 @@ _OPEN_EDITABLE = {
     ],
 }
 
+_CONSENT_SELECTION = [
+    ("full", "Full"),
+    ("limited", "Limited"),
+    ("refused", "Refused"),
+    ("unknown", "Not Recorded"),
+]
+
+# Usages of an artifact that a data privacy consent purpose can cover.
+_CONSENT_USAGES = ("inventory", "assessment", "publication", "promotion")
+
+# The strictest consent of the students wins, in this order.
+_CONSENT_RANK = {
+    "full": 0,
+    "limited": 1,
+    "unknown": 2,
+    "refused": 3,
+}
+
+_CONSENT_DEPENDS = (
+    "school_id",
+    "student_ids",
+    "student_ids.contact_id",
+    "student_ids.contact_id.consent_ids",
+    "student_ids.contact_id.consent_ids.school_id",
+    "student_ids.contact_id.consent_ids.purpose_id",
+    "student_ids.contact_id.consent_ids.purpose_id.learning_artifact_usage",
+    "student_ids.contact_id.consent_ids.consent_type",
+    "student_ids.contact_id.consent_ids.consent_level",
+    "student_ids.contact_id.consent_ids.consent_date",
+)
+
 
 class SchoolLearningArtifact(models.Model):
     """
@@ -34,7 +65,10 @@ class SchoolLearningArtifact(models.Model):
     finishes the curation (Curated). An artifact whose curation status
     asks for a revision can be reopened a limited number of times. The
     workflow is Draft -> Confirm -> Approve -> Open -> Done, plus
-    Cancel from draft, confirm and reject. Every school specific choice
+    Cancel from draft, confirm and reject. The parental consent of the
+    students per usage is read from the data privacy consent log and
+    shown as the strictest consent of the students; a refused
+    inventory consent blocks the submission. Every school specific choice
     (areas, categories, dimensions, phases, distinctive programs,
     graduate profiles, link prefix and the required-field switches) is
     configuration data kept per school or per branch, never hard-coded
@@ -495,6 +529,72 @@ class SchoolLearningArtifact(models.Model):
         ),
     )
 
+    inventory_consent = fields.Selection(
+        string="Inventory Consent",
+        selection=_CONSENT_SELECTION,
+        compute="_compute_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "The strictest parental consent of the students of this "
+            "artifact to keep it in the inventory, of the school of the "
+            "artifact."
+        ),
+    )
+    assessment_consent = fields.Selection(
+        string="Assessment Consent",
+        selection=_CONSENT_SELECTION,
+        compute="_compute_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "The strictest parental consent of the students of this "
+            "artifact to assess it internally, of the school of the "
+            "artifact."
+        ),
+    )
+    publication_consent = fields.Selection(
+        string="Publication Consent",
+        selection=_CONSENT_SELECTION,
+        compute="_compute_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "The strictest parental consent of the students of this "
+            "artifact to publish it, of the school of the artifact."
+        ),
+    )
+    promotion_consent = fields.Selection(
+        string="Promotion Consent",
+        selection=_CONSENT_SELECTION,
+        compute="_compute_consent",
+        store=True,
+        compute_sudo=True,
+        help=(
+            "The strictest parental consent of the students of this "
+            "artifact to use it for promotion, of the school of the "
+            "artifact."
+        ),
+    )
+    limited_publication_student_ids = fields.Many2many(
+        string="Students With Limited Publication Consent",
+        comodel_name="school_student",
+        compute="_compute_publication_student_ids",
+        compute_sudo=True,
+        help=(
+            "The students who allow the publication of this artifact "
+            "only in a limited way. Check their preference before "
+            "publishing."
+        ),
+    )
+    refused_publication_student_ids = fields.Many2many(
+        string="Students Refusing Publication",
+        comodel_name="school_student",
+        compute="_compute_publication_student_ids",
+        compute_sudo=True,
+        help="The students who withdrew the consent to publish this artifact.",
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
         """Create artifacts and number them right away.
@@ -785,6 +885,110 @@ class SchoolLearningArtifact(models.Model):
             ("school_ids", "in", [self.school_id.id]),
         ]
 
+    @api.depends(*_CONSENT_DEPENDS)
+    def _compute_consent(self):
+        """Derive the parental consent of the artifact per usage.
+
+        For each usage the strictest consent of the students of the
+        artifact wins, in the order refused, not recorded, limited,
+        full. An artifact without students has no consent recorded.
+        """
+        for record in self:
+            result = record._get_consent_summary()
+            record.inventory_consent = result["inventory"]
+            record.assessment_consent = result["assessment"]
+            record.publication_consent = result["publication"]
+            record.promotion_consent = result["promotion"]
+
+    @api.depends(*_CONSENT_DEPENDS)
+    def _compute_publication_student_ids(self):
+        """List the students who limit or refuse the publication."""
+        for record in self:
+            limited = record._get_students_by_consent("publication", "limited")
+            refused = record._get_students_by_consent("publication", "refused")
+            record.limited_publication_student_ids = limited
+            record.refused_publication_student_ids = refused
+
+    def _get_consent_summary(self):
+        """Aggregate the consent of the students per usage.
+
+        :return: dictionary of the consent state of each usage
+        """
+        self.ensure_one()
+        result = dict.fromkeys(_CONSENT_USAGES, "unknown")
+        if self.student_ids:
+            student_states = [
+                self._get_student_consent_states(student)
+                for student in self.student_ids
+            ]
+            for usage in _CONSENT_USAGES:
+                result[usage] = max(
+                    (states[usage] for states in student_states),
+                    key=_CONSENT_RANK.get,
+                )
+        return result
+
+    def _get_students_by_consent(self, usage, state):
+        """Return the students of the artifact with a given consent.
+
+        :param usage: one of the usages of the artifact consent
+        :param state: ``full``, ``limited``, ``refused`` or ``unknown``
+        :return: ``school_student`` recordset
+        """
+        self.ensure_one()
+        return self.student_ids.filtered(
+            lambda r: self._get_student_consent_states(r)[usage] == state
+        )
+
+    def _get_student_consent_states(self, student):
+        """Return the latest consent of a student per usage.
+
+        Only the consents of the contact of the student for the school
+        of the artifact count. Per usage the latest consent event, by
+        consent date and then by id, decides: a granted consent is full
+        or limited by its level, a withdrawn consent is refused, and
+        no consent at all is not recorded.
+
+        :param student: the ``school_student`` to look up
+        :return: dictionary of the consent state of each usage
+        """
+        self.ensure_one()
+        result = dict.fromkeys(_CONSENT_USAGES, "unknown")
+        consents = (
+            self.env["res.partner.consent"]
+            .sudo()
+            .search(self._get_consent_criteria(student))
+        )
+        consents = consents.sorted(key=lambda r: (r.consent_date, r.id), reverse=True)
+        seen = set()
+        for consent in consents:
+            usage = consent.purpose_id.learning_artifact_usage
+            if usage in seen:
+                continue
+            seen.add(usage)
+            if consent.consent_type == "withdraw":
+                result[usage] = "refused"
+            elif consent.consent_level == "limited":
+                result[usage] = "limited"
+            else:
+                result[usage] = "full"
+        return result
+
+    def _get_consent_criteria(self, student):
+        """Build the search domain for the consents of a student.
+
+        Extension point: override to narrow the consents that count.
+
+        :param student: the ``school_student`` to look up
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        return [
+            ("partner_id", "=", student.contact_id.id),
+            ("school_id", "=", self.school_id.id),
+            ("purpose_id.learning_artifact_usage", "!=", False),
+        ]
+
     @api.onchange("school_id")
     def onchange_grade_class_id(self):
         self.grade_class_id = False
@@ -885,6 +1089,33 @@ class SchoolLearningArtifact(models.Model):
                 _("The Link must start with %s.") % prefix,
                 _("Correct the Link so that it starts with %s") % prefix,
             )
+
+    @ssi_decorator.pre_confirm_check()
+    def _40_check_submit_inventory_consent(self):
+        """Require the inventory consent of the students before submission.
+
+        Called by ``mixin.transaction_confirm`` before the artifact
+        moves to ``confirm``. A student who refused the inventory
+        consent always blocks the submission. A student without any
+        inventory consent recorded blocks it only when the school
+        switches that on.
+        """
+        self.ensure_one()
+        refused = self._get_students_by_consent("inventory", "refused")
+        if refused:
+            self._raise_submit_error(
+                _("%s refused the inventory consent")
+                % ", ".join(refused.mapped("name")),
+                _("Remove the student from the artifact"),
+            )
+        if self.school_id.learning_artifact_require_inventory_consent:
+            unknown = self._get_students_by_consent("inventory", "unknown")
+            if unknown:
+                self._raise_submit_error(
+                    _("%s has no inventory consent recorded")
+                    % ", ".join(unknown.mapped("name")),
+                    _("Record the inventory consent of the student"),
+                )
 
     def _raise_submit_error(self, problem, solution):
         """Raise the standard error of the submit checks.
