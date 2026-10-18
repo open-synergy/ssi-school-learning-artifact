@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_school_learning_artifact](ssi_school_learning_artifact/) | 14.0.1.2.0 |  | School Learning Artifact
+[ssi_school_learning_artifact](ssi_school_learning_artifact/) | 14.0.1.3.0 |  | School Learning Artifact
 
 [//]: # (end addons)
 
