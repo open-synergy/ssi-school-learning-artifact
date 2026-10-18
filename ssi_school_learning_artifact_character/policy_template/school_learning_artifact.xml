@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<!-- Character Tag: draft, confirm and open, validator group -->
+<record
+        id="policy_template_school_learning_artifact_character_tag"
+        model="policy.template_detail"
+    >
+    <field
+            name="template_id"
+            ref="ssi_school_learning_artifact.policy_template_school_learning_artifact"
+        />
+    <field
+            name="field_id"
+            search="[('model_id.model','=','school_learning_artifact'),('name','=','character_tag_ok')]"
+        />
+    <field name="restrict_state" eval="1" />
+    <field
+            name="state_ids"
+            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','in',['draft','confirm','open'])]"
+        />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+            name="group_ids"
+            eval="[(6,0,[ref('ssi_school_learning_artifact.school_learning_artifact_validator_group')])]"
+        />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+</odoo>

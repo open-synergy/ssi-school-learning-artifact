@@ -1,0 +1,720 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Character Tag Test"
+        code: "/"
+        sequence: 10
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Character Tag Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Character Tag Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Character Tag Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Character Tag Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+    - step: "Setup - create contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Student Contact for Character Tag Test"
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student"
+      values:
+        name: "Student for Character Tag Test"
+        code: "/"
+        contact_id: "REC: contact.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Character Tag Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Character Tag Test"
+        code: "/"
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Character Tag Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Character Tag Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+
+scenarios:
+  - name: "CRUD of the grade status lines inline on the indicator"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S1"
+          code: "CT-S1"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S1"
+          code: "SA-S1"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S1"
+          code: "SB-S1"
+          construct_id: "REC: construct.id"
+      - step: "Create second grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type_2"
+        values:
+          name: "Second Grade Type S1"
+          code: "/"
+          sequence: 20
+      - step: "Create indicator indicator"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator"
+        values:
+          name: "Indicator indicator S1"
+          code: "IND-indicator-S1"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type.id"
+                status: "effective"
+      - step: "Assert one line"
+        action: "assert"
+        target: "indicator"
+        asserts:
+          grade_status_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 1
+      - step: "Add a second line inline"
+        action: "write"
+        target: "indicator"
+        values:
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type_2.id"
+                status: "partial"
+      - step: "Assert two lines"
+        action: "assert"
+        target: "indicator"
+        asserts:
+          grade_status_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 2
+      - step: "Find the second line"
+        action: "search"
+        model: "school_character_indicator_grade_status"
+        save_as: "line_2"
+        domain:
+          - ["indicator_id", "=", "REC: indicator.id"]
+          - ["grade_type_id", "=", "REC: grade_type_2.id"]
+        limit: 1
+        expect_count: 1
+      - step: "Assert status of the second line"
+        action: "assert"
+        target: "line_2"
+        asserts:
+          status:
+            type: "value"
+            expected: "partial"
+      - step: "Write status of the second line"
+        action: "write"
+        target: "line_2"
+        values:
+          status: "not_effective"
+      - step: "Assert status after write"
+        action: "assert"
+        target: "line_2"
+        asserts:
+          status:
+            type: "value"
+            expected: "not_effective"
+      - step: "Unlink the second line"
+        action: "unlink"
+        target: "line_2"
+      - step: "Assert one line again"
+        action: "assert"
+        target: "indicator"
+        asserts:
+          grade_status_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 1
+  - name: "Two status lines of the same grade type are rejected"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S2"
+          code: "CT-S2"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S2"
+          code: "SA-S2"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S2"
+          code: "SB-S2"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator indicator"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator"
+        values:
+          name: "Indicator indicator S2"
+          code: "IND-indicator-S2"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type.id"
+                status: "effective"
+      - step: "Create a second line of the same grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator.id"
+          grade_type_id: "REC: grade_type.id"
+          status: "partial"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "already has a status"
+  - name: "Without status lines every active sub-construct can be tagged"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S3"
+          code: "CT-S3"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S3"
+          code: "SA-S3"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S3"
+          code: "SB-S3"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator indicator_a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator indicator_a S3"
+          code: "IND-indicator_a-S3"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Assert both sub-constructs are allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_subconstruct_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: sub_a"
+              - "REC: sub_b"
+  - name: "Status lines narrow the sub-constructs to effective and partial indicators"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S4"
+          code: "CT-S4"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S4"
+          code: "SA-S4"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S4"
+          code: "SB-S4"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator indicator_a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator indicator_a S4"
+          code: "IND-indicator_a-S4"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type.id"
+                status: "partial"
+      - step: "Create indicator indicator_b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator indicator_b S4"
+          code: "IND-indicator_b-S4"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type.id"
+                status: "not_effective"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Assert only the sub-construct a is allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_subconstruct_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: sub_a"
+  - name: "A grade type without status lines is not filtered"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S5"
+          code: "CT-S5"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S5"
+          code: "SA-S5"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S5"
+          code: "SB-S5"
+          construct_id: "REC: construct.id"
+      - step: "Create other grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type_other"
+        values:
+          name: "Other Grade Type S5"
+          code: "/"
+          sequence: 30
+      - step: "Create indicator indicator_a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator indicator_a S5"
+          code: "IND-indicator_a-S5"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type_other.id"
+                status: "partial"
+      - step: "Create indicator indicator_b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator indicator_b S5"
+          code: "IND-indicator_b-S5"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
+          grade_status_ids:
+            - - 0
+              - 0
+              - grade_type_id: "REC: grade_type_other.id"
+                status: "not_effective"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Assert both sub-constructs are allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_subconstruct_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: sub_a"
+              - "REC: sub_b"
+  - name: "A refused assessment consent does not block the character tag"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S6"
+          code: "CT-S6"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S6"
+          code: "SA-S6"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S6"
+          code: "SB-S6"
+          construct_id: "REC: construct.id"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full assessment consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_assessment.id"
+          consent_type: "grant"
+          consent_level: "full"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+      - step: "Withdraw assessment consent later"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_assessment.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+      - step: "Assert the assessment consent is refused"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          assessment_consent:
+            type: "value"
+            expected: "refused"
+      - step: "Tag the artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          primary_subconstruct_id: "REC: sub_a.id"
+          secondary_subconstruct_id: "REC: sub_b.id"
+      - step: "Assert the tags are saved"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          primary_subconstruct_id:
+            type: "m2o"
+            expected: "REC: sub_a"
+          secondary_subconstruct_id:
+            type: "m2o"
+            expected: "REC: sub_b"
+  - name: "Not clearly evident forbids the dominant tag"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S7"
+          code: "CT-S7"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S7"
+          code: "SA-S7"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S7"
+          code: "SB-S7"
+          construct_id: "REC: construct.id"
+      - step: "Create artifact with tag and not evident mark"
+        action: "create"
+        model: "school_learning_artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity rejected"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+          primary_subconstruct_id: "REC: sub_a.id"
+          character_not_evident: true
+        expect_error:
+          type: "ValidationError"
+          message_contains: "not clearly evident"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity not evident"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Mark the artifact as not clearly evident"
+        action: "write"
+        target: "artifact"
+        values:
+          character_not_evident: true
+      - step: "Assert the mark is saved"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          character_not_evident:
+            type: "value"
+            expected: true
+      - step: "Add the dominant tag to the marked artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          primary_subconstruct_id: "REC: sub_a.id"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "not clearly evident"
+  - name: "Only the validator group can fill in the tags of a draft artifact"
+    steps:
+      - step: "Create user with the user group only"
+        action: "create"
+        model: "res.users"
+        save_as: "plain_user"
+        values:
+          name: "Character Tester plain user"
+          login: "character.plain@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+      - step: "Create artifact artifact_validator"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_validator"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity validator"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create artifact artifact_plain"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_plain"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity plain"
+          media_type: "photo"
+          user_id: "REC: plain_user.id"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Assert the validator can tag a draft artifact"
+        action: "assert"
+        target: "artifact_validator"
+        as_user: "base.user_admin"
+        asserts:
+          character_tag_ok:
+            type: "value"
+            expected: true
+      - step: "Assert the user group alone cannot tag a draft artifact"
+        action: "assert"
+        target: "artifact_plain"
+        as_user: "plain_user"
+        asserts:
+          character_tag_ok:
+            type: "value"
+            expected: false
