@@ -165,7 +165,7 @@ msgstr "Tingkat Pencapaian"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction
 msgid "Action Needed"
-msgstr "Tindakan Diperlukan"
+msgstr "Perlu Tindakan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__active
@@ -384,9 +384,9 @@ msgid ""
 "\n"
 "* If active user can see and execute 'Approve' button"
 msgstr ""
-"Kebijakan persetujuan\n"
+"Kebijakan setujui\n"
 "\n"
-"* Jika pengguna aktif dapat melihat dan mengeksekusi tombol 'Setujui'"
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Setujui'"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approved
@@ -527,7 +527,7 @@ msgstr "Dapat Diselesaikan"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__manual_number_ok
 msgid "Can Input Manual Document Number"
-msgstr "Dapat Mengisi Nomor Dokumen Manual"
+msgstr "Dapat Memasukkan Nomor Dokumen Manual"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__reject_ok
@@ -561,7 +561,7 @@ msgid ""
 "\n"
 "* If active user can see and execute 'Cancel' button"
 msgstr ""
-"Kebijakan pembatalan\n"
+"Kebijakan batal\n"
 "\n"
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Batal'"
 
@@ -591,7 +591,7 @@ msgstr "Centang bila konten siap didistribusikan."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__consent_reviewed
 msgid "Checked when a reviewer examined the limited consent."
-msgstr "Dicentang bila peninjau telah memeriksa izin terbatas."
+msgstr "Dicentang bila pemeriksa telah memeriksa izin terbatas."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_consent_ok
@@ -668,7 +668,7 @@ msgstr "Mitra Perusahaan"
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_company_child_group
 msgid "Company and All Child Companies"
-msgstr "Perusahaan dan Semua Perusahaan Turunan"
+msgstr "Perusahaan dan Semua Anak Perusahaan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__company_id
@@ -678,7 +678,7 @@ msgid ""
 "* Automatically filled with user's company.\n"
 "  Default company can be changed"
 msgstr ""
-"Perusahaan yang memiliki dokumen\n"
+"Perusahaan pemilik dokumen\n"
 "\n"
 "* Otomatis diisi dengan perusahaan pengguna.\n"
 "  Perusahaan default dapat diubah"
@@ -712,7 +712,7 @@ msgid ""
 msgstr ""
 "Kebijakan konfirmasi\n"
 "\n"
-"* Jika pengguna aktif dapat melihat dan mengeksekusi tombol 'Konfirmasi'"
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Konfirmasi'"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__consent_level
@@ -936,7 +936,7 @@ msgid ""
 "Display and selection order. When several profiles cover the same grade, the "
 "lowest sequence is chosen."
 msgstr ""
-"Urutan tampilan dan pemilihan. Bila beberapa profil mencakup tingkat kelas "
+"Urutan tampilan dan pemilihan. Bila beberapa profil mencakup tingkat "
 "yang sama, urutan terendah yang dipilih."
 
 #. module: ssi_school_learning_artifact
@@ -978,9 +978,9 @@ msgid ""
 "\n"
 "* If active user can see and execute 'Done' button"
 msgstr ""
-"Kebijakan Selesai\n"
+"Kebijakan selesai\n"
 "\n"
-"* Jika aktif, pengguna dapat melihat dan mengeksekusi tombol 'Selesai'"
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Selesai'"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__eligible
@@ -1125,7 +1125,7 @@ msgstr "Pengikut (Mitra)"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__activity_type_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Ikon Font Awesome mis. fa-tasks"
+msgstr "Ikon Font Awesome, misalnya fa-tasks"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__forbid_creator_assessment
@@ -1145,17 +1145,17 @@ msgstr "Penuh"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_id
 msgid "Grade"
-msgstr "Tingkat Kelas"
+msgstr "Tingkat"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_type_id
 msgid "Grade Type"
-msgstr "Jenjang Kelas"
+msgstr "Jenis Tingkat"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
 msgid "Grades"
-msgstr "Tingkat Kelas"
+msgstr "Tingkat"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__graduate_profile_id
@@ -1176,7 +1176,7 @@ msgstr "Profil Lulusan"
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_status_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "Group By"
-msgstr "Kelompokkan Menurut"
+msgstr "Kelompokkan Berdasarkan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school__showcase_consent_reviewer_group_id
@@ -1287,7 +1287,7 @@ msgstr "Ikon"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__activity_exception_icon
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Ikon untuk menunjukkan aktivitas pengecualian."
+msgstr "Ikon untuk menandai aktivitas pengecualian."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school__learning_artifact_require_inventory_consent
@@ -1399,7 +1399,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Jika dicentang, beberapa pesan memiliki kesalahan pengiriman."
+msgstr "Jika dicentang, beberapa pesan mengalami kesalahan pengiriman."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__fold
@@ -1787,9 +1787,9 @@ msgid ""
 "\n"
 "* If active user can edit document number"
 msgstr ""
-"Kebijakan penetapan nomor manual\n"
+"Kebijakan penomoran manual\n"
 "\n"
-"* Jika aktif, pengguna dapat mengedit nomor dokumen"
+"* Jika aktif, pengguna dapat mengubah nomor dokumen"
 
 #. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
@@ -1819,9 +1819,9 @@ msgid ""
 msgstr ""
 "Status data master\n"
 "\n"
-"* Data tidak aktif tidak dapat dipilih saat membuat transaksi baru\n"
-"* Transaksi dengan data master tidak aktif masih dapat dilihat\n"
-"* Setel data master menjadi tidak aktif jika data master tidak lagi "
+"* Data nonaktif tidak dapat dipilih saat membuat transaksi baru\n"
+"* Transaksi dengan data master nonaktif tetap dapat dilihat\n"
+"* Atur data master sebagai nonaktif jika data master tidak lagi "
 "diperlukan,\n"
 "tetapi data master sudah digunakan pada transaksi"
 
@@ -1846,11 +1846,11 @@ msgid ""
 "  Sequence template mush be set to perform this action\n"
 "  Only master data with '/' code will be assign automatic code"
 msgstr ""
-"Pengidentifikasi unik data master.\n"
+"Pengenal unik data master.\n"
 "\n"
-"* Isi dengan '/' jika Anda tidak memerlukan pengidentifikasi unik\n"
+"* Isi dengan '/' jika Anda tidak memerlukan pengenal unik\n"
 "* Klik tombol 'Buat Kode' untuk menetapkan kode secara otomatis.\n"
-"  Template penomoran harus disetel untuk melakukan tindakan ini\n"
+"  Templat urutan harus diatur untuk menjalankan tindakan ini\n"
 "  Hanya data master dengan kode '/' yang akan diberi kode otomatis"
 
 #. module: ssi_school_learning_artifact
@@ -2130,7 +2130,7 @@ msgstr "Jumlah Tindakan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error_counter
 msgid "Number of errors"
-msgstr "Jumlah kesalahan"
+msgstr "Jumlah galat"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__message_needaction_counter
@@ -2393,9 +2393,9 @@ msgid ""
 "\n"
 "* If active user can see and execute 'Reject' button"
 msgstr ""
-"Kebijakan penolakan\n"
+"Kebijakan tolak\n"
 "\n"
-"* Jika pengguna aktif dapat melihat dan mengeksekusi tombol 'Tolak'"
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Tolak'"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
@@ -2452,7 +2452,7 @@ msgstr "Penanggung Jawab"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__activity_user_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__activity_user_id
 msgid "Responsible User"
-msgstr "Pengguna yang Bertanggung Jawab"
+msgstr "Pengguna Penanggung Jawab"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__restart_approval_ok
@@ -2463,7 +2463,7 @@ msgid ""
 msgstr ""
 "Kebijakan mulai ulang persetujuan\n"
 "\n"
-"* Jika pengguna aktif dapat melihat dan mengeksekusi tombol 'Mulai Ulang "
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Mulai Ulang "
 "Persetujuan'"
 
 #. module: ssi_school_learning_artifact
@@ -2793,7 +2793,7 @@ msgstr "Izin Etalase OK"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_consent_reviewer_group_id
 msgid "Showcase Consent Reviewer Group"
-msgstr "Grup Peninjau Izin Etalase"
+msgstr "Grup Pemeriksa Izin Etalase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_exclude_refused_member
@@ -2834,7 +2834,7 @@ msgid ""
 msgstr ""
 "Kebijakan mulai\n"
 "\n"
-"* Jika aktif, pengguna dapat melihat dan mengeksekusi tombol 'Mulai'"
+"* Jika aktif, pengguna dapat melihat dan menekan tombol 'Mulai'"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__state
@@ -2867,9 +2867,9 @@ msgid ""
 "Planned: Future activities."
 msgstr ""
 "Status berdasarkan aktivitas\n"
-"Terlambat: Tanggal jatuh tempo telah berlalu\n"
-"Hari ini: Tanggal aktivitas adalah hari ini\n"
-"Direncanakan: Aktivitas di masa depan."
+"Terlambat: Batas waktu sudah lewat\n"
+"Hari Ini: Tanggal aktivitas hari ini\n"
+"Terjadwal: Aktivitas mendatang."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__ethics_fail_status_id
@@ -3049,23 +3049,23 @@ msgid ""
 "The first active graduate profile, by sequence, that covers the grade of the "
 "class. Filled automatically."
 msgstr ""
-"Profil lulusan aktif pertama, menurut urutan, yang mencakup tingkat kelas "
+"Profil lulusan aktif pertama, menurut urutan, yang mencakup tingkat "
 "dari kelas tersebut. Diisi otomatis."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_id
 msgid "The grade level of the selected class, filled automatically."
-msgstr "Tingkat kelas dari kelas yang dipilih, diisi otomatis."
+msgstr "Tingkat dari kelas yang dipilih, diisi otomatis."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_type_id
 msgid "The grade type of the selected class, filled automatically."
-msgstr "Jenjang kelas dari kelas yang dipilih, diisi otomatis."
+msgstr "Jenis tingkat dari kelas yang dipilih, diisi otomatis."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
 msgid "The grades covered by this graduate profile."
-msgstr "Tingkat kelas yang dicakup oleh profil lulusan ini."
+msgstr "Tingkat yang dicakup oleh profil lulusan ini."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_class_id
@@ -3367,11 +3367,11 @@ msgstr ""
 "\n"
 "* Pengenal unik transaksi\n"
 "* Biarkan '/' untuk menghasilkan nomor secara otomatis\n"
-"* Ubah '/' menjadi nomor/pengenal apa pun untuk menetapkan nomor secara "
-"manual.\n"
-"  Penetapan nomor manual dapat dilakukan pada status 'Draft'\n"
-"  Hanya pengguna dengan kebijakan 'Dapat Menetapkan Nomor Manual' yang dapat "
-"menetapkan nomor secara manual.\n"
+"* Ubah '/' menjadi nomor/pengenal apa pun untuk menetapkan nomor "
+"secara manual.\n"
+"  Penetapan nomor manual dapat dilakukan dalam status 'Draf'\n"
+"  Hanya pengguna dengan kebijakan 'Dapat Memasukkan Nomor Dokumen "
+"Manual' yang dapat menetapkan nomor secara manual.\n"
 "* Transaksi dengan nomor selain '/' tidak dapat dihapus."
 
 #. module: ssi_school_learning_artifact
@@ -3389,7 +3389,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__activity_exception_decoration
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Jenis aktivitas pengecualian pada catatan."
+msgstr "Jenis aktivitas pengecualian yang tercatat."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_unread
@@ -3406,7 +3406,7 @@ msgstr "Jenis aktivitas pengecualian pada catatan."
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread
 msgid "Unread Messages"
-msgstr "Pesan Belum Dibaca"
+msgstr "Pesan yang Belum Dibaca"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_unread_counter
@@ -3423,7 +3423,7 @@ msgstr "Pesan Belum Dibaca"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr "Penghitung Pesan Belum Dibaca"
+msgstr "Penghitung Pesan yang Belum Dibaca"
 
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_user_group
@@ -3441,9 +3441,9 @@ msgid ""
 msgstr ""
 "Pengguna yang bertanggung jawab atas dokumen\n"
 "\n"
-"* Pembuat dapat berbeda dengan penanggung jawab\n"
+"* Pengguna pembuat dapat berbeda dengan pengguna penanggung jawab\n"
 "* Otomatis diisi dengan pengguna yang memulai pembuatan dokumen.\n"
-"  Penanggung jawab default dapat diubah."
+"  Penanggung jawab bawaan dapat diubah."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__reviewer_id
@@ -3452,9 +3452,10 @@ msgid ""
 "\n"
 "* Unless it configured to approve reviewer does not equal to approver"
 msgstr ""
-"Pengguna yang bertanggung jawab meninjau dokumen\n"
+"Pengguna yang bertanggung jawab memeriksa dokumen\n"
 "\n"
-"* Kecuali dikonfigurasi, peninjau tidak sama dengan penyetuju"
+"* Kecuali dikonfigurasi untuk menyetujui, pemeriksa tidak sama dengan "
+"penyetuju"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_user_ids
@@ -3474,7 +3475,7 @@ msgstr "Video"
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_viewer_group
 msgid "Viewer"
-msgstr "Pembaca"
+msgstr "Penampil"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__website_message_ids
@@ -3518,8 +3519,8 @@ msgid ""
 "consent as reviewed."
 msgstr ""
 "Yang terjadi pada artefak dengan izin publikasi terbatas. Blokir "
-"menjauhkannya dari etalase. Tugas Tinjauan memasukkannya setelah peninjau "
-"menandai izin sebagai telah ditinjau."
+"menjauhkannya dari etalase. Tugas Tinjauan memasukkannya setelah "
+"pemeriksa menandai izin sebagai telah ditinjau."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
@@ -3574,7 +3575,7 @@ msgstr "Anda tidak diizinkan memindahkan artefak ke %s"
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "You are not allowed to review the consent"
-msgstr "Anda tidak diizinkan meninjau izin"
+msgstr "Anda tidak diizinkan memeriksa izin"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
