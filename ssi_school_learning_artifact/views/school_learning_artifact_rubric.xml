@@ -32,17 +32,17 @@
                 <field name="ethics_fail_status_id" />
                 <field name="knockout_status_id" />
                 <field name="max_revision" />
-                <field name="ethics_assessor_group_ids" widget="many2many_tags" />
                 <field name="require_distinct_assessors" />
                 <field name="forbid_creator_assessment" />
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page name="criterion" string="Aspects">
                     <field name="criterion_ids" nolabel="1">
-                        <tree editable="bottom">
+                        <tree>
                             <field name="sequence" widget="handle" />
                             <field name="code" />
                             <field name="name" />
+                            <field name="aspect_type" />
                             <field name="min_score" />
                             <field name="max_score" />
                             <field name="knockout_score" />
@@ -54,15 +54,49 @@
                                 <field name="sequence" />
                                 <field name="code" />
                                 <field name="name" />
+                                <field name="aspect_type" />
                                 <field name="description" />
                                 <field name="min_score" />
                                 <field name="max_score" />
-                                <field name="knockout_score" />
+                                <field
+                                        name="knockout_score"
+                                        attrs="{'invisible': [('aspect_type', '=', 'gate')]}"
+                                    />
                                 <field name="assessor_slot" />
                                 <field
                                         name="assessor_group_ids"
                                         widget="many2many_tags"
                                     />
+                            </group>
+                            <group name="criterion_level_group" string="Levels">
+                                <field name="level_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="name" />
+                                        <field
+                                                name="score"
+                                                attrs="{'invisible': [('parent.aspect_type', '=', 'gate')]}"
+                                            />
+                                        <field
+                                                name="is_fail"
+                                                attrs="{'invisible': [('parent.aspect_type', '!=', 'gate')]}"
+                                            />
+                                    </tree>
+                                    <form>
+                                        <group name="level_group" colspan="4" col="2">
+                                            <field name="sequence" />
+                                            <field name="name" />
+                                            <field
+                                                    name="score"
+                                                    attrs="{'invisible': [('parent.aspect_type', '=', 'gate')]}"
+                                                />
+                                            <field
+                                                    name="is_fail"
+                                                    attrs="{'invisible': [('parent.aspect_type', '!=', 'gate')]}"
+                                                />
+                                        </group>
+                                    </form>
+                                </field>
                             </group>
                         </form>
                     </field>

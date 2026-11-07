@@ -9,3 +9,4 @@ odoo14-addon-ssi-partner-data-privacy-consent
 odoo14-addon-ssi-school-character
 odoo14-addon-ssi-school-operating-unit
 odoo14-addon-ssi-operating-unit-mixin
+openupgradelib

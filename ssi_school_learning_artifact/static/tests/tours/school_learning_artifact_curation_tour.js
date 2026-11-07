@@ -122,28 +122,51 @@ odoo.define(
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
 
-                    // Flow 5 -- Select the Ethics Result.
+                    // Flow 5 -- Pick the level of the ethics gate row.
+                    // 14.0 list cells carry no name attribute; the columns of the
+                    // Scores table are Aspect, Level, Level Text, Score, Assessor,
+                    // Scored On, so the Level cell is the second one (index 1).
                     {
-                        content: "Select the Ethics Result",
-                        trigger: "select.o_field_widget[name='ethics_result']",
+                        content: "Click the Level cell of the ethics gate row",
+                        trigger:
+                            ".o_data_row:contains(TOUR LC Ethics Gate) .o_data_cell:eq(1)",
                         extra_trigger: ".o_form_view.o_form_editable",
-                        run: "text Pass",
+                    },
+                    {
+                        content: "Type the level of the ethics gate",
+                        trigger:
+                            ".o_selected_row .o_field_many2one[name='level_id'] input",
+                        run: "text TOUR LC Gate Pass",
+                    },
+                    {
+                        content: "Pick the level of the ethics gate",
+                        trigger:
+                            ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Gate Pass)",
                     },
 
-                    // Flow 6 -- Enter the score of the aspect row.
-                    // 14.0 list cells carry no name attribute; the columns of the
-                    // Scores table are Aspect, Score, Assessor, Scored On, so the
-                    // Score cell is the second one (index 1).
+                    // Flow 6 -- Pick the level of the scored aspect row.
                     {
-                        content: "Click the Score cell of the aspect row",
+                        content: "Click the Level cell of the aspect row",
                         trigger:
                             ".o_data_row:contains(TOUR Aspect One) .o_data_cell:eq(1)",
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                     {
-                        content: "Enter the score",
-                        trigger: ".o_selected_row .o_field_widget[name='score']",
-                        run: "text 3",
+                        // The gate answer triggers an onchange of the artifact that
+                        // re-renders the form; typing before it returns loses the
+                        // text. Ethics Result is a read-only field that carries the
+                        // raw value, so Pass tells that the onchange is back.
+                        content: "Type the level of the aspect",
+                        trigger:
+                            ".o_selected_row:contains(TOUR Aspect One) .o_field_many2one[name='level_id'] input",
+                        extra_trigger:
+                            ".o_field_widget[name='ethics_result'][raw-value='pass']",
+                        run: "text TOUR LC Level Three",
+                    },
+                    {
+                        content: "Pick the level of the aspect",
+                        trigger:
+                            ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Level Three)",
                     },
 
                     // Flow 7 -- Click Save.
@@ -154,6 +177,16 @@ odoo.define(
                     {
                         content: "Record is saved",
                         trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        // The Level Text cell (index 2) shows the whole text of the
+                        // picked level, down to its last words.
+                        content: "Level Text shows the whole level text",
+                        trigger:
+                            ".o_data_row:contains(TOUR Aspect One) .o_data_cell:eq(2):contains(END-OF-LEVEL-TEXT)",
                         run: function () {
                             // Assertion only.
                         },

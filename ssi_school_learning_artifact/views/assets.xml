@@ -51,10 +51,6 @@
             />
             <script
                 type="text/javascript"
-                src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_ethics_reason_tour.js"
-            />
-            <script
-                type="text/javascript"
                 src="/ssi_school_learning_artifact/static/tests/tours/school_learning_artifact_rubric_tour.js"
             />
             <script

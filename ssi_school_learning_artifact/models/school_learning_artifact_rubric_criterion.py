@@ -2,15 +2,17 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SchoolLearningArtifactRubricCriterion(
     models.Model
 ):  # pylint: disable=too-few-public-methods
     """
-    Represents one scored aspect of a rubric: its score range, the
-    knockout score and the groups allowed to score it.
+    Represents one aspect of a rubric: either a scored aspect or an
+    ethics gate aspect. The aspect lists the levels that the assessor
+    can pick; the score range follows from those levels. It also holds
+    the knockout score and the groups allowed to assess it.
     """
 
     _name = "school_learning_artifact_rubric_criterion"
@@ -43,22 +45,46 @@ class SchoolLearningArtifactRubricCriterion(
         string="Description",
         help="Explanation of how to score the aspect.",
     )
+    aspect_type = fields.Selection(
+        string="Aspect Type",
+        selection=[
+            ("score", "Scored Aspect"),
+            ("gate", "Ethics Gate"),
+        ],
+        default="score",
+        required=True,
+        help=(
+            "A scored aspect gives a score to the total. An ethics "
+            "gate aspect passes or fails the artifact."
+        ),
+    )
+    level_ids = fields.One2many(
+        string="Levels",
+        comodel_name="school_learning_artifact_rubric_criterion_level",
+        inverse_name="criterion_id",
+        help="The levels that the assessor can pick for this aspect.",
+    )
     min_score = fields.Integer(
         string="Minimum Score",
-        default=1,
-        help="Lowest score that can be given to this aspect.",
+        compute="_compute_min_score",
+        store=True,
+        compute_sudo=True,
+        help="Lowest score among the levels of this aspect.",
     )
     max_score = fields.Integer(
         string="Maximum Score",
-        default=3,
-        help="Highest score that can be given to this aspect.",
+        compute="_compute_max_score",
+        store=True,
+        compute_sudo=True,
+        help="Highest score among the levels of this aspect.",
     )
     knockout_score = fields.Integer(
         string="Knockout Score",
         default=0,
         help=(
             "A score at or below this value knocks the artifact out. "
-            "Zero means the aspect never knocks out."
+            "Zero means the aspect never knocks out. It is ignored by "
+            "an ethics gate aspect."
         ),
     )
     assessor_slot = fields.Selection(
@@ -69,7 +95,7 @@ class SchoolLearningArtifactRubricCriterion(
         ],
         default="primary",
         required=True,
-        help="Which assessor slot scores this aspect.",
+        help="Which assessor slot assesses this aspect.",
     )
     assessor_group_ids = fields.Many2many(
         string="Assessor Groups",
@@ -78,7 +104,33 @@ class SchoolLearningArtifactRubricCriterion(
         column1="criterion_id",
         column2="group_id",
         help=(
-            "Groups allowed to score this aspect. Leave empty to let "
+            "Groups allowed to assess this aspect. Leave empty to let "
             "every user with access do it."
         ),
     )
+
+    @api.depends("level_ids.score")
+    def _compute_min_score(self):
+        """Take the lowest score among the levels of the aspect.
+
+        The result is zero for an aspect without levels.
+        """
+        for record in self:
+            result = 0
+            scores = record.level_ids.mapped("score")
+            if scores:
+                result = min(scores)
+            record.min_score = result
+
+    @api.depends("level_ids.score")
+    def _compute_max_score(self):
+        """Take the highest score among the levels of the aspect.
+
+        The result is zero for an aspect without levels.
+        """
+        for record in self:
+            result = 0
+            scores = record.level_ids.mapped("score")
+            if scores:
+                result = max(scores)
+            record.max_score = result

@@ -168,9 +168,43 @@ setup:
             - sequence: 10
               code: "A1"
               name: "Aspect A1"
-              max_score: 3
+              aspect_type: "score"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    score: 1
+                    name: "Level 1"
+                - - 0
+                  - 0
+                  - sequence: 20
+                    score: 2
+                    name: "Level 2"
+                - - 0
+                  - 0
+                  - sequence: 30
+                    score: 3
+                    name: "Level 3"
               knockout_score: 0
               assessor_slot: "primary"
+          - - 0
+            - 0
+            - sequence: 90
+              code: "EG"
+              name: "Ethics Gate"
+              aspect_type: "gate"
+              assessor_slot: "secondary"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    name: "Pass"
+                    is_fail: false
+                - - 0
+                  - 0
+                  - sequence: 20
+                    name: "Fail"
+                    is_fail: true
         threshold_ids:
           - - 0
             - 0
@@ -373,11 +407,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -385,11 +441,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -454,11 +523,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -466,11 +557,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -541,11 +645,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -553,11 +679,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 1 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 1],
+          ]
+        save_as: "lvl_score_artifact_1"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 1
+          level_id: "REC: lvl_score_artifact_1.id"
+
       - step: "Recommend on artifact"
         action: "write"
         target: "artifact"
@@ -636,11 +775,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -648,11 +809,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -751,11 +925,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -763,11 +959,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -931,11 +1140,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -943,11 +1174,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -1039,11 +1283,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -1051,11 +1317,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -1159,11 +1438,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -1171,11 +1472,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"
@@ -1300,11 +1614,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
-      - step: "Ethics pass artifact"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass"
         action: "write"
-        target: "artifact"
+        target: "gate_artifact"
         values:
-          ethics_result: "pass"
+          level_id: "REC: gate_artifact_lvl.id"
+
       - step: "Find score of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -1312,11 +1648,24 @@ scenarios:
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         limit: 1
         expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+
       - step: "Score artifact"
         action: "write"
         target: "score_artifact"
         values:
-          score: 3
+          level_id: "REC: lvl_score_artifact_3.id"
+
       - step: "Done artifact"
         action: "call"
         target: "artifact"

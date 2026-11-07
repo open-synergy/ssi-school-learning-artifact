@@ -685,3 +685,115 @@ scenarios:
               learning_area_id:
                 type: "value"
                 operator: "is_falsy"
+
+  - name: "Phase required but no phase applies to the school"
+    steps:
+      - step: "Require phase on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_phase: true
+
+      - step: "Create artifact without phase"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Not Applicable Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert no phase applies"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+      - step: "Submit without phase"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+  - name: "Phase required and a phase applies to the school"
+    steps:
+      - step: "Require phase on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_phase: true
+
+      - step: "Create phase of the school"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase"
+        values:
+          name: "Phase for Required Test"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+
+      - step: "Create artifact without phase"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Applicable Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert one phase applies"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 1
+
+      - step: "Submit without phase is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Phase is empty"
+
+      - step: "Pick the phase"
+        action: "write"
+        target: "artifact"
+        values:
+          phase_id: "REC: phase.id"
+
+      - step: "Submit with the phase"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
