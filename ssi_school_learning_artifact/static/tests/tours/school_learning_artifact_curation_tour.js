@@ -152,9 +152,15 @@ odoo.define(
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                     {
+                        // The gate answer triggers an onchange of the artifact that
+                        // re-renders the form; typing before it returns loses the
+                        // text. Ethics Result is a read-only field that carries the
+                        // raw value, so Pass tells that the onchange is back.
                         content: "Type the level of the aspect",
                         trigger:
-                            ".o_selected_row .o_field_many2one[name='level_id'] input",
+                            ".o_selected_row:contains(TOUR Aspect One) .o_field_many2one[name='level_id'] input",
+                        extra_trigger:
+                            ".o_field_widget[name='ethics_result'][raw-value='pass']",
                         run: "text TOUR LC Level Three",
                     },
                     {

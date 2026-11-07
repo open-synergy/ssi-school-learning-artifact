@@ -186,6 +186,9 @@ Solution: Finish the curation without scores or change the gate answer
         picked = records.filtered("level_id")
         picked._check_assessor()
         picked._check_ethics_lock()
+        # Compute the score now: it must be taken from the level as it is
+        # at this moment, not at a later flush after the level was edited.
+        picked.sudo().read(["score"])
         return records
 
     def write(self, vals):
@@ -214,4 +217,8 @@ Solution: Finish the curation without scores or change the gate answer
                     assessor_id=False,
                     date_score=False,
                 )
-        return super().write(vals)
+        result = super().write(vals)
+        if vals.get("level_id"):
+            # Compute the score now, before the level can be edited.
+            self.sudo().read(["score"])
+        return result

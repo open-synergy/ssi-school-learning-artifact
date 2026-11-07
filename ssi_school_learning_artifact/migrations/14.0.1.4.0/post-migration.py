@@ -224,11 +224,11 @@ def _create_gate_rows(cr):
     has_reason = openupgrade.column_exists(
         cr, T_ARTIFACT, "ethics_reason_id"
     ) and openupgrade.table_exists(cr, T_REASON)
-    assessor = "a.ethics_assessor_id" if has_assessor else "NULL"
+    assessor = "a.ethics_assessor_id" if has_assessor else "NULL::integer"
     reason_join = (
         "LEFT JOIN %s r ON r.id = a.ethics_reason_id" % T_REASON if has_reason else ""
     )
-    reason_name = "r.name" if has_reason else "NULL"
+    reason_name = "r.name" if has_reason else "NULL::varchar"
     rows = openupgrade.logged_query(
         cr,
         """
