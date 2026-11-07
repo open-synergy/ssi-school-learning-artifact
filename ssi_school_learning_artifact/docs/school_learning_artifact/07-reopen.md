@@ -26,6 +26,7 @@
 ## Post-Condition
 
 - Status returns to **Draft**, so the artifact can be improved and submitted again.
-- **Revision Count** increases by one. The scores and the curation notes are kept.
+- **Revision Count** increases by one. The answered levels, the scores and the curation
+  notes are kept.
 - If the category is not **Needs Revision** or the revision limit is reached, the
   **Restart** button is not available.

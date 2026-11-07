@@ -69,10 +69,11 @@ class SchoolLearningArtifact(models.Model):
     students. A teacher records the artifact (Draft), submits it for
     curation (Waiting for Approval), may withdraw it again with Restart
     while the curator has not started yet, and the curator starts the
-    curation by approving it (On Progress). The curator then fills in
-    the ethics gate and the scores of the rubric of the school, and
-    finishes the curation (Curated). An artifact whose curation status
-    asks for a revision can be reopened a limited number of times. The
+    curation by approving it (On Progress). The curator then picks a
+    level for every ethics gate aspect and every scored aspect of the
+    rubric of the school, and finishes the curation (Curated). An
+    artifact whose curation status asks for a revision can be reopened
+    a limited number of times. The
     workflow is Draft -> Confirm -> Approve -> Open -> Done, plus
     Cancel from draft, confirm and reject. The parental consent of the
     students per usage is read from the data privacy consent log and
@@ -428,35 +429,22 @@ class SchoolLearningArtifact(models.Model):
             ("pass", "Pass"),
             ("fail", "Fail"),
         ],
-        readonly=True,
-        states=_OPEN_EDITABLE,
+        compute="_compute_ethics_result",
+        store=True,
+        compute_sudo=True,
         help=(
-            "Result of the ethics gate. It is required to finish the "
-            "curation, and a failed gate gives the ethics fail status "
-            "of the rubric."
+            "Result of the ethics gate, derived from the levels picked "
+            "for the ethics gate aspects. One failing level fails the "
+            "gate, which gives the ethics fail status of the rubric. "
+            "It stays empty until every gate aspect is answered."
         ),
-    )
-    ethics_reason_id = fields.Many2one(
-        string="Ethics Reason",
-        comodel_name="school_learning_artifact_ethics_reason",
-        ondelete="restrict",
-        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
-        readonly=True,
-        states=_OPEN_EDITABLE,
-        help="The reason why the artifact failed the ethics gate.",
-    )
-    ethics_assessor_id = fields.Many2one(
-        string="Ethics Assessor",
-        comodel_name="res.users",
-        readonly=True,
-        help="The user who set the ethics result.",
     )
     total_score = fields.Integer(
         string="Total Score",
         compute="_compute_total_score",
         store=True,
         compute_sudo=True,
-        help="The sum of the scores of all aspects.",
+        help="The sum of the scores of all scored aspects.",
     )
     curation_status_id = fields.Many2one(
         string="Curation Status",
@@ -711,9 +699,6 @@ class SchoolLearningArtifact(models.Model):
         :param vals_list: list of value dictionaries
         :return: the created recordset
         """
-        for vals in vals_list:
-            if vals.get("ethics_result"):
-                vals["ethics_assessor_id"] = self.env.uid
         records = super().create(vals_list)
         for record in records.sudo():
             if record.name == "/":
@@ -721,41 +706,18 @@ class SchoolLearningArtifact(models.Model):
         return records
 
     def write(self, vals):
-        """Write artifacts and record who set the ethics result.
+        """Write artifacts and guard the move into a showcase stage.
 
         :param vals: values to write
         :return: True
-        :raises UserError: when the user may not set the ethics result
-            or may not move the artifact into the showcase stage
+        :raises UserError: when the user may not move the artifact
+            into the showcase stage
         """
-        if "ethics_result" in vals:
-            self._check_ethics_assessor()
-            assessor_id = self.env.uid if vals["ethics_result"] else False
-            vals = dict(vals, ethics_assessor_id=assessor_id)
         if vals.get("showcase_stage_id") and not self.env.context.get(
             "showcase_stage_assignment"
         ):
             self._check_showcase_stage_move(vals["showcase_stage_id"])
         return super().write(vals)
-
-    def _check_ethics_assessor(self):
-        """Reject setting the ethics result outside the allowed groups.
-
-        Nothing is checked for the superuser or for a rubric that lists
-        no ethics assessor group.
-
-        :raises UserError: when the active user may not set the result
-        """
-        if self.env.uid == SUPERUSER_ID:
-            return
-        user_groups = self.env.user.groups_id
-        for record in self:
-            allowed = record.rubric_id.ethics_assessor_group_ids
-            if allowed and not (allowed & user_groups):
-                record._raise_curation_error(
-                    _("You are not allowed to set the ethics result"),
-                    _("Ask a user in the ethics assessor groups to do it"),
-                )
 
     @api.depends("school_id")
     def _compute_rubric_id(self):
@@ -806,19 +768,42 @@ class SchoolLearningArtifact(models.Model):
             ("school_ids", "=", False),
         ]
 
-    @api.depends("score_ids.score")
+    @api.depends("score_ids.score", "score_ids.aspect_type")
     def _compute_total_score(self):
-        """Sum the scores of all aspects."""
+        """Sum the scores of the scored aspects.
+
+        Ethics gate aspects never count in the total.
+        """
         for record in self:
             result = 0
             for score in record.score_ids:
-                result += score.score
+                if score.aspect_type == "score":
+                    result += score.score
             record.total_score = result
+
+    @api.depends("score_ids.level_id", "score_ids.aspect_type")
+    def _compute_ethics_result(self):
+        """Derive the ethics result from the ethics gate rows.
+
+        A gate row whose level fails the gate gives ``fail``. When
+        there are gate rows and every one of them has a level, the
+        result is ``pass``. Otherwise the result stays empty.
+        """
+        for record in self:
+            result = False
+            gates = record.score_ids.filtered(lambda r: r.aspect_type == "gate")
+            if gates.filtered(lambda r: r.level_id.is_fail):
+                result = "fail"
+            elif gates and all(gate.level_id for gate in gates):
+                result = "pass"
+            record.ethics_result = result
 
     @api.depends(
         "ethics_result",
         "total_score",
         "score_ids.score",
+        "score_ids.level_id",
+        "score_ids.aspect_type",
         "score_ids.criterion_id",
         "rubric_id",
         "rubric_id.ethics_fail_status_id",
@@ -869,14 +854,19 @@ class SchoolLearningArtifact(models.Model):
     def _has_knockout_score(self):
         """Tell whether a given score knocks the artifact out.
 
-        :return: True when a scored aspect with a knockout score has a
-            score at or below it
+        :return: True when an assessed scored aspect with a knockout
+            score has a score at or below it
         """
         self.ensure_one()
         result = False
         for score in self.score_ids:
             knockout = score.criterion_id.knockout_score
-            if knockout and score.score and score.score <= knockout:
+            if (
+                score.aspect_type == "score"
+                and knockout
+                and score.level_id
+                and score.score <= knockout
+            ):
                 result = True
         return result
 
@@ -1149,7 +1139,8 @@ class SchoolLearningArtifact(models.Model):
         moves to ``confirm``. The learning area, the category, the
         description and the link are always required. The component,
         the dimension and the phase are required only when the flags
-        of the school switch them on.
+        of the school switch them on. The phase is required only when
+        at least one phase applies to the school of the artifact.
         """
         self.ensure_one()
         for field_name in self._get_submit_required_fields():
@@ -1180,7 +1171,7 @@ class SchoolLearningArtifact(models.Model):
             result.append("primary_component_id")
         if school.learning_artifact_require_dimension:
             result.append("dimension_id")
-        if school.learning_artifact_require_phase:
+        if school.learning_artifact_require_phase and self.allowed_phase_ids:
             result.append("phase_id")
         return result
 
@@ -1269,11 +1260,12 @@ Solution: %s
 
     @ssi_decorator.pre_done_check()
     def _10_check_curation_ethics(self):
-        """Require the ethics result and the scores before finishing.
+        """Require the ethics answers and the levels before finishing.
 
-        Pre-done hook: the rubric and the ethics result are always
-        required. When the ethics gate passed, every aspect must also
-        be scored.
+        Pre-done hook: the rubric must exist and must have at least
+        one ethics gate aspect, and every gate aspect must be answered.
+        When the ethics gate passed, every scored aspect must also have
+        a level. A failed gate finishes the curation without scores.
 
         :raises UserError: when the curation data is incomplete
         """
@@ -1283,17 +1275,25 @@ Solution: %s
                 _("No rubric applies to the school"),
                 _("Create a rubric for the school or a fallback rubric"),
             )
+        gate_criteria = self.rubric_id.criterion_ids.filtered(
+            lambda r: r.aspect_type == "gate"
+        )
+        if not gate_criteria:
+            self._raise_curation_error(
+                _("The rubric has no ethics gate aspect"),
+                _("Add an aspect of type Ethics Gate to the rubric"),
+            )
         if not self.ethics_result:
             self._raise_curation_error(
                 _("Ethics Result is empty"),
-                _("Set the Ethics Result"),
+                _("Answer every ethics gate aspect"),
             )
         if self.ethics_result == "pass":
-            for score in self.score_ids:
-                if not score.score:
+            for score in self.score_ids.filtered(lambda r: r.aspect_type == "score"):
+                if not score.level_id:
                     self._raise_curation_error(
                         _("Aspect %s is not scored") % score.criterion_id.display_name,
-                        _("Score every aspect"),
+                        _("Pick a level for every scored aspect"),
                     )
 
     @ssi_decorator.pre_done_check()
@@ -1324,7 +1324,8 @@ Solution: %s
         """Reject one person assessing both assessor slots.
 
         Pre-done hook: runs only when the rubric requires distinct
-        assessors. The ethics gate counts as the secondary slot.
+        assessors. The assessor slot of each aspect, ethics gate
+        aspects included, decides which side the assessor is on.
 
         :raises UserError: when a user assessed both slots
         """
@@ -1334,7 +1335,6 @@ Solution: %s
             return
         primary = self._get_slot_assessors("primary")
         secondary = self._get_slot_assessors("secondary")
-        secondary |= self.ethics_assessor_id
         common = primary & secondary
         if common:
             self._raise_curation_error(
@@ -1344,7 +1344,7 @@ Solution: %s
             )
 
     def _get_slot_assessors(self, slot):
-        """Return the users who scored the aspects of an assessor slot.
+        """Return the users who assessed the aspects of an assessor slot.
 
         :param slot: ``primary`` or ``secondary``
         :return: ``res.users`` recordset
@@ -1365,7 +1365,7 @@ Solution: %s
         self.ensure_one()
         if not self.rubric_id.forbid_creator_assessment:
             return
-        assessors = self.score_ids.mapped("assessor_id") | self.ethics_assessor_id
+        assessors = self.score_ids.mapped("assessor_id")
         if self.user_id and self.user_id in assessors:
             self._raise_curation_error(
                 _("The responsible user assessed the artifact"),

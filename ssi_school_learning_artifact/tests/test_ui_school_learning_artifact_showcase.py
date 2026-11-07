@@ -110,7 +110,66 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
                 "school_ids": [(6, 0, cls.school.ids)],
                 "ethics_fail_status_id": rejected.id,
                 "criterion_ids": [
-                    (0, 0, {"code": "TA1", "name": "TOUR SH Aspect"}),
+                    (
+                        0,
+                        0,
+                        {
+                            "code": "TA1",
+                            "name": "TOUR SH Aspect",
+                            "aspect_type": "score",
+                            "level_ids": [
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 10,
+                                        "score": 1,
+                                        "name": "TOUR SH Level One",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 20,
+                                        "score": 2,
+                                        "name": "TOUR SH Level Two",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 30,
+                                        "score": 3,
+                                        "name": "TOUR SH Level Three",
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "code": "TG1",
+                            "name": "TOUR SH Ethics Gate",
+                            "aspect_type": "gate",
+                            "assessor_slot": "secondary",
+                            "level_ids": [
+                                (0, 0, {"sequence": 10, "name": "TOUR SH Gate Pass"}),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 20,
+                                        "name": "TOUR SH Gate Fail",
+                                        "is_fail": True,
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
                 ],
                 "threshold_ids": [
                     (0, 0, {"min_total": 3, "status_id": eligible.id}),
@@ -209,12 +268,38 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
         artifact.invalidate_cache()
         artifact.with_user(cls.admin).action_approve_approval()
         artifact.invalidate_cache()
-        artifact.write({"ethics_result": "pass"})
-        artifact.score_ids.write({"score": 3})
+        cls._answer_curation(artifact, "TOUR SH Level Three")
         artifact.invalidate_cache()
         artifact.with_user(cls.admin).action_done()
         artifact.invalidate_cache()
         return artifact
+
+    @classmethod
+    def _answer_curation(cls, artifact, level_name):
+        """Pass the ethics gate and pick a level of the scored aspect.
+
+        :param artifact: the artifact that is On Progress.
+        :param level_name: name of the level to pick on the scored
+            aspect.
+        :return: None
+        """
+        obj_level = cls.env["school_learning_artifact_rubric_criterion_level"]
+        for row in artifact.score_ids:
+            if row.aspect_type == "gate":
+                level = obj_level.search(
+                    [
+                        ("criterion_id", "=", row.criterion_id.id),
+                        ("is_fail", "=", False),
+                    ]
+                )
+            else:
+                level = obj_level.search(
+                    [
+                        ("criterion_id", "=", row.criterion_id.id),
+                        ("name", "=", level_name),
+                    ]
+                )
+            row.write({"level_id": level.id})
 
     def test_select_for_showcase(self):
         """Run the select tour for ``school_learning_artifact``.

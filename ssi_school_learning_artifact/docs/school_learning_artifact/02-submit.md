@@ -14,8 +14,11 @@
 - **Record:** **Learning Area**, **Category**, **Description** and **Link** are filled
   in.
 - **Record:** If the school defines a link prefix, the **Link** starts with it.
-- **Record:** If the school requires a component, a dimension or a phase, the **Primary
-  Component**, **Dimension** or **Phase** is filled in.
+- **Record:** If the school requires a component or a dimension, the **Primary
+  Component** or **Dimension** is filled in.
+- **Record:** If the school requires a phase and at least one phase applies to the
+  school, the **Phase** is filled in. The **Phase** field is hidden when no phase
+  applies to the school, and then submission does not ask for it.
 - **Config:** An active `policy.template` for this model grants `confirm_ok` for state
   `draft` to the actor's group.
 - **Config:** An active `approval.template` for this model matches this record and has

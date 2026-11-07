@@ -27,10 +27,29 @@
      below its knockout score.
    - **Maximum Revision**: Optional. Enter how many times a curated artifact that needs
      revision can be reopened. The default is 1.
-   - **Ethics Assessor Groups**, **Require Distinct Assessors**, **Forbid Creator
-     Assessment**: Optional. Set who may assess.
-   - **Aspects** tab: Optional. Add one line per scored aspect with its code, name,
-     score range, knockout score, assessor slot and assessor groups.
+   - **Require Distinct Assessors**, **Forbid Creator Assessment**: Optional. Set who
+     may assess. The ethics gate aspects count in the assessor slot they are set to.
+   - **Aspects** tab: Optional. Add the aspects. Repeat the following steps as many
+     times as needed:
+     - Click **Add a line**.
+     - Fill in the dialog with:
+       - **Code** _(required)_: Enter the short code of the aspect.
+       - **Name** _(required)_: Enter the name of the aspect.
+       - **Aspect Type** _(required)_: Select **Scored Aspect** or **Ethics Gate**.
+       - **Knockout Score**: Optional, scored aspects only. A score at or below it
+         knocks the artifact out.
+       - **Assessor Slot** _(required)_: Select the primary or the secondary assessor.
+       - **Assessor Groups**: Optional. Select the groups allowed to assess the aspect.
+       - **Levels**: Add the levels that the assessor can pick. Repeat the following
+         steps as many times as needed:
+         - Click **Add a line**.
+         - Fill in each line with:
+           - **Description** _(required)_: Enter the full text of the level.
+           - **Score**: Enter the score of the level (scored aspects only). The score
+             range of the aspect follows its levels.
+           - **Fails the Gate**: Check it for the answer that fails the gate (ethics
+             gate aspects only).
+     - Click **Save** on the dialog. The curation needs at least one ethics gate aspect.
    - **Thresholds** tab: Optional. Add one line per minimum total score with the status
      it gives.
 4. Click **Save**.
@@ -39,4 +58,5 @@
 
 - A new rubric is created and active.
 - Learning artifacts of the schools it applies to use it when they are created, and get
-  one score row per aspect when the curation starts.
+  one row per aspect (ethics gate aspects included) in its **Scores** table when the
+  curation starts.

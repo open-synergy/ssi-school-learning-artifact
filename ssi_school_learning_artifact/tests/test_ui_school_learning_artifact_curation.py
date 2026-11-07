@@ -4,6 +4,13 @@
 
 from odoo.tests import HttpSavepointCase, tagged
 
+LONG_LEVEL_TEXT = (
+    "TOUR LC Level Three: the artifact shows a complete learning process, "
+    "names the evidence behind every claim, explains what changed after "
+    "each revision and closes with a reflection written by the student "
+    "END-OF-LEVEL-TEXT"
+)
+
 
 @tagged("post_install", "-at_install")
 class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
@@ -13,7 +20,8 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
     def setUpClass(cls):
         """Create every Pre-Condition fixture required by the 2 tours.
 
-        One school with its own rubric of a single aspect is created,
+        One school with its own rubric of a scored aspect and an ethics
+        gate aspect is created,
         with an eligible and a revision status. The curate tour gets
         an artifact that is On Progress. The reopen tour gets an
         artifact that is Curated with the revision category. Both
@@ -120,6 +128,58 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
                         {
                             "code": "TA1",
                             "name": "TOUR Aspect One",
+                            "aspect_type": "score",
+                            "level_ids": [
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 10,
+                                        "score": 1,
+                                        "name": "TOUR LC Level One",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 20,
+                                        "score": 2,
+                                        "name": "TOUR LC Level Two",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 30,
+                                        "score": 3,
+                                        "name": LONG_LEVEL_TEXT,
+                                    },
+                                ),
+                            ],
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "code": "TG1",
+                            "name": "TOUR LC Ethics Gate",
+                            "aspect_type": "gate",
+                            "assessor_slot": "secondary",
+                            "level_ids": [
+                                (0, 0, {"sequence": 10, "name": "TOUR LC Gate Pass"}),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "sequence": 20,
+                                        "name": "TOUR LC Gate Fail",
+                                        "is_fail": True,
+                                    },
+                                ),
+                            ],
                         },
                     ),
                 ],
@@ -135,13 +195,8 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
 
         # 07-reopen.md -- Curated record whose category is revision.
         cls.artifact_reopen = cls._create_open_artifact("TOUR LC Reopen Activity")
-        cls.artifact_reopen.write(
-            {
-                "ethics_result": "pass",
-                "recommendation": "Strengthen the reflection",
-            }
-        )
-        cls.artifact_reopen.score_ids.write({"score": 2})
+        cls.artifact_reopen.write({"recommendation": "Strengthen the reflection"})
+        cls._answer_curation(cls.artifact_reopen, "TOUR LC Level Two")
         cls.artifact_reopen.invalidate_cache()
         cls.artifact_reopen.with_user(cls.admin).action_done()
 
@@ -179,6 +234,33 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
         artifact.with_user(cls.admin).action_approve_approval()
         artifact.invalidate_cache()
         return artifact
+
+    @classmethod
+    def _answer_curation(cls, artifact, level_name):
+        """Pass the ethics gate and pick a level of the scored aspect.
+
+        :param artifact: the artifact that is On Progress.
+        :param level_name: name of the level to pick on the scored
+            aspect.
+        :return: None
+        """
+        obj_level = cls.env["school_learning_artifact_rubric_criterion_level"]
+        for row in artifact.score_ids:
+            if row.aspect_type == "gate":
+                level = obj_level.search(
+                    [
+                        ("criterion_id", "=", row.criterion_id.id),
+                        ("is_fail", "=", False),
+                    ]
+                )
+            else:
+                level = obj_level.search(
+                    [
+                        ("criterion_id", "=", row.criterion_id.id),
+                        ("name", "=", level_name),
+                    ]
+                )
+            row.write({"level_id": level.id})
 
     def test_curate(self):
         """Run the curate tour for ``school_learning_artifact``.

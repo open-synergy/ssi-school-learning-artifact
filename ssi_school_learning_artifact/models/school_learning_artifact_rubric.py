@@ -8,9 +8,10 @@ from odoo import fields, models
 class SchoolLearningArtifactRubric(models.Model):
     """
     Represents the curation rubric of a learning artifact: the
-    aspects that are scored, the thresholds that turn the total score
-    into a curation status, the knockout and ethics outcomes, and the
-    rules about who may assess. A rubric belongs to some schools; a
+    aspects (scored aspects and ethics gate aspects, each with its
+    levels), the thresholds that turn the total score into a curation
+    status, the knockout and ethics outcomes, and the rules about who
+    may assess. A rubric belongs to some schools; a
     rubric without schools is the fallback of every school that has
     no rubric of its own.
     """
@@ -34,7 +35,7 @@ class SchoolLearningArtifactRubric(models.Model):
         string="Aspects",
         comodel_name="school_learning_artifact_rubric_criterion",
         inverse_name="rubric_id",
-        help="The aspects that the curator scores.",
+        help="The scored aspects and the ethics gate aspects.",
     )
     threshold_ids = fields.One2many(
         string="Thresholds",
@@ -61,24 +62,10 @@ class SchoolLearningArtifactRubric(models.Model):
             "below its knockout score."
         ),
     )
-    ethics_assessor_group_ids = fields.Many2many(
-        string="Ethics Assessor Groups",
-        comodel_name="res.groups",
-        relation="school_la_rubric_ethics_group_rel",
-        column1="rubric_id",
-        column2="group_id",
-        help=(
-            "Groups allowed to set the ethics result. Leave empty to "
-            "let every user with access do it."
-        ),
-    )
     require_distinct_assessors = fields.Boolean(
         string="Require Distinct Assessors",
         default=False,
-        help=(
-            "If checked, nobody may assess both a primary and a "
-            "secondary slot, the ethics gate counting as secondary."
-        ),
+        help=("If checked, nobody may assess both a primary and a " "secondary slot."),
     )
     forbid_creator_assessment = fields.Boolean(
         string="Forbid Creator Assessment",

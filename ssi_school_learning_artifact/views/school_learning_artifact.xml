@@ -116,7 +116,10 @@
                             <field name="primary_component_id" />
                             <field name="secondary_component_id" />
                             <field name="dimension_id" />
-                            <field name="phase_id" />
+                            <field
+                                    name="phase_id"
+                                    attrs="{'invisible': [('allowed_phase_ids', '=', [])]}"
+                                />
                         </group>
                     </group>
                 </page>
@@ -168,11 +171,6 @@
                         <group name="curation_left" colspan="1" col="2">
                             <field name="rubric_id" />
                             <field name="ethics_result" />
-                            <field
-                                    name="ethics_reason_id"
-                                    attrs="{'invisible': [('ethics_result', '!=', 'fail')]}"
-                                />
-                            <field name="ethics_assessor_id" />
                         </group>
                         <group name="curation_right" colspan="1" col="2">
                             <field name="total_score" />
@@ -186,7 +184,14 @@
                         <field name="score_ids" nolabel="1">
                             <tree editable="bottom" create="false" delete="false">
                                 <field name="sequence" invisible="1" />
+                                <field name="aspect_type" invisible="1" />
                                 <field name="criterion_id" readonly="1" />
+                                <field
+                                        name="level_id"
+                                        options="{'no_create': True, 'no_open': True}"
+                                        attrs="{'readonly': ['&amp;', ('aspect_type', '=', 'score'), ('parent.ethics_result', '=', 'fail')]}"
+                                    />
+                                <field name="level_text" />
                                 <field name="score" />
                                 <field name="assessor_id" />
                                 <field name="date_score" />
@@ -194,6 +199,13 @@
                             <form>
                                 <group name="score_group" colspan="4" col="2">
                                     <field name="criterion_id" readonly="1" />
+                                    <field name="aspect_type" invisible="1" />
+                                    <field
+                                            name="level_id"
+                                            options="{'no_create': True, 'no_open': True}"
+                                            attrs="{'readonly': ['&amp;', ('aspect_type', '=', 'score'), ('parent.ethics_result', '=', 'fail')]}"
+                                        />
+                                    <field name="level_text" />
                                     <field name="score" />
                                     <field name="assessor_id" />
                                     <field name="date_score" />

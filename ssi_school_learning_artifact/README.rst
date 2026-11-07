@@ -9,14 +9,16 @@ School Learning Artifact
 Inventory of learning artifacts (photos, videos and documents of learning
 activities and achievements) for schools. A teacher records an artifact,
 submits it for curation, and may withdraw it until the curator starts the
-curation. The curator then fills in the ethics gate and scores the aspects of
-the rubric of the school; the module calculates the total and the curation
-status, and the curation is finished with the Done action. A curated artifact
-whose status needs a revision can be reopened a limited number of times.
+curation. The curator then picks a level for every ethics gate aspect and every
+scored aspect of the rubric of the school; the score of each level is recorded
+automatically and the module calculates the total and the curation status, and
+the curation is finished with the Done action. A curated artifact whose status
+needs a revision can be reopened a limited number of times.
 Everything specific to a school or a branch - learning areas, categories,
 dimensions, phases, distinctive programs and their components, graduate
-profiles, curation rubrics, statuses and ethics reasons, the link prefix and
-the required fields - is configuration data, not module data.
+profiles, curation rubrics (with their aspect levels and ethics gate aspects),
+statuses, the link prefix and the required fields - is configuration data, not
+module data.
 
 The module also keeps the parental consent of the students. The consent is
 recorded in the data privacy consent log of the contact of the student, once
@@ -68,11 +70,6 @@ Learning Artifact Curation Status
 ---------------------------------
 
 * `Create Learning Artifact Curation Status <docs/school_learning_artifact_curation_status/01-create.html>`_
-
-Learning Artifact Ethics Reason
--------------------------------
-
-* `Create Learning Artifact Ethics Reason <docs/school_learning_artifact_ethics_reason/01-create.html>`_
 
 Learning Artifact Showcase Stage
 --------------------------------
