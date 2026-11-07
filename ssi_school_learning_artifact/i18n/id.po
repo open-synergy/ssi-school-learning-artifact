@@ -327,7 +327,7 @@ msgstr "Komponen yang Diizinkan"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_dimension_ids
 msgid "Allowed Dimensions"
-msgstr "Dimensi yang Diizinkan"
+msgstr "Label KSA yang Diizinkan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__allowed_group_ids
@@ -889,12 +889,12 @@ msgstr "Bidang Pengembangan"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__dimension_id
 msgid "Dimension"
-msgstr "Dimensi"
+msgstr "Label KSA"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_dimension_menu
 msgid "Dimensions"
-msgstr "Dimensi"
+msgstr "Label KSA"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_dimension_ids
@@ -902,7 +902,7 @@ msgid ""
 "Dimensions that apply to the selected school. A dimension without schools "
 "applies to every school."
 msgstr ""
-"Dimensi yang berlaku untuk sekolah yang dipilih. Dimensi tanpa sekolah "
+"Label KSA yang berlaku untuk sekolah yang dipilih. Label KSA tanpa sekolah "
 "berlaku untuk setiap sekolah."
 
 #. module: ssi_school_learning_artifact
@@ -1306,7 +1306,7 @@ msgid ""
 "If checked, a learning artifact of this school must have a dimension before "
 "it can be submitted."
 msgstr ""
-"Jika dicentang, artefak pembelajaran sekolah ini harus memiliki dimensi "
+"Jika dicentang, artefak pembelajaran sekolah ini harus memiliki Label KSA "
 "sebelum dapat diajukan."
 
 #. module: ssi_school_learning_artifact
@@ -1602,12 +1602,12 @@ msgstr "Status Kurasi Artefak Pembelajaran"
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_dimension_group
 msgid "Learning Artifact Dimension"
-msgstr "Dimensi Artefak Pembelajaran"
+msgstr "Label KSA Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_dimension_action
 msgid "Learning Artifact Dimensions"
-msgstr "Dimensi Artefak Pembelajaran"
+msgstr "Label KSA Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_ethics_reason_group
@@ -1642,7 +1642,7 @@ msgstr "Artefak Pembelajaran Mensyaratkan Komponen"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__learning_artifact_require_dimension
 msgid "Learning Artifact Requires Dimension"
-msgstr "Artefak Pembelajaran Mensyaratkan Dimensi"
+msgstr "Artefak Pembelajaran Mensyaratkan Label KSA"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__learning_artifact_require_inventory_consent
@@ -2569,7 +2569,7 @@ msgstr "Status Kurasi Artefak Pembelajaran Sekolah"
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_dimension
 msgid "School Learning Artifact Dimension"
-msgstr "Dimensi Artefak Pembelajaran Sekolah"
+msgstr "Label KSA Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_ethics_reason
@@ -2652,7 +2652,7 @@ msgid ""
 "Schools that can use this dimension. Leave empty to make the dimension "
 "available to every school."
 msgstr ""
-"Sekolah yang dapat menggunakan dimensi ini. Kosongkan agar dimensi tersedia "
+"Sekolah yang dapat menggunakan Label KSA ini. Kosongkan agar Label KSA tersedia "
 "untuk setiap sekolah."
 
 #. module: ssi_school_learning_artifact
@@ -3097,8 +3097,8 @@ msgid ""
 "The learning dimension covered by this artifact. Required when the school "
 "requires a dimension."
 msgstr ""
-"Dimensi pembelajaran yang dicakup artefak ini. Wajib diisi bila sekolah "
-"mensyaratkan dimensi."
+"Label KSA pembelajaran yang dicakup artefak ini. Wajib diisi bila sekolah "
+"mensyaratkan Label KSA."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__phase_id
