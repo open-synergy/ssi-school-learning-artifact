@@ -6573,6 +6573,7 @@ scenarios:
       - step: "Score rows come from the aspects of rubric B"
         action: "search"
         model: "school_learning_artifact_score"
+        save_as: "rows_rubric_b"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -6583,6 +6584,7 @@ scenarios:
       - step: "No score row comes from rubric A"
         action: "search"
         model: "school_learning_artifact_score"
+        save_as: "rows_rubric_a"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -7040,6 +7042,7 @@ scenarios:
       - step: "Report rows of assessor_one"
         action: "search"
         model: "school_learning_artifact_curation_load"
+        save_as: "load_one_score"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -7051,6 +7054,7 @@ scenarios:
       - step: "All report rows of assessor_one"
         action: "search"
         model: "school_learning_artifact_curation_load"
+        save_as: "load_one_all"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -7061,6 +7065,7 @@ scenarios:
       - step: "Report rows of assessor_two"
         action: "search"
         model: "school_learning_artifact_curation_load"
+        save_as: "load_two_gate"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -7072,6 +7077,7 @@ scenarios:
       - step: "All report rows of assessor_two"
         action: "search"
         model: "school_learning_artifact_curation_load"
+        save_as: "load_two_all"
         domain:
           [
             ["artifact_id", "=", "REC: artifact.id"],
@@ -7082,5 +7088,6 @@ scenarios:
       - step: "Unassessed aspects are not in the report"
         action: "search"
         model: "school_learning_artifact_curation_load"
+        save_as: "load_artifact_all"
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         expect_count: 2
