@@ -17,6 +17,10 @@
                 type="text/javascript"
                 src="/ssi_school_learning_artifact_character/static/tests/tours/school_learning_artifact_character_tour.js"
             />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_character/static/tests/tours/school_learning_artifact_character_indicator_tour.js"
+            />
         </xpath>
     </template>
 </odoo>

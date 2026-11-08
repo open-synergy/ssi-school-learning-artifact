@@ -12,8 +12,9 @@ class TestSchoolLearningArtifactCharacter(YamlTransactionCase):
     """Test the character tag of the Learning Artifact.
 
     Runs the YAML scenarios covering the status of an indicator per
-    grade type, the choice of character tags filtered by the grade type
-    of the artifact, the rule on the not clearly evident mark, the
+    grade type and grade, the choice of character tags and indicators
+    filtered by the grade of the artifact, the consistency between the
+    indicators and the tags, the rule on the not clearly evident mark, the
     freedom to tag an artifact whose assessment consent is refused and
     the policy that allows to fill in the tags.
     """
