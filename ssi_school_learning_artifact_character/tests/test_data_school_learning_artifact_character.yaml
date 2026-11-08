@@ -1307,6 +1307,28 @@ scenarios:
                 ],
               ],
             ]
+      - step: "Create user with the validator and company groups"
+        action: "create"
+        model: "res.users"
+        save_as: "validator_user"
+        values:
+          name: "Indicator Tester validator user"
+          login: "indicator.validator@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
       - step: "Create artifact owned by the teacher"
         action: "create"
         model: "school_learning_artifact"
@@ -1335,7 +1357,7 @@ scenarios:
         action: "call"
         target: "artifact"
         method: "action_confirm"
-        as_user: "base.user_admin"
+        as_user: "validator_user"
         asserts:
           state:
             type: "value"
@@ -1351,7 +1373,7 @@ scenarios:
       - step: "Assert the validator can select indicators while waiting"
         action: "assert"
         target: "artifact"
-        as_user: "base.user_admin"
+        as_user: "validator_user"
         asserts:
           character_indicator_ok:
             type: "value"
