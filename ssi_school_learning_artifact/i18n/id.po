@@ -2410,7 +2410,7 @@ msgstr "Penilai Primer"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__primary_component_id
 msgid "Primary Component"
-msgstr "Komponen Primer"
+msgstr "VP Dominan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_stage__process
@@ -2850,7 +2850,7 @@ msgstr "Penilai Sekunder"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__secondary_component_id
 msgid "Secondary Component"
-msgstr "Komponen Sekunder"
+msgstr "VP Sekunder"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
