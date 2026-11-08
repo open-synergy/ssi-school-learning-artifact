@@ -14,7 +14,7 @@ class TestUiSchoolCharacterIndicatorGradeStatus(HttpSavepointCase):
         """Create the Pre-Condition fixtures of the grade status tour.
 
         One construct with a sub-construct, an indicator of that
-        sub-construct and a grade type are created.
+        sub-construct and a grade type with one grade are created.
         """
         super().setUpClass()
         cls.grade_type = cls.env["school_grade_type"].create(
@@ -22,6 +22,14 @@ class TestUiSchoolCharacterIndicatorGradeStatus(HttpSavepointCase):
                 "name": "TOUR GS Grade Type",
                 "code": "TOURGSGT",
                 "sequence": 10,
+            }
+        )
+        cls.grade = cls.env["school_grade"].create(
+            {
+                "name": "TOUR GS Grade",
+                "code": "TOURGSG",
+                "sequence": 10,
+                "type_id": cls.grade_type.id,
             }
         )
         cls.construct = cls.env["school_character_construct"].create(

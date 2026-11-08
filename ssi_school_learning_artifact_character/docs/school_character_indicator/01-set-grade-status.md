@@ -25,6 +25,8 @@
    - Click **Add a line**.
    - Fill in each line with:
      - **Grade Type** _(required)_: Select the grade type.
+     - **Grades**: Select the grades of the grade type that the line applies to.
+       Optional; leave empty to apply the line to every grade of the grade type.
      - **Status** _(required)_: Select **Effective**, **Partial** or **Not Effective**.
 5. Click **Save**.
 

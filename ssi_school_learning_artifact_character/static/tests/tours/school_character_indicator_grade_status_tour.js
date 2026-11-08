@@ -88,6 +88,17 @@ odoo.define(
                     trigger:
                         ".ui-autocomplete .ui-menu-item a:contains(TOUR GS Grade Type)",
                 },
+                // Flow 4 -- Grades (optional).
+                {
+                    content: "Type the grade",
+                    trigger:
+                        ".o_selected_row .o_field_many2manytags[name='grade_ids'] input",
+                    run: "text TOUR GS Grade",
+                },
+                {
+                    content: "Pick the grade from the dropdown",
+                    trigger: ".ui-autocomplete .ui-menu-item a:contains(TOUR GS Grade)",
+                },
                 // Flow 4 -- Status (required).
                 {
                     content: "Select the status",
