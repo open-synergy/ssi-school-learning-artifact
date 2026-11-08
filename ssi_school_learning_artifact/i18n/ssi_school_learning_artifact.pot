@@ -141,6 +141,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__academic_year_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__academic_year_id
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "Academic Year"
 msgstr ""
@@ -341,6 +342,11 @@ msgid "Allowed Policy Templates"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__aspect_count
+msgid "Always one: each row is one assessed aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__secondary_component_id
 msgid ""
 "An additional component of the distinctive program that this artifact "
@@ -425,8 +431,10 @@ msgid "Ask a user in the group %s to do it"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__criterion_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__criterion_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__criterion_id
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 msgid "Aspect"
 msgstr ""
 
@@ -437,6 +445,7 @@ msgid "Aspect %s is not scored"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__aspect_type
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__aspect_type
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__aspect_type
 msgid "Aspect Type"
@@ -449,12 +458,20 @@ msgid "Aspects"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__aspect_count
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_tree
+msgid "Assessed Aspects"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__assessment_consent
 msgid "Assessment Consent"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__assessor_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__assessor_id
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 msgid "Assessor"
 msgstr ""
 
@@ -559,6 +576,11 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_category_menu
 msgid "Categories"
 msgstr ""
@@ -587,6 +609,13 @@ msgid "Checked when a reviewer examined the limited consent."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__revision_limit_reached
+msgid ""
+"Checked when the artifact was already reopened as many times as the rubric "
+"allows, so it cannot be reopened for another revision."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_consent_ok
 msgid ""
 "Checked when the parental consent allows the artifact into the showcase, "
@@ -605,6 +634,12 @@ msgstr ""
 msgid ""
 "Checked when the publication consent of the artifact is limited and the "
 "school treats it as a review task."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Choose the final status"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -895,6 +930,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__display_name
@@ -950,11 +986,21 @@ msgid "Document"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__done
+msgid "Done"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__done_ok
 msgid ""
 "Done policy\n"
 "\n"
 "* If active user can see and execute 'Done' button"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -973,7 +1019,9 @@ msgid "Ethics Fail Status"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__aspect_type__gate
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__aspect_type__gate
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 msgid "Ethics Gate"
 msgstr ""
 
@@ -1017,6 +1065,17 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Fill in %s"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__final_curation_status_id
+msgid "Final Curation Status"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "Final status is used only when the revision limit is reached"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1110,6 +1169,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_type_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__grade_type_id
 msgid "Grade Type"
 msgstr ""
 
@@ -1134,6 +1194,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_distinctive_program_component_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_distinctive_program_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_area_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_status_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "Group By"
@@ -1185,6 +1246,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__id
@@ -1417,6 +1479,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase____last_update
@@ -1480,6 +1543,7 @@ msgid "Learning Area"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__artifact_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__artifact_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__artifact_id
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.menu_school_learning_artifact_configuration
@@ -1510,6 +1574,16 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_consent_officer_group
 msgid "Learning Artifact Consent Officer"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_curation_load_action
+#: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_curation_load
+#: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_curation_load_menu
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_curation_load_group
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_pivot
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
+msgid "Learning Artifact Curation Load"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1953,6 +2027,11 @@ msgid "No student is selected"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
+msgid "Not Cancelled"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__rejected
 msgid "Not Eligible"
 msgstr ""
@@ -2087,6 +2166,11 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Obtain the consent required by the school first"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__open
+msgid "On Progress"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2284,6 +2368,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__reject
 msgid "Rejected"
 msgstr ""
 
@@ -2381,6 +2466,11 @@ msgid "Revision Count"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__revision_limit_reached
+msgid "Revision Limit Reached"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__rubric_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__rubric_id
@@ -2397,8 +2487,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__school_id
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__achievement_level__school
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_area_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_search
 msgid "School"
 msgstr ""
@@ -2557,7 +2649,9 @@ msgid "Score"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__aspect_type__score
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__aspect_type__score
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
 msgid "Scored Aspect"
 msgstr ""
 
@@ -2680,6 +2774,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__state
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__state
 msgid "State"
 msgstr ""
 
@@ -2774,6 +2869,11 @@ msgid "The academic year in which the activity took place."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__academic_year_id
+msgid "The academic year of the learning artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__branch_id
 msgid ""
 "The branch that owns this program. Every school unit of the branch inherits "
@@ -2864,6 +2964,12 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "The final status does not apply to this artifact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__graduate_profile_id
 msgid ""
 "The first active graduate profile, by sequence, that covers the grade of the"
@@ -2878,6 +2984,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_id
 msgid "The grade level of the selected class, filled automatically."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__grade_type_id
+msgid "The grade type of the class of the learning artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2900,6 +3011,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__media_type
 msgid "The kind of media that documents the activity."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__artifact_id
+msgid "The learning artifact that owns the assessed aspect."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2962,6 +3078,17 @@ msgid "The responsible user assessed the artifact"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
+#, python-format
+msgid "The revision limit is reached"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__criterion_id
+msgid "The rubric aspect that the assessor assessed."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__criterion_id
 msgid "The rubric aspect that this level belongs to."
 msgstr ""
@@ -2985,6 +3112,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__rubric_id
 msgid "The rubric that this threshold belongs to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__school_id
+msgid "The school of the learning artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3042,6 +3174,19 @@ msgid ""
 "require an eligible curation status, a publication consent that allows the "
 "showcase, or membership of a group, as configured on the stage. Every move "
 "is logged in the chatter with the user and the time."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__state
+msgid "The state of the learning artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__final_curation_status_id
+msgid ""
+"The status the curator picks when the artifact still needs a revision but "
+"the revision limit is reached. It must be an archive or a not eligible "
+"status."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3138,6 +3283,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__pic_id
 msgid "The user in charge of producing this content."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__assessor_id
+msgid "The user who assessed the aspect."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3271,6 +3421,11 @@ msgid "Viewer"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__confirm
+msgid "Waiting for Approval"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__website_message_ids
@@ -3321,6 +3476,7 @@ msgid "Whether the activity is intra-, co- or extracurricular."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__aspect_type
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__aspect_type
 msgid "Whether the aspect is scored or is an ethics gate."
 msgstr ""
