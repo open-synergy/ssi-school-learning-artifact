@@ -37,6 +37,7 @@
         "security/res_group/school_learning_artifact_consent_officer.xml",
         "security/res_group/school_learning_artifact_showcase_stage.xml",
         "security/res_group/school_learning_artifact_showcase_channel.xml",
+        "security/res_group/school_learning_artifact_curation_load.xml",
         "security/ir_model_access/school_learning_artifact.xml",
         "security/ir_model_access/school_learning_artifact_area.xml",
         "security/ir_model_access/school_learning_artifact_category.xml",
@@ -51,6 +52,7 @@
         "security/ir_model_access/school_learning_artifact_showcase_stage.xml",
         "security/ir_model_access/school_learning_artifact_showcase_channel.xml",
         "security/ir_model_access/school_learning_artifact_showcase_production.xml",
+        "security/ir_model_access/school_learning_artifact_curation_load.xml",
         "security/ir_model_access/school_distinctive_program.xml",
         "security/ir_model_access/school_distinctive_program_component.xml",
         "security/ir_model_access/school_graduate_profile.xml",
@@ -77,6 +79,7 @@
         "views/school_learning_artifact_showcase_channel.xml",
         "views/school_learning_artifact.xml",
         "views/school_learning_artifact_showcase.xml",
+        "views/school_learning_artifact_curation_load.xml",
         "views/assets.xml",
     ],
 }

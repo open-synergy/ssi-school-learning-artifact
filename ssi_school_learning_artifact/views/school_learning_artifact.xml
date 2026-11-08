@@ -176,6 +176,12 @@
                             <field name="total_score" />
                             <field name="curation_status_category" />
                             <field name="revision_count" />
+                            <field name="revision_limit_reached" invisible="1" />
+                            <field
+                                    name="final_curation_status_id"
+                                    attrs="{'invisible': [('revision_limit_reached', '=', False)]}"
+                                    options="{'no_create': True}"
+                                />
                             <field name="curated_by_id" />
                             <field name="date_curated" />
                         </group>
