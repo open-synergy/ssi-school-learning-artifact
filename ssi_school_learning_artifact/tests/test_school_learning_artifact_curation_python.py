@@ -19,6 +19,7 @@ MIGRATION_PATH = os.path.join(
     "post-migration.py",
 )
 LEVEL_MODEL = "school_learning_artifact_rubric_criterion_level"
+REASON_MODEL = "school_learning_artifact_ethics_reason"
 SNAPSHOT_SQL = """
     SELECT id, state, total_score, curation_status_id, ethics_result
     FROM school_learning_artifact
@@ -291,6 +292,7 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
             "INSERT INTO school_la_rubric_ethics_group_rel VALUES (%s, %s)",
             (rubric.id, env.ref("base.group_user").id),
         )
+        self._add_removed_model_selections()
         env.cache.invalidate()
         artifacts_rs = a_done | a_open | a_fail
         for field_name in ("total_score", "curation_status_id"):
@@ -313,6 +315,79 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
         )
         env.cache.invalidate()
         return rubric, a_done, a_open, a_fail
+
+    def _add_removed_model_selections(self):
+        """Create the selection metadata of the removed model.
+
+        Mimics the database before the upgrade: an ``ir_model`` row and
+        two selection fields of the ethics reason model, with five
+        selection values, each with an external id owned by ``mail``.
+        """
+        cr = self.env.cr
+        cr.execute(
+            'INSERT INTO ir_model (name, model, state, "order") '
+            "VALUES ('Ethics Reason', %s, 'manual', 'id') RETURNING id",
+            (REASON_MODEL,),
+        )
+        model_id = cr.fetchone()[0]
+        values = {
+            "activity_state": ["overdue", "today", "planned"],
+            "activity_exception_decoration": ["warning", "danger"],
+        }
+        for field_name, options in values.items():
+            cr.execute(
+                "INSERT INTO ir_model_fields (name, model, model_id, "
+                "field_description, ttype, state) VALUES "
+                "(%s, %s, %s, %s, 'selection', 'base') RETURNING id",
+                (field_name, REASON_MODEL, model_id, field_name),
+            )
+            field_id = cr.fetchone()[0]
+            for sequence, option in enumerate(options):
+                cr.execute(
+                    "INSERT INTO ir_model_fields_selection "
+                    "(field_id, value, name, sequence) "
+                    "VALUES (%s, %s, %s, %s) RETURNING id",
+                    (field_id, option, option, sequence),
+                )
+                cr.execute(
+                    "INSERT INTO ir_model_data (module, name, model, res_id) "
+                    "VALUES ('mail', %s, 'ir.model.fields.selection', %s)",
+                    (
+                        "selection__ethics_reason__%s__%s" % (field_name, option),
+                        cr.fetchone()[0],
+                    ),
+                )
+
+    def _count_removed_model_selections(self):
+        """Count selection rows and external ids of the removed model.
+
+        :return: tuple of (selection rows, external id rows)
+        """
+        cr = self.env.cr
+        cr.execute(
+            "SELECT count(*) FROM ir_model_fields_selection s "
+            "JOIN ir_model_fields f ON f.id = s.field_id WHERE f.model = %s",
+            (REASON_MODEL,),
+        )
+        selections = cr.fetchone()[0]
+        cr.execute(
+            "SELECT count(*) FROM ir_model_data WHERE module = 'mail' "
+            "AND name LIKE 'selection__ethics_reason__%'"
+        )
+        return selections, cr.fetchone()[0]
+
+    def _count_other_selections(self):
+        """Count selection rows that belong to other models.
+
+        :return: the number of rows
+        """
+        cr = self.env.cr
+        cr.execute(
+            "SELECT count(*) FROM ir_model_fields_selection s "
+            "JOIN ir_model_fields f ON f.id = s.field_id WHERE f.model != %s",
+            (REASON_MODEL,),
+        )
+        return cr.fetchone()[0]
 
     def _snapshot(self, artifacts):
         """Read the columns that the upgrade must not change.
@@ -356,6 +431,9 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
         artifacts = a_done | a_open | a_fail
         before = self._snapshot(artifacts)
         self.assertEqual([row[4] for row in before], ["pass", None, "fail"])
+        self.assertEqual(self._count_removed_model_selections(), (5, 5))
+        other_selections = self._count_other_selections()
+        self.assertGreater(other_selections, 0)
         script = self._load_script()
         script.migrate(self.env.cr, "14.0.1.3.0")
         self.env.cache.invalidate()
@@ -402,6 +480,8 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
             "SELECT to_regclass('school_learning_artifact_ethics_reason')"
         )
         self.assertIsNone(self.env.cr.fetchone()[0])
+        self.assertEqual(self._count_removed_model_selections(), (0, 0))
+        self.assertEqual(self._count_other_selections(), other_selections)
         counts = (
             self.env[LEVEL_MODEL].search_count([]),
             self.env["school_learning_artifact_score"].search_count([]),
@@ -416,3 +496,5 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
             counts,
         )
         self.assertEqual(self._snapshot(artifacts), before)
+        self.assertEqual(self._count_removed_model_selections(), (0, 0))
+        self.assertEqual(self._count_other_selections(), other_selections)
