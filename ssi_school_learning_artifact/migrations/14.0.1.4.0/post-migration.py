@@ -18,6 +18,13 @@
 #          finally removes the ethics reason master and the columns
 #          that no field uses any more.
 #
+#          The purge also deletes the selection values (and their
+#          external ids) that belong to the fields of the removed
+#          model, for example those that come from the activity mixin.
+#          Left behind, Odoo tries to delete them at the end of the
+#          upgrade, looks the model up in the registry, does not find
+#          it any more and the whole upgrade fails with a KeyError.
+#
 # This is a "post" script (not "pre") because the new tables and
 # columns must already exist, while the old columns it reads
 # (min_score, max_score, ethics_result, ethics_reason_id,
@@ -321,6 +328,15 @@ def _purge_ethics_reason(env):
     dependents raises ``DependentObjectsStillExist`` and rolls the
     whole upgrade back.
 
+    The selection values of the fields of the removed model (the
+    ``ir_model_fields_selection`` rows and their ``ir_model_data``
+    external ids, some owned by the ``mail`` module) are deleted too.
+    Otherwise ``ir.model.data._process_end`` deletes them after the
+    migration, when ``_process_ondelete`` reads ``env[model]`` of a
+    model that is gone from the registry and raises ``KeyError``.
+    The rows are picked by a join on ``ir_model_fields.model``, not
+    by field names, and a second run deletes nothing.
+
     :param env: the migration environment
     :return: nothing; drops columns, tables and orphan metadata
     """
@@ -347,6 +363,21 @@ def _purge_ethics_reason(env):
         (T_REASON + ",%",),
     )
     _logger.info("Deleted %s ir.translation row(s).", rows)
+    rows = openupgrade.logged_query(
+        cr,
+        "DELETE FROM ir_model_data d USING ir_model_fields_selection s, "
+        "ir_model_fields f WHERE d.model = 'ir.model.fields.selection' "
+        "AND d.res_id = s.id AND f.id = s.field_id AND f.model = %s",
+        (T_REASON,),
+    )
+    _logger.info("Deleted %s selection ir.model.data row(s).", rows)
+    rows = openupgrade.logged_query(
+        cr,
+        "DELETE FROM ir_model_fields_selection WHERE field_id IN "
+        "(SELECT id FROM ir_model_fields WHERE model = %s)",
+        (T_REASON,),
+    )
+    _logger.info("Deleted %s selection row(s) of the removed model.", rows)
     existing = [
         xml_id for xml_id in REASON_XML_IDS if env.ref(xml_id, raise_if_not_found=False)
     ]
