@@ -50,3 +50,5 @@
   aspect has no level (Ethics Result **Pass**), the recommendation or the curator note
   required by the status is empty, or the assessor rules of the rubric are broken, the
   artifact stays **On Progress** and an error message states the missing item.
+- When the revision limit of the rubric is reached and the status still needs a
+  revision, the curator picks the final status first (see `12-set-final-status`).

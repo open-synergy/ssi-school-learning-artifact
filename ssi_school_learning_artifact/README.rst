@@ -13,7 +13,10 @@ curation. The curator then picks a level for every ethics gate aspect and every
 scored aspect of the rubric of the school; the score of each level is recorded
 automatically and the module calculates the total and the curation status, and
 the curation is finished with the Done action. A curated artifact whose status
-needs a revision can be reopened a limited number of times.
+needs a revision can be reopened a limited number of times; when the limit
+is reached the curator picks an archive or not eligible status as the final
+status. The rubric of an artifact that is not assessed yet is picked again when
+the curation starts, and a report counts the aspects assessed by each person.
 Everything specific to a school or a branch - learning areas, categories,
 dimensions, phases, distinctive programs and their components, graduate
 profiles, curation rubrics (with their aspect levels and ethics gate aspects),
@@ -55,6 +58,7 @@ Learning Artifact
 * `Select Learning Artifact for Showcase <docs/school_learning_artifact/08-select-for-showcase.html>`_
 * `Record Showcase Production of Learning Artifact <docs/school_learning_artifact/09-produce-showcase.html>`_
 * `Review Limited Publication Consent of Learning Artifact <docs/school_learning_artifact/10-review-limited-consent.html>`_
+* `Set the Final Status of a Learning Artifact <docs/school_learning_artifact/12-set-final-status.html>`_
 
 Learning Artifact Area
 ----------------------

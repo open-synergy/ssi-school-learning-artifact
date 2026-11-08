@@ -23,3 +23,4 @@ from . import school_learning_artifact_showcase_stage  # noqa: F401
 from . import school_learning_artifact_showcase_channel  # noqa: F401
 from . import school_learning_artifact_showcase_production  # noqa: F401
 from . import school_learning_artifact  # noqa: F401
+from . import school_learning_artifact_curation_load  # noqa: F401

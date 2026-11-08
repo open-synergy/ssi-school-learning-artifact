@@ -499,6 +499,32 @@ class SchoolLearningArtifact(models.Model):
         readonly=True,
         help="How many times the artifact was reopened for revision.",
     )
+    revision_limit_reached = fields.Boolean(
+        string="Revision Limit Reached",
+        compute="_compute_revision_limit_reached",
+        help=(
+            "Checked when the artifact was already reopened as many "
+            "times as the rubric allows, so it cannot be reopened for "
+            "another revision."
+        ),
+    )
+    final_curation_status_id = fields.Many2one(
+        string="Final Curation Status",
+        comodel_name="school_learning_artifact_curation_status",
+        domain=(
+            "[('category', 'in', ['archive', 'rejected']), "
+            "'|', ('school_ids', '=', False), "
+            "('school_ids', 'in', [school_id])]"
+        ),
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        ondelete="restrict",
+        help=(
+            "The status the curator picks when the artifact still needs "
+            "a revision but the revision limit is reached. It must be "
+            "an archive or a not eligible status."
+        ),
+    )
     allowed_component_ids = fields.Many2many(
         string="Allowed Components",
         comodel_name="school_distinctive_program_component",
@@ -727,22 +753,68 @@ class SchoolLearningArtifact(models.Model):
         active rubric without schools is the fallback. The field stays
         empty when neither exists.
         """
-        obj_rubric = self.env["school_learning_artifact_rubric"]
+        for record in self:
+            record.rubric_id = record._get_applicable_rubric()
+
+    def _get_applicable_rubric(self):
+        """Return the rubric that applies to the school right now.
+
+        Single source of the rubric choice, shared by the compute of
+        ``rubric_id`` and the refresh when the curation starts.
+
+        :return: the rubric record, or an empty recordset when none
+            applies
+        """
+        self.ensure_one()
+        obj_rubric = self.env["school_learning_artifact_rubric"].sudo()
+        result = obj_rubric
+        if self.school_id:
+            result = obj_rubric.search(
+                self._get_rubric_criteria(), order="id asc", limit=1
+            )
+            if not result:
+                result = obj_rubric.search(
+                    self._get_fallback_rubric_criteria(),
+                    order="id asc",
+                    limit=1,
+                )
+        return result
+
+    def _is_rubric_stale(self):
+        """Tell whether the stored rubric no longer applies.
+
+        The stored rubric is stale when it is empty, when it is
+        inactive, or when it does not list the school while an active
+        rubric listing the school exists.
+
+        :return: True when the rubric should be picked again
+        """
+        self.ensure_one()
+        rubric = self.rubric_id
+        result = False
+        if not rubric or not rubric.active:
+            result = True
+        elif self.school_id and self.school_id not in rubric.school_ids:
+            own = (
+                self.env["school_learning_artifact_rubric"]
+                .sudo()
+                .search(self._get_rubric_criteria(), limit=1)
+            )
+            result = bool(own)
+        return result
+
+    @api.depends("revision_count", "rubric_id", "rubric_id.max_revision")
+    def _compute_revision_limit_reached(self):
+        """Tell whether the revision limit of the rubric is reached.
+
+        The limit is reached when the rubric exists and the artifact
+        was reopened at least as many times as the rubric allows.
+        """
         for record in self:
             result = False
-            if record.school_id:
-                rubric = obj_rubric.search(
-                    record._get_rubric_criteria(), order="id asc", limit=1
-                )
-                if not rubric:
-                    rubric = obj_rubric.search(
-                        record._get_fallback_rubric_criteria(),
-                        order="id asc",
-                        limit=1,
-                    )
-                if rubric:
-                    result = rubric
-            record.rubric_id = result
+            if record.rubric_id:
+                result = record.revision_count >= record.rubric_id.max_revision
+            record.revision_limit_reached = result
 
     def _get_rubric_criteria(self):
         """Build the search domain for the rubric of the school.
@@ -811,6 +883,10 @@ class SchoolLearningArtifact(models.Model):
         "rubric_id.criterion_ids.knockout_score",
         "rubric_id.threshold_ids.min_total",
         "rubric_id.threshold_ids.status_id",
+        "rubric_id.max_revision",
+        "revision_count",
+        "final_curation_status_id",
+        "final_curation_status_id.category",
     )
     def _compute_curation_status_id(self):
         """Derive the curation status from the rubric.
@@ -818,7 +894,9 @@ class SchoolLearningArtifact(models.Model):
         A failed ethics gate gives the ethics fail status. Otherwise
         a score at or below the knockout score of its aspect gives the
         knockout status. Otherwise the threshold with the highest
-        minimum that the total reaches gives its status.
+        minimum that the total reaches gives its status. A status that
+        needs a revision is replaced by the final status once the
+        revision limit is reached and the curator picked one.
         """
         for record in self:
             result = False
@@ -831,6 +909,31 @@ class SchoolLearningArtifact(models.Model):
         """Return the curation status of the artifact for a rubric.
 
         Extension point: override to change how the status is derived.
+        The status derived from the scores is replaced by the final
+        status when it needs a revision, the revision limit is reached
+        and the curator picked a final status.
+
+        :param rubric: the ``school_learning_artifact_rubric`` in use
+        :return: the status record, or False when none applies
+        """
+        self.ensure_one()
+        result = self._get_scored_curation_status(rubric)
+        if (
+            result
+            and result.category == "revision"
+            and self.revision_limit_reached
+            and self.final_curation_status_id
+        ):
+            result = self.final_curation_status_id
+        return result
+
+    def _get_scored_curation_status(self, rubric):
+        """Return the curation status derived from the scores only.
+
+        A failed ethics gate gives the ethics fail status. Otherwise
+        a score at or below the knockout score of its aspect gives the
+        knockout status. Otherwise the threshold with the highest
+        minimum that the total reaches gives its status.
 
         :param rubric: the ``school_learning_artifact_rubric`` in use
         :return: the status record, or False when none applies
@@ -1240,6 +1343,22 @@ Solution: %s
         raise UserError(error_message)
 
     @ssi_decorator.post_open_action()
+    def _05_refresh_rubric(self):
+        """Pick the rubric again when the stored one no longer applies.
+
+        Post-open hook, numbered before the creation of the score rows.
+        It runs only for an artifact without score rows, so an artifact
+        that is being assessed or was reopened keeps its rubric. The
+        rubric is picked again when the stored one is empty, inactive,
+        or does not list the school while an active rubric does.
+        """
+        self.ensure_one()
+        if not self.score_ids and self._is_rubric_stale():
+            rubric = self._get_applicable_rubric()
+            if rubric != self.rubric_id:
+                self.write({"rubric_id": rubric.id})
+
+    @ssi_decorator.post_open_action()
     def _10_create_score_rows(self):
         """Create one score row per aspect of the rubric.
 
@@ -1370,6 +1489,36 @@ Solution: %s
             self._raise_curation_error(
                 _("The responsible user assessed the artifact"),
                 _("Let another user assess the artifact"),
+            )
+
+    @ssi_decorator.pre_done_check()
+    def _50_check_final_status(self):
+        """Require the final status exactly when the limit is reached.
+
+        Pre-done hook: when the status derived from the scores needs a
+        revision and the revision limit is reached, the curator must
+        pick the final status. Picking it in any other case is
+        rejected.
+
+        :raises UserError: when the final status is missing, or is
+            filled while it does not apply
+        """
+        self.ensure_one()
+        derived = False
+        if self.rubric_id:
+            derived = self._get_scored_curation_status(self.rubric_id)
+        required = bool(
+            derived and derived.category == "revision" and self.revision_limit_reached
+        )
+        if required and not self.final_curation_status_id:
+            self._raise_curation_error(
+                _("The revision limit is reached"),
+                _("Choose the final status"),
+            )
+        if self.final_curation_status_id and not required:
+            self._raise_curation_error(
+                _("The final status does not apply to this artifact"),
+                _("Final status is used only when the revision limit is reached"),
             )
 
     @api.model

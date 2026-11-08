@@ -213,5 +213,81 @@ odoo.define(
                 clickAndConfirm("action_restart", "Restart", "draft", "Draft")
             )
         );
+
+        // IK: docs/school_learning_artifact/12-set-final-status.md
+        tour.register(
+            "ssi_school_learning_artifact_school_learning_artifact_set_final_status",
+            {
+                test: true,
+                url: "/web",
+            },
+            [].concat(
+                // Flow 1 -- Open the Learning Artifacts menu.
+                openArtifactList(),
+                // Flow 2 -- Open the record to curate.
+                openRecordByActivity("TOUR LC Final Status Activity"),
+                [
+                    // Flow 3 -- Click the Edit button.
+                    {
+                        content: "Click Edit",
+                        trigger: ".o_form_button_edit",
+                        extra_trigger: ".o_form_view.o_form_readonly",
+                    },
+                    {
+                        content: "Form is open in edit mode",
+                        trigger: ".o_form_view.o_form_editable",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+
+                    // Flow 4 -- Open the Curation tab.
+                    {
+                        content: "Open the Curation tab",
+                        trigger: ".o_notebook .nav-link:contains(Curation)",
+                        extra_trigger: ".o_form_view.o_form_editable",
+                    },
+
+                    // Flow 5 -- Select the Final Curation Status.
+                    {
+                        content: "Type the final curation status",
+                        trigger:
+                            ".o_field_many2one[name='final_curation_status_id'] input",
+                        run: "text TOUR LC Archive",
+                    },
+                    {
+                        content: "Pick the final curation status",
+                        trigger:
+                            ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Archive)",
+                    },
+
+                    // Flow 7 -- Click Save.
+                    {
+                        content: "Save the record",
+                        trigger: ".o_form_button_save",
+                    },
+                    {
+                        content: "Record is saved",
+                        trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                ],
+                // Flow 8 and 9 -- Click Done, then OK on the dialog.
+                clickAndConfirm("action_done", "Done", "done", "Curated"),
+                [
+                    // Post-Condition -- the category is the one of the final status.
+                    {
+                        content: "Curation Status Category is Archive",
+                        trigger:
+                            ".o_field_widget[name='curation_status_category'][raw-value='archive']",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                ]
+            )
+        );
     }
 );

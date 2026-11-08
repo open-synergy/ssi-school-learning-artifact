@@ -4489,7 +4489,22 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Done artifact"
+      - step: "Done at the revision limit without a final status is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Choose the final status"
+
+      - step: "Curator picks the archive status as the final status"
+        action: "write"
+        target: "artifact"
+        values:
+          final_curation_status_id: "REC: st_archive.id"
+
+      - step: "Done artifact with the final status"
         action: "call"
         target: "artifact"
         method: "action_done"
@@ -4498,6 +4513,12 @@ scenarios:
           state:
             type: "value"
             expected: "done"
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_archive"
+          curation_status_category:
+            type: "value"
+            expected: "archive"
 
       - step: "Second reopen is refused"
         action: "call"
@@ -5941,3 +5962,1132 @@ scenarios:
           message_contains: "cannot fail the gate"
         values:
           is_fail: true
+
+  - name: "Final status rejected at the revision limit needs the curator note"
+    steps:
+      - step: "Create rubric rubric_a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Rubric rubric_a"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "EG"
+                name: "Gate EG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
+
+      - step: "Find row EG of artifact g1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "row_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row g1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: row_g1.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "lvl_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row g1"
+        action: "write"
+        target: "row_g1"
+        values:
+          level_id: "REC: lvl_g1.id"
+
+      - step: "Write recommendation"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Strengthen the reflection"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "First reopen"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Curator picks the rejected status as the final status"
+        action: "write"
+        target: "artifact"
+        values:
+          final_curation_status_id: "REC: st_rejected.id"
+
+      - step: "Done without the curator note is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Curator Note is empty"
+
+      - step: "Curator writes the reason"
+        action: "write"
+        target: "artifact"
+        values:
+          curator_note: "Not worth another revision"
+
+      - step: "Done artifact with the rejected final status"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Assert rejected status"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_rejected"
+          curation_status_category:
+            type: "value"
+            expected: "rejected"
+
+  - name: "Final status is rejected before the revision limit is reached"
+    steps:
+      - step: "Create rubric rubric_a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Rubric rubric_a"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "EG"
+                name: "Gate EG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
+
+      - step: "Find row EG of artifact g1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "row_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row g1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: row_g1.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "lvl_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row g1"
+        action: "write"
+        target: "row_g1"
+        values:
+          level_id: "REC: lvl_g1.id"
+
+      - step: "Write recommendation"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Strengthen the reflection"
+
+      - step: "Curator picks a final status on the first curation"
+        action: "write"
+        target: "artifact"
+        values:
+          final_curation_status_id: "REC: st_archive.id"
+
+      - step: "Done with a final status before the limit is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains:
+            "Final status is used only when the revision limit is reached"
+
+      - step: "Curator clears the final status"
+        action: "write"
+        target: "artifact"
+        values:
+          final_curation_status_id: false
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Assert revision status"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_category:
+            type: "value"
+            expected: "revision"
+
+  - name: "Rubric is picked again when the curation starts"
+    steps:
+      - step: "Create rubric rubric_a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Rubric old"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "EG"
+                name: "Gate EG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Artifact keeps rubric A before the curation starts"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_a"
+
+      - step: "Rubric A leaves the school"
+        action: "write"
+        target: "rubric_a"
+        values:
+          school_ids: [[5, 0, 0]]
+
+      - step: "Create rubric rubric_b"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_b"
+        values:
+          name: "Rubric new"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "B1"
+                name: "Aspect B1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "BG"
+                name: "Gate BG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Stored rubric is still A before the curation starts"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_a"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Artifact uses rubric B after Open"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_b"
+
+      - step: "Score rows come from the aspects of rubric B"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "rows_rubric_b"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["criterion_id.rubric_id", "=", "REC: rubric_b.id"],
+          ]
+        expect_count: 2
+
+      - step: "No score row comes from rubric A"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "rows_rubric_a"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["criterion_id.rubric_id", "=", "REC: rubric_a.id"],
+          ]
+        expect_count: 0
+
+  - name: "Artifact with score rows keeps its rubric when reopened"
+    steps:
+      - step: "Create rubric rubric_a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Rubric kept"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "EG"
+                name: "Gate EG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
+
+      - step: "Find row EG of artifact g1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "row_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row g1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: row_g1.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "lvl_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row g1"
+        action: "write"
+        target: "row_g1"
+        values:
+          level_id: "REC: lvl_g1.id"
+
+      - step: "Write recommendation"
+        action: "write"
+        target: "artifact"
+        values:
+          recommendation: "Strengthen the reflection"
+
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+
+      - step: "Rubric A leaves the school"
+        action: "write"
+        target: "rubric_a"
+        values:
+          school_ids: [[5, 0, 0]]
+
+      - step: "Create rubric rubric_b"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_b"
+        values:
+          name: "Rubric other"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "B1"
+                name: "Aspect B1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "BG"
+                name: "Gate BG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Reopen artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_restart"
+        as_user: "base.user_admin"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Artifact keeps rubric A"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_a"
+
+  - name: "Curation load report counts the assessed aspects per assessor"
+    steps:
+      - step: "Create user assessor_one"
+        action: "create"
+        model: "res.users"
+        save_as: "assessor_one"
+        values:
+          name: "Load Tester assessor_one"
+          login: "curation.load.one@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+
+      - step: "Create user assessor_two"
+        action: "create"
+        model: "res.users"
+        save_as: "assessor_two"
+        values:
+          name: "Load Tester assessor_two"
+          login: "curation.load.two@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                ],
+              ],
+            ]
+
+      - step: "Create rubric rubric_a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Rubric rubric_a"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          max_revision: 1
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Level 1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 3
+                      name: "Level 3"
+            - - 0
+              - 0
+              - sequence: 90
+                code: "EG"
+                name: "Gate EG"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Pass"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "Fail"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 3
+                status_id: "REC: st_eligible.id"
+            - - 0
+              - 0
+              - min_total: 1
+                status_id: "REC: st_revision.id"
+
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 3]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        as_user: "assessor_one"
+        values:
+          level_id: "REC: lvl_a1.id"
+
+      - step: "Find row EG of artifact g1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "row_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row g1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: row_g1.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "lvl_g1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row g1"
+        action: "write"
+        target: "row_g1"
+        as_user: "assessor_two"
+        values:
+          level_id: "REC: lvl_g1.id"
+
+      - step: "Report rows of assessor_one"
+        action: "search"
+        model: "school_learning_artifact_curation_load"
+        save_as: "load_one_score"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["assessor_id", "=", "REC: assessor_one.id"],
+            ["aspect_type", "=", "score"],
+          ]
+        expect_count: 1
+
+      - step: "All report rows of assessor_one"
+        action: "search"
+        model: "school_learning_artifact_curation_load"
+        save_as: "load_one_all"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["assessor_id", "=", "REC: assessor_one.id"],
+          ]
+        expect_count: 1
+
+      - step: "Report rows of assessor_two"
+        action: "search"
+        model: "school_learning_artifact_curation_load"
+        save_as: "load_two_gate"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["assessor_id", "=", "REC: assessor_two.id"],
+            ["aspect_type", "=", "gate"],
+          ]
+        expect_count: 1
+
+      - step: "All report rows of assessor_two"
+        action: "search"
+        model: "school_learning_artifact_curation_load"
+        save_as: "load_two_all"
+        domain:
+          [
+            ["artifact_id", "=", "REC: artifact.id"],
+            ["assessor_id", "=", "REC: assessor_two.id"],
+          ]
+        expect_count: 1
+
+      - step: "Unassessed aspects are not in the report"
+        action: "search"
+        model: "school_learning_artifact_curation_load"
+        save_as: "load_artifact_all"
+        domain: [["artifact_id", "=", "REC: artifact.id"]]
+        expect_count: 2

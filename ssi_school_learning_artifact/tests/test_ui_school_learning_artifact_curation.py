@@ -18,15 +18,17 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
 
     @classmethod
     def setUpClass(cls):
-        """Create every Pre-Condition fixture required by the 2 tours.
+        """Create every Pre-Condition fixture required by the 3 tours.
 
         One school with its own rubric of a scored aspect and an ethics
-        gate aspect is created,
-        with an eligible and a revision status. The curate tour gets
-        an artifact that is On Progress. The reopen tour gets an
-        artifact that is Curated with the revision category. Both
-        move through the real action methods, and ``user_id`` is set
-        to ``base.user_admin`` so the tour session can see them.
+        gate aspect is created, with an eligible, a revision, a not
+        eligible and an archive status. The curate tour gets an
+        artifact that is On Progress. The reopen tour gets an artifact
+        that is Curated with the revision category. The final status
+        tour gets an artifact that is On Progress again after one
+        reopening. All move through the real action methods, and
+        ``user_id`` is set to ``base.user_admin`` so the tour session
+        can see them.
         """
         super().setUpClass()
         cls.admin = cls.env.ref("base.user_admin")
@@ -115,6 +117,13 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
                 "category": "rejected",
             }
         )
+        obj_status.create(
+            {
+                "name": "TOUR LC Archive",
+                "code": "TOURLCAC",
+                "category": "archive",
+            }
+        )
         cls.rubric = cls.env["school_learning_artifact_rubric"].create(
             {
                 "name": "TOUR LC Rubric",
@@ -200,6 +209,21 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
         cls.artifact_reopen.invalidate_cache()
         cls.artifact_reopen.with_user(cls.admin).action_done()
 
+        # 12-set-final-status.md -- On Progress record that was already
+        # reopened once, so the revision limit of the rubric is reached.
+        cls.artifact_final = cls._create_open_artifact("TOUR LC Final Status Activity")
+        cls.artifact_final.write({"recommendation": "Strengthen the reflection"})
+        cls._answer_curation(cls.artifact_final, "TOUR LC Level Two")
+        cls.artifact_final.invalidate_cache()
+        cls.artifact_final.with_user(cls.admin).action_done()
+        cls.artifact_final.invalidate_cache()
+        cls.artifact_final.with_user(cls.admin).action_restart()
+        cls.artifact_final.invalidate_cache()
+        cls.artifact_final.with_user(cls.admin).action_confirm()
+        cls.artifact_final.invalidate_cache()
+        cls.artifact_final.with_user(cls.admin).action_approve_approval()
+        cls.artifact_final.invalidate_cache()
+
     @classmethod
     def _create_open_artifact(cls, activity_name):
         """Create a complete artifact and start its curation.
@@ -281,5 +305,16 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
         self.start_tour(
             "/web",
             "ssi_school_learning_artifact_school_learning_artifact_reopen",
+            login="admin",
+        )
+
+    def test_set_final_status(self):
+        """Run the set final status tour for ``school_learning_artifact``.
+
+        IK: docs/school_learning_artifact/12-set-final-status.md
+        """
+        self.start_tour(
+            "/web",
+            "ssi_school_learning_artifact_school_learning_artifact_set_final_status",
             login="admin",
         )
