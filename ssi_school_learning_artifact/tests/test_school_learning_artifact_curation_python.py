@@ -325,8 +325,8 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
         """
         cr = self.env.cr
         cr.execute(
-            "INSERT INTO ir_model (name, model, state) "
-            "VALUES ('Ethics Reason', %s, 'manual') RETURNING id",
+            'INSERT INTO ir_model (name, model, state, "order") '
+            "VALUES ('Ethics Reason', %s, 'manual', 'id') RETURNING id",
             (REASON_MODEL,),
         )
         model_id = cr.fetchone()[0]
