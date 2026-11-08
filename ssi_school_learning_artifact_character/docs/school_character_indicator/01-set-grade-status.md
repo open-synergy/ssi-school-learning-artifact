@@ -20,11 +20,13 @@
 1. Open the **School > Configuration > Character Indicators** menu.
 2. Open the indicator to configure.
 3. Click the **Edit** button.
-4. Open the **Grade Status** tab.
-5. Click **Add a line**.
-6. Select the **Grade Type** _(required)_.
-7. Select the **Status** _(required)_: **Effective**, **Partial** or **Not Effective**.
-8. Click **Save**.
+4. Add lines in the **Grade Status** tab. Repeat the following steps as many times as
+   needed:
+   - Click **Add a line**.
+   - Fill in each line with:
+     - **Grade Type** _(required)_: Select the grade type.
+     - **Status** _(required)_: Select **Effective**, **Partial** or **Not Effective**.
+5. Click **Save**.
 
 ## Post-Condition
 

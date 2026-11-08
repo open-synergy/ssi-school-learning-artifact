@@ -63,20 +63,20 @@ odoo.define(
                         // Assertion only.
                     },
                 },
-                // Flow 4 -- Open the Grade Status tab.
+                // Flow 4 -- Add lines in the Grade Status tab: open the tab.
                 {
                     content: "Open the Grade Status tab",
                     trigger: ".o_notebook .nav-link:contains(Grade Status)",
                     extra_trigger: ".o_form_view.o_form_editable",
                 },
-                // Flow 5 -- Add a line.
+                // Flow 4 -- Click Add a line.
                 {
                     content: "Add a grade status line",
                     trigger:
                         ".o_field_widget[name='grade_status_ids'] " +
                         ".o_field_x2many_list_row_add a",
                 },
-                // Flow 6 -- Select the Grade Type.
+                // Flow 4 -- Grade Type (required).
                 {
                     content: "Type the grade type",
                     trigger:
@@ -88,7 +88,7 @@ odoo.define(
                     trigger:
                         ".ui-autocomplete .ui-menu-item a:contains(TOUR GS Grade Type)",
                 },
-                // Flow 7 -- Select the Status.
+                // Flow 4 -- Status (required).
                 {
                     content: "Select the status",
                     trigger: ".o_selected_row select.o_field_widget[name='status']",
@@ -103,7 +103,7 @@ odoo.define(
                         this.$anchor[0].click();
                     },
                 },
-                // Flow 8 -- Click Save.
+                // Flow 5 -- Click Save.
                 {
                     content: "Save the record",
                     trigger: ".o_form_button_save",
