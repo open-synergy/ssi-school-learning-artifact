@@ -20,8 +20,19 @@ msgid ""
 "\n"
 "Context: Save character indicator grade status\n"
 "Database ID: %s\n"
-"Problem: Indicator already has a status for this grade type\n"
-"Solution: Keep one status line per grade type for each indicator\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Save learning artifact character indicator\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -36,11 +47,24 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_indicator_ids
+msgid ""
+"Active indicators of an active sub-construct that can be selected. When a "
+"status line applies to the grade of the artifact, only the indicators that "
+"are Effective or Partial on those lines are listed."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_subconstruct_ids
 msgid ""
 "Active sub-constructs that can be tagged. When the grade type of the "
 "artifact has indicator statuses, only the sub-constructs with an Effective "
 "or Partial indicator at that grade type are listed."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_indicator_ids
+msgid "Allowed Character Indicators"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -51,6 +75,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
 msgid "An additional character sub-construct that appears in this artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ok
+msgid "Can Select Character Indicator"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -69,8 +98,29 @@ msgid "Character Indicator Grade Status"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
+msgid "Character Indicators"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_learning_artifact_view_form
 msgid "Character Tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"Character indicator does not belong to the dominant or the secondary "
+"character tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"Character indicator is selected while the artifact is marked as not clearly "
+"evident"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -78,6 +128,12 @@ msgstr ""
 msgid ""
 "Check when no character sub-construct is clearly evident in this artifact. "
 "The dominant tag must then stay empty."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid "Clear the character indicators or uncheck Not Clearly Evident"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -108,6 +164,12 @@ msgid "Effective"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid "Fill in the grades on every line or leave them empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_character_indicator_view_form
 msgid "Grade Status"
 msgstr ""
@@ -120,6 +182,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
 msgid "Grade Type"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_ids
+msgid "Grades"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -140,6 +207,32 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__indicator_id
 msgid "Indicator"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid "Indicator already has a status for this grade type"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid ""
+"Indicator has a status line without grades and a status line with grades for"
+" this grade type"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid "Indicator has two status lines for the same grade"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid "Keep one status line per grade type for each indicator"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -175,10 +268,23 @@ msgid "Partial"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ok
+msgid ""
+"Policy that determines whether the character indicators of this artifact can"
+" be selected."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_tag_ok
 msgid ""
 "Policy that determines whether the character tags of this artifact can be "
 "filled in."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
+#, python-format
+msgid "Remove the shared grade from one of the lines"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -192,6 +298,12 @@ msgid "Secondary Character Tag"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid "Select only indicators of the dominant or the secondary character tag"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__status
 msgid "Status"
 msgstr ""
@@ -199,6 +311,14 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__indicator_id
 msgid "The character indicator that this status applies to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
+msgid ""
+"The character indicators that appear in this artifact. Each indicator "
+"belongs to the dominant or the secondary character tag. It is a mark of the "
+"activity, not evidence of the character achievement of a student."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -211,6 +331,13 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
 msgid "The grade type at which the indicator has this status."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_ids
+msgid ""
+"The grades of the grade type at which the indicator has this status. Leave "
+"empty to apply the status to every grade of the grade type."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
