@@ -31,4 +31,58 @@
     <field name="restrict_additional" eval="0" />
 </record>
 
+<!-- Character Indicator: draft, user group -->
+<record
+        id="policy_template_school_learning_artifact_character_indicator_draft"
+        model="policy.template_detail"
+    >
+    <field
+            name="template_id"
+            ref="ssi_school_learning_artifact.policy_template_school_learning_artifact"
+        />
+    <field
+            name="field_id"
+            search="[('model_id.model','=','school_learning_artifact'),('name','=','character_indicator_ok')]"
+        />
+    <field name="restrict_state" eval="1" />
+    <field
+            name="state_ids"
+            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','=','draft')]"
+        />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+            name="group_ids"
+            eval="[(6,0,[ref('ssi_school_learning_artifact.school_learning_artifact_user_group')])]"
+        />
+    <field name="restrict_additional" eval="0" />
+</record>
+
+<!-- Character Indicator: confirm and open, validator group -->
+<record
+        id="policy_template_school_learning_artifact_character_indicator_curate"
+        model="policy.template_detail"
+    >
+    <field
+            name="template_id"
+            ref="ssi_school_learning_artifact.policy_template_school_learning_artifact"
+        />
+    <field
+            name="field_id"
+            search="[('model_id.model','=','school_learning_artifact'),('name','=','character_indicator_ok')]"
+        />
+    <field name="restrict_state" eval="1" />
+    <field
+            name="state_ids"
+            search="[('field_id.model_id.model','=','school_learning_artifact'),('value','in',['confirm','open'])]"
+        />
+    <field name="restrict_user" eval="1" />
+    <field name="computation_method">use_group</field>
+    <field
+            name="group_ids"
+            eval="[(6,0,[ref('ssi_school_learning_artifact.school_learning_artifact_validator_group')])]"
+        />
+    <field name="restrict_additional" eval="0" />
+</record>
+
 </odoo>

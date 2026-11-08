@@ -17,11 +17,21 @@
                     <field name="grade_status_ids" nolabel="1">
                         <tree editable="bottom">
                             <field name="grade_type_id" />
+                            <field
+                                    name="grade_ids"
+                                    widget="many2many_tags"
+                                    options="{'no_create': True}"
+                                />
                             <field name="status" />
                         </tree>
                         <form>
                             <group name="grade_status_1">
                                 <field name="grade_type_id" />
+                                <field
+                                        name="grade_ids"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True}"
+                                    />
                                 <field name="status" />
                             </group>
                         </form>
