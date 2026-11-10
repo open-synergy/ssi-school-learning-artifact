@@ -1578,7 +1578,7 @@ msgstr "Skor Gugur"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__knockout_status_id
 msgid "Knockout Status"
-msgstr "Status Gugur"
+msgstr "Hasil Kurasi Gugur"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose____last_update
