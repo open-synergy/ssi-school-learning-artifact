@@ -12,10 +12,10 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "Draft"
+            expected: "Draft"
           sequence:
             type: "value"
-            equals: 0
+            expected: 0
 
       - step: "Get confirm selection"
         action: "ref"
@@ -28,10 +28,10 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "Waiting for Approval"
+            expected: "Waiting for Approval"
           sequence:
             type: "value"
-            equals: 1
+            expected: 1
 
       - step: "Get reject selection"
         action: "ref"
@@ -44,10 +44,10 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "Rejected"
+            expected: "Rejected"
           sequence:
             type: "value"
-            equals: 2
+            expected: 2
 
       - step: "Get open selection"
         action: "ref"
@@ -60,10 +60,10 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "On Progress"
+            expected: "On Progress"
           sequence:
             type: "value"
-            equals: 3
+            expected: 3
 
       - step: "Get done selection"
         action: "ref"
@@ -76,10 +76,10 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "Curated"
+            expected: "Curated"
           sequence:
             type: "value"
-            equals: 4
+            expected: 4
 
       - step: "Get cancel selection"
         action: "ref"
@@ -92,7 +92,7 @@ scenarios:
         asserts:
           name:
             type: "value"
-            equals: "Cancelled"
+            expected: "Cancelled"
           sequence:
             type: "value"
-            equals: 5
+            expected: 5
