@@ -1,0 +1,98 @@
+scenarios:
+  - name: "State selection xmlids are owned by this module"
+    steps:
+      - step: "Get draft selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__draft"
+        save_as: "sel_draft"
+
+      - step: "Assert draft selection"
+        action: "assert"
+        target: "sel_draft"
+        asserts:
+          name:
+            type: "value"
+            equals: "Draft"
+          sequence:
+            type: "value"
+            equals: 0
+
+      - step: "Get confirm selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__confirm"
+        save_as: "sel_confirm"
+
+      - step: "Assert confirm selection"
+        action: "assert"
+        target: "sel_confirm"
+        asserts:
+          name:
+            type: "value"
+            equals: "Waiting for Approval"
+          sequence:
+            type: "value"
+            equals: 1
+
+      - step: "Get reject selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__reject"
+        save_as: "sel_reject"
+
+      - step: "Assert reject selection"
+        action: "assert"
+        target: "sel_reject"
+        asserts:
+          name:
+            type: "value"
+            equals: "Rejected"
+          sequence:
+            type: "value"
+            equals: 2
+
+      - step: "Get open selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__open"
+        save_as: "sel_open"
+
+      - step: "Assert open selection"
+        action: "assert"
+        target: "sel_open"
+        asserts:
+          name:
+            type: "value"
+            equals: "On Progress"
+          sequence:
+            type: "value"
+            equals: 3
+
+      - step: "Get done selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__done"
+        save_as: "sel_done"
+
+      - step: "Assert done selection"
+        action: "assert"
+        target: "sel_done"
+        asserts:
+          name:
+            type: "value"
+            equals: "Curated"
+          sequence:
+            type: "value"
+            equals: 4
+
+      - step: "Get cancel selection"
+        action: "ref"
+        xml_id: "ssi_school_learning_artifact.selection__school_learning_artifact__state__cancel"
+        save_as: "sel_cancel"
+
+      - step: "Assert cancel selection"
+        action: "assert"
+        target: "sel_cancel"
+        asserts:
+          name:
+            type: "value"
+            equals: "Cancelled"
+          sequence:
+            type: "value"
+            equals: 5
