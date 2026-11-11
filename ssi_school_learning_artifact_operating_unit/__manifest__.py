@@ -20,6 +20,8 @@
     "data": [
         "security/res_group/school_learning_artifact.xml",
         "security/ir_rule/school_learning_artifact.xml",
+        "security/ir_rule/school_learning_artifact_showcase_stage.xml",
+        "security/ir_rule/school_learning_artifact_showcase_channel.xml",
         "views/school_learning_artifact.xml",
         "views/assets.xml",
     ],
