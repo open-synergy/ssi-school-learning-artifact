@@ -576,6 +576,7 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__cancel
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__cancel
 msgid "Cancelled"
 msgstr ""
@@ -999,6 +1000,7 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__draft
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__draft
 msgid "Draft"
 msgstr ""
@@ -2169,6 +2171,7 @@ msgid "Obtain the consent required by the school first"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__open
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__open
 msgid "On Progress"
 msgstr ""
@@ -2368,6 +2371,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__reject
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__reject
 msgid "Rejected"
 msgstr ""
@@ -3421,6 +3425,7 @@ msgid "Viewer"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__confirm
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__confirm
 msgid "Waiting for Approval"
 msgstr ""
