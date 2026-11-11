@@ -1,0 +1,337 @@
+scenarios:
+  - name: "Users see the showcase stages and channels of their own operating units only"
+    steps:
+      - step: "Create partner of operating unit A"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_a_partner"
+        values:
+          name: "Showcase Scope OU A Partner"
+
+      - step: "Create partner of operating unit B"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_b_partner"
+        values:
+          name: "Showcase Scope OU B Partner"
+
+      - step: "Create operating unit A"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_a"
+        values:
+          name: "Showcase Scope OU A"
+          code: "SSCOPEA"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_a_partner.id"
+
+      - step: "Create operating unit B"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_b"
+        values:
+          name: "Showcase Scope OU B"
+          code: "SSCOPEB"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_b_partner.id"
+
+      - step: "Create grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type"
+        values:
+          name: "Grade Type for Showcase Scope"
+          code: "/"
+          sequence: 10
+
+      - step: "Create school of operating unit A"
+        action: "create"
+        model: "school"
+        save_as: "school_a"
+        values:
+          name: "School A for Showcase Scope"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create school of operating unit B"
+        action: "create"
+        model: "school"
+        save_as: "school_b"
+        values:
+          name: "School B for Showcase Scope"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create showcase stage: Global"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_global"
+        values:
+          name: "Scope Stage Global"
+          code: "/"
+          sequence: 10
+
+      - step: "Create showcase stage: School A"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_a"
+        values:
+          name: "Scope Stage School A"
+          code: "/"
+          sequence: 10
+          school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+      - step: "Create showcase stage: School B"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_b"
+        values:
+          name: "Scope Stage School B"
+          code: "/"
+          sequence: 10
+          school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+      - step: "Create showcase stage: School A and B"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "stage_ab"
+        values:
+          name: "Scope Stage School A and B"
+          code: "/"
+          sequence: 10
+          school_ids: [[6, 0, ["REC: school_a.id", "REC: school_b.id"]]]
+
+      - step: "Create showcase channel: Global"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_global"
+        values:
+          name: "Scope Channel Global"
+          code: "/"
+
+      - step: "Create showcase channel: School A"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_a"
+        values:
+          name: "Scope Channel School A"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+      - step: "Create showcase channel: School B"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_b"
+        values:
+          name: "Scope Channel School B"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+      - step: "Create user of operating unit A only with the configurator groups"
+        action: "create"
+        model: "res.users"
+        save_as: "user_a"
+        values:
+          name: "Showcase Scope User A"
+          login: "showcase.scope.a@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_channel_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create user of operating units A and B with the configurator groups"
+        action: "create"
+        model: "res.users"
+        save_as: "user_ab"
+        values:
+          name: "Showcase Scope User AB"
+          login: "showcase.scope.ab@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_channel_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id", "REC: ou_b.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create user of the Company group with operating unit A only"
+        action: "create"
+        model: "res.users"
+        save_as: "user_company"
+        values:
+          name: "Showcase Scope User Company"
+          login: "showcase.scope.company@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_showcase_channel_group",
+                ],
+              ],
+            ]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "User of unit A finds global, A and A+B stages but not the B stage"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: stage_global.id",
+                "REC: stage_a.id",
+                "REC: stage_b.id",
+                "REC: stage_ab.id",
+              ],
+            ],
+          ]
+        save_as: "found_stage_a"
+        expect_count: 3
+
+      - step: "User of unit A finds global and A channels but not the B channel"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
+            ],
+          ]
+        save_as: "found_channel_a"
+        expect_count: 2
+
+      - step: "User of unit A does not find the stage of school B"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: stage_b.id"]]]
+        save_as: "found_stage_b_by_a"
+        expect_count: 0
+
+      - step: "User of units A and B finds the four stages"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: stage_global.id",
+                "REC: stage_a.id",
+                "REC: stage_b.id",
+                "REC: stage_ab.id",
+              ],
+            ],
+          ]
+        save_as: "found_stage_ab"
+        expect_count: 4
+
+      - step: "User of units A and B finds the three channels"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
+            ],
+          ]
+        save_as: "found_channel_ab"
+        expect_count: 3
+
+      - step: "User of the Company group finds the four stages"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: stage_global.id",
+                "REC: stage_a.id",
+                "REC: stage_b.id",
+                "REC: stage_ab.id",
+              ],
+            ],
+          ]
+        save_as: "found_stage_company"
+        expect_count: 4
+
+      - step: "User of the Company group finds the three channels"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
+            ],
+          ]
+        save_as: "found_channel_company"
+        expect_count: 3
+
+      - step: "User of unit A cannot write the stage of school B"
+        action: "write"
+        target: "stage_b"
+        as_user: "user_a"
+        values:
+          name: "Scope Stage School B Renamed"
+        expect_error:
+          type: "AccessError"
+          message_contains: "security restrictions"
