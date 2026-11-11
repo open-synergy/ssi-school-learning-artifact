@@ -142,10 +142,20 @@ class SchoolLearningArtifact(models.Model):
     # Sequence attribute
     _create_sequence_state = "open"
 
-    # Overloading: the done state is shown as Curated.
+    # Overloading: the done state is shown as Curated. The inherited
+    # values are repeated with their exact mixin labels so that this
+    # module also owns the selection xmlids (Odoo 14 creates the xmlid
+    # for the module that writes a value). Without it the labels are
+    # never exported to this module's .pot and the id_ID translation
+    # does not apply. Keep the effective order of the merged mixins.
     state = fields.Selection(
         selection_add=[
+            ("draft", "Draft"),
+            ("confirm", "Waiting for Approval"),
+            ("reject", "Rejected"),
+            ("open", "On Progress"),
             ("done", "Curated"),
+            ("cancel", "Cancelled"),
         ],
     )
     # Overloading: the document number is shown as the artifact code.
