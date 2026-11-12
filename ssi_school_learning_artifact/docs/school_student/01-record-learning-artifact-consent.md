@@ -53,3 +53,8 @@
   the strictest consent of all its students: Refused, then Not Recorded, then Limited,
   then Full.
 - If the inventory consent is **Withdrawn**, the artifact cannot be submitted.
+- The change recalculates the artifacts featuring the student: the ethics gate row
+  filled from the inventory consent, the **Ethics Result** and the **Curation Status**
+  follow it; a withdrawn publication or inventory consent also takes a **Curated**
+  artifact off the showcase board (its **Showcase Stage** becomes empty). A limited
+  inventory consent makes **Consent Review Required** checked.

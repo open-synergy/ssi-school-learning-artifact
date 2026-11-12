@@ -16,11 +16,12 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
         One school with a rubric of a single aspect that makes a score
         of 3 eligible, an initial and a selectable showcase stage, and a
         showcase channel are created. Three curated artifacts are built
-        through the real action methods, one per tour. The review
-        artifact belongs to a student with a limited publication
-        consent, and the school treats a limited consent as a review
-        task. ``user_id`` is set to ``base.user_admin`` so the tour
-        session can see the artifacts.
+        through the real action methods, one per tour. The select and
+        production artifacts belong to a student with a full
+        publication consent. The review artifact belongs to a student
+        with a limited publication consent, and the school treats a
+        limited consent as a review task. ``user_id`` is set to
+        ``base.user_admin`` so the tour session can see the artifacts.
         """
         super().setUpClass()
         cls.admin = cls.env.ref("base.user_admin")
@@ -228,15 +229,46 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
             }
         )
 
+        # A second student whose parents gave a full publication consent:
+        # an artifact is given a showcase stage, and can move into one,
+        # only when the consent allows the showcase.
+        full_contact = cls.env["res.partner"].create(
+            {"name": "TOUR SH Full Consent Contact"}
+        )
+        full_student = cls.env["school_student"].create(
+            {
+                "name": "TOUR SH Full Consent Student",
+                "code": "TOURSHSF",
+                "contact_id": full_contact.id,
+                "school_id": cls.school.id,
+            }
+        )
+        cls.env["res.partner.consent"].create(
+            {
+                "partner_id": full_contact.id,
+                "school_id": cls.school.id,
+                "notice_id": notice.id,
+                "purpose_id": purpose.id,
+                "consent_type": "grant",
+                "consent_level": "full",
+                "consent_date": "2026-10-01 08:00:00",
+                "channel": "manual",
+            }
+        )
+
         # 08-select-for-showcase.md -- curated record to move.
-        cls.artifact_select = cls._create_curated_artifact("TOUR SH Select Activity")
+        cls.artifact_select = cls._create_curated_artifact(
+            "TOUR SH Select Activity", full_student
+        )
         # 09-produce-showcase.md -- curated record to produce for.
-        cls.artifact_produce = cls._create_curated_artifact("TOUR SH Produce Activity")
+        cls.artifact_produce = cls._create_curated_artifact(
+            "TOUR SH Produce Activity", full_student
+        )
         # 10-review-limited-consent.md -- curated, limited consent.
         cls.artifact_review = cls._create_curated_artifact("TOUR SH Review Activity")
 
     @classmethod
-    def _create_curated_artifact(cls, activity_name):
+    def _create_curated_artifact(cls, activity_name, student=None):
         """Create an artifact and move it to Curated.
 
         ``user_id`` is set explicitly to ``base.user_admin`` because
@@ -247,8 +279,11 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
 
         :param activity_name: unique activity name used as the row
             marker by the tour.
+        :param student: student of the artifact, the limited consent
+            student when omitted.
         :return: the ``school_learning_artifact`` record Curated.
         """
+        student = student or cls.student
         artifact = cls.env["school_learning_artifact"].create(
             {
                 "school_id": cls.school.id,
@@ -257,7 +292,7 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
                 "activity_name": activity_name,
                 "media_type": "photo",
                 "user_id": cls.admin.id,
-                "student_ids": [(6, 0, cls.student.ids)],
+                "student_ids": [(6, 0, student.ids)],
                 "learning_area_id": cls.area.id,
                 "category_id": cls.category.id,
                 "description": "one two three",

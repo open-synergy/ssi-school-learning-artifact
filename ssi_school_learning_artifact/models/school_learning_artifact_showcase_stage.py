@@ -57,9 +57,9 @@ class SchoolLearningArtifactShowcaseStage(
         string="Require Publication Consent",
         default=False,
         help=(
-            "If checked, an artifact can move into this stage only when "
-            "the parental consent allows the showcase, following the "
-            "consent policy of its school."
+            "Kept for compatibility and ignored: the parental consent "
+            "must allow the showcase for a move into any stage, "
+            "following the consent policy of its school."
         ),
     )
     allowed_group_ids = fields.Many2many(

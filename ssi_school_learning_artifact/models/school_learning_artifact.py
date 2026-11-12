@@ -54,6 +54,7 @@ _CONSENT_DEPENDS = (
 
 _SHOWCASE_CONSENT_DEPENDS = _CONSENT_DEPENDS + (
     "publication_consent",
+    "inventory_consent",
     "assessment_consent",
     "consent_reviewed",
     "school_id.showcase_min_publication_consent",
@@ -663,14 +664,21 @@ class SchoolLearningArtifact(models.Model):
         ondelete="restrict",
         tracking=True,
         copy=False,
+        compute="_compute_showcase_stage_id",
+        store=True,
+        readonly=False,
+        compute_sudo=True,
         group_expand="_read_group_showcase_stage_ids",
         domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
         help=(
             "The stage of the artifact on the showcase board. Moving "
-            "into a stage may require an eligible curation status, a "
-            "publication consent that allows the showcase, or "
-            "membership of a group, as configured on the stage. Every "
-            "move is logged in the chatter with the user and the time."
+            "into any stage needs a parental consent that allows the "
+            "showcase, and the stage may also require an eligible "
+            "curation status or membership of a group, as configured "
+            "on the stage. The artifact leaves the board by itself "
+            "when the consent no longer allows the showcase or the "
+            "ethics gate no longer passes. Every move made by a user "
+            "is logged in the chatter with the user and the time."
         ),
     )
     showcase_channel_ids = fields.Many2many(
@@ -711,7 +719,8 @@ class SchoolLearningArtifact(models.Model):
         compute_sudo=True,
         help=(
             "Checked when the publication consent of the artifact is "
-            "limited and the school treats it as a review task."
+            "limited and the school treats it as a review task, or "
+            "when the inventory consent is limited."
         ),
     )
     consent_reviewed = fields.Boolean(
@@ -735,7 +744,8 @@ class SchoolLearningArtifact(models.Model):
         compute_sudo=True,
         help=(
             "Checked when the parental consent allows the artifact into "
-            "the showcase, following the consent policy of its school."
+            "the showcase, following the consent policy of its school. "
+            "A limited inventory consent needs a review first."
         ),
     )
     promotion_allowed = fields.Boolean(
@@ -779,6 +789,21 @@ class SchoolLearningArtifact(models.Model):
         ):
             self._check_showcase_stage_move(vals["showcase_stage_id"])
         return super().write(vals)
+
+    @api.depends("showcase_consent_ok", "ethics_result")
+    def _compute_showcase_stage_id(self):
+        """Take the artifact off the board when it no longer qualifies.
+
+        The stored stage is kept as long as the consent allows the
+        showcase and the ethics gate passes. Otherwise it is emptied.
+        A stage is never given here: the first stage comes from the
+        done hook and later moves are made by the user.
+        """
+        for record in self:
+            result = record.showcase_stage_id
+            if not record.showcase_consent_ok or record.ethics_result != "pass":
+                result = False
+            record.showcase_stage_id = result
 
     @api.depends("school_id")
     def _compute_rubric_id(self):
@@ -1588,7 +1613,8 @@ Solution: %s
         is accepted when the school accepts it as a minimum or treats
         it as a review task, and in the latter case only after a
         reviewer marked it as reviewed. A refused or missing consent is
-        never accepted.
+        never accepted. A limited inventory consent also needs the
+        review, whatever the treatment of the school.
         """
         for record in self:
             effective = record._get_showcase_publication_consent()
@@ -1603,9 +1629,12 @@ Solution: %s
                         result = record.consent_reviewed
                     else:
                         result = school.showcase_min_publication_consent == "limited"
+            inventory_limited = record.inventory_consent == "limited"
+            if result and inventory_limited:
+                result = record.consent_reviewed
             record.showcase_consent_ok = result
             record.consent_review_required = bool(
-                effective == "limited" and treatment_review
+                (effective == "limited" and treatment_review) or inventory_limited
             )
 
     def _get_showcase_publication_consent(self):
@@ -1683,9 +1712,10 @@ Solution: %s
     def _check_showcase_stage_move(self, stage_id):
         """Reject a move into a showcase stage whose rules are not met.
 
-        A stage may require an eligible curation status, a publication
-        consent that allows the showcase, and membership of one of its
-        allowed groups. The superuser is exempt from the group rule.
+        Any stage needs a consent that allows the showcase. A stage may
+        also require an eligible curation status and membership of one
+        of its allowed groups. The superuser is exempt from the group
+        rule.
 
         :param stage_id: id of the stage the artifact moves into
         :raises UserError: when a rule of the stage is not met
@@ -1700,7 +1730,7 @@ Solution: %s
                     _("Move the artifact into %s only when it is eligible")
                     % stage.display_name,
                 )
-            if stage.require_publication_consent and not record.showcase_consent_ok:
+            if not record.showcase_consent_ok:
                 record._raise_showcase_error(
                     _("The parental consent does not allow the showcase"),
                     _("Obtain the consent required by the school first"),
@@ -1744,11 +1774,14 @@ Solution: %s
 
         Post-done hook: the active stage with the lowest sequence that
         applies to the school is assigned when the artifact has no
-        stage yet. The stage rules are not checked for this first
+        stage yet, its consent allows the showcase and its ethics gate
+        passed. The stage rules are not checked for this first
         assignment, which is not a move made by a user.
         """
         self.ensure_one()
         if self.showcase_stage_id:
+            return
+        if not self.showcase_consent_ok or self.ethics_result != "pass":
             return
         stage = self.env["school_learning_artifact_showcase_stage"].search(
             self._get_initial_showcase_stage_criteria(),

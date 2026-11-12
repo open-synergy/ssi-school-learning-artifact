@@ -2,7 +2,8 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class SchoolLearningArtifactRubricCriterion(
@@ -56,6 +57,24 @@ class SchoolLearningArtifactRubricCriterion(
         help=(
             "A scored aspect gives a score to the total. An ethics "
             "gate aspect passes or fails the artifact."
+        ),
+    )
+    gate_source = fields.Selection(
+        string="Gate Source",
+        selection=[
+            ("manual", "Manual"),
+            ("inventory_consent", "Inventory Consent"),
+        ],
+        default="manual",
+        required=True,
+        help=(
+            "Where the level of an ethics gate aspect comes from. "
+            "Manual means the assessor picks the level. Inventory "
+            "Consent fills the level by itself from the inventory "
+            "consent of the students of the artifact: a full or "
+            "limited consent gives a passing level, any other consent "
+            "gives a failing level. Only an ethics gate aspect can "
+            "take it."
         ),
     )
     level_ids = fields.One2many(
@@ -134,3 +153,40 @@ class SchoolLearningArtifactRubricCriterion(
             if scores:
                 result = max(scores)
             record.max_score = result
+
+    @api.constrains("gate_source", "aspect_type", "level_ids")
+    def _check_gate_source(self):
+        """Keep the inventory consent source on a usable gate aspect.
+
+        The source is for ethics gate aspects only, and the aspect must
+        offer at least one failing and one passing level, because the
+        level is picked by the system from the consent.
+
+        :raises ValidationError: when the aspect cannot take the source
+        """
+        for record in self:
+            if record.gate_source != "inventory_consent":
+                continue
+            problem = False
+            solution = False
+            levels = record.level_ids
+            if record.aspect_type != "gate":
+                problem = _("Only an ethics gate aspect can take this source")
+                solution = _(
+                    "Set the aspect type to Ethics Gate or the source to Manual"
+                )
+            elif not levels.filtered("is_fail") or levels.filtered("is_fail") == levels:
+                problem = _("The aspect needs a failing and a passing level")
+                solution = _("Add one failing level and one passing level")
+            if problem:
+                raise ValidationError(
+                    _(
+                        """
+Context: Set gate source of rubric aspect
+Database ID: %s
+Problem: %s
+Solution: %s
+"""
+                    )
+                    % (record.id, problem, solution)
+                )

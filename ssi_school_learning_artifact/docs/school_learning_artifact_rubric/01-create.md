@@ -36,6 +36,11 @@
        - **Code** _(required)_: Enter the short code of the aspect.
        - **Name** _(required)_: Enter the name of the aspect.
        - **Aspect Type** _(required)_: Select **Scored Aspect** or **Ethics Gate**.
+       - **Gate Source**: Ethics gate aspects only. Leave **Manual** to let the assessor
+         pick the level, or select **Inventory Consent** to let the system fill the
+         level from the inventory consent of the students (a full or limited consent
+         gives a passing level, any other gives a failing level). The aspect then needs
+         at least one level that fails the gate and one that does not.
        - **Knockout Score**: Optional, scored aspects only. A score at or below it
          knocks the artifact out.
        - **Assessor Slot** _(required)_: Select the primary or the secondary assessor.
