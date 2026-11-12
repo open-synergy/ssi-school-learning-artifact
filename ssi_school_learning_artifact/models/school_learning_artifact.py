@@ -340,7 +340,7 @@ class SchoolLearningArtifact(models.Model):
         string="Category",
         comodel_name="school_learning_artifact_category",
         ondelete="restrict",
-        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        domain="[('id', 'in', allowed_category_ids)]",
         readonly=True,
         states=_DRAFT_EDITABLE,
         help=(
@@ -550,8 +550,7 @@ class SchoolLearningArtifact(models.Model):
         comodel_name="school_learning_artifact_curation_status",
         domain=(
             "[('category', 'in', ['archive', 'rejected']), "
-            "'|', ('school_ids', '=', False), "
-            "('school_ids', 'in', [school_id])]"
+            "('id', 'in', allowed_curation_status_ids)]"
         ),
         readonly=True,
         states=_OPEN_EDITABLE,
@@ -590,6 +589,49 @@ class SchoolLearningArtifact(models.Model):
         help=(
             "Phases that apply to the selected school. A phase without "
             "schools applies to every school."
+        ),
+    )
+    allowed_category_ids = fields.Many2many(
+        string="Allowed Categories",
+        comodel_name="school_learning_artifact_category",
+        compute="_compute_allowed_category_ids",
+        compute_sudo=True,
+        help=(
+            "Categories that can be picked for the selected school, as "
+            "decided by the master data criteria of the artifact."
+        ),
+    )
+    allowed_curation_status_ids = fields.Many2many(
+        string="Allowed Curation Statuses",
+        comodel_name="school_learning_artifact_curation_status",
+        compute="_compute_allowed_curation_status_ids",
+        compute_sudo=True,
+        help=(
+            "Curation statuses that can be picked for the selected "
+            "school, as decided by the master data criteria of the "
+            "artifact."
+        ),
+    )
+    allowed_showcase_stage_ids = fields.Many2many(
+        string="Allowed Showcase Stages",
+        comodel_name="school_learning_artifact_showcase_stage",
+        compute="_compute_allowed_showcase_stage_ids",
+        compute_sudo=True,
+        help=(
+            "Showcase stages that can be picked for the selected "
+            "school, as decided by the master data criteria of the "
+            "artifact."
+        ),
+    )
+    allowed_showcase_channel_ids = fields.Many2many(
+        string="Allowed Showcase Channels",
+        comodel_name="school_learning_artifact_showcase_channel",
+        compute="_compute_allowed_showcase_channel_ids",
+        compute_sudo=True,
+        help=(
+            "Showcase channels that can be picked for the selected "
+            "school, as decided by the master data criteria of the "
+            "artifact."
         ),
     )
 
@@ -670,7 +712,7 @@ class SchoolLearningArtifact(models.Model):
         readonly=False,
         compute_sudo=True,
         group_expand="_read_group_showcase_stage_ids",
-        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        domain="[('id', 'in', allowed_showcase_stage_ids)]",
         help=(
             "The stage of the artifact on the showcase board. Moving "
             "into any stage needs a parental consent that allows the "
@@ -688,7 +730,7 @@ class SchoolLearningArtifact(models.Model):
         relation="school_la_showcase_planned_channel_rel",
         column1="artifact_id",
         column2="channel_id",
-        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        domain="[('id', 'in', allowed_showcase_channel_ids)]",
         help="The channels planned to showcase this artifact.",
     )
     production_ids = fields.One2many(
@@ -703,7 +745,7 @@ class SchoolLearningArtifact(models.Model):
         relation="school_la_showcase_actual_channel_rel",
         column1="artifact_id",
         column2="channel_id",
-        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', school_id)]",
+        domain="[('id', 'in', allowed_showcase_channel_ids)]",
         help=(
             "The channels through which the artifact was actually "
             "distributed, outside Odoo."
@@ -845,8 +887,8 @@ class SchoolLearningArtifact(models.Model):
         """Tell whether the stored rubric no longer applies.
 
         The stored rubric is stale when it is empty, when it is
-        inactive, or when it does not list the school while an active
-        rubric listing the school exists.
+        inactive, or when it does not satisfy the rubric criteria while
+        an active rubric satisfying them exists.
 
         :return: True when the rubric should be picked again
         """
@@ -855,7 +897,7 @@ class SchoolLearningArtifact(models.Model):
         result = False
         if not rubric or not rubric.active:
             result = True
-        elif self.school_id and self.school_id not in rubric.school_ids:
+        elif self.school_id and not rubric.filtered_domain(self._get_rubric_criteria()):
             own = (
                 self.env["school_learning_artifact_rubric"]
                 .sudo()
@@ -1142,11 +1184,54 @@ class SchoolLearningArtifact(models.Model):
                 result = obj_phase.search(record._get_allowed_school_criteria())
             record.allowed_phase_ids = result
 
-    def _get_allowed_school_criteria(self):
-        """Build the search domain for school scoped master data.
+    @api.depends("school_id")
+    def _compute_allowed_category_ids(self):
+        """List the categories usable for the school of the artifact."""
+        obj_category = self.env["school_learning_artifact_category"]
+        for record in self:
+            result = []
+            if record.school_id:
+                result = obj_category.search(record._get_allowed_school_criteria())
+            record.allowed_category_ids = result
 
-        Used for dimensions and phases: records without schools apply
-        to every school, the others only to the schools they list.
+    @api.depends("school_id")
+    def _compute_allowed_curation_status_ids(self):
+        """List the curation statuses usable for the artifact."""
+        obj_status = self.env["school_learning_artifact_curation_status"]
+        for record in self:
+            result = []
+            if record.school_id:
+                result = obj_status.search(record._get_allowed_school_criteria())
+            record.allowed_curation_status_ids = result
+
+    @api.depends("school_id")
+    def _compute_allowed_showcase_stage_ids(self):
+        """List the showcase stages usable for the artifact."""
+        obj_stage = self.env["school_learning_artifact_showcase_stage"]
+        for record in self:
+            result = []
+            if record.school_id:
+                result = obj_stage.search(record._get_allowed_school_criteria())
+            record.allowed_showcase_stage_ids = result
+
+    @api.depends("school_id")
+    def _compute_allowed_showcase_channel_ids(self):
+        """List the showcase channels usable for the artifact."""
+        obj_channel = self.env["school_learning_artifact_showcase_channel"]
+        for record in self:
+            result = []
+            if record.school_id:
+                result = obj_channel.search(record._get_allowed_school_criteria())
+            record.allowed_showcase_channel_ids = result
+
+    def _get_allowed_school_criteria(self):
+        """Build the domain of the master data of this artifact.
+
+        Single extension point for every master choice of the
+        artifact (category, curation status, showcase stage and
+        channel, dimension, phase): override to narrow it. In the core
+        records without schools apply to every school, the others only
+        to the schools they list.
 
         :return: search domain (list of tuples)
         """

@@ -1,0 +1,301 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Allowed Master Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Allowed Master Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create school A"
+      action: "create"
+      model: "school"
+      save_as: "school_a"
+      values:
+        name: "School A for Allowed Master Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+
+    - step: "Setup - create school B"
+      action: "create"
+      model: "school"
+      save_as: "school_b"
+      values:
+        name: "School B for Allowed Master Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class of school A"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Allowed Master Test"
+        code: "/"
+        school_id: "REC: school_a.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Allowed Master Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create category global"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category_global"
+      values:
+        name: "Allowed category global"
+        code: "/"
+
+    - step: "Setup - create category a"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category_a"
+      values:
+        name: "Allowed category a"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+    - step: "Setup - create category b"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category_b"
+      values:
+        name: "Allowed category b"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+    - step: "Setup - create status global"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "status_global"
+      values:
+        name: "Allowed status global"
+        code: "/"
+        category: "eligible"
+
+    - step: "Setup - create status a"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "status_a"
+      values:
+        name: "Allowed status a"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+    - step: "Setup - create status b"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "status_b"
+      values:
+        name: "Allowed status b"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+    - step: "Setup - create stage global"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_global"
+      values:
+        name: "Allowed stage global"
+        code: "/"
+
+    - step: "Setup - create stage a"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_a"
+      values:
+        name: "Allowed stage a"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+    - step: "Setup - create stage b"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_b"
+      values:
+        name: "Allowed stage b"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+    - step: "Setup - create channel global"
+      action: "create"
+      model: "school_learning_artifact_showcase_channel"
+      save_as: "channel_global"
+      values:
+        name: "Allowed channel global"
+        code: "/"
+
+    - step: "Setup - create channel a"
+      action: "create"
+      model: "school_learning_artifact_showcase_channel"
+      save_as: "channel_a"
+      values:
+        name: "Allowed channel a"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_a.id"]]]
+
+    - step: "Setup - create channel b"
+      action: "create"
+      model: "school_learning_artifact_showcase_channel"
+      save_as: "channel_b"
+      values:
+        name: "Allowed channel b"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+scenarios:
+  - name: "Allowed masters follow the school of the artifact"
+    steps:
+      - step: "Create artifact of school A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Allowed Master Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert allowed_category_ids holds the global and school A records"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_global"
+              - "REC: category_a"
+
+      - step: "Assert allowed_category_ids lacks the school B record"
+        action: "search"
+        model: "school_learning_artifact_category"
+        domain:
+          [
+            ["id", "=", "REC: category_b.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_category_ids.ids"],
+          ]
+        save_as: "absent_category"
+        expect_count: 0
+
+      - step: "Assert allowed_curation_status_ids holds the global and school A records"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_curation_status_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: status_global"
+              - "REC: status_a"
+
+      - step: "Assert allowed_curation_status_ids lacks the school B record"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        domain:
+          [
+            ["id", "=", "REC: status_b.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_curation_status_ids.ids"],
+          ]
+        save_as: "absent_status"
+        expect_count: 0
+
+      - step: "Assert allowed_showcase_stage_ids holds the global and school A records"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_showcase_stage_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: stage_global"
+              - "REC: stage_a"
+
+      - step: "Assert allowed_showcase_stage_ids lacks the school B record"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        domain:
+          [
+            ["id", "=", "REC: stage_b.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_showcase_stage_ids.ids"],
+          ]
+        save_as: "absent_stage"
+        expect_count: 0
+
+      - step:
+          "Assert allowed_showcase_channel_ids holds the global and school A records"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_showcase_channel_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: channel_global"
+              - "REC: channel_a"
+
+      - step: "Assert allowed_showcase_channel_ids lacks the school B record"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        domain:
+          [
+            ["id", "=", "REC: channel_b.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_showcase_channel_ids.ids"],
+          ]
+        save_as: "absent_channel"
+        expect_count: 0
+
+  - name: "Allowed masters are empty without a school"
+    steps:
+      - step: "Open a form without a school"
+        action: "form"
+        model: "school_learning_artifact"
+        save: false
+        ops:
+          - assert:
+              allowed_category_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+          - assert:
+              allowed_curation_status_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+          - assert:
+              allowed_showcase_stage_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+          - assert:
+              allowed_showcase_channel_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
