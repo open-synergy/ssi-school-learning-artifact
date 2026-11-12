@@ -16,8 +16,9 @@ class TestSchoolLearningArtifactOperatingUnit(
     Covers the derivation of ``operating_unit_id`` from ``school_id``
     on create, write and onchange, the record rule that limits the
     users of the Operating Unit group to the artifacts of their own
-    operating units, and the record rules that limit them to the
-    showcase stages and channels of their own operating units.
+    operating units, the global record rules that limit every user to
+    the master data of the own operating units, and the choices of
+    the artifact that follow its operating unit.
     """
 
     def test_derivation(self):
@@ -35,8 +36,15 @@ class TestSchoolLearningArtifactOperatingUnit(
         self.run_yaml_scenario("test_data_school_learning_artifact_visibility.yaml")
 
     def test_showcase_scope(self):
-        """Run every showcase stage and channel scope scenario.
+        """Run every master data scope scenario.
 
         :return: None
         """
         self.run_yaml_scenario("test_data_school_learning_artifact_showcase_scope.yaml")
+
+    def test_allowed_ou(self):
+        """Run every master choice scenario of the artifact unit.
+
+        :return: None
+        """
+        self.run_yaml_scenario("test_data_school_learning_artifact_allowed_ou.yaml")

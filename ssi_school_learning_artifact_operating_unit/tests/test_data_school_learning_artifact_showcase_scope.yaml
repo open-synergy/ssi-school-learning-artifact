@@ -1,27 +1,27 @@
 scenarios:
-  - name: "Users see the showcase stages and channels of their own operating units only"
+  - name: "Users see the masters of their own operating units only"
     steps:
       - step: "Create partner of operating unit A"
         action: "create"
         model: "res.partner"
         save_as: "ou_a_partner"
         values:
-          name: "Showcase Scope OU A Partner"
+          name: "Master Scope OU A Partner"
 
       - step: "Create partner of operating unit B"
         action: "create"
         model: "res.partner"
         save_as: "ou_b_partner"
         values:
-          name: "Showcase Scope OU B Partner"
+          name: "Master Scope OU B Partner"
 
       - step: "Create operating unit A"
         action: "create"
         model: "operating.unit"
         save_as: "ou_a"
         values:
-          name: "Showcase Scope OU A"
-          code: "SSCOPEA"
+          name: "Master Scope OU A"
+          code: "MSCOPEA"
           company_id: "REF: base.main_company"
           partner_id: "REC: ou_a_partner.id"
 
@@ -30,112 +30,218 @@ scenarios:
         model: "operating.unit"
         save_as: "ou_b"
         values:
-          name: "Showcase Scope OU B"
-          code: "SSCOPEB"
+          name: "Master Scope OU B"
+          code: "MSCOPEB"
           company_id: "REF: base.main_company"
           partner_id: "REC: ou_b_partner.id"
 
-      - step: "Create grade type"
+      - step: "Create failing curation status for the rubrics"
         action: "create"
-        model: "school_grade_type"
-        save_as: "grade_type"
+        model: "school_learning_artifact_curation_status"
+        save_as: "st_fail"
         values:
-          name: "Grade Type for Showcase Scope"
+          name: "Master Scope Fail Status"
           code: "/"
-          sequence: 10
+          category: "rejected"
 
-      - step: "Create school of operating unit A"
+      - step: "Create category global"
         action: "create"
-        model: "school"
-        save_as: "school_a"
+        model: "school_learning_artifact_category"
+        save_as: "category_global"
         values:
-          name: "School A for Showcase Scope"
+          name: "Scope Category global"
           code: "/"
-          grade_type_id: "REC: grade_type.id"
+
+      - step: "Create category a"
+        action: "create"
+        model: "school_learning_artifact_category"
+        save_as: "category_a"
+        values:
+          name: "Scope Category a"
+          code: "/"
           operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
 
-      - step: "Create school of operating unit B"
+      - step: "Create category b"
         action: "create"
-        model: "school"
-        save_as: "school_b"
+        model: "school_learning_artifact_category"
+        save_as: "category_b"
         values:
-          name: "School B for Showcase Scope"
+          name: "Scope Category b"
           code: "/"
-          grade_type_id: "REC: grade_type.id"
           operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
 
-      - step: "Create showcase stage: Global"
+      - step: "Create phase global"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_global"
+        values:
+          name: "Scope Phase global"
+          code: "/"
+
+      - step: "Create phase a"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_a"
+        values:
+          name: "Scope Phase a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create phase b"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_b"
+        values:
+          name: "Scope Phase b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create dimension global"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_global"
+        values:
+          name: "Scope Dimension global"
+          code: "/"
+
+      - step: "Create dimension a"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_a"
+        values:
+          name: "Scope Dimension a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create dimension b"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_b"
+        values:
+          name: "Scope Dimension b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create rubric global"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_global"
+        values:
+          name: "Scope Rubric global"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+
+      - step: "Create rubric a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Scope Rubric a"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create rubric b"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_b"
+        values:
+          name: "Scope Rubric b"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create curation status global"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_global"
+        values:
+          name: "Scope Curation Status global"
+          code: "/"
+          category: "eligible"
+
+      - step: "Create curation status a"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_a"
+        values:
+          name: "Scope Curation Status a"
+          code: "/"
+          category: "eligible"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create curation status b"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_b"
+        values:
+          name: "Scope Curation Status b"
+          code: "/"
+          category: "eligible"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create showcase stage global"
         action: "create"
         model: "school_learning_artifact_showcase_stage"
-        save_as: "stage_global"
+        save_as: "showcase_stage_global"
         values:
-          name: "Scope Stage Global"
+          name: "Scope Showcase Stage global"
           code: "/"
           sequence: 10
 
-      - step: "Create showcase stage: School A"
+      - step: "Create showcase stage a"
         action: "create"
         model: "school_learning_artifact_showcase_stage"
-        save_as: "stage_a"
+        save_as: "showcase_stage_a"
         values:
-          name: "Scope Stage School A"
+          name: "Scope Showcase Stage a"
           code: "/"
           sequence: 10
-          school_ids: [[6, 0, ["REC: school_a.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
 
-      - step: "Create showcase stage: School B"
+      - step: "Create showcase stage b"
         action: "create"
         model: "school_learning_artifact_showcase_stage"
-        save_as: "stage_b"
+        save_as: "showcase_stage_b"
         values:
-          name: "Scope Stage School B"
+          name: "Scope Showcase Stage b"
           code: "/"
           sequence: 10
-          school_ids: [[6, 0, ["REC: school_b.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
 
-      - step: "Create showcase stage: School A and B"
-        action: "create"
-        model: "school_learning_artifact_showcase_stage"
-        save_as: "stage_ab"
-        values:
-          name: "Scope Stage School A and B"
-          code: "/"
-          sequence: 10
-          school_ids: [[6, 0, ["REC: school_a.id", "REC: school_b.id"]]]
-
-      - step: "Create showcase channel: Global"
+      - step: "Create showcase channel global"
         action: "create"
         model: "school_learning_artifact_showcase_channel"
-        save_as: "channel_global"
+        save_as: "showcase_channel_global"
         values:
-          name: "Scope Channel Global"
+          name: "Scope Showcase Channel global"
           code: "/"
 
-      - step: "Create showcase channel: School A"
+      - step: "Create showcase channel a"
         action: "create"
         model: "school_learning_artifact_showcase_channel"
-        save_as: "channel_a"
+        save_as: "showcase_channel_a"
         values:
-          name: "Scope Channel School A"
+          name: "Scope Showcase Channel a"
           code: "/"
-          school_ids: [[6, 0, ["REC: school_a.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
 
-      - step: "Create showcase channel: School B"
+      - step: "Create showcase channel b"
         action: "create"
         model: "school_learning_artifact_showcase_channel"
-        save_as: "channel_b"
+        save_as: "showcase_channel_b"
         values:
-          name: "Scope Channel School B"
+          name: "Scope Showcase Channel b"
           code: "/"
-          school_ids: [[6, 0, ["REC: school_b.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
 
-      - step: "Create user of operating unit A only with the configurator groups"
+      - step: "Create user Master Scope User A"
         action: "create"
         model: "res.users"
         save_as: "user_a"
         values:
-          name: "Showcase Scope User A"
-          login: "showcase.scope.a@example.com"
+          name: "Master Scope User A"
+          login: "master.scope.a@example.com"
           groups_id:
             [
               [
@@ -144,9 +250,15 @@ scenarios:
                 [
                   "REF: base.group_user",
                   "REF:
-                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  ssi_school_learning_artifact.school_learning_artifact_category_group",
                   "REF:
-                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                  ssi_school_learning_artifact.school_learning_artifact_phase_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_dimension_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_rubric_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_curation_status_group",
                   "REF:
                   ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
                   "REF:
@@ -157,13 +269,13 @@ scenarios:
           assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
           default_operating_unit_id: "REC: ou_a.id"
 
-      - step: "Create user of operating units A and B with the configurator groups"
+      - step: "Create user Master Scope User AB"
         action: "create"
         model: "res.users"
         save_as: "user_ab"
         values:
-          name: "Showcase Scope User AB"
-          login: "showcase.scope.ab@example.com"
+          name: "Master Scope User AB"
+          login: "master.scope.ab@example.com"
           groups_id:
             [
               [
@@ -172,9 +284,15 @@ scenarios:
                 [
                   "REF: base.group_user",
                   "REF:
-                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
+                  ssi_school_learning_artifact.school_learning_artifact_category_group",
                   "REF:
-                  ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group",
+                  ssi_school_learning_artifact.school_learning_artifact_phase_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_dimension_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_rubric_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_curation_status_group",
                   "REF:
                   ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
                   "REF:
@@ -185,13 +303,13 @@ scenarios:
           assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id", "REC: ou_b.id"]]]
           default_operating_unit_id: "REC: ou_a.id"
 
-      - step: "Create user of the Company group with operating unit A only"
+      - step: "Create user Master Scope User Company"
         action: "create"
         model: "res.users"
         save_as: "user_company"
         values:
-          name: "Showcase Scope User Company"
-          login: "showcase.scope.company@example.com"
+          name: "Master Scope User Company"
+          login: "master.scope.company@example.com"
           groups_id:
             [
               [
@@ -200,9 +318,17 @@ scenarios:
                 [
                   "REF: base.group_user",
                   "REF:
-                  ssi_school_learning_artifact.school_learning_artifact_viewer_group",
-                  "REF:
                   ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_category_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_phase_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_dimension_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_rubric_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_curation_status_group",
                   "REF:
                   ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group",
                   "REF:
@@ -213,125 +339,415 @@ scenarios:
           assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
           default_operating_unit_id: "REC: ou_a.id"
 
-      - step: "User of unit A finds global, A and A+B stages but not the B stage"
+      - step: "User of unit A finds the global and A records (Category)"
         action: "search"
-        model: "school_learning_artifact_showcase_stage"
+        model: "school_learning_artifact_category"
         as_user: "user_a"
         domain:
           [
             [
               "id",
               "in",
-              [
-                "REC: stage_global.id",
-                "REC: stage_a.id",
-                "REC: stage_b.id",
-                "REC: stage_ab.id",
-              ],
+              ["REC: category_global.id", "REC: category_a.id", "REC: category_b.id"],
             ],
           ]
-        save_as: "found_stage_a"
-        expect_count: 3
-
-      - step: "User of unit A finds global and A channels but not the B channel"
-        action: "search"
-        model: "school_learning_artifact_showcase_channel"
-        as_user: "user_a"
-        domain:
-          [
-            [
-              "id",
-              "in",
-              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
-            ],
-          ]
-        save_as: "found_channel_a"
+        save_as: "found_category_a"
         expect_count: 2
 
-      - step: "User of unit A does not find the stage of school B"
+      - step: "User of units A and B finds the three records (Category)"
         action: "search"
-        model: "school_learning_artifact_showcase_stage"
+        model: "school_learning_artifact_category"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: category_global.id", "REC: category_a.id", "REC: category_b.id"],
+            ],
+          ]
+        save_as: "found_category_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records
+          (Category)"
+        action: "search"
+        model: "school_learning_artifact_category"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: category_global.id", "REC: category_a.id", "REC: category_b.id"],
+            ],
+          ]
+        save_as: "found_category_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Category)"
+        action: "search"
+        model: "school_learning_artifact_category"
         as_user: "user_a"
-        domain: [["id", "in", ["REC: stage_b.id"]]]
-        save_as: "found_stage_b_by_a"
+        domain: [["id", "in", ["REC: category_b.id"]]]
+        save_as: "found_category_b_by_a"
         expect_count: 0
 
-      - step: "User of units A and B finds the four stages"
+      - step: "User of unit A finds the global and A records (Phase)"
         action: "search"
-        model: "school_learning_artifact_showcase_stage"
-        as_user: "user_ab"
-        domain:
-          [
-            [
-              "id",
-              "in",
-              [
-                "REC: stage_global.id",
-                "REC: stage_a.id",
-                "REC: stage_b.id",
-                "REC: stage_ab.id",
-              ],
-            ],
-          ]
-        save_as: "found_stage_ab"
-        expect_count: 4
-
-      - step: "User of units A and B finds the three channels"
-        action: "search"
-        model: "school_learning_artifact_showcase_channel"
-        as_user: "user_ab"
-        domain:
-          [
-            [
-              "id",
-              "in",
-              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
-            ],
-          ]
-        save_as: "found_channel_ab"
-        expect_count: 3
-
-      - step: "User of the Company group finds the four stages"
-        action: "search"
-        model: "school_learning_artifact_showcase_stage"
-        as_user: "user_company"
-        domain:
-          [
-            [
-              "id",
-              "in",
-              [
-                "REC: stage_global.id",
-                "REC: stage_a.id",
-                "REC: stage_b.id",
-                "REC: stage_ab.id",
-              ],
-            ],
-          ]
-        save_as: "found_stage_company"
-        expect_count: 4
-
-      - step: "User of the Company group finds the three channels"
-        action: "search"
-        model: "school_learning_artifact_showcase_channel"
-        as_user: "user_company"
-        domain:
-          [
-            [
-              "id",
-              "in",
-              ["REC: channel_global.id", "REC: channel_a.id", "REC: channel_b.id"],
-            ],
-          ]
-        save_as: "found_channel_company"
-        expect_count: 3
-
-      - step: "User of unit A cannot write the stage of school B"
-        action: "write"
-        target: "stage_b"
+        model: "school_learning_artifact_phase"
         as_user: "user_a"
-        values:
-          name: "Scope Stage School B Renamed"
-        expect_error:
-          type: "AccessError"
-          message_contains: "security restrictions"
+        domain:
+          [["id", "in", ["REC: phase_global.id", "REC: phase_a.id", "REC: phase_b.id"]]]
+        save_as: "found_phase_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Phase)"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        as_user: "user_ab"
+        domain:
+          [["id", "in", ["REC: phase_global.id", "REC: phase_a.id", "REC: phase_b.id"]]]
+        save_as: "found_phase_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records (Phase)"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        as_user: "user_company"
+        domain:
+          [["id", "in", ["REC: phase_global.id", "REC: phase_a.id", "REC: phase_b.id"]]]
+        save_as: "found_phase_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Phase)"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: phase_b.id"]]]
+        save_as: "found_phase_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the global and A records (Dimension)"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: dimension_global.id",
+                "REC: dimension_a.id",
+                "REC: dimension_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_dimension_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Dimension)"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: dimension_global.id",
+                "REC: dimension_a.id",
+                "REC: dimension_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_dimension_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records
+          (Dimension)"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: dimension_global.id",
+                "REC: dimension_a.id",
+                "REC: dimension_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_dimension_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Dimension)"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: dimension_b.id"]]]
+        save_as: "found_dimension_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the global and A records (Rubric)"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: rubric_global.id", "REC: rubric_a.id", "REC: rubric_b.id"],
+            ],
+          ]
+        save_as: "found_rubric_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Rubric)"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: rubric_global.id", "REC: rubric_a.id", "REC: rubric_b.id"],
+            ],
+          ]
+        save_as: "found_rubric_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records (Rubric)"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: rubric_global.id", "REC: rubric_a.id", "REC: rubric_b.id"],
+            ],
+          ]
+        save_as: "found_rubric_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Rubric)"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: rubric_b.id"]]]
+        save_as: "found_rubric_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the global and A records (Curation Status)"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: curation_status_global.id",
+                "REC: curation_status_a.id",
+                "REC: curation_status_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_curation_status_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Curation Status)"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: curation_status_global.id",
+                "REC: curation_status_a.id",
+                "REC: curation_status_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_curation_status_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records
+          (Curation Status)"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: curation_status_global.id",
+                "REC: curation_status_a.id",
+                "REC: curation_status_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_curation_status_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Curation Status)"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: curation_status_b.id"]]]
+        save_as: "found_curation_status_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the global and A records (Showcase Stage)"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_stage_global.id",
+                "REC: showcase_stage_a.id",
+                "REC: showcase_stage_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_stage_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Showcase Stage)"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_stage_global.id",
+                "REC: showcase_stage_a.id",
+                "REC: showcase_stage_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_stage_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records
+          (Showcase Stage)"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_stage_global.id",
+                "REC: showcase_stage_a.id",
+                "REC: showcase_stage_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_stage_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Showcase Stage)"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: showcase_stage_b.id"]]]
+        save_as: "found_showcase_stage_b_by_a"
+        expect_count: 0
+
+      - step: "User of unit A finds the global and A records (Showcase Channel)"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_a"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_channel_global.id",
+                "REC: showcase_channel_a.id",
+                "REC: showcase_channel_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_channel_a"
+        expect_count: 2
+
+      - step: "User of units A and B finds the three records (Showcase Channel)"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_channel_global.id",
+                "REC: showcase_channel_a.id",
+                "REC: showcase_channel_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_channel_ab"
+        expect_count: 3
+
+      - step:
+          "User of the Company group with unit A finds the global and A records
+          (Showcase Channel)"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_company"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              [
+                "REC: showcase_channel_global.id",
+                "REC: showcase_channel_a.id",
+                "REC: showcase_channel_b.id",
+              ],
+            ],
+          ]
+        save_as: "found_showcase_channel_company"
+        expect_count: 2
+
+      - step: "User of unit A does not find the B record (Showcase Channel)"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: showcase_channel_b.id"]]]
+        save_as: "found_showcase_channel_b_by_a"
+        expect_count: 0

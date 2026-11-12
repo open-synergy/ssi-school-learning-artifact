@@ -1,0 +1,607 @@
+scenarios:
+  - name: "The artifact offers the masters of its operating unit only"
+    steps:
+      - step: "Create partner of operating unit A"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_a_partner"
+        values:
+          name: "Allowed OU OU A Partner"
+
+      - step: "Create partner of operating unit B"
+        action: "create"
+        model: "res.partner"
+        save_as: "ou_b_partner"
+        values:
+          name: "Allowed OU OU B Partner"
+
+      - step: "Create operating unit A"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_a"
+        values:
+          name: "Allowed OU OU A"
+          code: "ALWDOUA"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_a_partner.id"
+
+      - step: "Create operating unit B"
+        action: "create"
+        model: "operating.unit"
+        save_as: "ou_b"
+        values:
+          name: "Allowed OU OU B"
+          code: "ALWDOUB"
+          company_id: "REF: base.main_company"
+          partner_id: "REC: ou_b_partner.id"
+
+      - step: "Create failing curation status for the rubrics"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "st_fail"
+        values:
+          name: "Allowed OU Fail Status"
+          code: "/"
+          category: "rejected"
+
+      - step: "Create grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type"
+        values:
+          name: "Grade Type for Allowed OU"
+          code: "/"
+          sequence: 10
+
+      - step: "Create school of operating unit A"
+        action: "create"
+        model: "school"
+        save_as: "school_a"
+        values:
+          name: "School A for Allowed OU"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create grade"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade"
+        values:
+          name: "Grade for Allowed OU"
+          code: "/"
+          sequence: 10
+          type_id: "REC: grade_type.id"
+
+      - step: "Create class of school A"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_a"
+        values:
+          name: "Class A for Allowed OU"
+          code: "/"
+          school_id: "REC: school_a.id"
+          grade_id: "REC: grade.id"
+          capacity: 30
+
+      - step: "Create academic year"
+        action: "create"
+        model: "school_academic_year"
+        save_as: "academic_year"
+        values:
+          name: "Year for Allowed OU"
+          code: "/"
+          date_start: "2026-07-01"
+          date_end: "2027-06-30"
+
+      - step: "Create category global"
+        action: "create"
+        model: "school_learning_artifact_category"
+        save_as: "category_global"
+        values:
+          name: "Allowed Category global"
+          code: "/"
+
+      - step: "Create category a"
+        action: "create"
+        model: "school_learning_artifact_category"
+        save_as: "category_a"
+        values:
+          name: "Allowed Category a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create category b"
+        action: "create"
+        model: "school_learning_artifact_category"
+        save_as: "category_b"
+        values:
+          name: "Allowed Category b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create phase global"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_global"
+        values:
+          name: "Allowed Phase global"
+          code: "/"
+
+      - step: "Create phase a"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_a"
+        values:
+          name: "Allowed Phase a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create phase b"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_b"
+        values:
+          name: "Allowed Phase b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create dimension global"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_global"
+        values:
+          name: "Allowed Dimension global"
+          code: "/"
+
+      - step: "Create dimension a"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_a"
+        values:
+          name: "Allowed Dimension a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create dimension b"
+        action: "create"
+        model: "school_learning_artifact_dimension"
+        save_as: "dimension_b"
+        values:
+          name: "Allowed Dimension b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create curation status global"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_global"
+        values:
+          name: "Allowed Curation Status global"
+          code: "/"
+          category: "eligible"
+
+      - step: "Create curation status a"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_a"
+        values:
+          name: "Allowed Curation Status a"
+          code: "/"
+          category: "eligible"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create curation status b"
+        action: "create"
+        model: "school_learning_artifact_curation_status"
+        save_as: "curation_status_b"
+        values:
+          name: "Allowed Curation Status b"
+          code: "/"
+          category: "eligible"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create showcase stage global"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "showcase_stage_global"
+        values:
+          name: "Allowed Showcase Stage global"
+          code: "/"
+          sequence: 10
+
+      - step: "Create showcase stage a"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "showcase_stage_a"
+        values:
+          name: "Allowed Showcase Stage a"
+          code: "/"
+          sequence: 10
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create showcase stage b"
+        action: "create"
+        model: "school_learning_artifact_showcase_stage"
+        save_as: "showcase_stage_b"
+        values:
+          name: "Allowed Showcase Stage b"
+          code: "/"
+          sequence: 10
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create showcase channel global"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "showcase_channel_global"
+        values:
+          name: "Allowed Showcase Channel global"
+          code: "/"
+
+      - step: "Create showcase channel a"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "showcase_channel_a"
+        values:
+          name: "Allowed Showcase Channel a"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create showcase channel b"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "showcase_channel_b"
+        values:
+          name: "Allowed Showcase Channel b"
+          code: "/"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create rubric global"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_global"
+        values:
+          name: "Allowed Rubric global"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+
+      - step: "Create rubric a"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_a"
+        values:
+          name: "Allowed Rubric a"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create rubric b"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_b"
+        values:
+          name: "Allowed Rubric b"
+          code: "/"
+          ethics_fail_status_id: "REC: st_fail.id"
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create artifact of school A in operating unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a"
+        values:
+          school_id: "REC: school_a.id"
+          operating_unit_id: "REC: ou_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Allowed OU Activity A"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of school A without operating unit"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_none"
+        values:
+          school_id: "REC: school_a.id"
+          operating_unit_id: false
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Allowed OU Activity None"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Artifact of unit A offers the global and A category"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_global"
+              - "REC: category_a"
+
+      - step: "Artifact of unit A does not offer the B category"
+        action: "search"
+        model: "school_learning_artifact_category"
+        domain:
+          [
+            ["id", "=", "REC: category_b.id"],
+            ["id", "in", "EVAL: registry['artifact_a'].allowed_category_ids.ids"],
+          ]
+        save_as: "absent_category_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global category"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_category_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: category_global"
+
+      - step: "Artifact without unit does not offer the A category"
+        action: "search"
+        model: "school_learning_artifact_category"
+        domain:
+          [
+            ["id", "=", "REC: category_a.id"],
+            ["id", "in", "EVAL: registry['artifact_none'].allowed_category_ids.ids"],
+          ]
+        save_as: "absent_category_none"
+        expect_count: 0
+
+      - step: "Artifact of unit A offers the global and A phase"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: phase_global"
+              - "REC: phase_a"
+
+      - step: "Artifact of unit A does not offer the B phase"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: phase_b.id"],
+            ["id", "in", "EVAL: registry['artifact_a'].allowed_phase_ids.ids"],
+          ]
+        save_as: "absent_phase_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global phase"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: phase_global"
+
+      - step: "Artifact without unit does not offer the A phase"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: phase_a.id"],
+            ["id", "in", "EVAL: registry['artifact_none'].allowed_phase_ids.ids"],
+          ]
+        save_as: "absent_phase_none"
+        expect_count: 0
+
+      - step: "Artifact of unit A offers the global and A dimension"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_dimension_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: dimension_global"
+              - "REC: dimension_a"
+
+      - step: "Artifact of unit A does not offer the B dimension"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        domain:
+          [
+            ["id", "=", "REC: dimension_b.id"],
+            ["id", "in", "EVAL: registry['artifact_a'].allowed_dimension_ids.ids"],
+          ]
+        save_as: "absent_dimension_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global dimension"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_dimension_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: dimension_global"
+
+      - step: "Artifact without unit does not offer the A dimension"
+        action: "search"
+        model: "school_learning_artifact_dimension"
+        domain:
+          [
+            ["id", "=", "REC: dimension_a.id"],
+            ["id", "in", "EVAL: registry['artifact_none'].allowed_dimension_ids.ids"],
+          ]
+        save_as: "absent_dimension_none"
+        expect_count: 0
+
+      - step: "Artifact of unit A offers the global and A curation_status"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_curation_status_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: curation_status_global"
+              - "REC: curation_status_a"
+
+      - step: "Artifact of unit A does not offer the B curation_status"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        domain:
+          [
+            ["id", "=", "REC: curation_status_b.id"],
+            [
+              "id",
+              "in",
+              "EVAL: registry['artifact_a'].allowed_curation_status_ids.ids",
+            ],
+          ]
+        save_as: "absent_curation_status_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global curation_status"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_curation_status_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: curation_status_global"
+
+      - step: "Artifact without unit does not offer the A curation_status"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        domain:
+          [
+            ["id", "=", "REC: curation_status_a.id"],
+            [
+              "id",
+              "in",
+              "EVAL: registry['artifact_none'].allowed_curation_status_ids.ids",
+            ],
+          ]
+        save_as: "absent_curation_status_none"
+        expect_count: 0
+
+      - step: "Artifact of unit A offers the global and A showcase_stage"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_showcase_stage_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: showcase_stage_global"
+              - "REC: showcase_stage_a"
+
+      - step: "Artifact of unit A does not offer the B showcase_stage"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        domain:
+          [
+            ["id", "=", "REC: showcase_stage_b.id"],
+            ["id", "in", "EVAL: registry['artifact_a'].allowed_showcase_stage_ids.ids"],
+          ]
+        save_as: "absent_showcase_stage_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global showcase_stage"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_showcase_stage_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: showcase_stage_global"
+
+      - step: "Artifact without unit does not offer the A showcase_stage"
+        action: "search"
+        model: "school_learning_artifact_showcase_stage"
+        domain:
+          [
+            ["id", "=", "REC: showcase_stage_a.id"],
+            [
+              "id",
+              "in",
+              "EVAL: registry['artifact_none'].allowed_showcase_stage_ids.ids",
+            ],
+          ]
+        save_as: "absent_showcase_stage_none"
+        expect_count: 0
+
+      - step: "Artifact of unit A offers the global and A showcase_channel"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          allowed_showcase_channel_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: showcase_channel_global"
+              - "REC: showcase_channel_a"
+
+      - step: "Artifact of unit A does not offer the B showcase_channel"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        domain:
+          [
+            ["id", "=", "REC: showcase_channel_b.id"],
+            [
+              "id",
+              "in",
+              "EVAL: registry['artifact_a'].allowed_showcase_channel_ids.ids",
+            ],
+          ]
+        save_as: "absent_showcase_channel_a"
+        expect_count: 0
+
+      - step: "Artifact without unit offers the global showcase_channel"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          allowed_showcase_channel_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: showcase_channel_global"
+
+      - step: "Artifact without unit does not offer the A showcase_channel"
+        action: "search"
+        model: "school_learning_artifact_showcase_channel"
+        domain:
+          [
+            ["id", "=", "REC: showcase_channel_a.id"],
+            [
+              "id",
+              "in",
+              "EVAL: registry['artifact_none'].allowed_showcase_channel_ids.ids",
+            ],
+          ]
+        save_as: "absent_showcase_channel_none"
+        expect_count: 0
+
+      - step:
+          "Tier 3: artifact of unit A picks the rubric of unit A over the global one"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_a"
+
+      - step: "Artifact without unit falls back to the rubric without unit"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          rubric_id:
+            type: "m2o"
+            expected: "REC: rubric_global"
