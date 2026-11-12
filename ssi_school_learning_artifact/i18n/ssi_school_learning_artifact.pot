@@ -1399,7 +1399,13 @@ msgid "Grade Type"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_type_ids
+msgid "Grade Types"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_ids
 msgid "Grades"
 msgstr ""
 
@@ -2545,8 +2551,9 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_phase_ids
 msgid ""
-"Phases that apply to the selected school. A phase without schools applies to"
-" every school."
+"Phases that apply to the selected school and match the grade type and the "
+"grade of the selected class. A phase without grade types or grades applies "
+"to every one."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3408,8 +3415,22 @@ msgid "The grade type of the selected class, filled automatically."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_type_ids
+msgid ""
+"The grade types this phase applies to. Leave empty to apply to every grade "
+"type. When grades are also filled in, the artifact must match both."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
 msgid "The grades covered by this graduate profile."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_ids
+msgid ""
+"The grades this phase applies to. Leave empty to apply to every grade. When "
+"grade types are also filled in, the artifact must match both."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
