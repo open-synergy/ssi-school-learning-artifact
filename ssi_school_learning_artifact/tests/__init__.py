@@ -15,6 +15,7 @@ from . import (  # noqa: F401
     test_school_learning_artifact_showcase_migration,
     test_school_learning_artifact_showcase_narrative,
     test_school_learning_artifact_state_selection,
+    test_school_learning_artifact_view_migration,
     test_ui_school_learning_artifact,
     test_ui_school_learning_artifact_curation,
     test_ui_school_learning_artifact_curation_status,
