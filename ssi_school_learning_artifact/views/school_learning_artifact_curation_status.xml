@@ -14,7 +14,6 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//search" position="inside">
-                <field name="school_ids" />
                 <group expand="0" string="Group By">
                     <filter
                             name="group_by_category"
@@ -36,7 +35,6 @@
         <data>
             <xpath expr="//field[@name='active']" position="after">
                 <field name="category" />
-                <field name="school_ids" widget="many2many_tags" />
             </xpath>
         </data>
     </field>

@@ -12,8 +12,8 @@ class SchoolLearningArtifactCurationStatus(
     Represents a curation status that the rubric of a school can give
     to a learning artifact. The category is fixed and read by other
     modules, while the name is the label each school shows to its
-    users. A status can be limited to some schools or left open to
-    every school.
+    users. The restriction per school is given by extension
+    modules.
     """
 
     _name = "school_learning_artifact_curation_status"
@@ -34,16 +34,5 @@ class SchoolLearningArtifactCurationStatus(
             "artifact passed the curation, Needs Revision allows it to "
             "be reopened, Archive keeps it out of use and Not Eligible "
             "archives it with the reason of the curator."
-        ),
-    )
-    school_ids = fields.Many2many(
-        string="Schools",
-        comodel_name="school",
-        relation="school_la_curation_status_school_rel",
-        column1="status_id",
-        column2="school_id",
-        help=(
-            "Schools that can use this status. Leave empty to make "
-            "the status available to every school."
         ),
     )

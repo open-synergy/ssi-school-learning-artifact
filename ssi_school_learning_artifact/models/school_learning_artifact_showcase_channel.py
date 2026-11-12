@@ -12,27 +12,16 @@ class SchoolLearningArtifactShowcaseChannel(
     """
     Represents a channel through which a curated learning artifact is
     showcased. The module only records the planning and the production
-    per channel, the distribution itself happens outside Odoo. A
-    channel can be limited to some schools or left open to every
-    school. It can also require a full publication consent of the
-    artifact before a production can be recorded for it.
+    per channel, the distribution itself happens outside Odoo. The
+    restriction per school is given by extension modules. A channel
+    can also require a full publication consent of the artifact
+    before a production can be recorded for it.
     """
 
     _name = "school_learning_artifact_showcase_channel"
     _inherit = ["mixin.master_data"]
     _description = "School Learning Artifact Showcase Channel"
 
-    school_ids = fields.Many2many(
-        string="Schools",
-        comodel_name="school",
-        relation="school_la_showcase_channel_school_rel",
-        column1="channel_id",
-        column2="school_id",
-        help=(
-            "Schools that can use this channel. Leave empty to make "
-            "the channel available to every school."
-        ),
-    )
     min_publication_consent = fields.Selection(
         string="Minimum Publication Consent",
         selection=[

@@ -104,7 +104,6 @@ setup:
         name: "Status Eligible"
         code: "/"
         category: "eligible"
-        school_ids: [[6, 0, ["REC: school.id"]]]
 
     - step: "Setup - create revision status"
       action: "create"
@@ -114,7 +113,6 @@ setup:
         name: "Status Revision"
         code: "/"
         category: "revision"
-        school_ids: [[6, 0, ["REC: school.id"]]]
 
     - step: "Setup - create archive status"
       action: "create"
@@ -124,7 +122,6 @@ setup:
         name: "Status Archive"
         code: "/"
         category: "archive"
-        school_ids: [[6, 0, ["REC: school.id"]]]
 
     - step: "Setup - create rejected status"
       action: "create"
@@ -134,7 +131,6 @@ setup:
         name: "Status Rejected"
         code: "/"
         category: "rejected"
-        school_ids: [[6, 0, ["REC: school.id"]]]
 
 scenarios:
   - name: "CRUD of status and rubric"
@@ -146,7 +142,6 @@ scenarios:
         values:
           name: "Rubric rubric_crud"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -342,6 +337,16 @@ scenarios:
 
   - name: "Approve creates one score row per aspect and 3/3/3/3 is eligible"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -349,7 +354,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -674,6 +678,16 @@ scenarios:
 
   - name: "Score 3/2/2/2 totals 9 and needs revision"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -681,7 +695,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -986,6 +999,16 @@ scenarios:
 
   - name: "Three aspect rubric with thresholds 8/6/3"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -993,7 +1016,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -1259,6 +1281,16 @@ scenarios:
 
   - name: "Knockout aspect gives the knockout status"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -1266,7 +1298,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -1571,6 +1602,16 @@ scenarios:
 
   - name: "Failed ethics gate gives the ethics fail status and Done needs no scores"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -1578,7 +1619,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -1811,6 +1851,16 @@ scenarios:
 
   - name: "Revision with recommendation is done and the validator reopens it"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -1818,7 +1868,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -2141,6 +2190,16 @@ scenarios:
 
   - name: "Done without ethics result is rejected"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -2148,7 +2207,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -2328,6 +2386,16 @@ scenarios:
 
   - name: "Revision category without recommendation is rejected"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -2335,7 +2403,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -2638,6 +2705,16 @@ scenarios:
 
   - name: "A level of another aspect is rejected"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -2645,7 +2722,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -2900,6 +2976,16 @@ scenarios:
               ],
             ]
 
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -2907,7 +2993,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           require_distinct_assessors: true
@@ -3250,6 +3335,16 @@ scenarios:
               ],
             ]
 
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -3257,7 +3352,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           forbid_creator_assessment: true
@@ -3608,6 +3702,16 @@ scenarios:
               ],
             ]
 
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -3615,7 +3719,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -3878,6 +3981,16 @@ scenarios:
 
   - name: "Restart from done is rejected when the category is eligible"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -3885,7 +3998,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -4198,6 +4310,16 @@ scenarios:
 
   - name: "Reopen is refused once the revision limit is reached"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -4205,7 +4327,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -4585,6 +4706,16 @@ scenarios:
 
   - name: "Rejected category without curator note is rejected"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -4592,7 +4723,6 @@ scenarios:
         values:
           name: "Rubric rubric"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -4797,8 +4927,18 @@ scenarios:
           type: "UserError"
           message_contains: "Curator Note is empty"
 
-  - name: "School with its own rubric uses it and another school uses the fallback"
+  - name: "Without a restriction every school uses the first active rubric"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -4806,7 +4946,6 @@ scenarios:
         values:
           name: "Rubric rubric_own"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -4938,12 +5077,12 @@ scenarios:
               - min_total: 4
                 status_id: "REC: st_archive.id"
 
-      - step: "Create fallback rubric without schools"
+      - step: "Create second rubric"
         action: "create"
         model: "school_learning_artifact_rubric"
-        save_as: "rubric_fallback"
+        save_as: "rubric_second"
         values:
-          name: "Fallback Rubric"
+          name: "Second Rubric"
           code: "/"
           ethics_fail_status_id: "REC: st_rejected.id"
 
@@ -5005,10 +5144,20 @@ scenarios:
         asserts:
           rubric_id:
             type: "m2o"
-            expected: "REC: rubric_fallback"
+            expected: "REC: rubric_own"
 
   - name: "Four ethics gate aspects: all Yes passes, one No fails"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric4"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -5016,7 +5165,6 @@ scenarios:
         values:
           name: "Rubric rubric4"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -5548,6 +5696,16 @@ scenarios:
 
   - name: "Gate answers incomplete or a scored aspect empty rejects Done"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_inc"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -5555,7 +5713,6 @@ scenarios:
         values:
           name: "Rubric rubric_inc"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -5777,6 +5934,16 @@ scenarios:
 
   - name: "Rubric without a gate aspect rejects Done"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_nog"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -5784,7 +5951,6 @@ scenarios:
         values:
           name: "Rubric rubric_nog"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -5865,6 +6031,16 @@ scenarios:
 
   - name: "Level edits do not move an answered row and is_fail needs a gate"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_snap"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -5872,7 +6048,6 @@ scenarios:
         values:
           name: "Rubric rubric_snap"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:
@@ -6046,6 +6221,16 @@ scenarios:
 
   - name: "Final status rejected at the revision limit needs the curator note"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_a"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -6053,7 +6238,6 @@ scenarios:
         values:
           name: "Rubric rubric_a"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6277,6 +6461,16 @@ scenarios:
 
   - name: "Final status is rejected before the revision limit is reached"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_a"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -6284,7 +6478,6 @@ scenarios:
         values:
           name: "Rubric rubric_a"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6470,6 +6663,16 @@ scenarios:
 
   - name: "Rubric is picked again when the curation starts"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_a"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -6477,7 +6680,6 @@ scenarios:
         values:
           name: "Rubric old"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6552,11 +6754,11 @@ scenarios:
             type: "m2o"
             expected: "REC: rubric_a"
 
-      - step: "Rubric A leaves the school"
+      - step: "Rubric A is deactivated"
         action: "write"
         target: "rubric_a"
         values:
-          school_ids: [[5, 0, 0]]
+          active: false
 
       - step: "Create rubric rubric_b"
         action: "create"
@@ -6565,7 +6767,6 @@ scenarios:
         values:
           name: "Rubric new"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6675,6 +6876,16 @@ scenarios:
 
   - name: "Artifact with score rows keeps its rubric when reopened"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_a"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -6682,7 +6893,6 @@ scenarios:
         values:
           name: "Rubric kept"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6836,11 +7046,11 @@ scenarios:
             type: "value"
             expected: "done"
 
-      - step: "Rubric A leaves the school"
+      - step: "Rubric A is deactivated"
         action: "write"
         target: "rubric_a"
         values:
-          school_ids: [[5, 0, 0]]
+          active: false
 
       - step: "Create rubric rubric_b"
         action: "create"
@@ -6849,7 +7059,6 @@ scenarios:
         values:
           name: "Rubric other"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -6973,6 +7182,16 @@ scenarios:
               ],
             ]
 
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_a"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -6980,7 +7199,6 @@ scenarios:
         values:
           name: "Rubric rubric_a"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           max_revision: 1
           criterion_ids:
@@ -7175,6 +7393,16 @@ scenarios:
 
   - name: "Scored aspects stay locked until every ethics gate passes"
     steps:
+      - step: "Archive the rubrics of the earlier scenarios"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "!=", 0]]
+        save_as: "earlier_rubrics"
+      - step: "Archive the earlier rubrics so that this one is picked"
+        action: "write"
+        target: "earlier_rubrics"
+        values:
+          active: false
       - step: "Create rubric rubric_inc"
         action: "create"
         model: "school_learning_artifact_rubric"
@@ -7182,7 +7410,6 @@ scenarios:
         values:
           name: "Rubric rubric_inc"
           code: "/"
-          school_ids: [[6, 0, ["REC: school.id"]]]
           ethics_fail_status_id: "REC: st_rejected.id"
           knockout_status_id: "REC: st_archive.id"
           criterion_ids:

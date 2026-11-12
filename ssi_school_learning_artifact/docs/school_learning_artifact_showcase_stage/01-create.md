@@ -21,8 +21,6 @@
      sequence is the first stage given to a curated artifact whose parental consent
      allows the showcase and whose ethics gate passed.
    - **Folded in Board**: Check to fold the column of the stage on the board.
-   - **Schools**: Optional. Select the schools that can use the stage. Leave it empty to
-     make the stage available to every school.
    - **Require Eligible Curation Status**: Check to let an artifact move into the stage
      only when its curation status is **Eligible**.
    - **Require Publication Consent**: Kept for compatibility and ignored. Every stage
@@ -36,4 +34,4 @@
 
 - A new showcase stage is created and active.
 - It becomes a column of the showcase board and is selectable in the **Showcase Stage**
-  field of the curated artifacts of the schools it applies to.
+  field of the curated artifacts.

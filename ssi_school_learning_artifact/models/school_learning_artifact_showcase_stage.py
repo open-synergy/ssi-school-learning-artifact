@@ -12,8 +12,8 @@ class SchoolLearningArtifactShowcaseStage(
     Represents a stage of the showcase board of the curated learning
     artifacts, for example selected, in production or distributed. The
     stages, their order and the rules to move an artifact into them are
-    configuration data. A stage can be limited to some schools or left
-    open to every school.
+    configuration data. The restriction per school is given by
+    extension modules.
     """
 
     _name = "school_learning_artifact_showcase_stage"
@@ -33,17 +33,6 @@ class SchoolLearningArtifactShowcaseStage(
         string="Folded in Board",
         default=False,
         help="If checked, the column of this stage is folded on the board.",
-    )
-    school_ids = fields.Many2many(
-        string="Schools",
-        comodel_name="school",
-        relation="school_la_showcase_stage_school_rel",
-        column1="stage_id",
-        column2="school_id",
-        help=(
-            "Schools that can use this stage. Leave empty to make the "
-            "stage available to every school."
-        ),
     )
     require_eligible = fields.Boolean(
         string="Require Eligible Curation Status",

@@ -17,12 +17,10 @@
    - **Name** _(required)_: Enter the name of the dimension.
    - **Code** _(required)_: Enter a unique code, or enter **/** to assign it later using
      **Generate Code**.
-   - **Schools**: Optional. Select the schools that can use the dimension. Leave it
-     empty to make the dimension available to every school.
 4. Click **Save**.
 
 ## Post-Condition
 
 - A new dimension is created and active.
 - It becomes selectable in the **Dimension** field of the learning artifacts of the
-  schools it applies to.
+  learning artifacts.

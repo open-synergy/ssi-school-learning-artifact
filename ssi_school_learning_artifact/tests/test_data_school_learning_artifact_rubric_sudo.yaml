@@ -101,7 +101,6 @@ setup:
         name: "Rubric Sudo Status eligible"
         code: "/"
         category: "eligible"
-        school_ids: [[6, 0, ["REC: school.id"]]]
     - step: "Setup - create revision status"
       action: "create"
       model: "school_learning_artifact_curation_status"
@@ -110,7 +109,6 @@ setup:
         name: "Rubric Sudo Status revision"
         code: "/"
         category: "revision"
-        school_ids: [[6, 0, ["REC: school.id"]]]
     - step: "Setup - create rejected status"
       action: "create"
       model: "school_learning_artifact_curation_status"
@@ -119,7 +117,16 @@ setup:
         name: "Rubric Sudo Status rejected"
         code: "/"
         category: "rejected"
-        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Archive the rubrics of the earlier scenarios"
+      action: "search"
+      model: "school_learning_artifact_rubric"
+      domain: [["id", "!=", 0]]
+      save_as: "earlier_rubrics"
+    - step: "Archive the earlier rubrics so that this one is picked"
+      action: "write"
+      target: "earlier_rubrics"
+      values:
+        active: false
     - step: "Setup - create rubric"
       action: "create"
       model: "school_learning_artifact_rubric"
@@ -127,7 +134,6 @@ setup:
       values:
         name: "Rubric for Rubric Sudo Test"
         code: "/"
-        school_ids: [[6, 0, ["REC: school.id"]]]
         ethics_fail_status_id: "REC: st_rejected.id"
         criterion_ids:
           - - 0

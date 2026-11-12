@@ -18,8 +18,6 @@
      showcased.
    - **Code** _(required)_: Enter a unique code, or enter **/** to assign it later using
      **Generate Code**.
-   - **Schools**: Optional. Select the schools that can use the channel. Leave it empty
-     to make the channel available to every school.
    - **Minimum Publication Consent** _(required)_: Leave **Limited** (the default) to
      add no requirement, or select **Full** to accept only the artifacts whose effective
      publication consent is full. A production for this channel is refused for any other
@@ -39,4 +37,4 @@
 
 - A new showcase channel is created and active.
 - It becomes selectable in the **Planned Channels**, **Actual Channels** and
-  **Production** of the curated artifacts of the schools it applies to.
+  **Production** of the curated artifacts.

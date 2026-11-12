@@ -152,7 +152,6 @@ scenarios:
         values:
           name: "Dimension CRUD"
           code: "TSTLADIM01"
-          school_ids: [[6, 0, ["REC: school.id"]]]
 
       - step: "Assert dimension created"
         action: "assert"

@@ -76,7 +76,6 @@ setup:
       values:
         name: "Allowed category a"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_a.id"]]]
 
     - step: "Setup - create category b"
       action: "create"
@@ -85,7 +84,6 @@ setup:
       values:
         name: "Allowed category b"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_b.id"]]]
 
     - step: "Setup - create status global"
       action: "create"
@@ -104,7 +102,6 @@ setup:
         name: "Allowed status a"
         code: "/"
         category: "eligible"
-        school_ids: [[6, 0, ["REC: school_a.id"]]]
 
     - step: "Setup - create status b"
       action: "create"
@@ -114,7 +111,6 @@ setup:
         name: "Allowed status b"
         code: "/"
         category: "eligible"
-        school_ids: [[6, 0, ["REC: school_b.id"]]]
 
     - step: "Setup - create stage global"
       action: "create"
@@ -131,7 +127,6 @@ setup:
       values:
         name: "Allowed stage a"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_a.id"]]]
 
     - step: "Setup - create stage b"
       action: "create"
@@ -140,7 +135,6 @@ setup:
       values:
         name: "Allowed stage b"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_b.id"]]]
 
     - step: "Setup - create channel global"
       action: "create"
@@ -157,7 +151,6 @@ setup:
       values:
         name: "Allowed channel a"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_a.id"]]]
 
     - step: "Setup - create channel b"
       action: "create"
@@ -166,12 +159,11 @@ setup:
       values:
         name: "Allowed channel b"
         code: "/"
-        school_ids: [[6, 0, ["REC: school_b.id"]]]
 
 scenarios:
-  - name: "Allowed masters follow the school of the artifact"
+  - name: "Allowed masters hold every master record without restriction"
     steps:
-      - step: "Create artifact of school A"
+      - step: "Create artifact of a school"
         action: "create"
         model: "school_learning_artifact"
         save_as: "artifact"
@@ -183,7 +175,7 @@ scenarios:
           media_type: "photo"
           user_id: "REF: base.user_admin"
 
-      - step: "Assert allowed_category_ids holds the global and school A records"
+      - step: "Assert allowed_category_ids holds every master record"
         action: "assert"
         target: "artifact"
         asserts:
@@ -193,19 +185,9 @@ scenarios:
             expected_records:
               - "REC: category_global"
               - "REC: category_a"
+              - "REC: category_b"
 
-      - step: "Assert allowed_category_ids lacks the school B record"
-        action: "search"
-        model: "school_learning_artifact_category"
-        domain:
-          [
-            ["id", "=", "REC: category_b.id"],
-            ["id", "in", "EVAL: registry['artifact'].allowed_category_ids.ids"],
-          ]
-        save_as: "absent_category"
-        expect_count: 0
-
-      - step: "Assert allowed_curation_status_ids holds the global and school A records"
+      - step: "Assert allowed_curation_status_ids holds every master record"
         action: "assert"
         target: "artifact"
         asserts:
@@ -215,19 +197,9 @@ scenarios:
             expected_records:
               - "REC: status_global"
               - "REC: status_a"
+              - "REC: status_b"
 
-      - step: "Assert allowed_curation_status_ids lacks the school B record"
-        action: "search"
-        model: "school_learning_artifact_curation_status"
-        domain:
-          [
-            ["id", "=", "REC: status_b.id"],
-            ["id", "in", "EVAL: registry['artifact'].allowed_curation_status_ids.ids"],
-          ]
-        save_as: "absent_status"
-        expect_count: 0
-
-      - step: "Assert allowed_showcase_stage_ids holds the global and school A records"
+      - step: "Assert allowed_showcase_stage_ids holds every master record"
         action: "assert"
         target: "artifact"
         asserts:
@@ -237,20 +209,9 @@ scenarios:
             expected_records:
               - "REC: stage_global"
               - "REC: stage_a"
+              - "REC: stage_b"
 
-      - step: "Assert allowed_showcase_stage_ids lacks the school B record"
-        action: "search"
-        model: "school_learning_artifact_showcase_stage"
-        domain:
-          [
-            ["id", "=", "REC: stage_b.id"],
-            ["id", "in", "EVAL: registry['artifact'].allowed_showcase_stage_ids.ids"],
-          ]
-        save_as: "absent_stage"
-        expect_count: 0
-
-      - step:
-          "Assert allowed_showcase_channel_ids holds the global and school A records"
+      - step: "Assert allowed_showcase_channel_ids holds every master record"
         action: "assert"
         target: "artifact"
         asserts:
@@ -260,17 +221,7 @@ scenarios:
             expected_records:
               - "REC: channel_global"
               - "REC: channel_a"
-
-      - step: "Assert allowed_showcase_channel_ids lacks the school B record"
-        action: "search"
-        model: "school_learning_artifact_showcase_channel"
-        domain:
-          [
-            ["id", "=", "REC: channel_b.id"],
-            ["id", "in", "EVAL: registry['artifact'].allowed_showcase_channel_ids.ids"],
-          ]
-        save_as: "absent_channel"
-        expect_count: 0
+              - "REC: channel_b"
 
   - name: "Allowed masters are empty without a school"
     steps:

@@ -19,8 +19,6 @@
      **Generate Code**.
    - **Category** _(required)_: Select **Eligible**, **Needs Revision**, **Archive** or
      **Not Eligible**. Other modules read only the category, never the name.
-   - **Schools**: Optional. Select the schools that can use the status. Leave it empty
-     to make the status available to every school.
 4. Click **Save**.
 
 ## Post-Condition

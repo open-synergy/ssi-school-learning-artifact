@@ -13,9 +13,6 @@
     <field name="mode">primary</field>
     <field name="arch" type="xml">
         <data>
-            <xpath expr="//search" position="inside">
-                <field name="school_ids" />
-            </xpath>
         </data>
     </field>
 </record>
@@ -28,7 +25,6 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='active']" position="after">
-                <field name="school_ids" widget="many2many_tags" />
                 <field name="min_publication_consent" />
                 <field name="min_words" />
                 <field name="max_words" />

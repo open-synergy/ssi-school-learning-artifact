@@ -11,26 +11,14 @@ class SchoolLearningArtifactRubric(models.Model):
     aspects (scored aspects and ethics gate aspects, each with its
     levels), the thresholds that turn the total score into a curation
     status, the knockout and ethics outcomes, and the rules about who
-    may assess. A rubric belongs to some schools; a
-    rubric without schools is the fallback of every school that has
-    no rubric of its own.
+    may assess. The core picks the first active rubric; the
+    restriction per school is given by extension modules.
     """
 
     _name = "school_learning_artifact_rubric"
     _inherit = ["mixin.master_data"]
     _description = "School Learning Artifact Rubric"
 
-    school_ids = fields.Many2many(
-        string="Schools",
-        comodel_name="school",
-        relation="school_la_rubric_school_rel",
-        column1="rubric_id",
-        column2="school_id",
-        help=(
-            "Schools that use this rubric. Leave empty to make this "
-            "the fallback rubric of the schools without a rubric."
-        ),
-    )
     criterion_ids = fields.One2many(
         string="Aspects",
         comodel_name="school_learning_artifact_rubric_criterion",
