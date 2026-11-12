@@ -142,6 +142,70 @@ scenarios:
             type: "m2o"
             expected: "REC: profile"
 
+  - name: "Graduate profile follows the sequence order"
+    steps:
+      - step: "Create graduate profile with sequence 10"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_seq_10"
+        values:
+          name: "Profile Sequence 10 for Selection Test"
+          code: "TSTLAGPS10"
+          sequence: 10
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create graduate profile with sequence 5 after it"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_seq_5"
+        values:
+          name: "Profile Sequence 5 for Selection Test"
+          code: "TSTLAGPS05"
+          sequence: 5
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create draft artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Profile Selection Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Lowest sequence wins over the lowest id"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_seq_5"
+
+  - name: "Graduate profile stays empty without a covering profile"
+    steps:
+      - step: "Create draft artifact for a grade without profile"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "No Profile Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Graduate profile is empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          graduate_profile_id:
+            type: "value"
+            operator: "is_falsy"
+
   - name: "Components follow the branch of the school"
     steps:
       - step: "Create second school in the same branch"
