@@ -16,20 +16,52 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: %s\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+"\n"
+"Konteks: %s\n"
+"ID Basis Data: %s\n"
+"Masalah: %s\n"
+"Solusi: %s\n"
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
 #, python-format
 msgid ""
 "\n"
 "Context: Assess learning artifact\n"
 "Database ID: %s\n"
-"Problem: The artifact failed the ethics gate, so aspect %s is locked\n"
-"Solution: Finish the curation without scores or change the gate answer\n"
+"Problem: Aspect %s is filled automatically from the inventory consent\n"
+"Solution: Change the consent of the students instead of picking a level\n"
 msgstr ""
 "\n"
 "Konteks: Menilai artefak pembelajaran\n"
 "ID Basis Data: %s\n"
-"Masalah: Artefak tidak lolos Gerbang Etika, sehingga aspek %s terkunci\n"
-"Solusi: Selesaikan kurasi tanpa skor atau ubah jawaban gerbang\n"
+"Masalah: Aspek %s diisi otomatis dari izin inventaris\n"
+"Solusi: Ubah izin para siswa, bukan memilih level\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Assess learning artifact\n"
+"Database ID: %s\n"
+"Problem: The ethics gate has not passed yet, so aspect %s is locked\n"
+"Solution: Answer every ethics gate aspect with a passing level first\n"
+msgstr ""
+"\n"
+"Konteks: Menilai artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Gerbang etika belum lolos, sehingga aspek %s terkunci\n"
+"Solusi: Jawab setiap aspek gerbang etika dengan level lulus terlebih dahulu\n"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
@@ -62,6 +94,54 @@ msgstr ""
 "ID Basis Data: %s\n"
 "Masalah: Anda tidak diizinkan menilai aspek %s\n"
 "Solusi: Minta pengguna dalam grup penilai aspek tersebut untuk menilainya\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check school\n"
+"Database ID: %s\n"
+"Problem: Showcase Narrative Revision Limit is negative\n"
+"Solution: Set a limit of 0 or more\n"
+msgstr ""
+"\n"
+"Konteks: Memeriksa sekolah\n"
+"ID Basis Data: %s\n"
+"Masalah: Batas Revisi Narasi Showcase bernilai negatif\n"
+"Solusi: Atur batas 0 atau lebih\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_channel.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check showcase channel\n"
+"Database ID: %s\n"
+"Problem: Minimum Words is above Maximum Words\n"
+"Solution: Set a minimum that is not above the maximum\n"
+msgstr ""
+"\n"
+"Konteks: Memeriksa kanal showcase\n"
+"ID Basis Data: %s\n"
+"Masalah: Jumlah Kata Minimum melebihi Jumlah Kata Maksimum\n"
+"Solusi: Atur minimum yang tidak melebihi maksimum\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check showcase production of learning artifact\n"
+"Database ID: %s\n"
+"Problem: Only an approved narrative can be ready\n"
+"Solution: Get the narrative approved before checking Ready\n"
+msgstr ""
+"\n"
+"Konteks: Memeriksa produksi showcase artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Hanya narasi yang disetujui yang dapat siap\n"
+"Solusi: Setujui narasi terlebih dahulu sebelum mencentang Siap\n"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion_level.py:0
@@ -108,6 +188,39 @@ msgid ""
 msgstr ""
 "\n"
 "Konteks: Memindahkan artefak pembelajaran pada papan showcase\n"
+"ID Basis Data: %s\n"
+"Masalah: %s\n"
+"Solusi: %s\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record showcase production of learning artifact\n"
+"Database ID: %s\n"
+"Problem: Channel %s requires a full publication consent\n"
+"Solution: Record a full publication consent for every student or pick "
+"another channel\n"
+msgstr ""
+"\n"
+"Konteks: Mencatat produksi showcase artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Kanal %s memerlukan izin publikasi penuh\n"
+"Solusi: Catat izin publikasi penuh untuk setiap siswa atau pilih kanal lain\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Set gate source of rubric aspect\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+"\n"
+"Konteks: Mengatur sumber gerbang aspek rubrik\n"
 "ID Basis Data: %s\n"
 "Masalah: %s\n"
 "Solusi: %s\n"
@@ -206,6 +319,7 @@ msgstr "Tingkat Pencapaian"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction
 msgid "Action Needed"
 msgstr "Perlu Tindakan"
@@ -227,16 +341,19 @@ msgstr "Aktif"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approval_ids
 msgid "Active Approvals"
 msgstr "Persetujuan Aktif"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_partner_ids
 msgid "Active Partners"
 msgstr "Mitra Aktif"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_user_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_user_ids
 msgid "Active Users"
 msgstr "Pengguna Aktif"
 
@@ -341,6 +458,12 @@ msgid "Add an aspect of type Ethics Gate to the rubric"
 msgstr "Tambahkan aspek berjenis Gerbang Etika ke rubrik"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Add one failing level and one passing level"
+msgstr "Tambahkan satu level tidak lulus dan satu level lulus"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__recommendation
 msgid ""
 "Advice of the curator to strengthen the artifact. Required when the status "
@@ -352,11 +475,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__content_guideline
 msgid ""
-"Advice on the content for this channel, for example the suggested length of "
-"the text. It never blocks the content."
+"Advice on the content for this channel, for example the tone of the text. "
+"The length is limited by the minimum and maximum words."
 msgstr ""
-"Saran mengenai konten untuk kanal ini, misalnya panjang teks yang "
-"disarankan. Tidak pernah memblokir konten."
+"Saran untuk konten kanal ini, misalnya nada tulisan. Panjang tulisan "
+"dibatasi oleh jumlah kata minimum dan maksimum."
 
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_all_group
@@ -364,9 +487,19 @@ msgid "All"
 msgstr "Semua"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_category_ids
+msgid "Allowed Categories"
+msgstr "Kategori yang Diizinkan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_component_ids
 msgid "Allowed Components"
 msgstr "Komponen yang Diizinkan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_curation_status_ids
+msgid "Allowed Curation Statuses"
+msgstr "Status Kurasi yang Diizinkan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_dimension_ids
@@ -385,8 +518,19 @@ msgstr "Fase yang Diizinkan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_policy_template_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__allowed_policy_template_ids
 msgid "Allowed Policy Templates"
 msgstr "Templat Kebijakan yang Diizinkan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_channel_ids
+msgid "Allowed Showcase Channels"
+msgstr "Kanal Showcase yang Diizinkan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_stage_ids
+msgid "Allowed Showcase Stages"
+msgstr "Tahap Showcase yang Diizinkan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__aspect_count
@@ -419,21 +563,30 @@ msgstr "Catatan apa pun tentang konten ini."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__approval_template_id
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_template_id
 msgid "Approval Configuration"
 msgstr "Konfigurasi Persetujuan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approval_template_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_template_id
 msgid "Approval Template"
 msgstr "Templat Persetujuan"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_ids
 msgid "Approvals"
 msgstr "Persetujuan"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Approve"
+msgstr "Setujui"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__approve_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approve_ok
 msgid ""
 "Approve policy\n"
 "\n"
@@ -444,7 +597,15 @@ msgstr ""
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Setujui'"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Approve showcase narrative"
+msgstr "Setujui narasi showcase"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approved
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approved
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__approved
 msgid "Approved"
 msgstr "Disetujui"
 
@@ -465,9 +626,21 @@ msgid "Areas"
 msgstr "Bidang"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__aspect_score_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Artifact Assessment"
+msgstr "Penilaian Artefak"
+
+#. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
 msgid "Artifact Consents"
 msgstr "Izin Artefak"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Ask a user in the Learning Artifact Inventory Coordinator group"
+msgstr "Minta pengguna dalam grup Koordinator Inventaris Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -482,6 +655,22 @@ msgstr ""
 #, python-format
 msgid "Ask a user in the group %s to do it"
 msgstr "Minta pengguna dalam grup %s untuk melakukannya"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"Ask the administrator to add the approvers to the approval template, then "
+"click Restart Approval"
+msgstr ""
+"Minta administrator menambahkan penyetuju ke templat persetujuan, lalu klik "
+"Mulai Ulang Persetujuan"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Ask the coordinator to return the narrative first"
+msgstr "Minta koordinator mengembalikan narasi terlebih dahulu"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__criterion_id
@@ -539,6 +728,11 @@ msgid "Assessor Slot"
 msgstr "Slot Penilai"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__assigned
+msgid "Assigned"
+msgstr "Ditugaskan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__message_attachment_count
@@ -550,6 +744,7 @@ msgstr "Slot Penilai"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_attachment_count
 msgid "Attachment Count"
 msgstr "Jumlah Lampiran"
@@ -572,6 +767,7 @@ msgstr "Cabang"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approve_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approve_ok
 msgid "Can Approve"
 msgstr "Dapat Menyetujui"
 
@@ -597,6 +793,7 @@ msgstr "Dapat Memasukkan Nomor Dokumen Manual"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__reject_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__reject_ok
 msgid "Can Reject"
 msgstr "Dapat Menolak"
 
@@ -607,6 +804,7 @@ msgstr "Dapat Memulai Ulang"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__restart_approval_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__restart_approval_ok
 msgid "Can Restart Approval"
 msgstr "Dapat Memulai Ulang Persetujuan"
 
@@ -632,6 +830,7 @@ msgstr ""
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Batal'"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__cancel
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__cancel
 msgid "Cancelled"
 msgstr "Dibatalkan"
@@ -640,6 +839,15 @@ msgstr "Dibatalkan"
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_category_menu
 msgid "Categories"
 msgstr "Kategori"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_category_ids
+msgid ""
+"Categories that can be picked for the selected school, as decided by the "
+"master data criteria of the artifact."
+msgstr ""
+"Kategori yang dapat dipilih untuk sekolah terpilih, sesuai kriteria data "
+"master artefak."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__category_id
@@ -656,8 +864,14 @@ msgstr "Kanal"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
-msgid "Check when the content is ready to be distributed."
-msgstr "Centang bila konten siap didistribusikan."
+msgid ""
+"Check when the content is ready to be distributed. Only an approved "
+"narrative can be ready. It is unchecked by itself when the publication "
+"consent of the artifact no longer meets the channel."
+msgstr ""
+"Centang bila konten siap didistribusikan. Hanya narasi yang disetujui yang "
+"dapat siap. Centang hilang dengan sendirinya bila izin publikasi artefak "
+"tidak lagi memenuhi kanal."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__consent_reviewed
@@ -670,17 +884,19 @@ msgid ""
 "Checked when the artifact was already reopened as many times as the rubric "
 "allows, so it cannot be reopened for another revision."
 msgstr ""
-"Dicentang bila artefak sudah dibuka kembali sebanyak yang diizinkan "
-"rubrik, sehingga tidak dapat dibuka kembali untuk revisi lainnya."
+"Dicentang bila artefak sudah dibuka kembali sebanyak yang diizinkan rubrik, "
+"sehingga tidak dapat dibuka kembali untuk revisi lainnya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_consent_ok
 msgid ""
 "Checked when the parental consent allows the artifact into the showcase, "
-"following the consent policy of its school."
+"following the consent policy of its school. A limited inventory consent "
+"needs a review first."
 msgstr ""
-"Dicentang bila izin orang tua mengizinkan artefak masuk ke showcase, sesuai "
-"kebijakan izin sekolahnya."
+"Dicentang bila izin orang tua mengizinkan artefak masuk ke showcase, "
+"mengikuti kebijakan izin sekolahnya. Izin inventaris terbatas perlu ditinjau "
+"terlebih dahulu."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__promotion_allowed
@@ -695,10 +911,21 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__consent_review_required
 msgid ""
 "Checked when the publication consent of the artifact is limited and the "
-"school treats it as a review task."
+"school treats it as a review task, or when the inventory consent is limited."
 msgstr ""
-"Dicentang bila izin publikasi artefak bersifat terbatas dan sekolah "
-"memperlakukannya sebagai tugas tinjauan."
+"Dicentang bila izin publikasi artefak terbatas dan sekolah memperlakukannya "
+"sebagai tugas tinjauan, atau bila izin inventaris terbatas."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_consent_ok
+msgid ""
+"Checked when the publication consent of the artifact meets the minimum "
+"publication consent of the channel. It follows the consent: it is unchecked "
+"when the consent of a student is withdrawn or lowered."
+msgstr ""
+"Dicentang bila izin publikasi artefak memenuhi izin publikasi minimum kanal. "
+"Mengikuti izin: centang hilang bila izin seorang siswa dicabut atau "
+"diturunkan."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -805,6 +1032,11 @@ msgid "Consent Level"
 msgstr "Tingkat Izin"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_consent_ok
+msgid "Consent Meets Channel"
+msgstr "Izin Memenuhi Kanal"
+
+#. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_kanban
 msgid "Consent OK"
 msgstr "Izin OK"
@@ -894,6 +1126,12 @@ msgid "Created on"
 msgstr "Dibuat pada"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Curate the artifact before returning its narrative"
+msgstr "Kurasi artefak sebelum mengembalikan narasinya"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__done
 msgid "Curated"
 msgstr "Terkurasi"
@@ -928,6 +1166,15 @@ msgstr "Kategori Status Kurasi"
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_curation_status_menu
 msgid "Curation Statuses"
 msgstr "Status Kurasi"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_curation_status_ids
+msgid ""
+"Curation statuses that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
+msgstr ""
+"Status kurasi yang dapat dipilih untuk sekolah terpilih, sesuai kriteria "
+"data master artefak."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__curator_note
@@ -1080,9 +1327,17 @@ msgstr ""
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Selesai'"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__draft
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__draft
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__draft
 msgid "Draft"
 msgstr "Draf"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Edit showcase production of learning artifact"
+msgstr "Ubah produksi showcase artefak pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_status__category__eligible
@@ -1100,9 +1355,11 @@ msgid "Ethics Fail Status"
 msgstr "Status Gagal Etika"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__gate_score_ids
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__aspect_type__gate
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__aspect_type__gate
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Ethics Gate"
 msgstr "Gerbang Etika"
 
@@ -1143,6 +1400,15 @@ msgid "Fails the Gate"
 msgstr "Menggagalkan Gerbang"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_words
+msgid ""
+"Fewest words a narrative for this channel needs before it can be submitted. "
+"0 means no minimum."
+msgstr ""
+"Jumlah kata paling sedikit yang diperlukan narasi kanal ini sebelum dapat "
+"diajukan. 0 berarti tanpa minimum."
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Fill in %s"
@@ -1176,6 +1442,7 @@ msgstr "Dilipat di Papan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_follower_ids
 msgid "Followers"
 msgstr "Pengikut"
@@ -1192,6 +1459,7 @@ msgstr "Pengikut"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_channel_ids
 msgid "Followers (Channels)"
 msgstr "Pengikut (Saluran)"
@@ -1208,6 +1476,7 @@ msgstr "Pengikut (Saluran)"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Pengikut (Mitra)"
@@ -1240,8 +1509,15 @@ msgstr "Larang Penilaian oleh Pembuat"
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__inventory_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__promotion_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__publication_consent__full
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_channel__min_publication_consent__full
 msgid "Full"
 msgstr "Penuh"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__gate_source
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__gate_source
+msgid "Gate Source"
+msgstr "Sumber Gerbang"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_id
@@ -1255,7 +1531,13 @@ msgid "Grade Type"
 msgstr "Jenjang Sekolah"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_type_ids
+msgid "Grade Types"
+msgstr "Jenjang Sekolah"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_ids
 msgid "Grades"
 msgstr "Tingkat"
 
@@ -1323,6 +1605,16 @@ msgstr "Berapa kali artefak yang memerlukan revisi dapat dibuka kembali."
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
 msgid "How many times the artifact was reopened for revision."
 msgstr "Berapa kali artefak dibuka kembali untuk direvisi."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school__showcase_narrative_max_revision
+msgid ""
+"How many times the coordinator can return a showcase narrative to the "
+"teacher for a revision. Beyond the limit the coordinator revises the "
+"narrative."
+msgstr ""
+"Berapa kali koordinator dapat mengembalikan narasi showcase kepada guru "
+"untuk direvisi. Melewati batas, koordinator merevisi narasinya sendiri."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__id
@@ -1430,15 +1722,6 @@ msgstr ""
 "kurasinya adalah Memenuhi Syarat."
 
 #. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__require_publication_consent
-msgid ""
-"If checked, an artifact can move into this stage only when the parental "
-"consent allows the showcase, following the consent policy of its school."
-msgstr ""
-"Jika dicentang, artefak hanya dapat pindah ke tahap ini bila izin orang tua "
-"mengizinkan showcase, sesuai kebijakan izin sekolahnya."
-
-#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__is_fail
 msgid ""
 "If checked, choosing this level fails the ethics gate. Only a level of an "
@@ -1470,6 +1753,8 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread
 msgid "If checked, new messages require your attention."
@@ -1494,6 +1779,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Jika dicentang, beberapa pesan mengalami kesalahan pengiriman."
@@ -1542,6 +1828,7 @@ msgstr "Inventaris"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__inventory_consent
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__gate_source__inventory_consent
 msgid "Inventory Consent"
 msgstr "Izin Inventaris"
 
@@ -1557,9 +1844,21 @@ msgstr "Izin Inventaris"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_is_follower
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_is_follower
 msgid "Is Follower"
 msgstr "Adalah Pengikut"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__require_publication_consent
+msgid ""
+"Kept for compatibility and ignored: the parental consent must allow the "
+"showcase for a move into any stage, following the consent policy of its "
+"school."
+msgstr ""
+"Dipertahankan demi kompatibilitas dan diabaikan: izin orang tua harus "
+"mengizinkan showcase untuk perpindahan ke tahap mana pun, mengikuti "
+"kebijakan izin sekolahnya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__area_type
@@ -1718,6 +2017,11 @@ msgid "Learning Artifact Dimensions"
 msgstr "Label KSA Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group
+msgid "Learning Artifact Inventory Coordinator"
+msgstr "Koordinator Inventaris Artefak Pembelajaran"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__learning_artifact_link_prefix
 msgid "Learning Artifact Link Prefix"
 msgstr "Awalan Tautan Artefak Pembelajaran"
@@ -1829,6 +2133,7 @@ msgstr "Level"
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__inventory_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__promotion_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__publication_consent__limited
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_channel__min_publication_consent__limited
 msgid "Limited"
 msgstr "Terbatas"
 
@@ -1889,9 +2194,15 @@ msgstr "Total skor terendah yang mencapai ambang ini."
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "Lampiran Utama"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__gate_source__manual
+msgid "Manual"
+msgstr "Manual"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__manual_number_ok
@@ -1974,6 +2285,11 @@ msgid "Maximum Score"
 msgstr "Skor Maksimum"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__max_words
+msgid "Maximum Words"
+msgstr "Jumlah Kata Maksimum"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__category
 msgid ""
 "Meaning of the status for the workflow. Eligible means the artifact passed "
@@ -2008,6 +2324,7 @@ msgstr "Jenis Media"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error
 msgid "Message Delivery error"
 msgstr "Kesalahan Pengiriman Pesan"
@@ -2024,9 +2341,15 @@ msgstr "Kesalahan Pengiriman Pesan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_ids
 msgid "Messages"
 msgstr "Pesan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_publication_consent
+msgid "Minimum Publication Consent"
+msgstr "Izin Publikasi Minimum"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__min_score
@@ -2037,6 +2360,20 @@ msgstr "Skor Minimum"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__min_total
 msgid "Minimum Total"
 msgstr "Total Minimum"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_words
+msgid "Minimum Words"
+msgstr "Jumlah Kata Minimum"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__max_words
+msgid ""
+"Most words a narrative for this channel can have before it can be submitted. "
+"0 means no maximum."
+msgstr ""
+"Jumlah kata terbanyak yang boleh dimiliki narasi kanal ini sebelum dapat "
+"diajukan. 0 berarti tanpa maksimum."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -2088,6 +2425,7 @@ msgstr "Nasional"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__need_validation
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__need_validation
 msgid "Need Validation"
 msgstr "Perlu Validasi"
 
@@ -2146,8 +2484,15 @@ msgstr "Jenis Aktivitas Berikutnya"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__next_approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__next_approval_ids
 msgid "Next Approvals"
 msgstr "Persetujuan Berikutnya"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "No approver is configured for the showcase narrative"
+msgstr "Belum ada penyetuju yang dikonfigurasi untuk narasi showcase"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -2217,6 +2562,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Jumlah Tindakan"
@@ -2233,6 +2579,7 @@ msgstr "Jumlah Tindakan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error_counter
 msgid "Number of errors"
 msgstr "Jumlah galat"
@@ -2249,6 +2596,7 @@ msgstr "Jumlah galat"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr "Jumlah pesan yang memerlukan tindakan"
@@ -2265,9 +2613,19 @@ msgstr "Jumlah pesan yang memerlukan tindakan"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Jumlah pesan dengan kesalahan pengiriman"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__narrative_revision_count
+msgid ""
+"Number of times the narrative was returned to the teacher for a revision. "
+"Beyond the limit of the school the coordinator revises it."
+msgstr ""
+"Berapa kali narasi dikembalikan kepada guru untuk direvisi. Melewati batas "
+"sekolah, koordinator merevisinya sendiri."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__message_unread_counter
@@ -2281,6 +2639,7 @@ msgstr "Jumlah pesan dengan kesalahan pengiriman"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Number of unread messages"
 msgstr "Jumlah pesan yang belum dibaca"
@@ -2288,10 +2647,11 @@ msgstr "Jumlah pesan yang belum dibaca"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content_word_count
 msgid ""
-"Number of words in the content. Informative only, it never blocks the "
-"content."
+"Number of words in the content. The narrative cannot be submitted outside "
+"the word limits of the channel."
 msgstr ""
-"Jumlah kata dalam konten. Hanya informatif, tidak pernah memblokir konten."
+"Jumlah kata dalam konten. Narasi tidak dapat diajukan di luar batas jumlah "
+"kata kanal."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__description_word_count
@@ -2309,9 +2669,28 @@ msgid "Obtain the consent required by the school first"
 msgstr "Dapatkan dahulu izin yang disyaratkan sekolah"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__open
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__open
 msgid "On Progress"
 msgstr "Dalam Proses"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Only an ethics gate aspect can take this source"
+msgstr "Hanya aspek gerbang etika yang dapat memakai sumber ini"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Only the person in charge or a coordinator can edit it"
+msgstr "Hanya penanggung jawab atau koordinator yang dapat mengubahnya"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Only the person in charge or a coordinator can submit it"
+msgstr "Hanya penanggung jawab atau koordinator yang dapat mengajukannya"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__date_expiry
@@ -2375,11 +2754,13 @@ msgstr "Fase"
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_phase_ids
 msgid ""
-"Phases that apply to the selected school. A phase without schools applies to "
-"every school."
+"Phases that apply to the selected school and match the grade type and the "
+"grade of the selected class. A phase without grade types or grades applies "
+"to every one."
 msgstr ""
-"Fase yang berlaku untuk sekolah yang dipilih. Fase tanpa sekolah berlaku "
-"untuk setiap sekolah."
+"Fase yang berlaku untuk sekolah terpilih dan sesuai dengan jenjang sekolah "
+"serta tingkat kelas terpilih. Fase tanpa jenjang sekolah atau tingkat "
+"berlaku untuk semuanya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__media_type__photo
@@ -2399,6 +2780,7 @@ msgstr "Kanal Terencana"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__policy_template_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__policy_template_id
 msgid "Policy Template"
 msgstr "Templat Kebijakan"
 
@@ -2464,6 +2846,17 @@ msgid "Publication Consent"
 msgstr "Izin Publikasi"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_publication_consent
+msgid ""
+"Publication consent that an artifact needs before a production can be "
+"recorded for this channel. Limited adds no requirement. Full accepts only "
+"the artifacts whose effective publication consent is full."
+msgstr ""
+"Izin publikasi yang diperlukan artefak sebelum produksi dapat dicatat untuk "
+"kanal ini. Terbatas tidak menambah syarat. Penuh hanya menerima artefak yang "
+"izin publikasi efektifnya penuh."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
 msgid "Ready"
 msgstr "Siap"
@@ -2505,7 +2898,13 @@ msgid "Refusing Publication"
 msgstr "Menolak Publikasi"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Reject"
+msgstr "Tolak"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__reject_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__reject_ok
 msgid ""
 "Reject policy\n"
 "\n"
@@ -2516,8 +2915,17 @@ msgstr ""
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Tolak'"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Reject showcase narrative"
+msgstr "Tolak narasi showcase"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__rejected
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__reject
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__reject
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__reject
 msgid "Rejected"
 msgstr "Ditolak"
 
@@ -2526,6 +2934,17 @@ msgstr "Ditolak"
 #, python-format
 msgid "Remove the student from the artifact"
 msgstr "Keluarkan siswa dari artefak"
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Request Approval"
+msgstr "Minta Persetujuan"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Request approval of showcase narrative"
+msgstr "Minta persetujuan narasi showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__require_distinct_assessors
@@ -2573,7 +2992,13 @@ msgid "Responsible User"
 msgstr "Pengguna Penanggung Jawab"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Restart Approval"
+msgstr "Mulai Ulang Persetujuan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__restart_approval_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__restart_approval_ok
 msgid ""
 "Restart approval policy\n"
 "\n"
@@ -2608,6 +3033,28 @@ msgstr ""
 "dijawab."
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Return"
+msgstr "Kembalikan"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Return showcase narrative"
+msgstr "Kembalikan narasi showcase"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Return showcase narrative to teacher"
+msgstr "Kembalikan narasi showcase kepada guru"
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Return to Teacher"
+msgstr "Kembalikan kepada Guru"
+
+#. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_kanban
 msgid "Review"
 msgstr "Tinjauan"
@@ -2624,6 +3071,7 @@ msgstr "Pemeriksa"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__narrative_revision_count
 msgid "Revision Count"
 msgstr "Jumlah Revisi"
 
@@ -2745,80 +3193,6 @@ msgid "School Learning Artifact Showcase Stage"
 msgstr "Tahap Showcase Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__school_ids
-msgid "Schools"
-msgstr "Sekolah"
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
-msgid ""
-"Schools that can use this category. Leave empty to make the category "
-"available to every school."
-msgstr ""
-"Sekolah yang dapat menggunakan kategori ini. Kosongkan agar kategori "
-"tersedia untuk setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__school_ids
-msgid ""
-"Schools that can use this channel. Leave empty to make the channel available "
-"to every school."
-msgstr ""
-"Sekolah yang dapat menggunakan kanal ini. Kosongkan agar kanal tersedia "
-"untuk setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__school_ids
-msgid ""
-"Schools that can use this dimension. Leave empty to make the dimension "
-"available to every school."
-msgstr ""
-"Sekolah yang dapat menggunakan Label KSA ini. Kosongkan agar Label KSA "
-"tersedia untuk setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__school_ids
-msgid ""
-"Schools that can use this phase. Leave empty to make the phase available to "
-"every school."
-msgstr ""
-"Sekolah yang dapat menggunakan fase ini. Kosongkan agar fase tersedia untuk "
-"setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__school_ids
-msgid ""
-"Schools that can use this stage. Leave empty to make the stage available to "
-"every school."
-msgstr ""
-"Sekolah yang dapat menggunakan tahap ini. Kosongkan agar tahap tersedia "
-"untuk setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
-msgid ""
-"Schools that can use this status. Leave empty to make the status available "
-"to every school."
-msgstr ""
-"Sekolah yang dapat menggunakan status ini. Kosongkan agar status tersedia "
-"untuk setiap sekolah."
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
-msgid ""
-"Schools that use this rubric. Leave empty to make this the fallback rubric "
-"of the schools without a rubric."
-msgstr ""
-"Sekolah yang menggunakan rubrik ini. Kosongkan agar menjadi rubrik cadangan "
-"bagi sekolah yang tidak memiliki rubrik."
-
-#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__score
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__score
 msgid "Score"
@@ -2838,7 +3212,6 @@ msgstr "Dinilai Pada"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__score_ids
-#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Scores"
 msgstr "Skor"
 
@@ -2868,6 +3241,12 @@ msgid "Sequence"
 msgstr "Urutan"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Set the aspect type to Ethics Gate or the source to Manual"
+msgstr "Atur jenis aspek ke Gerbang Etika atau sumber ke Manual"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__code
 msgid "Short code of the aspect, for example A1."
 msgstr "Kode singkat aspek, misalnya A1."
@@ -2886,6 +3265,12 @@ msgstr "Bentuk singkat nama program."
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_name
 msgid "Short title of the learning activity or achievement."
 msgstr "Judul singkat kegiatan atau pencapaian pembelajaran."
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Shorten the content to %s words"
+msgstr "Persingkat konten menjadi %s kata"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_showcase_action
@@ -2926,6 +3311,11 @@ msgid "Showcase Minimum Publication Consent"
 msgstr "Izin Publikasi Minimum Showcase"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_narrative_max_revision
+msgid "Showcase Narrative Revision Limit"
+msgstr "Batas Revisi Narasi Showcase"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__production_ids
 msgid "Showcase Productions"
 msgstr "Produksi Showcase"
@@ -2939,6 +3329,24 @@ msgstr "Tahap Showcase"
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_showcase_stage_menu
 msgid "Showcase Stages"
 msgstr "Tahap Showcase"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_channel_ids
+msgid ""
+"Showcase channels that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
+msgstr ""
+"Kanal showcase yang dapat dipilih untuk sekolah terpilih, sesuai kriteria "
+"data master artefak."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_stage_ids
+msgid ""
+"Showcase stages that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
+msgstr ""
+"Tahap showcase yang dapat dipilih untuk sekolah terpilih, sesuai kriteria "
+"data master artefak."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__open_ok
@@ -2959,6 +3367,7 @@ msgstr "Status"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__status_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__state
 msgid "Status"
 msgstr "Status"
 
@@ -3006,6 +3415,19 @@ msgid "Status given when the total score reaches this threshold."
 msgstr "Status yang diberikan ketika total skor mencapai ambang ini."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__state
+msgid ""
+"Status of the narrative. Draft is not written yet, Assigned is with the "
+"person in charge, Submitted waits for the review of the coordinator, Waiting "
+"Approval is in the approval and Approved can be ready. A Rejected narrative "
+"goes back to the writer."
+msgstr ""
+"Status narasi. Draf berarti belum ditulis, Ditugaskan berarti ada pada "
+"penanggung jawab, Diajukan menunggu tinjauan koordinator, Menunggu "
+"Persetujuan sedang dalam proses persetujuan, dan Disetujui dapat siap. "
+"Narasi yang Ditolak kembali kepada penulis."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_student
 msgid "Student"
 msgstr "Siswa"
@@ -3037,6 +3459,22 @@ msgid "Subject"
 msgstr "Mata Pelajaran"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Submit"
+msgstr "Ajukan"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Submit showcase narrative"
+msgstr "Ajukan narasi showcase"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__submitted
+msgid "Submitted"
+msgstr "Diajukan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__teacher_reflection
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Teacher Reflection"
@@ -3057,6 +3495,18 @@ msgstr "Tahun ajaran saat kegiatan berlangsung."
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__academic_year_id
 msgid "The academic year of the learning artifact."
 msgstr "Tahun ajaran dari artefak pembelajaran."
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The artifact %s is not curated yet"
+msgstr "Artefak %s belum terkurasi"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "The aspect needs a failing and a passing level"
+msgstr "Aspek memerlukan level tidak lulus dan level lulus"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__branch_id
@@ -3103,6 +3553,24 @@ msgid "The components that make up this program."
 msgstr "Komponen yang menyusun program ini."
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content has %s words, above the maximum of %s"
+msgstr "Konten berisi %s kata, melebihi maksimum %s"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content has %s words, below the minimum of %s"
+msgstr "Konten berisi %s kata, kurang dari minimum %s"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content is locked in status %s"
+msgstr "Konten terkunci pada status %s"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__production_ids
 msgid "The content produced for each channel of the showcase."
 msgstr "Konten yang diproduksi untuk setiap kanal showcase."
@@ -3110,11 +3578,11 @@ msgstr "Konten yang diproduksi untuk setiap kanal showcase."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
 msgid ""
-"The curation rubric of the artifact. It is the active rubric of the school, "
-"or the fallback rubric without schools when the school has none."
+"The curation rubric of the artifact. It is the first active rubric that the "
+"rubric criteria allow."
 msgstr ""
-"Rubrik kurasi artefak. Yaitu rubrik aktif sekolah, atau rubrik cadangan "
-"tanpa sekolah bila sekolah tidak memilikinya."
+"Rubrik kurasi artefak. Yaitu rubrik aktif pertama yang diizinkan oleh "
+"kriteria rubrik."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__curation_status_id
@@ -3159,6 +3627,15 @@ msgstr ""
 "diisi bila sekolah mensyaratkan komponen."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__gate_score_ids
+msgid ""
+"The ethics gate rows of the artifact. Every gate row must be answered with a "
+"passing level before the scored aspects can be assessed."
+msgstr ""
+"Baris gerbang etika artefak. Setiap baris gerbang harus dijawab dengan level "
+"lulus sebelum aspek berskor dapat dinilai."
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "The final status does not apply to this artifact"
@@ -3194,9 +3671,28 @@ msgid "The grade type of the selected class, filled automatically."
 msgstr "Jenjang sekolah dari kelas yang dipilih, diisi otomatis."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_type_ids
+msgid ""
+"The grade types this phase applies to. Leave empty to apply to every grade "
+"type. When grades are also filled in, the artifact must match both."
+msgstr ""
+"Jenjang sekolah tempat fase ini berlaku. Kosongkan agar berlaku untuk semua "
+"jenjang sekolah. Bila tingkat juga diisi, artefak harus sesuai dengan "
+"keduanya."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
 msgid "The grades covered by this graduate profile."
 msgstr "Tingkat yang dicakup oleh profil lulusan ini."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__grade_ids
+msgid ""
+"The grades this phase applies to. Leave empty to apply to every grade. When "
+"grade types are also filled in, the artifact must match both."
+msgstr ""
+"Tingkat tempat fase ini berlaku. Kosongkan agar berlaku untuk semua tingkat. "
+"Bila jenjang sekolah juga diisi, artefak harus sesuai dengan keduanya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_class_id
@@ -3253,8 +3749,13 @@ msgstr "Tingkat pencapaian yang diraih, bila ada."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__level_id
 msgid ""
-"The level picked for the aspect. Empty means the aspect is not assessed yet."
-msgstr "Level yang dipilih untuk aspek. Kosong berarti aspek belum dinilai."
+"The level picked for the aspect. Empty means the aspect is not assessed yet. "
+"For an aspect that takes its level from the inventory consent, the system "
+"picks it and it follows the consent of the students."
+msgstr ""
+"Level yang dipilih untuk aspek. Kosong berarti aspek belum dinilai. Untuk "
+"aspek yang levelnya diambil dari izin inventaris, sistem yang memilihnya dan "
+"levelnya mengikuti izin para siswa."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__level_ids
@@ -3269,6 +3770,18 @@ msgid ""
 msgstr ""
 "Total skor minimum dan status yang diberikan oleh masing-masing. Minimum "
 "tertinggi yang dicapai total akan dipakai."
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The narrative is assigned to %s"
+msgstr "Narasi ditugaskan kepada %s"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The narrative is in status %s"
+msgstr "Narasi berada pada status %s"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -3366,6 +3879,14 @@ msgstr ""
 "Gerbang Etika."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__aspect_score_ids
+msgid ""
+"The scored aspect rows of the artifact. They can be assessed only after the "
+"ethics gate has passed."
+msgstr ""
+"Baris aspek berskor artefak. Hanya dapat dinilai setelah gerbang etika lolos."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__criterion_ids
 msgid "The scored aspects and the ethics gate aspects."
 msgstr "Aspek berskor dan aspek Gerbang Etika."
@@ -3383,16 +3904,19 @@ msgstr "Tahap kegiatan yang diabadikan oleh media."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_stage_id
 msgid ""
-"The stage of the artifact on the showcase board. Moving into a stage may "
-"require an eligible curation status, a publication consent that allows the "
-"showcase, or membership of a group, as configured on the stage. Every move "
-"is logged in the chatter with the user and the time."
+"The stage of the artifact on the showcase board. Moving into any stage needs "
+"a parental consent that allows the showcase, and the stage may also require "
+"an eligible curation status or membership of a group, as configured on the "
+"stage. The artifact leaves the board by itself when the consent no longer "
+"allows the showcase or the ethics gate no longer passes. Every move made by "
+"a user is logged in the chatter with the user and the time."
 msgstr ""
-"Tahap artefak pada papan showcase. Perpindahan ke suatu tahap dapat "
-"mensyaratkan status kurasi yang memenuhi syarat, izin publikasi yang "
-"mengizinkan showcase, atau keanggotaan dalam suatu grup, sesuai konfigurasi "
-"tahap tersebut. Setiap perpindahan dicatat di chatter beserta pengguna dan "
-"waktunya."
+"Tahap artefak pada papan showcase. Pindah ke tahap mana pun memerlukan izin "
+"orang tua yang mengizinkan showcase, dan tahap juga dapat mensyaratkan "
+"status kurasi yang memenuhi syarat atau keanggotaan grup, sesuai konfigurasi "
+"tahap. Artefak keluar dari papan dengan sendirinya bila izin tidak lagi "
+"mengizinkan showcase atau gerbang etika tidak lagi lolos. Setiap perpindahan "
+"oleh pengguna dicatat di chatter beserta pengguna dan waktunya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__state
@@ -3495,8 +4019,10 @@ msgstr "Refleksi guru tentang kegiatan."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content
-msgid "The text produced for the channel."
-msgstr "Teks yang diproduksi untuk kanal."
+msgid ""
+"The text produced for the channel. It is locked once the narrative is "
+"submitted."
+msgstr "Teks yang dihasilkan untuk kanal. Terkunci setelah narasi diajukan."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__date_curated
@@ -3519,8 +4045,12 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__pic_id
-msgid "The user in charge of producing this content."
-msgstr "Pengguna yang bertanggung jawab memproduksi konten ini."
+msgid ""
+"The user in charge of producing this content. It is the teacher of the "
+"artifact while the narrative is assigned."
+msgstr ""
+"Pengguna yang bertanggung jawab menghasilkan konten ini. Yaitu guru artefak "
+"selama narasi ditugaskan."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__assessor_id
@@ -3605,6 +4135,7 @@ msgstr "Jenis aktivitas pengecualian yang tercatat."
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread
 msgid "Unread Messages"
 msgstr "Pesan yang Belum Dibaca"
@@ -3621,9 +4152,16 @@ msgstr "Pesan yang Belum Dibaca"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Penghitung Pesan yang Belum Dibaca"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Use this action only in the status where it is shown"
+msgstr "Gunakan aksi ini hanya pada status saat aksi ditampilkan"
 
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_user_group
@@ -3659,6 +4197,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_user_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_user_ids
 msgid "Users that can approve/reject document"
 msgstr "Pengguna yang dapat menyetujui/menolak dokumen"
 
@@ -3678,6 +4217,18 @@ msgid "Viewer"
 msgstr "Penampil"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Wait for your turn in the approval sequence"
+msgstr "Tunggu giliran Anda dalam urutan persetujuan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__confirm
+msgid "Waiting Approval"
+msgstr "Menunggu Persetujuan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__confirm
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__confirm
 msgid "Waiting for Approval"
 msgstr "Menunggu Persetujuan"
@@ -3694,6 +4245,7 @@ msgstr "Menunggu Persetujuan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__website_message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__website_message_ids
 msgid "Website Messages"
 msgstr "Pesan Situs Web"
@@ -3710,6 +4262,7 @@ msgstr "Pesan Situs Web"
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__website_message_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__website_message_ids
 msgid "Website communication history"
 msgstr "Riwayat komunikasi situs web"
@@ -3729,6 +4282,25 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "What the data subject allows when the consent level is limited."
 msgstr "Apa yang diizinkan oleh subjek data bila tingkat izin terbatas."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__gate_source
+msgid ""
+"Where the level of an ethics gate aspect comes from. Manual means the "
+"assessor picks the level. Inventory Consent fills the level by itself from "
+"the inventory consent of the students of the artifact: a full or limited "
+"consent gives a passing level, any other consent gives a failing level. Only "
+"an ethics gate aspect can take it."
+msgstr ""
+"Asal level aspek gerbang etika. Manual berarti penilai memilih levelnya. "
+"Izin Inventaris mengisi level dengan sendirinya dari izin inventaris para "
+"siswa artefak: izin penuh atau terbatas memberi level lulus, izin lainnya "
+"memberi level tidak lulus. Hanya aspek gerbang etika yang dapat memakainya."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__gate_source
+msgid "Where the level of the aspect comes from."
+msgstr "Asal level aspek."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__activity_type
@@ -3769,10 +4341,22 @@ msgid "Write a recommendation for the revision"
 msgstr "Tulis rekomendasi untuk revisi"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Write at least %s words"
+msgstr "Tulis paling sedikit %s kata"
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Write the reason of the archive in the Curator Note"
 msgstr "Tulis alasan pengarsipan pada Catatan Kurator"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Write the showcase narrative for channel %s"
+msgstr "Tulis narasi showcase untuk kanal %s"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -3785,6 +4369,18 @@ msgstr "Anda tidak diizinkan memindahkan artefak ke %s"
 #, python-format
 msgid "You are not allowed to review the consent"
 msgstr "Anda tidak diizinkan memeriksa izin"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "You are not an active approver of the narrative"
+msgstr "Anda bukan penyetuju aktif narasi ini"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "You are not an inventory coordinator"
+msgstr "Anda bukan koordinator inventaris"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_res_partner_consent
