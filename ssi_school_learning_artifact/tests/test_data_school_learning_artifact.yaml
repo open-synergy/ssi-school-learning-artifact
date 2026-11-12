@@ -860,3 +860,223 @@ scenarios:
           state:
             type: "value"
             expected: "confirm"
+
+  - name: "Phase follows grade and grade type of the class (AND per column)"
+    steps:
+      - step: "Create second grade type"
+        action: "create"
+        model: "school_grade_type"
+        save_as: "grade_type_second"
+        values:
+          name: "Second Grade Type for Phase Filter Test"
+          code: "/"
+          sequence: 20
+
+      - step: "Create grade of the first grade type"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade_g2"
+        values:
+          name: "Grade G2 for Phase Filter Test"
+          code: "/"
+          sequence: 20
+          type_id: "REC: grade_type.id"
+
+      - step: "Create grade of the second grade type"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade_g3"
+        values:
+          name: "Grade G3 for Phase Filter Test"
+          code: "/"
+          sequence: 30
+          type_id: "REC: grade_type_second.id"
+
+      - step: "Create phase P_all"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_all"
+        values:
+          name: "Phase P_all for Grade Filter Test"
+          code: "/"
+      - step: "Create phase P_t1"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_t1"
+        values:
+          name: "Phase P_t1 for Grade Filter Test"
+          code: "/"
+          grade_type_ids: [[6, 0, ["REC: grade_type.id"]]]
+      - step: "Create phase P_t2"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_t2"
+        values:
+          name: "Phase P_t2 for Grade Filter Test"
+          code: "/"
+          grade_type_ids: [[6, 0, ["REC: grade_type_second.id"]]]
+      - step: "Create phase P_g1"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_g1"
+        values:
+          name: "Phase P_g1 for Grade Filter Test"
+          code: "/"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+      - step: "Create phase P_g2"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_g2"
+        values:
+          name: "Phase P_g2 for Grade Filter Test"
+          code: "/"
+          grade_ids: [[6, 0, ["REC: grade_g2.id"]]]
+      - step: "Create phase P_t1_g1"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_t1_g1"
+        values:
+          name: "Phase P_t1_g1 for Grade Filter Test"
+          code: "/"
+          grade_type_ids: [[6, 0, ["REC: grade_type.id"]]]
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+      - step: "Create phase P_t1_g2"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_t1_g2"
+        values:
+          name: "Phase P_t1_g2 for Grade Filter Test"
+          code: "/"
+          grade_type_ids: [[6, 0, ["REC: grade_type.id"]]]
+          grade_ids: [[6, 0, ["REC: grade_g2.id"]]]
+      - step: "Create phase P_t2_g1"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "p_t2_g1"
+        values:
+          name: "Phase P_t2_g1 for Grade Filter Test"
+          code: "/"
+          grade_type_ids: [[6, 0, ["REC: grade_type_second.id"]]]
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+      - step: "Create artifact in the class of grade G1"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Grade Filter Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert the matching phases are allowed"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "contains"
+            expected_records:
+              - "REC: p_all"
+              - "REC: p_t1"
+              - "REC: p_g1"
+              - "REC: p_t1_g1"
+
+      - step: "Phase p_t2 is not allowed"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: p_t2.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_phase_ids.ids"],
+          ]
+        save_as: "not_allowed_p_t2"
+        expect_count: 0
+
+      - step: "Phase p_g2 is not allowed"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: p_g2.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_phase_ids.ids"],
+          ]
+        save_as: "not_allowed_p_g2"
+        expect_count: 0
+
+      - step: "Phase p_t1_g2 is not allowed"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: p_t1_g2.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_phase_ids.ids"],
+          ]
+        save_as: "not_allowed_p_t1_g2"
+        expect_count: 0
+
+      - step: "Phase p_t2_g1 is not allowed"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain:
+          [
+            ["id", "=", "REC: p_t2_g1.id"],
+            ["id", "in", "EVAL: registry['artifact'].allowed_phase_ids.ids"],
+          ]
+        save_as: "not_allowed_p_t2_g1"
+        expect_count: 0
+
+  - name: "Changing the class clears the phase"
+    steps:
+      - step: "Create grade of the first grade type"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade_second"
+        values:
+          name: "Second Grade for Phase Clear Test"
+          code: "/"
+          sequence: 20
+          type_id: "REC: grade_type.id"
+
+      - step: "Create second class"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "grade_class_second"
+        values:
+          name: "Second Class for Phase Clear Test"
+          code: "/"
+          school_id: "REC: school.id"
+          grade_id: "REC: grade_second.id"
+          capacity: 30
+
+      - step: "Create phase without grade filter"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_open"
+        values:
+          name: "Open Phase for Clear Test"
+          code: "/"
+
+      - step: "Pick the phase, then change the class"
+        action: "form"
+        model: "school_learning_artifact"
+        save: false
+        ops:
+          - set: {school_id: "REC: school"}
+          - set: {grade_class_id: "REC: grade_class"}
+          - set: {phase_id: "REC: phase_open"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_open"
+          - set: {grade_class_id: "REC: grade_class_second"}
+          - assert:
+              phase_id:
+                type: "value"
+                operator: "is_falsy"

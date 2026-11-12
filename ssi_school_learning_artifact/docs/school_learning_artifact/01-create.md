@@ -25,7 +25,8 @@
    - **Academic Year** _(required)_: Select the academic year of the activity.
    - **Class** _(required)_: Select a class of the selected school. **Grade** and
      **Grade Type** are filled automatically, read-only, from the class, and **Graduate
-     Profile** is filled automatically from the grade.
+     Profile** is filled automatically from the grade. Changing the class clears
+     **Phase**.
    - **Activity Name** _(required)_: Enter a short title of the activity.
    - **Media Type** _(required)_: Select **Photo**, **Video** or **Document**.
    - **Date**: Defaults to today. Change if needed.

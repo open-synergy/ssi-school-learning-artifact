@@ -586,8 +586,9 @@ class SchoolLearningArtifact(models.Model):
         compute="_compute_allowed_phase_ids",
         compute_sudo=True,
         help=(
-            "Phases that apply to the selected school. A phase without "
-            "schools applies to every school."
+            "Phases that apply to the selected school and match the "
+            "grade type and the grade of the selected class. A phase "
+            "without grade types or grades applies to every one."
         ),
     )
     allowed_category_ids = fields.Many2many(
@@ -1184,19 +1185,43 @@ class SchoolLearningArtifact(models.Model):
                 result = obj_dimension.search(record._get_allowed_school_criteria())
             record.allowed_dimension_ids = result
 
-    @api.depends("school_id")
+    @api.depends("school_id", "grade_id", "grade_type_id")
     def _compute_allowed_phase_ids(self):
-        """List the phases usable for the school of the artifact.
+        """List the phases usable for the school and class of the artifact.
 
-        A phase applies when it lists the school or lists no school
-        at all.
+        A phase applies when it passes the school criteria and the
+        grade criteria of the artifact.
         """
         obj_phase = self.env["school_learning_artifact_phase"]
         for record in self:
             result = []
             if record.school_id:
-                result = obj_phase.search(record._get_allowed_school_criteria())
+                criteria = (
+                    record._get_allowed_school_criteria()
+                    + record._get_allowed_phase_grade_criteria()
+                )
+                result = obj_phase.search(criteria)
             record.allowed_phase_ids = result
+
+    def _get_allowed_phase_grade_criteria(self):
+        """Build the domain of the phases matching the class grade.
+
+        A phase matches when its grade types are empty or hold the
+        grade type of the artifact, and its grades are empty or hold
+        the grade of the artifact. An artifact without a class only
+        gets the phases without grade types and grades.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        return [
+            "|",
+            ("grade_type_ids", "=", False),
+            ("grade_type_ids", "in", self.grade_type_id.ids),
+            "|",
+            ("grade_ids", "=", False),
+            ("grade_ids", "in", self.grade_id.ids),
+        ]
 
     @api.depends("school_id")
     def _compute_allowed_category_ids(self):
@@ -1380,7 +1405,7 @@ class SchoolLearningArtifact(models.Model):
     def onchange_dimension_id(self):
         self.dimension_id = False
 
-    @api.onchange("school_id")
+    @api.onchange("school_id", "grade_class_id")
     def onchange_phase_id(self):
         self.phase_id = False
 

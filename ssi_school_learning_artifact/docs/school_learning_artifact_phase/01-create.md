@@ -17,9 +17,16 @@
    - **Name** _(required)_: Enter the name of the phase.
    - **Code** _(required)_: Enter a unique code, or enter **/** to assign it later using
      **Generate Code**.
+   - **Grade Types**: Optionally select the grade types the phase applies to. Leave
+     empty to apply to every grade type.
+   - **Grades**: Optionally select the grades the phase applies to. Leave empty to apply
+     to every grade. When both **Grade Types** and **Grades** are filled in, the class
+     of the artifact must match both.
 4. Click **Save**.
 
 ## Post-Condition
 
 - A new phase is created and active.
-- It becomes selectable in the **Phase** field of the learning artifacts.
+- It becomes selectable in the **Phase** field of the learning artifacts whose class
+  matches the **Grade Types** and **Grades** of the phase (a column left empty matches
+  every artifact).
