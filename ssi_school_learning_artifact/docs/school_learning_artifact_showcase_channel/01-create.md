@@ -20,6 +20,11 @@
      **Generate Code**.
    - **Schools**: Optional. Select the schools that can use the channel. Leave it empty
      to make the channel available to every school.
+   - **Minimum Publication Consent** _(required)_: Leave **Limited** (the default) to
+     add no requirement, or select **Full** to accept only the artifacts whose effective
+     publication consent is full. A production for this channel is refused for any other
+     artifact, and a production that no longer meets the channel is marked as not
+     meeting it and loses its **Ready** check.
    - **Content Guideline**: Optional. Enter advice on the content for the channel, for
      example the suggested length of the text. It never blocks the content.
 4. Click **Save**.

@@ -1825,3 +1825,345 @@ scenarios:
           promotion_allowed:
             type: "value"
             expected: false
+  - name: "Channel without minimum accepts an artifact without publication consent"
+    steps:
+      - step: "Create contact n"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_n"
+        values:
+          name: "Channel Contact n for Showcase Test"
+      - step: "Create student n"
+        action: "create"
+        model: "school_student"
+        save_as: "student_n"
+        values:
+          name: "Channel Student n for Showcase Test"
+          code: "/"
+          contact_id: "REC: contact_n.id"
+          school_id: "REC: school.id"
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_n.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create channel channel_default"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_default"
+        values:
+          name: "Default Channel"
+          code: "/"
+      - step: "Assert channel default"
+        action: "assert"
+        target: "channel_default"
+        asserts:
+          min_publication_consent:
+            type: "value"
+            expected: "limited"
+      - step: "Create production production_default"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "production_default"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_default.id"
+          content: "a b c"
+      - step: "Assert production_default"
+        action: "assert"
+        target: "production_default"
+        asserts:
+          channel_consent_ok:
+            type: "value"
+            expected: true
+  - name: "Full channel rejects an artifact with a limited publication consent"
+    steps:
+      - step: "Create contact l"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_l"
+        values:
+          name: "Channel Contact l for Showcase Test"
+      - step: "Create student l"
+        action: "create"
+        model: "school_student"
+        save_as: "student_l"
+        values:
+          name: "Channel Student l for Showcase Test"
+          code: "/"
+          contact_id: "REC: contact_l.id"
+          school_id: "REC: school.id"
+      - step: "Record grant limited publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_l.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_l.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create channel channel_full"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_full"
+        values:
+          name: "Full Channel"
+          code: "/"
+          min_publication_consent: "full"
+      - step: "Create production channel_full is rejected"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        expect_error:
+          type: "UserError"
+          message_contains: "requires a full publication consent"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_full.id"
+          content: "a b c"
+  - name: "Switching a production to a full channel is rejected without a full consent"
+    steps:
+      - step: "Create contact s"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_s"
+        values:
+          name: "Channel Contact s for Showcase Test"
+      - step: "Create student s"
+        action: "create"
+        model: "school_student"
+        save_as: "student_s"
+        values:
+          name: "Channel Student s for Showcase Test"
+          code: "/"
+          contact_id: "REC: contact_s.id"
+          school_id: "REC: school.id"
+      - step: "Record grant limited publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_s.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_s.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create channel channel_limited"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_limited"
+        values:
+          name: "Limited Channel"
+          code: "/"
+          min_publication_consent: "limited"
+      - step: "Create channel channel_full"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_full"
+        values:
+          name: "Full Channel"
+          code: "/"
+          min_publication_consent: "full"
+      - step: "Create production production_limited"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "production_limited"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_limited.id"
+          content: "a b c"
+      - step: "Switch the production to the full channel is rejected"
+        action: "write"
+        target: "production_limited"
+        expect_error:
+          type: "UserError"
+          message_contains: "requires a full publication consent"
+        values:
+          channel_id: "REC: channel_full.id"
+  - name: "Full consent follows the channel and a withdrawn consent unchecks ready"
+    steps:
+      - step: "Create contact f"
+        action: "create"
+        model: "res.partner"
+        save_as: "contact_f"
+        values:
+          name: "Channel Contact f for Showcase Test"
+      - step: "Create student f"
+        action: "create"
+        model: "school_student"
+        save_as: "student_f"
+        values:
+          name: "Channel Student f for Showcase Test"
+          code: "/"
+          contact_id: "REC: contact_f.id"
+          school_id: "REC: school.id"
+      - step: "Record grant full publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_f.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_f.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Create channel channel_full"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_full"
+        values:
+          name: "Full Channel"
+          code: "/"
+          min_publication_consent: "full"
+      - step: "Create channel channel_limited"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_limited"
+        values:
+          name: "Limited Channel"
+          code: "/"
+          min_publication_consent: "limited"
+      - step: "Create production production_full"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "production_full"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_full.id"
+          content: "a b c"
+          ready: true
+      - step: "Create production production_limited"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "production_limited"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_limited.id"
+          content: "a b c"
+          ready: true
+      - step: "Assert production_full"
+        action: "assert"
+        target: "production_full"
+        asserts:
+          channel_consent_ok:
+            type: "value"
+            expected: true
+          ready:
+            type: "value"
+            expected: true
+      - step: "Record withdraw publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_f.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+      - step: "Assert production_full"
+        action: "assert"
+        target: "production_full"
+        asserts:
+          channel_consent_ok:
+            type: "value"
+            expected: false
+          ready:
+            type: "value"
+            expected: false
+      - step: "Assert production_limited"
+        action: "assert"
+        target: "production_limited"
+        asserts:
+          channel_consent_ok:
+            type: "value"
+            expected: true
+          ready:
+            type: "value"
+            expected: true
+      - step: "Set ready on the production that no longer meets the channel is rejected"
+        action: "write"
+        target: "production_full"
+        expect_error:
+          type: "UserError"
+          message_contains: "requires a full publication consent"
+        values:
+          ready: true
+      - step: "Edit the note of the production that no longer meets the channel"
+        action: "write"
+        target: "production_full"
+        values:
+          note: "still editable"
+      - step: "Assert production_full"
+        action: "assert"
+        target: "production_full"
+        asserts:
+          note:
+            type: "value"
+            expected: "still editable"

@@ -29,6 +29,7 @@
         <data>
             <xpath expr="//field[@name='active']" position="after">
                 <field name="school_ids" widget="many2many_tags" />
+                <field name="min_publication_consent" />
                 <field name="content_guideline" />
             </xpath>
         </data>

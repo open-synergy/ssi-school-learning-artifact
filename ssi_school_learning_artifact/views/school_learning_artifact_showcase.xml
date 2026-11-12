@@ -60,6 +60,7 @@
                                 <field name="content" />
                                 <field name="content_word_count" />
                                 <field name="pic_id" />
+                                <field name="channel_consent_ok" />
                                 <field name="ready" />
                                 <field name="date_published" />
                             </tree>
@@ -73,6 +74,7 @@
                                     <field name="content" />
                                     <field name="content_word_count" />
                                     <field name="pic_id" />
+                                    <field name="channel_consent_ok" />
                                     <field name="ready" />
                                     <field name="date_published" />
                                     <field name="note" />

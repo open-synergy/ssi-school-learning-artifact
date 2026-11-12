@@ -46,7 +46,11 @@ chatter. An artifact leaves the board by itself when its consent is withdrawn
 or its ethics gate no longer passes, and a limited inventory consent needs a
 consent review first. The consent policy of the showcase is set per school: the lowest accepted publication
 consent, whether a limited consent is blocked or becomes a review task, and
-whether the students who refused the publication are left out.
+whether the students who refused the publication are left out. A channel can
+also require a full publication consent: a production is refused for it when
+the effective publication consent of the artifact is not full, and when the
+consent is later lowered or withdrawn the production is marked as not meeting
+the channel and its Ready check is cleared.
 
 
 Work Instruction
