@@ -2,7 +2,8 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class School(models.Model):  # pylint: disable=too-few-public-methods
@@ -101,3 +102,34 @@ class School(models.Model):  # pylint: disable=too-few-public-methods
             "artifact do it."
         ),
     )
+    showcase_narrative_max_revision = fields.Integer(
+        string="Showcase Narrative Revision Limit",
+        default=1,
+        required=True,
+        help=(
+            "How many times the coordinator can return a showcase "
+            "narrative to the teacher for a revision. Beyond the "
+            "limit the coordinator revises the narrative."
+        ),
+    )
+
+    @api.constrains("showcase_narrative_max_revision")
+    def _check_showcase_narrative_max_revision(self):
+        """Reject a negative revision limit.
+
+        :raises ValidationError: when the limit is below 0
+        """
+        for record in self:
+            if record.showcase_narrative_max_revision < 0:
+                error_message = (
+                    _(
+                        """
+Context: Check school
+Database ID: %s
+Problem: Showcase Narrative Revision Limit is negative
+Solution: Set a limit of 0 or more
+"""
+                    )
+                    % (record.id,)
+                )
+                raise ValidationError(error_message)
