@@ -19,35 +19,49 @@
             <xpath expr="//field[@name='allowed_phase_ids']" position="after">
                 <field name="allowed_subconstruct_ids" invisible="1" />
                 <field name="allowed_indicator_ids" invisible="1" />
+                <field name="allowed_dominant_indicator_ids" invisible="1" />
+                <field name="allowed_secondary_indicator_ids" invisible="1" />
             </xpath>
             <xpath expr="//page[@name='activity']" position="after">
                 <page name="character" string="Character Tag">
                     <group name="character_1" colspan="4" col="2">
                         <group name="character_left" colspan="1" col="2">
                             <field
-                                    name="primary_subconstruct_id"
+                                    name="dominant_subconstruct_ids"
+                                    widget="many2many_tags"
                                     attrs="{'readonly': [('character_tag_ok', '=', False)]}"
                                     options="{'no_create': True}"
                                 />
+                            <field name="dominant_subconstruct_codes" readonly="1" />
                             <field
-                                    name="secondary_subconstruct_id"
-                                    attrs="{'readonly': [('character_tag_ok', '=', False)]}"
+                                    name="dominant_indicator_ids"
+                                    widget="many2many_tags"
+                                    attrs="{'readonly': [('character_indicator_ok', '=', False)]}"
                                     options="{'no_create': True}"
                                 />
+                            <field name="dominant_indicator_codes" readonly="1" />
                         </group>
                         <group name="character_right" colspan="1" col="2">
                             <field
-                                    name="character_not_evident"
+                                    name="secondary_subconstruct_ids"
+                                    widget="many2many_tags"
                                     attrs="{'readonly': [('character_tag_ok', '=', False)]}"
+                                    options="{'no_create': True}"
                                 />
+                            <field name="secondary_subconstruct_codes" readonly="1" />
+                            <field
+                                    name="secondary_indicator_ids"
+                                    widget="many2many_tags"
+                                    attrs="{'readonly': [('character_indicator_ok', '=', False)]}"
+                                    options="{'no_create': True}"
+                                />
+                            <field name="secondary_indicator_codes" readonly="1" />
                         </group>
                     </group>
                     <group name="character_2" colspan="4" col="2">
                         <field
-                                name="character_indicator_ids"
-                                widget="many2many_tags"
-                                attrs="{'readonly': [('character_indicator_ok', '=', False)]}"
-                                options="{'no_create': True}"
+                                name="character_not_evident"
+                                attrs="{'readonly': [('character_tag_ok', '=', False)]}"
                             />
                     </group>
                 </page>

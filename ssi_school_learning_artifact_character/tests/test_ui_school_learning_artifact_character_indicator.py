@@ -13,9 +13,9 @@ class TestUiSchoolLearningArtifactCharacterIndicator(HttpSavepointCase):
     def setUpClass(cls):
         """Create the Pre-Condition fixtures of the indicator tour.
 
-        One school with a draft artifact tagged with a dominant
-        sub-construct and an indicator of that sub-construct are
-        created. ``user_id`` is set to ``base.user_admin`` because
+        One school with a draft artifact tagged with a dominant and a
+        secondary sub-construct and an indicator of each sub-construct
+        are created. ``user_id`` is set to ``base.user_admin`` because
         ``cls.env`` runs as SUPERUSER and the internal user record
         rule would otherwise hide the record from the tour session.
         """
@@ -95,6 +95,32 @@ class TestUiSchoolLearningArtifactCharacterIndicator(HttpSavepointCase):
                 "construct_id": construct.id,
             }
         )
+        cls.secondary = obj_subconstruct.create(
+            {
+                "name": "TOUR CI Secondary",
+                "code": "TOUR-CI-SEC",
+                "construct_id": construct.id,
+            }
+        )
+        cls.secondary_indicator = cls.env["school_character_indicator"].create(
+            {
+                "name": "TOUR CI Sec Item",
+                "code": "TOUR-CI-SIN",
+                "construct_id": construct.id,
+                "subconstruct_id": cls.secondary.id,
+                "grade_status_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "grade_type_id": grade_type.id,
+                            "grade_ids": [(6, 0, grade.ids)],
+                            "status": "effective",
+                        },
+                    )
+                ],
+            }
+        )
         cls.indicator = cls.env["school_character_indicator"].create(
             {
                 "name": "TOUR CI Indicator",
@@ -127,7 +153,8 @@ class TestUiSchoolLearningArtifactCharacterIndicator(HttpSavepointCase):
                 "category_id": category.id,
                 "description": "one two three",
                 "link_url": "https://drive.example.com/file",
-                "primary_subconstruct_id": cls.dominant.id,
+                "dominant_subconstruct_ids": [(6, 0, cls.dominant.ids)],
+                "secondary_subconstruct_ids": [(6, 0, cls.secondary.ids)],
             }
         )
 

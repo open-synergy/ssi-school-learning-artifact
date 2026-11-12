@@ -14,32 +14,40 @@ class SchoolLearningArtifact(models.Model):
         "school_learning_artifact",
     ]
 
-    # Adds the character tag of the artifact.
-    primary_subconstruct_id = fields.Many2one(
-        string="Dominant Character Tag",
+    # Adds the character tags of the artifact.
+    dominant_subconstruct_ids = fields.Many2many(
+        string="Dominant Character Tags",
         comodel_name="school_character_subconstruct",
-        ondelete="restrict",
+        relation="school_learning_artifact_dominant_subconstruct_rel",
+        column1="artifact_id",
+        column2="subconstruct_id",
         domain="[('id', 'in', allowed_subconstruct_ids)]",
         help=(
-            "The character sub-construct that dominates this artifact. "
+            "The character sub-constructs that dominate this artifact. "
             "It is a tag of the activity, not evidence of the "
-            "character achievement of a student."
+            "character achievement of a student. There is no limit "
+            "on the number of tags."
         ),
     )
-    secondary_subconstruct_id = fields.Many2one(
-        string="Secondary Character Tag",
+    secondary_subconstruct_ids = fields.Many2many(
+        string="Secondary Character Tags",
         comodel_name="school_character_subconstruct",
-        ondelete="restrict",
+        relation="school_learning_artifact_secondary_subconstruct_rel",
+        column1="artifact_id",
+        column2="subconstruct_id",
         domain="[('id', 'in', allowed_subconstruct_ids)]",
         help=(
-            "An additional character sub-construct that appears in " "this artifact."
+            "Additional character sub-constructs that appear in this "
+            "artifact. A sub-construct cannot be both a dominant and a "
+            "secondary tag. There is no limit on the number of tags."
         ),
     )
     character_not_evident = fields.Boolean(
         string="Not Clearly Evident",
         help=(
             "Check when no character sub-construct is clearly evident "
-            "in this artifact. The dominant tag must then stay empty."
+            "in this artifact. The character tags and indicators must "
+            "then stay empty."
         ),
     )
     allowed_subconstruct_ids = fields.Many2many(
@@ -54,18 +62,32 @@ class SchoolLearningArtifact(models.Model):
             "that grade type are listed."
         ),
     )
-    character_indicator_ids = fields.Many2many(
-        string="Character Indicators",
+    dominant_indicator_ids = fields.Many2many(
+        string="Dominant Character Indicators",
         comodel_name="school_character_indicator",
-        relation="school_learning_artifact_character_indicator_rel",
+        relation="school_learning_artifact_dominant_indicator_rel",
         column1="artifact_id",
         column2="indicator_id",
-        domain="[('id', 'in', allowed_indicator_ids)]",
+        domain="[('id', 'in', allowed_dominant_indicator_ids)]",
         help=(
-            "The character indicators that appear in this artifact. "
-            "Each indicator belongs to the dominant or the secondary "
-            "character tag. It is a mark of the activity, not "
-            "evidence of the character achievement of a student."
+            "The character indicators that appear in this artifact and "
+            "belong to a dominant character tag. It is a mark of the "
+            "activity, not evidence of the character achievement of a "
+            "student."
+        ),
+    )
+    secondary_indicator_ids = fields.Many2many(
+        string="Secondary Character Indicators",
+        comodel_name="school_character_indicator",
+        relation="school_learning_artifact_secondary_indicator_rel",
+        column1="artifact_id",
+        column2="indicator_id",
+        domain="[('id', 'in', allowed_secondary_indicator_ids)]",
+        help=(
+            "The character indicators that appear in this artifact and "
+            "belong to a secondary character tag. It is a mark of the "
+            "activity, not evidence of the character achievement of a "
+            "student."
         ),
     )
     allowed_indicator_ids = fields.Many2many(
@@ -83,6 +105,57 @@ class SchoolLearningArtifact(models.Model):
             "Partial on those lines are listed."
         ),
     )
+    allowed_dominant_indicator_ids = fields.Many2many(
+        string="Allowed Dominant Character Indicators",
+        comodel_name="school_character_indicator",
+        relation="school_learning_artifact_allowed_dominant_indicator_rel",
+        column1="artifact_id",
+        column2="indicator_id",
+        compute="_compute_allowed_dominant_indicator_ids",
+        compute_sudo=True,
+        help=(
+            "Allowed character indicators that belong to a dominant "
+            "character tag of the artifact."
+        ),
+    )
+    allowed_secondary_indicator_ids = fields.Many2many(
+        string="Allowed Secondary Character Indicators",
+        comodel_name="school_character_indicator",
+        relation="school_learning_artifact_allowed_secondary_indicator_rel",
+        column1="artifact_id",
+        column2="indicator_id",
+        compute="_compute_allowed_secondary_indicator_ids",
+        compute_sudo=True,
+        help=(
+            "Allowed character indicators that belong to a secondary "
+            "character tag of the artifact."
+        ),
+    )
+    dominant_subconstruct_codes = fields.Char(
+        string="Dominant Character Tag Codes",
+        compute="_compute_dominant_subconstruct_codes",
+        compute_sudo=True,
+        help="Codes of the dominant character tags, separated by commas.",
+    )
+    secondary_subconstruct_codes = fields.Char(
+        string="Secondary Character Tag Codes",
+        compute="_compute_secondary_subconstruct_codes",
+        compute_sudo=True,
+        help="Codes of the secondary character tags, separated by commas.",
+    )
+    dominant_indicator_codes = fields.Char(
+        string="Dominant Character Indicator Codes",
+        compute="_compute_dominant_indicator_codes",
+        compute_sudo=True,
+        help="Codes of the dominant character indicators, separated by commas.",
+    )
+    secondary_indicator_codes = fields.Char(
+        string="Secondary Character Indicator Codes",
+        compute="_compute_secondary_indicator_codes",
+        compute_sudo=True,
+        help="Codes of the secondary character indicators, separated by commas.",
+    )
+
     character_tag_ok = fields.Boolean(
         string="Can Tag Character",
         compute="_compute_policy",
@@ -196,23 +269,103 @@ class SchoolLearningArtifact(models.Model):
             ("subconstruct_id.active", "=", True),
         ]
 
-    @api.onchange("character_not_evident")
-    def onchange_primary_subconstruct_id(self):
-        """Clear the dominant tag when marked as not clearly evident."""
-        if self.character_not_evident:
-            self.primary_subconstruct_id = False
+    @api.depends(
+        "grade_type_id",
+        "grade_id",
+        "dominant_subconstruct_ids",
+        "allowed_indicator_ids",
+    )
+    def _compute_allowed_dominant_indicator_ids(self):
+        """List the allowed indicators of the dominant character tags.
+
+        The indicators are those of the usable indicators of the
+        artifact whose sub-construct is a dominant character tag.
+        """
+        for record in self:
+            record.allowed_dominant_indicator_ids = (
+                record.allowed_indicator_ids.filtered(
+                    lambda indicator, tags=record.dominant_subconstruct_ids: (
+                        indicator.subconstruct_id in tags
+                    )
+                )
+            )
+
+    @api.depends(
+        "grade_type_id",
+        "grade_id",
+        "secondary_subconstruct_ids",
+        "allowed_indicator_ids",
+    )
+    def _compute_allowed_secondary_indicator_ids(self):
+        """List the allowed indicators of the secondary character tags.
+
+        The indicators are those of the usable indicators of the
+        artifact whose sub-construct is a secondary character tag.
+        """
+        for record in self:
+            record.allowed_secondary_indicator_ids = (
+                record.allowed_indicator_ids.filtered(
+                    lambda indicator, tags=record.secondary_subconstruct_ids: (
+                        indicator.subconstruct_id in tags
+                    )
+                )
+            )
+
+    @api.depends("dominant_subconstruct_ids.code")
+    def _compute_dominant_subconstruct_codes(self):
+        """Join the codes of the dominant character tags."""
+        for record in self:
+            record.dominant_subconstruct_codes = ", ".join(
+                record.dominant_subconstruct_ids.mapped("code")
+            )
+
+    @api.depends("secondary_subconstruct_ids.code")
+    def _compute_secondary_subconstruct_codes(self):
+        """Join the codes of the secondary character tags."""
+        for record in self:
+            record.secondary_subconstruct_codes = ", ".join(
+                record.secondary_subconstruct_ids.mapped("code")
+            )
+
+    @api.depends("dominant_indicator_ids.code")
+    def _compute_dominant_indicator_codes(self):
+        """Join the codes of the dominant character indicators."""
+        for record in self:
+            record.dominant_indicator_codes = ", ".join(
+                record.dominant_indicator_ids.mapped("code")
+            )
+
+    @api.depends("secondary_indicator_ids.code")
+    def _compute_secondary_indicator_codes(self):
+        """Join the codes of the secondary character indicators."""
+        for record in self:
+            record.secondary_indicator_codes = ", ".join(
+                record.secondary_indicator_ids.mapped("code")
+            )
 
     @api.onchange("character_not_evident")
-    def onchange_secondary_subconstruct_id(self):
-        """Clear the secondary tag when marked as not clearly evident."""
+    def onchange_dominant_subconstruct_ids(self):
+        """Clear the dominant tags when marked as not clearly evident."""
         if self.character_not_evident:
-            self.secondary_subconstruct_id = False
+            self.dominant_subconstruct_ids = [(5, 0, 0)]
 
     @api.onchange("character_not_evident")
-    def onchange_character_indicator_ids(self):
-        """Clear the indicators when marked as not clearly evident."""
+    def onchange_secondary_subconstruct_ids(self):
+        """Clear the secondary tags when marked as not clearly evident."""
         if self.character_not_evident:
-            self.character_indicator_ids = [(5, 0, 0)]
+            self.secondary_subconstruct_ids = [(5, 0, 0)]
+
+    @api.onchange("character_not_evident")
+    def onchange_dominant_indicator_ids(self):
+        """Clear the dominant indicators when marked as not evident."""
+        if self.character_not_evident:
+            self.dominant_indicator_ids = [(5, 0, 0)]
+
+    @api.onchange("character_not_evident")
+    def onchange_secondary_indicator_ids(self):
+        """Clear the secondary indicators when marked as not evident."""
+        if self.character_not_evident:
+            self.secondary_indicator_ids = [(5, 0, 0)]
 
     def _get_character_not_evident_clear_values(self):
         """Build the values that empty the character marks.
@@ -223,9 +376,10 @@ class SchoolLearningArtifact(models.Model):
         :return: dictionary of values that clear the character marks
         """
         return {
-            "primary_subconstruct_id": False,
-            "secondary_subconstruct_id": False,
-            "character_indicator_ids": [(5, 0, 0)],
+            "dominant_subconstruct_ids": [(5, 0, 0)],
+            "secondary_subconstruct_ids": [(5, 0, 0)],
+            "dominant_indicator_ids": [(5, 0, 0)],
+            "secondary_indicator_ids": [(5, 0, 0)],
         }
 
     @api.model_create_multi
@@ -262,7 +416,33 @@ class SchoolLearningArtifact(models.Model):
             vals.update(self._get_character_not_evident_clear_values())
         return super().write(vals)
 
-    @api.constrains("character_not_evident", "primary_subconstruct_id")
+    @api.constrains("dominant_subconstruct_ids", "secondary_subconstruct_ids")
+    def _check_character_tag_overlap(self):
+        """Forbid a sub-construct that is both dominant and secondary.
+
+        :raises ValidationError: when a sub-construct is in both the
+            dominant and the secondary character tags.
+        :return: None
+        """
+        for record in self:
+            overlap = (
+                record.dominant_subconstruct_ids & record.secondary_subconstruct_ids
+            )
+            if overlap:
+                error_message = (
+                    _(
+                        """
+Context: Save learning artifact character tag
+Database ID: %s
+Problem: Character tag is both dominant and secondary: %s
+Solution: Keep the character tag in the dominant or in the secondary tags only
+"""
+                    )
+                    % (record.id, ", ".join(overlap.mapped("display_name")))
+                )
+                raise ValidationError(error_message)
+
+    @api.constrains("character_not_evident", "dominant_subconstruct_ids")
     def _check_character_not_evident(self):
         """Forbid a dominant tag on an artifact marked as not evident.
 
@@ -271,14 +451,14 @@ class SchoolLearningArtifact(models.Model):
         :return: None
         """
         for record in self:
-            if record.character_not_evident and record.primary_subconstruct_id:
+            if record.character_not_evident and record.dominant_subconstruct_ids:
                 error_message = (
                     _(
                         """
 Context: Save learning artifact character tag
 Database ID: %s
 Problem: Dominant character tag is filled in while the artifact is marked as not clearly evident
-Solution: Clear the dominant character tag or uncheck Not Clearly Evident
+Solution: Clear the dominant character tags or uncheck Not Clearly Evident
 """
                     )
                     % (record.id,)
@@ -286,24 +466,28 @@ Solution: Clear the dominant character tag or uncheck Not Clearly Evident
                 raise ValidationError(error_message)
 
     @api.constrains(
-        "character_indicator_ids",
-        "primary_subconstruct_id",
-        "secondary_subconstruct_id",
+        "dominant_indicator_ids",
+        "secondary_indicator_ids",
+        "dominant_subconstruct_ids",
+        "secondary_subconstruct_ids",
         "character_not_evident",
     )
     def _check_character_indicator(self):
         """Ensure the indicators agree with the character tags.
 
-        When a dominant or a secondary tag is filled in, the
-        sub-construct of every selected indicator must be one of them.
-        An artifact marked as not clearly evident has no indicator.
+        The sub-construct of every dominant indicator must be a
+        dominant tag and the sub-construct of every secondary
+        indicator must be a secondary tag. An indicator without a
+        sub-construct is rejected. An artifact marked as not clearly
+        evident has no indicator.
 
         :raises ValidationError: when an indicator does not belong to
             the tags or the artifact is marked as not clearly evident.
         :return: None
         """
         for record in self:
-            if not record.character_indicator_ids:
+            indicators = record.dominant_indicator_ids | record.secondary_indicator_ids
+            if not indicators:
                 continue
             problem = False
             if record.character_not_evident:
@@ -314,22 +498,23 @@ Solution: Clear the dominant character tag or uncheck Not Clearly Evident
                 solution = _(
                     "Clear the character indicators or uncheck Not Clearly " "Evident"
                 )
-            else:
-                tags = record.primary_subconstruct_id | record.secondary_subconstruct_id
-                if tags and (
-                    record.character_indicator_ids.mapped("subconstruct_id") - tags
-                    or record.character_indicator_ids.filtered(
-                        lambda indicator: not indicator.subconstruct_id
-                    )
-                ):
-                    problem = _(
-                        "Character indicator does not belong to the "
-                        "dominant or the secondary character tag"
-                    )
-                    solution = _(
-                        "Select only indicators of the dominant or the "
-                        "secondary character tag"
-                    )
+            elif record.dominant_indicator_ids.filtered(
+                lambda indicator, tags=record.dominant_subconstruct_ids: (
+                    indicator.subconstruct_id not in tags
+                )
+            ) or record.secondary_indicator_ids.filtered(
+                lambda indicator, tags=record.secondary_subconstruct_ids: (
+                    indicator.subconstruct_id not in tags
+                )
+            ):
+                problem = _(
+                    "Character indicator does not belong to the "
+                    "dominant or the secondary character tags"
+                )
+                solution = _(
+                    "Select only dominant indicators of the dominant "
+                    "tags and secondary indicators of the secondary tags"
+                )
             if problem:
                 error_message = (
                     _(

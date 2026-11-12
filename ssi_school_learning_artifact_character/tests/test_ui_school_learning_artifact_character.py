@@ -102,6 +102,13 @@ class TestUiSchoolLearningArtifactCharacter(HttpSavepointCase):
                 "construct_id": construct.id,
             }
         )
+        cls.another = obj_subconstruct.create(
+            {
+                "name": "TOUR CT Another",
+                "code": "TOUR-CT-ANO",
+                "construct_id": construct.id,
+            }
+        )
         cls.artifact = cls.env["school_learning_artifact"].create(
             {
                 "school_id": cls.school.id,

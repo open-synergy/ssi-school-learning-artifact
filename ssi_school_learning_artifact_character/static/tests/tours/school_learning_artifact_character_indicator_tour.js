@@ -87,23 +87,44 @@ odoo.define(
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                 ],
-                // Flow 5 -- Select the Character Indicators.
+                // Flow 5 -- Select the Dominant Character Indicators.
                 pickMany2one(
-                    ".o_field_many2manytags[name='character_indicator_ids']",
+                    ".o_field_many2manytags[name='dominant_indicator_ids']",
                     "TOUR CI Indicator"
                 ),
+                // Flow 6 -- Select the Secondary Character Indicators.
+                pickMany2one(
+                    ".o_field_many2manytags[name='secondary_indicator_ids']",
+                    "TOUR CI Sec Item"
+                ),
                 [
-                    // Flow 6 -- Click Save.
+                    // Flow 7 -- Click Save.
                     {
                         content: "Save the record",
                         trigger: ".o_form_button_save",
                     },
                     {
                         // Post-Condition -- the indicator is saved.
-                        content: "The indicator is saved",
+                        content: "The dominant indicator is saved",
                         trigger:
-                            ".o_field_widget[name='character_indicator_ids']:contains(TOUR CI Indicator)",
+                            ".o_field_widget[name='dominant_indicator_ids']:contains(TOUR CI Indicator)",
                         extra_trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        content: "The secondary indicator is saved",
+                        trigger:
+                            ".o_field_widget[name='secondary_indicator_ids']:contains(TOUR CI Sec Item)",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        content: "The dominant indicator code is filled in",
+                        trigger:
+                            ".o_field_widget[name='dominant_indicator_codes']:contains(TOUR-CI-IND)",
                         run: function () {
                             // Assertion only.
                         },
