@@ -14,6 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: %s\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
 #, python-format
 msgid ""
@@ -55,6 +66,39 @@ msgid ""
 "Database ID: %s\n"
 "Problem: You are not allowed to assess aspect %s\n"
 "Solution: Ask a user in the assessor groups of the aspect to assess it\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check school\n"
+"Database ID: %s\n"
+"Problem: Showcase Narrative Revision Limit is negative\n"
+"Solution: Set a limit of 0 or more\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_channel.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check showcase channel\n"
+"Database ID: %s\n"
+"Problem: Minimum Words is above Maximum Words\n"
+"Solution: Set a minimum that is not above the maximum\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Check showcase production of learning artifact\n"
+"Database ID: %s\n"
+"Problem: Only an approved narrative can be ready\n"
+"Solution: Get the narrative approved before checking Ready\n"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -196,6 +240,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -217,16 +262,19 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approval_ids
 msgid "Active Approvals"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_partner_ids
 msgid "Active Partners"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_user_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_user_ids
 msgid "Active Users"
 msgstr ""
 
@@ -346,8 +394,8 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__content_guideline
 msgid ""
-"Advice on the content for this channel, for example the suggested length of "
-"the text. It never blocks the content."
+"Advice on the content for this channel, for example the tone of the text. "
+"The length is limited by the minimum and maximum words."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -377,6 +425,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_policy_template_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__allowed_policy_template_ids
 msgid "Allowed Policy Templates"
 msgstr ""
 
@@ -410,21 +459,30 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__approval_template_id
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_template_id
 msgid "Approval Configuration"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approval_template_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_template_id
 msgid "Approval Template"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approval_ids
 msgid "Approvals"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Approve"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__approve_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approve_ok
 msgid ""
 "Approve policy\n"
 "\n"
@@ -432,7 +490,15 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Approve showcase narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approved
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approved
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__approved
 msgid "Approved"
 msgstr ""
 
@@ -464,6 +530,12 @@ msgid "Artifact Consents"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Ask a user in the Learning Artifact Inventory Coordinator group"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Ask a user in the allowed groups of the stage to do it"
@@ -473,6 +545,20 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Ask a user in the group %s to do it"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"Ask the administrator to add the approvers to the approval template, then "
+"click Restart Approval"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Ask the coordinator to return the narrative first"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -531,6 +617,11 @@ msgid "Assessor Slot"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__assigned
+msgid "Assigned"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__message_attachment_count
@@ -542,6 +633,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_attachment_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -564,6 +656,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__approve_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__approve_ok
 msgid "Can Approve"
 msgstr ""
 
@@ -589,6 +682,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__reject_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__reject_ok
 msgid "Can Reject"
 msgstr ""
 
@@ -599,6 +693,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__restart_approval_ok
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__restart_approval_ok
 msgid "Can Restart Approval"
 msgstr ""
 
@@ -647,8 +742,9 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
 msgid ""
-"Check when the content is ready to be distributed. It is unchecked by itself"
-" when the publication consent of the artifact no longer meets the channel."
+"Check when the content is ready to be distributed. Only an approved "
+"narrative can be ready. It is unchecked by itself when the publication "
+"consent of the artifact no longer meets the channel."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -883,6 +979,12 @@ msgid "Created on"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Curate the artifact before returning its narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__done
 msgid "Curated"
 msgstr ""
@@ -1063,7 +1165,14 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__draft
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__draft
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Edit showcase production of learning artifact"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1127,6 +1236,13 @@ msgid "Fails the Gate"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_words
+msgid ""
+"Fewest words a narrative for this channel needs before it can be submitted. "
+"0 means no minimum."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Fill in %s"
@@ -1160,6 +1276,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_follower_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_follower_ids
 msgid "Followers"
 msgstr ""
@@ -1176,6 +1293,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_channel_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_channel_ids
 msgid "Followers (Channels)"
 msgstr ""
@@ -1192,6 +1310,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_partner_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -1306,6 +1425,14 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
 msgid "How many times the artifact was reopened for revision."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school__showcase_narrative_max_revision
+msgid ""
+"How many times the coordinator can return a showcase narrative to the "
+"teacher for a revision. Beyond the limit the coordinator revises the "
+"narrative."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1432,6 +1559,8 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread
 msgid "If checked, new messages require your attention."
@@ -1454,6 +1583,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
@@ -1514,6 +1644,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_is_follower
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -1678,6 +1809,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_dimension_action
 msgid "Learning Artifact Dimensions"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group
+msgid "Learning Artifact Inventory Coordinator"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1848,6 +1984,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -1923,6 +2060,11 @@ msgid "Maximum Score"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__max_words
+msgid "Maximum Words"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__category
 msgid ""
 "Meaning of the status for the workflow. Eligible means the artifact passed "
@@ -1953,6 +2095,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error
 msgid "Message Delivery error"
 msgstr ""
@@ -1969,6 +2112,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_ids
 msgid "Messages"
 msgstr ""
@@ -1986,6 +2130,18 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__min_total
 msgid "Minimum Total"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_words
+msgid "Minimum Words"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__max_words
+msgid ""
+"Most words a narrative for this channel can have before it can be submitted."
+" 0 means no maximum."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2038,6 +2194,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__need_validation
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__need_validation
 msgid "Need Validation"
 msgstr ""
 
@@ -2096,7 +2253,14 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__next_approval_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__next_approval_ids
 msgid "Next Approvals"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "No approver is configured for the showcase narrative"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2165,6 +2329,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -2181,6 +2346,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
@@ -2197,6 +2363,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_needaction_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_needaction_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr ""
@@ -2213,8 +2380,16 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_has_error_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_has_error_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_has_error_counter
 msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__narrative_revision_count
+msgid ""
+"Number of times the narrative was returned to the teacher for a revision. "
+"Beyond the limit of the school the coordinator revises it."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2229,6 +2404,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread_counter
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread_counter
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Number of unread messages"
 msgstr ""
@@ -2236,8 +2412,8 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content_word_count
 msgid ""
-"Number of words in the content. Informative only, it never blocks the "
-"content."
+"Number of words in the content. The narrative cannot be submitted outside "
+"the word limits of the channel."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2263,6 +2439,18 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
 #, python-format
 msgid "Only an ethics gate aspect can take this source"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Only the person in charge or a coordinator can edit it"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Only the person in charge or a coordinator can submit it"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2345,6 +2533,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__policy_template_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__policy_template_id
 msgid "Policy Template"
 msgstr ""
 
@@ -2459,7 +2648,13 @@ msgid "Refusing Publication"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Reject"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__reject_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__reject_ok
 msgid ""
 "Reject policy\n"
 "\n"
@@ -2467,9 +2662,17 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Reject showcase narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__rejected
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__rejected
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__reject
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__reject
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__reject
 msgid "Rejected"
 msgstr ""
 
@@ -2477,6 +2680,17 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Remove the student from the artifact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Request Approval"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Request approval of showcase narrative"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2523,7 +2737,13 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Restart Approval"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__restart_approval_ok
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__restart_approval_ok
 msgid ""
 "Restart approval policy\n"
 "\n"
@@ -2547,6 +2767,28 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Return"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Return showcase narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Return showcase narrative to teacher"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Return to Teacher"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_kanban
 msgid "Review"
 msgstr ""
@@ -2563,6 +2805,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__revision_count
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__narrative_revision_count
 msgid "Revision Count"
 msgstr ""
 
@@ -2818,6 +3061,12 @@ msgid "Short title of the learning activity or achievement."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Shorten the content to %s words"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_showcase_action
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_showcase_menu
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
@@ -2856,6 +3105,11 @@ msgid "Showcase Minimum Publication Consent"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_narrative_max_revision
+msgid "Showcase Narrative Revision Limit"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__production_ids
 msgid "Showcase Productions"
 msgstr ""
@@ -2886,6 +3140,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_threshold__status_id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__state
 msgid "Status"
 msgstr ""
 
@@ -2927,6 +3182,15 @@ msgid "Status given when the total score reaches this threshold."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__state
+msgid ""
+"Status of the narrative. Draft is not written yet, Assigned is with the "
+"person in charge, Submitted waits for the review of the coordinator, Waiting"
+" Approval is in the approval and Approved can be ready. A Rejected narrative"
+" goes back to the writer."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_student
 msgid "Student"
 msgstr ""
@@ -2958,6 +3222,22 @@ msgid "Subject"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
+msgid "Submit"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Submit showcase narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__submitted
+msgid "Submitted"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__teacher_reflection
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Teacher Reflection"
@@ -2977,6 +3257,12 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__academic_year_id
 msgid "The academic year of the learning artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The artifact %s is not curated yet"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3024,6 +3310,24 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__component_ids
 msgid "The components that make up this program."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content has %s words, above the maximum of %s"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content has %s words, below the minimum of %s"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The content is locked in status %s"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3184,6 +3488,19 @@ msgstr ""
 msgid ""
 "The minimum total scores and the status each one gives. The highest minimum "
 "that the total reaches wins."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The narrative is assigned to %s"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "The narrative is in status %s"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3390,7 +3707,9 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content
-msgid "The text produced for the channel."
+msgid ""
+"The text produced for the channel. It is locked once the narrative is "
+"submitted."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3412,7 +3731,9 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__pic_id
-msgid "The user in charge of producing this content."
+msgid ""
+"The user in charge of producing this content. It is the teacher of the "
+"artifact while the narrative is assigned."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3487,6 +3808,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread
 msgid "Unread Messages"
 msgstr ""
@@ -3503,8 +3825,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Use this action only in the status where it is shown"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3532,6 +3861,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__active_approver_user_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__active_approver_user_ids
 msgid "Users that can approve/reject document"
 msgstr ""
 
@@ -3548,6 +3878,17 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_viewer_group
 msgid "Viewer"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Wait for your turn in the approval sequence"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_production__state__confirm
+msgid "Waiting Approval"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3568,6 +3909,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__website_message_ids
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__website_message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -3584,6 +3926,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__website_message_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__website_message_ids
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__website_message_ids
 msgid "Website communication history"
 msgstr ""
@@ -3652,9 +3995,21 @@ msgid "Write a recommendation for the revision"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Write at least %s words"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Write the reason of the archive in the Curator Note"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "Write the showcase narrative for channel %s"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3667,6 +4022,18 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "You are not allowed to review the consent"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "You are not an active approver of the narrative"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid "You are not an inventory coordinator"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
