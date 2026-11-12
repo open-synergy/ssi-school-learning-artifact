@@ -1,0 +1,1121 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Gate Test"
+        code: "/"
+        sequence: 10
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Gate Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Gate Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Gate Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Gate Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+    - step: "Setup - create contact a"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact a for Gate Test"
+    - step: "Setup - create student a"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student a for Gate Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create contact b"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Student Contact b for Gate Test"
+    - step: "Setup - create student b"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Student b for Gate Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Gate Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Gate Test"
+        code: "/"
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Gate Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+    - step: "Setup - create inventory purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_inventory"
+      values:
+        name: "Purpose inventory for Gate Test"
+        code: "/"
+        learning_artifact_usage: "inventory"
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Gate Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Gate Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Gate Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+    - step: "Setup - create eligible status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_eligible"
+      values:
+        name: "Gate Status eligible"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create revision status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_revision"
+      values:
+        name: "Gate Status revision"
+        code: "/"
+        category: "revision"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rejected status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_rejected"
+      values:
+        name: "Gate Status rejected"
+        code: "/"
+        category: "rejected"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rubric"
+      action: "create"
+      model: "school_learning_artifact_rubric"
+      save_as: "rubric"
+      values:
+        name: "Rubric for Gate Test"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+        ethics_fail_status_id: "REC: st_rejected.id"
+        criterion_ids:
+          - - 0
+            - 0
+            - sequence: 10
+              code: "A1"
+              name: "Aspect A1"
+              aspect_type: "score"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    score: 1
+                    name: "Level 1"
+                - - 0
+                  - 0
+                  - sequence: 20
+                    score: 2
+                    name: "Level 2"
+                - - 0
+                  - 0
+                  - sequence: 30
+                    score: 3
+                    name: "Level 3"
+              knockout_score: 0
+              assessor_slot: "primary"
+          - - 0
+            - 0
+            - sequence: 80
+              code: "EC"
+              name: "Inventory Consent Gate"
+              aspect_type: "gate"
+              gate_source: "inventory_consent"
+              assessor_slot: "secondary"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    name: "Consent Pass"
+                    is_fail: false
+                - - 0
+                  - 0
+                  - sequence: 20
+                    name: "Consent Fail"
+                    is_fail: true
+          - - 0
+            - 0
+            - sequence: 90
+              code: "EG"
+              name: "Ethics Gate"
+              aspect_type: "gate"
+              assessor_slot: "secondary"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    name: "Pass"
+                    is_fail: false
+                - - 0
+                  - 0
+                  - sequence: 20
+                    name: "Fail"
+                    is_fail: true
+        threshold_ids:
+          - - 0
+            - 0
+            - min_total: 3
+              status_id: "REC: st_eligible.id"
+          - - 0
+            - 0
+            - min_total: 1
+              status_id: "REC: st_revision.id"
+    - step: "Setup - create initial stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_initial"
+      values:
+        name: "Initial Stage"
+        code: "/"
+        sequence: 10
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create gated stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_gated"
+      values:
+        name: "Gated Stage"
+        code: "/"
+        sequence: 20
+        require_eligible: true
+        require_publication_consent: true
+        school_ids: [[6, 0, ["REC: school.id"]]]
+
+scenarios:
+  - name: "Inventory consent gate row is filled from the consent and locked"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_auto row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EC"]]
+        save_as: "gate_auto"
+        limit: 1
+        expect_count: 1
+      - step: "Find the gate_manual row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Find the pass level of the consent gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_auto.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_auto_pass"
+        limit: 1
+        expect_count: 1
+      - step: "Assert the consent row passes"
+        action: "assert"
+        target: "gate_auto"
+        asserts:
+          level_id:
+            type: "m2o"
+            expected: "REC: gate_auto_pass"
+          assessor_id:
+            type: "value"
+            operator: "is_falsy"
+      - step: "Writing a level on the consent row is rejected"
+        action: "write"
+        target: "gate_auto"
+        expect_error:
+          type: "UserError"
+          message_contains: "filled automatically"
+        values:
+          level_id: "REC: gate_auto_pass.id"
+      - step: "Find pass level of the manual gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_manual.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_manual_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer the manual gate with pass"
+        action: "write"
+        target: "gate_manual"
+        values:
+          level_id: "REC: gate_manual_lvl.id"
+      - step: "Assert the ethics gate passes"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "pass"
+  - name: "Missing inventory consent fails the consent row and the gate"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_b.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_auto row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EC"]]
+        save_as: "gate_auto"
+        limit: 1
+        expect_count: 1
+      - step: "Find the gate_manual row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Assert the consent row fails"
+        action: "assert"
+        target: "gate_auto"
+        asserts:
+          level_id.is_fail:
+            type: "value"
+            expected: true
+      - step: "Find pass level of the manual gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_manual.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_manual_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer the manual gate with pass"
+        action: "write"
+        target: "gate_manual"
+        values:
+          level_id: "REC: gate_manual_lvl.id"
+      - step: "Assert the ethics gate fails"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "fail"
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_rejected"
+  - name: "Limited inventory consent passes the gate and needs a consent review"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant limited inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "limited"
+      - step: "Record grant full publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_auto row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EC"]]
+        save_as: "gate_auto"
+        limit: 1
+        expect_count: 1
+      - step: "Find the pass level of the consent gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_auto.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_auto_pass"
+        limit: 1
+        expect_count: 1
+      - step: "Assert the consent row passes and the review is required"
+        action: "assert"
+        target: "gate_auto"
+        asserts:
+          level_id:
+            type: "m2o"
+            expected: "REC: gate_auto_pass"
+      - step: "Assert the review is required"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          consent_review_required:
+            type: "value"
+            expected: true
+          showcase_consent_ok:
+            type: "value"
+            expected: false
+      - step: "Mark the consent as reviewed"
+        action: "call"
+        target: "artifact"
+        method: "action_mark_consent_reviewed"
+        as_user: "base.user_admin"
+      - step: "Assert the showcase consent is ok after the review"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_consent_ok:
+            type: "value"
+            expected: true
+  - name: "Withdrawing the inventory consent fails the gate and clears the stage"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Record grant full publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_manual row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Find pass level of the manual gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_manual.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_manual_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer the manual gate with pass"
+        action: "write"
+        target: "gate_manual"
+        values:
+          level_id: "REC: gate_manual_lvl.id"
+      - step: "Find the scored row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["aspect_type", "=", "score"]]
+        save_as: "score_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Find the highest level of the scored row"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "score_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Score the artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: score_lvl.id"
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert the artifact sits on the initial stage"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_initial"
+          ethics_result:
+            type: "value"
+            expected: "pass"
+      - step: "Record withdraw  inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+      - step: "Assert the gate fails and the board is left"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "fail"
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_rejected"
+          showcase_stage_id:
+            type: "value"
+            operator: "is_falsy"
+          state:
+            type: "value"
+            expected: "done"
+  - name: "Withdrawing the publication consent clears the stage"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Record grant full publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_manual row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Find pass level of the manual gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_manual.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_manual_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer the manual gate with pass"
+        action: "write"
+        target: "gate_manual"
+        values:
+          level_id: "REC: gate_manual_lvl.id"
+      - step: "Find the scored row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["aspect_type", "=", "score"]]
+        save_as: "score_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Find the highest level of the scored row"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "score_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Score the artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: score_lvl.id"
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert the artifact sits on the initial stage"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "m2o"
+            expected: "REC: stage_initial"
+      - step: "Record withdraw  publication consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+      - step: "Assert the board is left"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "value"
+            operator: "is_falsy"
+          state:
+            type: "value"
+            expected: "done"
+  - name: "Done without publication consent gives no stage and every stage rejects"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the gate_manual row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Find pass level of the manual gate"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_manual.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_manual_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer the manual gate with pass"
+        action: "write"
+        target: "gate_manual"
+        values:
+          level_id: "REC: gate_manual_lvl.id"
+      - step: "Find the scored row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["aspect_type", "=", "score"]]
+        save_as: "score_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Find the highest level of the scored row"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "score_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Score the artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: score_lvl.id"
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert no stage was given"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          showcase_stage_id:
+            type: "value"
+            operator: "is_falsy"
+      - step: "Moving into a stage without the consent flag is rejected"
+        action: "write"
+        target: "artifact"
+        expect_error:
+          type: "UserError"
+          message_contains: "does not allow the showcase"
+        values:
+          showcase_stage_id: "REC: stage_initial.id"
+  - name: "A consent source needs a gate aspect with a failing and a passing level"
+    steps:
+      - step: "Consent source on a scored aspect is rejected"
+        action: "create"
+        model: "school_learning_artifact_rubric_criterion"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Only an ethics gate aspect"
+        values:
+          rubric_id: "REC: rubric.id"
+          code: "X1"
+          name: "Scored with source"
+          aspect_type: "score"
+          gate_source: "inventory_consent"
+      - step: "Consent source on a gate aspect without a failing level is rejected"
+        action: "create"
+        model: "school_learning_artifact_rubric_criterion"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "failing and a passing level"
+        values:
+          rubric_id: "REC: rubric.id"
+          code: "X2"
+          name: "Gate with one level"
+          aspect_type: "gate"
+          gate_source: "inventory_consent"
+          level_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                name: "Only Pass"
+                is_fail: false
+  - name: "The consent row is not counted as an assessor of any slot"
+    steps:
+      - step: "Find the manual gate aspect"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion"
+        domain: [["rubric_id", "=", "REC: rubric.id"], ["code", "=", "EG"]]
+        save_as: "criterion_manual"
+        limit: 1
+        expect_count: 1
+      - step: "Remove the manual gate aspect"
+        action: "unlink"
+        target: "criterion_manual"
+      - step: "Require distinct assessors"
+        action: "write"
+        target: "rubric"
+        values:
+          require_distinct_assessors: true
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Gate Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Record grant full inventory consent"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find the scored row"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["aspect_type", "=", "score"]]
+        save_as: "score_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Find the highest level of the scored row"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "score_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Score the artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: score_lvl.id"
+      - step: "Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"

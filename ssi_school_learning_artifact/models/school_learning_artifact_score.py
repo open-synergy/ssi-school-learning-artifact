@@ -46,19 +46,33 @@ class SchoolLearningArtifactScore(models.Model):
         store=True,
         help="Whether the aspect is scored or is an ethics gate.",
     )
+    gate_source = fields.Selection(
+        string="Gate Source",
+        related="criterion_id.gate_source",
+        help="Where the level of the aspect comes from.",
+    )
     level_id = fields.Many2one(
         string="Level",
         comodel_name="school_learning_artifact_rubric_criterion_level",
         domain="[('criterion_id', '=', criterion_id)]",
         ondelete="restrict",
+        compute="_compute_level_id",
+        store=True,
+        readonly=False,
+        compute_sudo=True,
         help=(
             "The level picked for the aspect. Empty means the aspect "
-            "is not assessed yet."
+            "is not assessed yet. For an aspect that takes its level "
+            "from the inventory consent, the system picks it and it "
+            "follows the consent of the students."
         ),
     )
     level_text = fields.Text(
         string="Level Text",
         readonly=True,
+        compute="_compute_level_text",
+        store=True,
+        compute_sudo=True,
         help=(
             "Copy of the text of the picked level, taken when the " "level was picked."
         ),
@@ -84,6 +98,44 @@ class SchoolLearningArtifactScore(models.Model):
         readonly=True,
         help="The time the level was picked.",
     )
+
+    @api.depends(
+        "criterion_id.gate_source",
+        "artifact_id.inventory_consent",
+        "criterion_id.level_ids.is_fail",
+        "criterion_id.level_ids.sequence",
+    )
+    def _compute_level_id(self):
+        """Pick the level of an aspect that follows the inventory consent.
+
+        A full or limited inventory consent gives the first passing
+        level, any other consent (refused, not recorded, or no student)
+        gives the first failing level. The first level is the one with
+        the lowest sequence. A manual aspect keeps the stored level.
+        """
+        for record in self:
+            result = record.level_id
+            criterion = record.criterion_id
+            if criterion.gate_source == "inventory_consent":
+                passing = record.artifact_id.inventory_consent in ("full", "limited")
+                levels = criterion.level_ids.filtered(
+                    lambda r, passing=passing: r.is_fail != passing
+                ).sorted(lambda r: (r.sequence, r.id))
+                result = levels[:1]
+            record.level_id = result
+
+    @api.depends("level_id", "criterion_id.gate_source")
+    def _compute_level_text(self):
+        """Copy the name of the level of an aspect filled by the system.
+
+        A manual aspect keeps the stored text, which the create and
+        write of the row set at the moment the level is picked.
+        """
+        for record in self:
+            result = record.level_text
+            if record.criterion_id.gate_source == "inventory_consent":
+                result = record.level_id.name or False
+            record.level_text = result
 
     @api.depends("level_id")
     def _compute_score(self):
@@ -115,6 +167,26 @@ Context: Assess learning artifact
 Database ID: %s
 Problem: The level does not belong to aspect %s
 Solution: Pick a level of the aspect
+"""
+                    )
+                    % (record.id, record.criterion_id.display_name)
+                )
+
+    def _check_manual_level(self):
+        """Reject picking a level of an aspect filled from the consent.
+
+        :raises UserError: when a row belongs to an aspect whose level
+            comes from the inventory consent
+        """
+        for record in self:
+            if record.criterion_id.gate_source == "inventory_consent":
+                raise UserError(
+                    _(
+                        """
+Context: Assess learning artifact
+Database ID: %s
+Problem: Aspect %s is filled automatically from the inventory consent
+Solution: Change the consent of the students instead of picking a level
 """
                     )
                     % (record.id, record.criterion_id.display_name)
@@ -183,7 +255,11 @@ Solution: Answer every ethics gate aspect with a passing level first
                 vals["assessor_id"] = self.env.uid
                 vals["date_score"] = fields.Datetime.now()
         records = super().create(vals_list)
-        picked = records.filtered("level_id")
+        picked = self.browse()
+        for record, vals in zip(records, vals_list):
+            if vals.get("level_id"):
+                picked |= record
+        picked._check_manual_level()
         picked._check_assessor()
         picked._check_ethics_lock()
         # Compute the score now: it must be taken from the level as it is
@@ -198,6 +274,7 @@ Solution: Answer every ethics gate aspect with a passing level first
         :return: True
         """
         if "level_id" in vals:
+            self._check_manual_level()
             self._check_assessor()
             if vals["level_id"]:
                 self._check_ethics_lock()

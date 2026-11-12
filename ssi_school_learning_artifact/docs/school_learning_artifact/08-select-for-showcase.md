@@ -8,8 +8,12 @@
 
 ## Pre-Condition
 
-- **Record:** Status is **Curated**. The artifact already has the first showcase stage,
-  given automatically when it was curated.
+- **Record:** Status is **Curated** and the **Ethics Result** is **Pass**. The artifact
+  already has the first showcase stage when its parental consent allowed the showcase at
+  the time it was curated.
+- **Record:** **Showcase Consent OK** is checked: the parental consent allows the
+  showcase, following the showcase policy of the school. Without it no stage can be
+  selected.
 - **Config:** A showcase stage that applies to the school exists (see
   `school_learning_artifact_showcase_stage/01-create`).
 - **Access:** User is in group `School Learning Artifact — User` and can see the
@@ -31,7 +35,9 @@ board in **School > Learning Artifacts > Showcase**.
 
 - The artifact is in the selected stage, and the move is logged in the chatter with the
   user and the time.
-- If the artifact does not meet a requirement of the stage (the curation status is not
-  **Eligible**, the parental consent does not allow the showcase, or the user is outside
-  the allowed groups), an error message states the problem and the stage does not
-  change.
+- If the artifact does not meet a requirement (the parental consent does not allow the
+  showcase, the curation status is not **Eligible** for a stage that requires it, or the
+  user is outside the allowed groups), an error message states the problem and the stage
+  does not change.
+- The artifact leaves the board by itself, and the **Showcase Stage** becomes empty,
+  when the parental consent is withdrawn or the **Ethics Result** no longer passes.

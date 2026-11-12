@@ -191,10 +191,12 @@
                             <tree editable="bottom" create="false" delete="false">
                                 <field name="sequence" invisible="1" />
                                 <field name="aspect_type" invisible="1" />
+                                <field name="gate_source" invisible="1" />
                                 <field name="criterion_id" readonly="1" />
                                 <field
                                         name="level_id"
                                         options="{'no_create': True, 'no_open': True}"
+                                        attrs="{'readonly': [('gate_source', '=', 'inventory_consent')]}"
                                     />
                                 <field name="level_text" />
                                 <field name="assessor_id" />
@@ -204,9 +206,11 @@
                                 <group name="gate_group" colspan="4" col="2">
                                     <field name="criterion_id" readonly="1" />
                                     <field name="aspect_type" invisible="1" />
+                                    <field name="gate_source" invisible="1" />
                                     <field
                                             name="level_id"
                                             options="{'no_create': True, 'no_open': True}"
+                                            attrs="{'readonly': [('gate_source', '=', 'inventory_consent')]}"
                                         />
                                     <field name="level_text" />
                                     <field name="assessor_id" />

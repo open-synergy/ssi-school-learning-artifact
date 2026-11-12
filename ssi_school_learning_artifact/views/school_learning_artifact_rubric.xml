@@ -43,6 +43,10 @@
                             <field name="code" />
                             <field name="name" />
                             <field name="aspect_type" />
+                            <field
+                                    name="gate_source"
+                                    attrs="{'invisible': [('aspect_type', '!=', 'gate')]}"
+                                />
                             <field name="min_score" />
                             <field name="max_score" />
                             <field name="knockout_score" />
@@ -55,6 +59,10 @@
                                 <field name="code" />
                                 <field name="name" />
                                 <field name="aspect_type" />
+                                <field
+                                        name="gate_source"
+                                        attrs="{'invisible': [('aspect_type', '!=', 'gate')]}"
+                                    />
                                 <field name="description" />
                                 <field name="min_score" />
                                 <field name="max_score" />

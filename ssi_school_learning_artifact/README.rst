@@ -10,7 +10,9 @@ Inventory of learning artifacts (photos, videos and documents of learning
 activities and achievements) for schools. A teacher records an artifact,
 submits it for curation, and may withdraw it until the curator starts the
 curation. The curator first picks a level for every ethics gate aspect of the
-rubric of the school in the Ethics Gate table; only when every gate aspect
+rubric of the school in the Ethics Gate table (an aspect whose gate source is
+Inventory Consent is filled by the system from the inventory consent of the
+students and cannot be picked by hand); only when every gate aspect
 passes, the curator picks a level for every scored aspect in the Artifact
 Assessment table, and the server refuses a scored level before that, also
 through import or API. The score of each level is recorded
@@ -38,9 +40,11 @@ A curated artifact is also placed on a showcase board. The showcase is an
 internal record of the selection of the artifact, the content produced for
 each channel and the distribution, which happens outside Odoo. The stages and
 the channels are configuration data per school, a stage can require an eligible
-curation status, a publication consent that allows the showcase, or membership
-of a group, and every move of a card is logged in the chatter. The consent
-policy of the showcase is set per school: the lowest accepted publication
+curation status or membership of a group, any stage needs a parental
+consent that allows the showcase, and every move of a card is logged in the
+chatter. An artifact leaves the board by itself when its consent is withdrawn
+or its ethics gate no longer passes, and a limited inventory consent needs a
+consent review first. The consent policy of the showcase is set per school: the lowest accepted publication
 consent, whether a limited consent is blocked or becomes a review task, and
 whether the students who refused the publication are left out.
 
