@@ -91,6 +91,17 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record showcase production of learning artifact\n"
+"Database ID: %s\n"
+"Problem: Channel %s requires a full publication consent\n"
+"Solution: Record a full publication consent for every student or pick another channel\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
 #, python-format
 msgid ""
@@ -635,7 +646,9 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
-msgid "Check when the content is ready to be distributed."
+msgid ""
+"Check when the content is ready to be distributed. It is unchecked by itself"
+" when the publication consent of the artifact no longer meets the channel."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -670,6 +683,14 @@ msgstr ""
 msgid ""
 "Checked when the publication consent of the artifact is limited and the "
 "school treats it as a review task, or when the inventory consent is limited."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_consent_ok
+msgid ""
+"Checked when the publication consent of the artifact meets the minimum "
+"publication consent of the channel. It follows the consent: it is unchecked "
+"when the consent of a student is withdrawn or lowered."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -765,6 +786,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__consent_level
 msgid "Consent Level"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_consent_ok
+msgid "Consent Meets Channel"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1198,6 +1224,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__inventory_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__promotion_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__publication_consent__full
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_channel__min_publication_consent__full
 msgid "Full"
 msgstr ""
 
@@ -1765,6 +1792,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__inventory_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__promotion_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__publication_consent__limited
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_showcase_channel__min_publication_consent__limited
 msgid "Limited"
 msgstr ""
 
@@ -1943,6 +1971,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_ids
 msgid "Messages"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_publication_consent
+msgid "Minimum Publication Consent"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2374,6 +2407,14 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__publication_consent
 msgid "Publication Consent"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__min_publication_consent
+msgid ""
+"Publication consent that an artifact needs before a production can be "
+"recorded for this channel. Limited adds no requirement. Full accepts only "
+"the artifacts whose effective publication consent is full."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
