@@ -2961,66 +2961,6 @@ msgid "School Learning Artifact Showcase Stage"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_dimension__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_phase__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__school_ids
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__school_ids
-msgid "Schools"
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
-msgid ""
-"Schools that can use this category. Leave empty to make the category "
-"available to every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__school_ids
-msgid ""
-"Schools that can use this channel. Leave empty to make the channel available"
-" to every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_dimension__school_ids
-msgid ""
-"Schools that can use this dimension. Leave empty to make the dimension "
-"available to every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_phase__school_ids
-msgid ""
-"Schools that can use this phase. Leave empty to make the phase available to "
-"every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__school_ids
-msgid ""
-"Schools that can use this stage. Leave empty to make the stage available to "
-"every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__school_ids
-msgid ""
-"Schools that can use this status. Leave empty to make the status available "
-"to every school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric__school_ids
-msgid ""
-"Schools that use this rubric. Leave empty to make this the fallback rubric "
-"of the schools without a rubric."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__score
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__score
 msgid "Score"
@@ -3386,8 +3326,8 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
 msgid ""
-"The curation rubric of the artifact. It is the active rubric of the school, "
-"or the fallback rubric without schools when the school has none."
+"The curation rubric of the artifact. It is the first active rubric that the "
+"rubric criteria allow."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
