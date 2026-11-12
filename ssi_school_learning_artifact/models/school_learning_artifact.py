@@ -538,6 +538,7 @@ class SchoolLearningArtifact(models.Model):
     revision_limit_reached = fields.Boolean(
         string="Revision Limit Reached",
         compute="_compute_revision_limit_reached",
+        compute_sudo=True,
         help=(
             "Checked when the artifact was already reopened as many "
             "times as the rubric allows, so it cannot be reopened for "
@@ -850,7 +851,7 @@ class SchoolLearningArtifact(models.Model):
         :return: True when the rubric should be picked again
         """
         self.ensure_one()
-        rubric = self.rubric_id
+        rubric = self.rubric_id.sudo()
         result = False
         if not rubric or not rubric.active:
             result = True
@@ -1435,12 +1436,13 @@ Solution: %s
         artifact keeps the scores it already has.
         """
         self.ensure_one()
-        if self.rubric_id and not self.score_ids:
+        rubric = self.rubric_id.sudo()
+        if rubric and not self.score_ids:
             self.write(
                 {
                     "score_ids": [
                         (0, 0, {"criterion_id": criterion.id})
-                        for criterion in self.rubric_id.criterion_ids
+                        for criterion in rubric.criterion_ids
                     ]
                 }
             )
@@ -1457,14 +1459,13 @@ Solution: %s
         :raises UserError: when the curation data is incomplete
         """
         self.ensure_one()
-        if not self.rubric_id:
+        rubric = self.rubric_id.sudo()
+        if not rubric:
             self._raise_curation_error(
                 _("No rubric applies to the school"),
                 _("Create a rubric for the school or a fallback rubric"),
             )
-        gate_criteria = self.rubric_id.criterion_ids.filtered(
-            lambda r: r.aspect_type == "gate"
-        )
+        gate_criteria = rubric.criterion_ids.filtered(lambda r: r.aspect_type == "gate")
         if not gate_criteria:
             self._raise_curation_error(
                 _("The rubric has no ethics gate aspect"),
@@ -1517,7 +1518,7 @@ Solution: %s
         :raises UserError: when a user assessed both slots
         """
         self.ensure_one()
-        rubric = self.rubric_id
+        rubric = self.rubric_id.sudo()
         if not rubric.require_distinct_assessors:
             return
         primary = self._get_slot_assessors("primary")
@@ -1550,7 +1551,7 @@ Solution: %s
         :raises UserError: when the responsible user assessed it
         """
         self.ensure_one()
-        if not self.rubric_id.forbid_creator_assessment:
+        if not self.rubric_id.sudo().forbid_creator_assessment:
             return
         assessors = self.score_ids.mapped("assessor_id")
         if self.user_id and self.user_id in assessors:
@@ -1573,8 +1574,9 @@ Solution: %s
         """
         self.ensure_one()
         derived = False
-        if self.rubric_id:
-            derived = self._get_scored_curation_status(self.rubric_id)
+        rubric = self.rubric_id.sudo()
+        if rubric:
+            derived = self._get_scored_curation_status(rubric)
         required = bool(
             derived and derived.category == "revision" and self.revision_limit_reached
         )

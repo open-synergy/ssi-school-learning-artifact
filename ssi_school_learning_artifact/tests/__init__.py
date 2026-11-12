@@ -9,6 +9,7 @@ from . import (  # noqa: F401
     test_school_learning_artifact_inventory_gate,
     test_school_learning_artifact_curation_python,
     test_school_learning_artifact_master,
+    test_school_learning_artifact_rubric_sudo,
     test_school_learning_artifact_showcase,
     test_school_learning_artifact_showcase_migration,
     test_school_learning_artifact_showcase_narrative,
