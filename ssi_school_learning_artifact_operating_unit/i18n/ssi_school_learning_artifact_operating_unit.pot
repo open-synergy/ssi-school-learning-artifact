@@ -14,6 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_graduate_profile__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_category__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_curation_status__display_name
@@ -26,6 +27,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_graduate_profile__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_category__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_curation_status__id
@@ -38,6 +40,7 @@ msgid "ID"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_graduate_profile____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_category____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_curation_status____last_update
@@ -50,6 +53,7 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_graduate_profile__operating_unit_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact__operating_unit_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_category__operating_unit_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_operating_unit.field_school_learning_artifact_curation_status__operating_unit_ids
@@ -61,6 +65,11 @@ msgstr ""
 #: model:res.groups,name:ssi_school_learning_artifact_operating_unit.school_learning_artifact_operating_unit_group
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_operating_unit.school_learning_artifact_view_search_ou
 msgid "Operating Unit"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model,name:ssi_school_learning_artifact_operating_unit.model_school_graduate_profile
+msgid "School Graduate Profile"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_operating_unit
