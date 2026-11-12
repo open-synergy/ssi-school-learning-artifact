@@ -20,8 +20,8 @@ msgid ""
 "\n"
 "Context: Assess learning artifact\n"
 "Database ID: %s\n"
-"Problem: The artifact failed the ethics gate, so aspect %s is locked\n"
-"Solution: Finish the curation without scores or change the gate answer\n"
+"Problem: The ethics gate has not passed yet, so aspect %s is locked\n"
+"Solution: Answer every ethics gate aspect with a passing level first\n"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -411,6 +411,12 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_area_menu
 msgid "Areas"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__aspect_score_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
+msgid "Artifact Assessment"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1021,9 +1027,11 @@ msgid "Ethics Fail Status"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__gate_score_ids
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__aspect_type__gate
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__aspect_type__gate
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_load_view_search
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Ethics Gate"
 msgstr ""
 
@@ -2666,7 +2674,6 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__score_ids
-#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Scores"
 msgstr ""
 
@@ -2968,6 +2975,13 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__gate_score_ids
+msgid ""
+"The ethics gate rows of the artifact. Every gate row must be answered with a"
+" passing level before the scored aspects can be assessed."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "The final status does not apply to this artifact"
@@ -3154,6 +3168,13 @@ msgstr ""
 msgid ""
 "The score that the level gives to a scored aspect. It is not used by an "
 "ethics gate aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__aspect_score_ids
+msgid ""
+"The scored aspect rows of the artifact. They can be assessed only after the "
+"ethics gate has passed."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
