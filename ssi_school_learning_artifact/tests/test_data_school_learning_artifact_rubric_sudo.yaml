@@ -1,0 +1,384 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Rubric Sudo Test"
+        code: "/"
+        sequence: 10
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Rubric Sudo Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Rubric Sudo Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Rubric Sudo Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Rubric Sudo Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+    - step: "Setup - create contact a"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact a for Rubric Sudo Test"
+    - step: "Setup - create student a"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student a for Rubric Sudo Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create contact b"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Student Contact b for Rubric Sudo Test"
+    - step: "Setup - create student b"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Student b for Rubric Sudo Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Rubric Sudo Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Rubric Sudo Test"
+        code: "/"
+    - step: "Setup - create eligible status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_eligible"
+      values:
+        name: "Rubric Sudo Status eligible"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create revision status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_revision"
+      values:
+        name: "Rubric Sudo Status revision"
+        code: "/"
+        category: "revision"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rejected status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_rejected"
+      values:
+        name: "Rubric Sudo Status rejected"
+        code: "/"
+        category: "rejected"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rubric"
+      action: "create"
+      model: "school_learning_artifact_rubric"
+      save_as: "rubric"
+      values:
+        name: "Rubric for Rubric Sudo Test"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+        ethics_fail_status_id: "REC: st_rejected.id"
+        criterion_ids:
+          - - 0
+            - 0
+            - sequence: 10
+              code: "A1"
+              name: "Aspect A1"
+              aspect_type: "score"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    score: 1
+                    name: "Level 1"
+                - - 0
+                  - 0
+                  - sequence: 20
+                    score: 2
+                    name: "Level 2"
+                - - 0
+                  - 0
+                  - sequence: 30
+                    score: 3
+                    name: "Level 3"
+              knockout_score: 0
+              assessor_slot: "primary"
+          - - 0
+            - 0
+            - sequence: 90
+              code: "EG"
+              name: "Ethics Gate"
+              aspect_type: "gate"
+              assessor_slot: "secondary"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    name: "Pass"
+                    is_fail: false
+                - - 0
+                  - 0
+                  - sequence: 20
+                    name: "Fail"
+                    is_fail: true
+        threshold_ids:
+          - - 0
+            - 0
+            - min_total: 3
+              status_id: "REC: st_eligible.id"
+          - - 0
+            - 0
+            - min_total: 1
+              status_id: "REC: st_revision.id"
+
+scenarios:
+  - name: "User who cannot read the rubric and statuses finishes the curation"
+    steps:
+      - step: "Create probe group"
+        action: "create"
+        model: "res.groups"
+        save_as: "probe_group"
+        values:
+          name: "Rubric Sudo Probe Group"
+      - step: "Create limited user"
+        action: "create"
+        model: "res.users"
+        save_as: "limited"
+        values:
+          name: "Rubric Sudo Tester limited"
+          login: "rubric.sudo.limited@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                  "REC: probe_group.id",
+                ],
+              ],
+            ]
+      - step: "Create approver user"
+        action: "create"
+        model: "res.users"
+        save_as: "approver"
+        values:
+          name: "Rubric Sudo Tester approver"
+          login: "rubric.sudo.approver@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+      - step: "Find the model of the rubric"
+        action: "search"
+        model: "ir.model"
+        domain: [["model", "=", "school_learning_artifact_rubric"]]
+        save_as: "model_rubric"
+        limit: 1
+        expect_count: 1
+      - step: "Find the model of the curation status"
+        action: "search"
+        model: "ir.model"
+        domain: [["model", "=", "school_learning_artifact_curation_status"]]
+        save_as: "model_status"
+        limit: 1
+        expect_count: 1
+      - step: "Hide every rubric from the probe group"
+        action: "create"
+        model: "ir.rule"
+        values:
+          name: "Rubric Sudo Probe Rubric Rule"
+          model_id: "REC: model_rubric.id"
+          groups: [[6, 0, ["REC: probe_group.id"]]]
+          domain_force: "[('id', '=', 0)]"
+      - step: "Hide every curation status from the probe group"
+        action: "create"
+        model: "ir.rule"
+        values:
+          name: "Rubric Sudo Probe Status Rule"
+          model_id: "REC: model_status.id"
+          groups: [[6, 0, ["REC: probe_group.id"]]]
+          domain_force: "[('id', '=', 0)]"
+      - step: "Create artifact owned by the limited user"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Rubric Sudo Activity"
+          media_type: "photo"
+          user_id: "REC: limited.id"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "approver"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "approver"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Answer ethics gate of artifact with pass"
+        action: "write"
+        target: "gate_artifact"
+        values:
+          level_id: "REC: gate_artifact_lvl.id"
+      - step: "Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        limit: 1
+        expect_count: 1
+      - step: "Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+      - step: "Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: lvl_score_artifact_3.id"
+      - step: "Limited user cannot read the rubric of the school"
+        action: "search"
+        model: "school_learning_artifact_rubric"
+        domain: [["id", "=", "REC: rubric.id"]]
+        save_as: "rubric_seen"
+        as_user: "limited"
+        expect_count: 0
+      - step: "Limited user cannot read the eligible status"
+        action: "search"
+        model: "school_learning_artifact_curation_status"
+        domain: [["id", "=", "REC: st_eligible.id"]]
+        save_as: "status_seen"
+        as_user: "limited"
+        expect_count: 0
+      - step: "Limited user reads the revision limit"
+        action: "assert"
+        target: "artifact"
+        as_user: "limited"
+        asserts:
+          revision_limit_reached:
+            type: "value"
+            expected: false
+      - step: "Limited user finishes the curation"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "limited"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
+      - step: "Assert curation status"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          curation_status_id:
+            type: "m2o"
+            expected: "REC: st_eligible"
