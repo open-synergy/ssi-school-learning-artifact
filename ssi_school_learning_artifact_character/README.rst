@@ -8,8 +8,10 @@ School Learning Artifact - Character Tag
 
 Adds a character tag to a learning artifact, taken from the character
 sub-constructs of the character learning module. An artifact can carry a
-dominant and a secondary tag, or be marked as not clearly evident, in which
-case the dominant tag must stay empty. The tag only marks the activity; it is
+dominant and a secondary tag, or be marked as not clearly evident. Checking
+"Not Clearly Evident" empties the dominant tag, the secondary tag and the
+character indicators, in the form as well as when the artifact is saved by
+any other way. The tag only marks the activity; it is
 not evidence of the character achievement of a student, so it does not depend
 on the character observations and it is not blocked when the assessment
 consent of a student is refused.
@@ -38,10 +40,10 @@ choice lists the indicators of an active sub-construct, narrowed to the
 indicators that are Effective or Partial at the grade of the artifact when a
 status line applies to it. Every selected indicator must belong to the
 dominant or the secondary tag, and an artifact marked as not clearly evident
-has no indicator. The policy field "Can Select Character Indicator" decides
-who can fill in the indicators: the user group while the artifact is a draft,
-and the validator group while it is waiting for approval or on progress. The
-indicators are optional.
+has no indicator: checking the mark empties the indicators. The policy field
+"Can Select Character Indicator" decides who can fill in the indicators: the
+user group while the artifact is a draft, and the validator group while it is
+waiting for approval or on progress. The indicators are optional.
 
 The character domains, sub-constructs, indicators and statuses of a school are
 configuration data, not module data.

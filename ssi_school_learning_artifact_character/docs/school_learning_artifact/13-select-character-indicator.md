@@ -44,5 +44,7 @@
   activity, not evidence of the character achievement of a student.
 - Every selected indicator must belong to the dominant or the secondary tag when one of
   them is filled in; otherwise an error message is shown and nothing is saved.
-- An artifact marked **Not Clearly Evident** cannot carry indicators.
+- Checking **Not Clearly Evident** (`11-tag-character`) empties the indicators;
+  selecting indicators on an artifact that is already marked **Not Clearly Evident** is
+  rejected with an error message and nothing is saved.
 - A user outside the policy sees the field read-only.

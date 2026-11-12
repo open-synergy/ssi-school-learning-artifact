@@ -657,7 +657,7 @@ scenarios:
           secondary_subconstruct_id:
             type: "m2o"
             expected: "REC: sub_b"
-  - name: "Not clearly evident forbids the dominant tag"
+  - name: "Not clearly evident empties the character marks"
     steps:
       - step: "Create construct"
         action: "create"
@@ -682,14 +682,33 @@ scenarios:
           name: "Sub-construct b S7"
           code: "SB-S7"
           construct_id: "REC: construct.id"
+      - step: "Create indicator indicator_a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator indicator_a S7"
+          code: "IND-indicator_a-S7"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+      - step: "Create indicator indicator_b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator indicator_b S7"
+          code: "IND-indicator_b-S7"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
       - step: "Create artifact with tag and not evident mark"
         action: "create"
         model: "school_learning_artifact"
+        save_as: "artifact_created"
         values:
           school_id: "REC: school.id"
           academic_year_id: "REC: academic_year.id"
           grade_class_id: "REC: grade_class.id"
-          activity_name: "Character Activity rejected"
+          activity_name: "Character Activity cleared on create"
           media_type: "photo"
           user_id: "REF: base.user_admin"
           student_ids: [[6, 0, ["REC: student.id"]]]
@@ -698,10 +717,26 @@ scenarios:
           description: "one two three"
           link_url: "https://drive.example.com/file"
           primary_subconstruct_id: "REC: sub_a.id"
+          secondary_subconstruct_id: "REC: sub_b.id"
+          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
           character_not_evident: true
-        expect_error:
-          type: "ValidationError"
-          message_contains: "not clearly evident"
+      - step: "Assert the marks are empty after create"
+        action: "assert"
+        target: "artifact_created"
+        asserts:
+          character_not_evident:
+            type: "value"
+            expected: true
+          primary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+          secondary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+          character_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
       - step: "Create artifact artifact"
         action: "create"
         model: "school_learning_artifact"
@@ -718,18 +753,32 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
+          primary_subconstruct_id: "REC: sub_a.id"
+          secondary_subconstruct_id: "REC: sub_b.id"
+          character_indicator_ids:
+            [[6, 0, ["REC: indicator_a.id", "REC: indicator_b.id"]]]
       - step: "Mark the artifact as not clearly evident"
         action: "write"
         target: "artifact"
         values:
           character_not_evident: true
-      - step: "Assert the mark is saved"
+      - step: "Assert the mark is saved and the marks are empty"
         action: "assert"
         target: "artifact"
         asserts:
           character_not_evident:
             type: "value"
             expected: true
+          primary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+          secondary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+          character_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
       - step: "Add the dominant tag to the marked artifact"
         action: "write"
         target: "artifact"
@@ -738,6 +787,93 @@ scenarios:
         expect_error:
           type: "ValidationError"
           message_contains: "not clearly evident"
+      - step: "Uncheck the mark and keep the tags empty"
+        action: "write"
+        target: "artifact"
+        values:
+          character_not_evident: false
+      - step: "Assert the tags did not come back"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          character_not_evident:
+            type: "value"
+            expected: false
+          primary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+  - name: "Checking not clearly evident in the form empties the marks"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct S7F"
+          code: "CT-S7F"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a S7F"
+          code: "SA-S7F"
+          construct_id: "REC: construct.id"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b S7F"
+          code: "SB-S7F"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator indicator_a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator indicator_a S7F"
+          code: "IND-indicator_a-S7F"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+      - step: "Create tagged artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_form"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Character Activity form"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+          primary_subconstruct_id: "REC: sub_a.id"
+          secondary_subconstruct_id: "REC: sub_b.id"
+          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+      - step: "Check not clearly evident in the form"
+        action: "form"
+        target: "artifact_form"
+        as_user: "base.user_admin"
+        save: false
+        ops:
+          - set: {character_not_evident: true}
+          - assert:
+              primary_subconstruct_id:
+                type: "value"
+                operator: "is_falsy"
+              secondary_subconstruct_id:
+                type: "value"
+                operator: "is_falsy"
+              character_indicator_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+
   - name: "Only the validator group can fill in the tags of a draft artifact"
     steps:
       - step: "Create user with the user group only"
@@ -1281,9 +1417,23 @@ scenarios:
         action: "write"
         target: "artifact"
         values:
-          primary_subconstruct_id: false
-          secondary_subconstruct_id: false
           character_not_evident: true
+      - step: "Assert the indicators are emptied"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          character_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          primary_subconstruct_id:
+            type: "value"
+            operator: "is_falsy"
+      - step: "Select an indicator on the marked artifact"
+        action: "write"
+        target: "artifact"
+        values:
+          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
         expect_error:
           type: "ValidationError"
           message_contains: "not clearly evident"
