@@ -54,7 +54,7 @@
                             <tree editable="bottom">
                                 <field
                                         name="channel_id"
-                                        domain="['|', ('school_ids', '=', False), ('school_ids', 'in', parent.school_id)]"
+                                        domain="[('id', 'in', parent.allowed_showcase_channel_ids)]"
                                         options="{'no_create': True}"
                                     />
                                 <field
@@ -127,7 +127,7 @@
                                 <group name="production_group" colspan="4" col="2">
                                     <field
                                             name="channel_id"
-                                            domain="['|', ('school_ids', '=', False), ('school_ids', 'in', parent.school_id)]"
+                                            domain="[('id', 'in', parent.allowed_showcase_channel_ids)]"
                                             options="{'no_create': True}"
                                         />
                                     <field

@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import (  # noqa: F401
+    test_school_learning_artifact_allowed_master,
     test_school_learning_artifact,
     test_school_learning_artifact_consent,
     test_school_learning_artifact_curation,

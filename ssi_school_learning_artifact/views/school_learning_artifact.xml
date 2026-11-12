@@ -102,6 +102,10 @@
                 <field name="allowed_component_ids" invisible="1" />
                 <field name="allowed_dimension_ids" invisible="1" />
                 <field name="allowed_phase_ids" invisible="1" />
+                <field name="allowed_category_ids" invisible="1" />
+                <field name="allowed_curation_status_ids" invisible="1" />
+                <field name="allowed_showcase_stage_ids" invisible="1" />
+                <field name="allowed_showcase_channel_ids" invisible="1" />
             </xpath>
             <xpath expr="//page[1]" position="before">
                 <page name="activity" string="Activity">
