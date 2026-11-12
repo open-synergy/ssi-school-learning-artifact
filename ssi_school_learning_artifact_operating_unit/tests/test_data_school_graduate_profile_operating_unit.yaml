@@ -1,0 +1,426 @@
+setup:
+  steps:
+    - step: "Create partner of operating unit A"
+      action: "create"
+      model: "res.partner"
+      save_as: "ou_a_partner"
+      values:
+        name: "Graduate Profile OU A Partner"
+
+    - step: "Create partner of operating unit B"
+      action: "create"
+      model: "res.partner"
+      save_as: "ou_b_partner"
+      values:
+        name: "Graduate Profile OU B Partner"
+
+    # The unit names and codes are generated: the setup is replayed for
+    # every scenario and both are unique (name per company, code).
+    - step: "Create operating unit A"
+      action: "create"
+      model: "operating.unit"
+      save_as: "ou_a"
+      values:
+        name:
+          "EVAL: 'Graduate Profile OU A %d' % env['operating.unit'].search_count([])"
+        code: "EVAL: 'GPOUA%d' % env['operating.unit'].search_count([])"
+        company_id: "REF: base.main_company"
+        partner_id: "REC: ou_a_partner.id"
+
+    - step: "Create operating unit B"
+      action: "create"
+      model: "operating.unit"
+      save_as: "ou_b"
+      values:
+        name:
+          "EVAL: 'Graduate Profile OU B %d' % env['operating.unit'].search_count([])"
+        code: "EVAL: 'GPOUB%d' % env['operating.unit'].search_count([])"
+        company_id: "REF: base.main_company"
+        partner_id: "REC: ou_b_partner.id"
+
+    - step: "Create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Graduate Profile OU"
+        code: "/"
+        sequence: 10
+
+    - step: "Create school of operating unit A"
+      action: "create"
+      model: "school"
+      save_as: "school_a"
+      values:
+        name: "School A for Graduate Profile OU"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+    - step: "Create school of operating unit B"
+      action: "create"
+      model: "school"
+      save_as: "school_b"
+      values:
+        name: "School B for Graduate Profile OU"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+    - step: "Create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Graduate Profile OU"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Create class of school A"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "class_a"
+      values:
+        name: "Class A for Graduate Profile OU"
+        code: "/"
+        school_id: "REC: school_a.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Create class of school B"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "class_b"
+      values:
+        name: "Class B for Graduate Profile OU"
+        code: "/"
+        school_id: "REC: school_b.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Graduate Profile OU"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+scenarios:
+  - name: "Profile of the operating unit outranks the sequence"
+    steps:
+      - step: "Create profile of unit A with sequence 20"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_a"
+        values:
+          name: "Profile OU A Rank"
+          code: "TSTGPOU01"
+          sequence: 20
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create profile of unit B with sequence 20"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_b"
+        values:
+          name: "Profile OU B Rank"
+          code: "TSTGPOU02"
+          sequence: 20
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create profile without unit with sequence 5"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_global"
+        values:
+          name: "Profile Global Rank"
+          code: "TSTGPOU03"
+          sequence: 5
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create artifact of unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Profile Rank Activity A"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Create artifact of unit B"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_b"
+        values:
+          school_id: "REC: school_b.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_b.id"
+          activity_name: "Profile Rank Activity B"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Artifact of unit A takes the profile of unit A"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_a"
+
+      - step: "Artifact of unit B takes the profile of unit B"
+        action: "assert"
+        target: "artifact_b"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_b"
+
+  - name: "Profile without unit is the fallback and other units never win"
+    steps:
+      - step: "Create profile without unit with sequence 10"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_10"
+        values:
+          name: "Profile Global 10 Fallback"
+          code: "TSTGPOU11"
+          sequence: 10
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create profile without unit with sequence 5"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_5"
+        values:
+          name: "Profile Global 5 Fallback"
+          code: "TSTGPOU12"
+          sequence: 5
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create artifact of unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Profile Fallback Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Lowest sequence without unit is taken"
+        action: "assert"
+        target: "artifact_a"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_5"
+
+      - step: "Create second grade"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade_2"
+        values:
+          name: "Second Grade for Graduate Profile OU"
+          code: "/"
+          sequence: 20
+          type_id: "REC: grade_type.id"
+
+      - step: "Create class of school A on the second grade"
+        action: "create"
+        model: "school_grade_class"
+        save_as: "class_a_2"
+        values:
+          name: "Class A2 for Graduate Profile OU"
+          code: "/"
+          school_id: "REC: school_a.id"
+          grade_id: "REC: grade_2.id"
+          capacity: 30
+
+      - step: "Create profile of unit B only on the second grade"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_b_only"
+        values:
+          name: "Profile OU B Only"
+          code: "TSTGPOU13"
+          sequence: 1
+          grade_ids: [[6, 0, ["REC: grade_2.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create artifact of unit A on the second grade"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_a_2"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a_2.id"
+          activity_name: "Profile Other Unit Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Profile of another unit is never taken"
+        action: "assert"
+        target: "artifact_a_2"
+        asserts:
+          graduate_profile_id:
+            type: "value"
+            expected: "EVAL: env['school_graduate_profile']"
+
+  - name: "Changing the school recomputes the profile"
+    steps:
+      - step: "Create profile of unit A"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_a"
+        values:
+          name: "Profile OU A Change"
+          code: "TSTGPOU21"
+          sequence: 20
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create profile of unit B"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_b"
+        values:
+          name: "Profile OU B Change"
+          code: "TSTGPOU22"
+          sequence: 20
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      - step: "Create artifact of unit A"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school_a.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_a.id"
+          activity_name: "Profile Change Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Artifact starts with the profile of unit A"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_a"
+
+      - step: "Move the artifact to the school of unit B"
+        action: "write"
+        target: "artifact"
+        values:
+          school_id: "REC: school_b.id"
+          grade_class_id: "REC: class_b.id"
+
+      - step: "Artifact takes the profile of unit B"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          graduate_profile_id:
+            type: "m2o"
+            expected: "REC: profile_b"
+
+  - name: "Users see the profiles without unit and of their own units"
+    steps:
+      - step: "Create profile without unit"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_global"
+        values:
+          name: "Profile Visibility Global"
+          code: "TSTGPOU31"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create profile of unit A"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_a"
+        values:
+          name: "Profile Visibility OU A"
+          code: "TSTGPOU32"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+
+      - step: "Create profile of unit B"
+        action: "create"
+        model: "school_graduate_profile"
+        save_as: "profile_b"
+        values:
+          name: "Profile Visibility OU B"
+          code: "TSTGPOU33"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+          operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
+
+      # The login is generated: the setup does not create users, but the
+      # login of a user is unique over the whole file.
+      - step: "Create user of unit A only"
+        action: "create"
+        model: "res.users"
+        save_as: "user_a"
+        values:
+          name: "Profile Visibility User A"
+          login:
+            "EVAL: 'gp.visibility.a.%d@example.com' % env['res.users'].search_count([])"
+          groups_id: [[6, 0, ["REF: base.group_user"]]]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "Create user of units A and B"
+        action: "create"
+        model: "res.users"
+        save_as: "user_ab"
+        values:
+          name: "Profile Visibility User AB"
+          login:
+            "EVAL: 'gp.visibility.ab.%d@example.com' % env['res.users'].search_count([])"
+          groups_id: [[6, 0, ["REF: base.group_user"]]]
+          assigned_operating_unit_ids: [[6, 0, ["REC: ou_a.id", "REC: ou_b.id"]]]
+          default_operating_unit_id: "REC: ou_a.id"
+
+      - step: "User of unit A finds the profiles without unit and of unit A"
+        action: "search"
+        model: "school_graduate_profile"
+        as_user: "user_a"
+        domain: [["id", "in", ["REC: profile_global.id", "REC: profile_a.id"]]]
+        save_as: "found_by_a"
+        expect_count: 2
+
+      - step: "User of unit A does not find the profile of unit B"
+        action: "search"
+        model: "school_graduate_profile"
+        as_user: "user_a"
+        domain: [["id", "=", "REC: profile_b.id"]]
+        save_as: "found_b_by_a"
+        expect_count: 0
+
+      - step: "User of units A and B finds the three profiles"
+        action: "search"
+        model: "school_graduate_profile"
+        as_user: "user_ab"
+        domain:
+          [
+            [
+              "id",
+              "in",
+              ["REC: profile_global.id", "REC: profile_a.id", "REC: profile_b.id"],
+            ],
+          ]
+        save_as: "found_by_ab"
+        expect_count: 3

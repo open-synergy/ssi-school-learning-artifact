@@ -38,6 +38,11 @@ msgid "Operating Unit"
 msgstr "Unit Operasi"
 
 #. module: ssi_school_learning_artifact_operating_unit
+#: model:ir.model,name:ssi_school_learning_artifact_operating_unit.model_school_graduate_profile
+msgid "School Graduate Profile"
+msgstr "Profil Lulusan Sekolah"
+
+#. module: ssi_school_learning_artifact_operating_unit
 #: model:ir.model,name:ssi_school_learning_artifact_operating_unit.model_school_learning_artifact
 msgid "School Learning Artifact"
 msgstr "Artefak Pembelajaran Sekolah"

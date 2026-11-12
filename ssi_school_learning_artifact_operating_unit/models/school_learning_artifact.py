@@ -103,6 +103,54 @@ class SchoolLearningArtifact(models.Model):
             ou_criteria = [("operating_unit_ids", "=", False)]
         return expression.AND([result, ou_criteria])
 
+    @api.depends("operating_unit_id")
+    def _compute_graduate_profile_id(self):
+        """Recompute the graduate profile when the unit changes."""
+        super()._compute_graduate_profile_id()
+
+    def _get_graduate_profile_criteria(self):
+        """Narrow the graduate profile choice to the operating unit.
+
+        A profile applies when it has no operating unit or lists the
+        operating unit of the artifact. An artifact without operating
+        unit only gets the profiles without operating unit.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        result = super()._get_graduate_profile_criteria()
+        if self.operating_unit_id:
+            ou_criteria = [
+                "|",
+                ("operating_unit_ids", "=", False),
+                ("operating_unit_ids", "in", [self.operating_unit_id.id]),
+            ]
+        else:
+            ou_criteria = [("operating_unit_ids", "=", False)]
+        return expression.AND([result, ou_criteria])
+
+    def _select_graduate_profile(self, profiles):
+        """Prefer the graduate profile that lists the operating unit.
+
+        Among the ordered candidates, the first profile that lists the
+        operating unit of the artifact wins over the profiles without
+        operating unit, whatever their sequence. When none lists it,
+        the choice of the core applies.
+
+        :param profiles: candidate graduate profiles, ordered by
+            ``sequence asc, id asc``
+        :return: one graduate profile or an empty recordset
+        """
+        self.ensure_one()
+        result = super()._select_graduate_profile(profiles)
+        if self.operating_unit_id:
+            matched = profiles.filtered(
+                lambda r: self.operating_unit_id in r.operating_unit_ids
+            )
+            if matched:
+                result = matched[:1]
+        return result
+
     def _get_rubric_tier_domains(self):
         """Build the rubric search domains, best tier first.
 

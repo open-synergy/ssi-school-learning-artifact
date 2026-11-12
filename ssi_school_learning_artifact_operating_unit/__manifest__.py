@@ -27,6 +27,7 @@
         "security/ir_rule/school_learning_artifact_curation_status.xml",
         "security/ir_rule/school_learning_artifact_showcase_stage.xml",
         "security/ir_rule/school_learning_artifact_showcase_channel.xml",
+        "security/ir_rule/school_graduate_profile.xml",
         "views/school_learning_artifact.xml",
         "views/school_learning_artifact_category.xml",
         "views/school_learning_artifact_phase.xml",
@@ -35,6 +36,7 @@
         "views/school_learning_artifact_curation_status.xml",
         "views/school_learning_artifact_showcase_stage.xml",
         "views/school_learning_artifact_showcase_channel.xml",
+        "views/school_graduate_profile.xml",
         "views/assets.xml",
     ],
 }

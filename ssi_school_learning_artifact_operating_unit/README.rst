@@ -34,6 +34,13 @@ without operating unit is only offered the records without operating unit. On
 upgrade the operating units of each master are filled from the operating units
 of the schools it listed.
 
+The graduate profile has the same field and the same global read rule. The graduate
+profile of an artifact follows its operating unit too: among the profiles that cover
+the grade of the class, the first profile that lists the operating unit of the artifact
+is taken, whatever the sequence; when none lists it, the profile without operating unit
+with the lowest sequence is taken, and a profile of another operating unit is never
+taken.
+
 Which operating units exist and which user receives which operating unit are
 configuration data, not module data.
 
@@ -79,3 +86,8 @@ Learning Artifact Showcase Channel
 ----------------------------------
 
 * `Create Learning Artifact Showcase Channel (Operating Unit) <docs/school_learning_artifact_showcase_channel/01-create.html>`_
+
+Graduate Profile
+----------------
+
+* `Create Graduate Profile (Operating Unit) <docs/school_graduate_profile/01-create.html>`_
