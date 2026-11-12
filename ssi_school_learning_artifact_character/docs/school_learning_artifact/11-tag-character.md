@@ -28,8 +28,8 @@
    when the grade type of the artifact has indicator statuses, it lists only the
    sub-constructs with an **Effective** or **Partial** indicator at that grade type.
 6. Optionally select the **Secondary Character Tag**. Check **Not Clearly Evident**
-   instead when no sub-construct is clearly evident; the dominant tag must then stay
-   empty.
+   instead when no sub-construct is clearly evident; the **Dominant Character Tag**, the
+   **Secondary Character Tag** and the **Character Indicators** are emptied at once.
 7. Click **Save**.
 
 ## Post-Condition
@@ -37,6 +37,9 @@
 - The selected character tags are saved on the artifact. The tags are only a mark of the
   activity, not evidence of the character achievement of a student.
 - The tags can be saved whatever the assessment consent of the students is.
-- A dominant tag together with **Not Clearly Evident** is rejected with an error message
-  and nothing is saved.
+- Checking **Not Clearly Evident** empties the dominant tag, the secondary tag and the
+  character indicators, also when they were sent together with the check; no error
+  message is shown. Unchecking it does not bring them back.
+- Adding a dominant tag to an artifact that is already marked **Not Clearly Evident** is
+  rejected with an error message and nothing is saved.
 - A user outside the policy sees the three fields read-only.

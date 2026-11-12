@@ -196,6 +196,72 @@ class SchoolLearningArtifact(models.Model):
             ("subconstruct_id.active", "=", True),
         ]
 
+    @api.onchange("character_not_evident")
+    def onchange_primary_subconstruct_id(self):
+        """Clear the dominant tag when marked as not clearly evident."""
+        if self.character_not_evident:
+            self.primary_subconstruct_id = False
+
+    @api.onchange("character_not_evident")
+    def onchange_secondary_subconstruct_id(self):
+        """Clear the secondary tag when marked as not clearly evident."""
+        if self.character_not_evident:
+            self.secondary_subconstruct_id = False
+
+    @api.onchange("character_not_evident")
+    def onchange_character_indicator_ids(self):
+        """Clear the indicators when marked as not clearly evident."""
+        if self.character_not_evident:
+            self.character_indicator_ids = [(5, 0, 0)]
+
+    def _get_character_not_evident_clear_values(self):
+        """Build the values that empty the character marks.
+
+        Extension point: override to add the fields to be emptied
+        when the artifact is marked as not clearly evident.
+
+        :return: dictionary of values that clear the character marks
+        """
+        return {
+            "primary_subconstruct_id": False,
+            "secondary_subconstruct_id": False,
+            "character_indicator_ids": [(5, 0, 0)],
+        }
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Create artifacts and empty the marks of unclear ones.
+
+        When ``character_not_evident`` is checked in the values, the
+        character tags and indicators are emptied, even when they are
+        sent together.
+
+        :param vals_list: list of value dictionaries
+        :return: the created recordset
+        """
+        new_vals_list = []
+        for vals in vals_list:
+            if vals.get("character_not_evident"):
+                vals = dict(vals)
+                vals.update(self._get_character_not_evident_clear_values())
+            new_vals_list.append(vals)
+        return super().create(new_vals_list)
+
+    def write(self, vals):
+        """Write artifacts and empty the marks of unclear ones.
+
+        When ``character_not_evident`` is checked in the values, the
+        character tags and indicators are emptied, even when they are
+        sent together.
+
+        :param vals: values to write
+        :return: True
+        """
+        if vals.get("character_not_evident"):
+            vals = dict(vals)
+            vals.update(self._get_character_not_evident_clear_values())
+        return super().write(vals)
+
     @api.constrains("character_not_evident", "primary_subconstruct_id")
     def _check_character_not_evident(self):
         """Forbid a dominant tag on an artifact marked as not evident.
