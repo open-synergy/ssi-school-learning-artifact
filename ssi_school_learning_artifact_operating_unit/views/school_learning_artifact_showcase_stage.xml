@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="school_learning_artifact_showcase_stage_view_search_ou" model="ir.ui.view">
+    <field
+            name="name"
+        >school_learning_artifact_showcase_stage search - operating unit</field>
+    <field name="model">school_learning_artifact_showcase_stage</field>
+    <field
+            name="inherit_id"
+            ref="ssi_school_learning_artifact.school_learning_artifact_showcase_stage_view_search"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//search" position="inside">
+                <field
+                        name="operating_unit_ids"
+                        groups="operating_unit.group_multi_operating_unit"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="school_learning_artifact_showcase_stage_view_form_ou" model="ir.ui.view">
+    <field
+            name="name"
+        >school_learning_artifact_showcase_stage form - operating unit</field>
+    <field name="model">school_learning_artifact_showcase_stage</field>
+    <field
+            name="inherit_id"
+            ref="ssi_school_learning_artifact.school_learning_artifact_showcase_stage_view_form"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='active']" position="after">
+                <field
+                        name="operating_unit_ids"
+                        widget="many2many_tags"
+                        groups="operating_unit.group_multi_operating_unit"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+</odoo>

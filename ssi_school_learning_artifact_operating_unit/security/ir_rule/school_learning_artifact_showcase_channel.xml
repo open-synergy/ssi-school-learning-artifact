@@ -3,44 +3,24 @@
      Copyright 2026 PT. Simetri Sinergi Indonesia
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-<record
-        id="school_learning_artifact_showcase_channel_operating_unit_rule"
-        model="ir.rule"
-    >
+
+<record id="school_learning_artifact_showcase_channel_rule_ou" model="ir.rule">
     <field
             name="name"
-        >School Learning Artifact Showcase Channel - Responsible to operating unit data</field>
+        >school_learning_artifact_showcase_channel - operating unit</field>
     <field
             name="model_id"
             ref="ssi_school_learning_artifact.model_school_learning_artifact_showcase_channel"
         />
-    <field
-            name="groups"
-            eval="[(4, ref('school_learning_artifact_operating_unit_group'))]"
-        />
-    <field
-            name="domain_force"
-        >['|', ('school_ids', '=', False), ('school_ids.operating_unit_ids', 'in', [g.id for g in user.operating_unit_ids])]</field>
-    <field name="perm_unlink" eval="1" />
-    <field name="perm_write" eval="1" />
+    <field name="domain_force">
+        ['|', ('operating_unit_ids','=',False),
+        ('operating_unit_ids','in',user.operating_unit_ids.ids)]
+    </field>
+    <field name="global" eval="True" />
+    <field name="perm_unlink" eval="0" />
+    <field name="perm_write" eval="0" />
     <field name="perm_read" eval="1" />
-    <field name="perm_create" eval="1" />
+    <field name="perm_create" eval="0" />
 </record>
 
-<record id="school_learning_artifact_showcase_channel_company_rule" model="ir.rule">
-    <field name="name">School Learning Artifact Showcase Channel - Company</field>
-    <field
-            name="model_id"
-            ref="ssi_school_learning_artifact.model_school_learning_artifact_showcase_channel"
-        />
-    <field
-            name="groups"
-            eval="[(4, ref('ssi_school_learning_artifact.school_learning_artifact_company_group'))]"
-        />
-    <field name="domain_force">[(1, '=', 1)]</field>
-    <field name="perm_unlink" eval="1" />
-    <field name="perm_write" eval="1" />
-    <field name="perm_read" eval="1" />
-    <field name="perm_create" eval="1" />
-</record>
 </odoo>

@@ -4,3 +4,10 @@
 
 from . import school_learning_artifact_operating_unit_mixin
 from . import school_learning_artifact
+from . import school_learning_artifact_category
+from . import school_learning_artifact_phase
+from . import school_learning_artifact_dimension
+from . import school_learning_artifact_rubric
+from . import school_learning_artifact_curation_status
+from . import school_learning_artifact_showcase_stage
+from . import school_learning_artifact_showcase_channel

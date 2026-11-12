@@ -13,6 +13,34 @@
                 type="text/javascript"
                 src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_operating_unit_tour.js"
             />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_category_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_phase_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_dimension_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_rubric_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_curation_status_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_showcase_stage_tour.js"
+            />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_showcase_channel_tour.js"
+            />
         </xpath>
     </template>
 </odoo>

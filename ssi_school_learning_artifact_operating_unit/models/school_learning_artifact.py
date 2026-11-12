@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
+from odoo.osv import expression
 
 from .school_learning_artifact_operating_unit_mixin import (
     derive_operating_unit_from_school_vals,
@@ -50,3 +51,76 @@ class SchoolLearningArtifact(models.Model):
         """
         if self.school_id and len(self.school_id.operating_unit_ids) == 1:
             self.operating_unit_id = self.school_id.operating_unit_ids
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_dimension_ids(self):
+        """Recompute the allowed dimensions when the unit changes."""
+        super()._compute_allowed_dimension_ids()
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_phase_ids(self):
+        """Recompute the allowed phases when the unit changes."""
+        super()._compute_allowed_phase_ids()
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_category_ids(self):
+        """Recompute the allowed categories when the unit changes."""
+        super()._compute_allowed_category_ids()
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_curation_status_ids(self):
+        """Recompute the allowed statuses when the unit changes."""
+        super()._compute_allowed_curation_status_ids()
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_showcase_stage_ids(self):
+        """Recompute the allowed stages when the unit changes."""
+        super()._compute_allowed_showcase_stage_ids()
+
+    @api.depends("school_id", "operating_unit_id")
+    def _compute_allowed_showcase_channel_ids(self):
+        """Recompute the allowed channels when the unit changes."""
+        super()._compute_allowed_showcase_channel_ids()
+
+    def _get_allowed_school_criteria(self):
+        """Narrow the master data choice to the operating unit.
+
+        A master data record applies when it has no operating unit or
+        lists the operating unit of the artifact. An artifact without
+        operating unit only gets the records without operating unit.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        result = super()._get_allowed_school_criteria()
+        if self.operating_unit_id:
+            ou_criteria = [
+                "|",
+                ("operating_unit_ids", "=", False),
+                ("operating_unit_ids", "in", [self.operating_unit_id.id]),
+            ]
+        else:
+            ou_criteria = [("operating_unit_ids", "=", False)]
+        return expression.AND([result, ou_criteria])
+
+    def _get_rubric_criteria(self):
+        """Narrow the rubric choice to the operating unit.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        result = super()._get_rubric_criteria()
+        if self.operating_unit_id:
+            ou_criteria = [("operating_unit_ids", "in", [self.operating_unit_id.id])]
+        else:
+            ou_criteria = [("operating_unit_ids", "=", False)]
+        return expression.AND([result, ou_criteria])
+
+    def _get_fallback_rubric_criteria(self):
+        """Narrow the fallback rubric to the rubrics without unit.
+
+        :return: search domain (list of tuples)
+        """
+        self.ensure_one()
+        result = super()._get_fallback_rubric_criteria()
+        return expression.AND([result, [("operating_unit_ids", "=", False)]])
