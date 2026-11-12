@@ -87,14 +87,28 @@ odoo.define(
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                 ],
-                // Flow 5 -- Select the Dominant Character Tag.
+                // Flow 5 -- Select the Dominant Character Tags.
                 pickMany2one(
-                    ".o_field_many2one[name='primary_subconstruct_id']",
+                    ".o_field_many2manytags[name='dominant_subconstruct_ids']",
                     "TOUR CT Dominant"
                 ),
-                // Flow 6 -- Select the Secondary Character Tag.
+                [
+                    {
+                        content: "The first dominant tag is added",
+                        trigger:
+                            ".o_field_many2manytags[name='dominant_subconstruct_ids'] .badge:contains(TOUR CT Dominant)",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                ],
                 pickMany2one(
-                    ".o_field_many2one[name='secondary_subconstruct_id']",
+                    ".o_field_many2manytags[name='dominant_subconstruct_ids']",
+                    "TOUR CT Another"
+                ),
+                // Flow 6 -- Select the Secondary Character Tags.
+                pickMany2one(
+                    ".o_field_many2manytags[name='secondary_subconstruct_ids']",
                     "TOUR CT Secondary"
                 ),
                 [
@@ -105,10 +119,18 @@ odoo.define(
                     },
                     {
                         // Post-Condition -- the tags are saved.
-                        content: "The dominant tag is saved",
+                        content: "The first dominant tag is saved",
                         trigger:
-                            ".o_field_widget[name='primary_subconstruct_id']:contains(TOUR CT Dominant)",
+                            ".o_field_widget[name='dominant_subconstruct_ids']:contains(TOUR CT Dominant)",
                         extra_trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        content: "The second dominant tag is saved",
+                        trigger:
+                            ".o_field_widget[name='dominant_subconstruct_ids']:contains(TOUR CT Another)",
                         run: function () {
                             // Assertion only.
                         },
@@ -116,7 +138,15 @@ odoo.define(
                     {
                         content: "The secondary tag is saved",
                         trigger:
-                            ".o_field_widget[name='secondary_subconstruct_id']:contains(TOUR CT Secondary)",
+                            ".o_field_widget[name='secondary_subconstruct_ids']:contains(TOUR CT Secondary)",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        content: "The dominant tag codes are filled in",
+                        trigger:
+                            ".o_field_widget[name='dominant_subconstruct_codes']:contains(TOUR-CT-DOM)",
                         run: function () {
                             // Assertion only.
                         },

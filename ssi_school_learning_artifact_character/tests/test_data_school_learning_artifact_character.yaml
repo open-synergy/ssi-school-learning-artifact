@@ -645,18 +645,22 @@ scenarios:
         action: "write"
         target: "artifact"
         values:
-          primary_subconstruct_id: "REC: sub_a.id"
-          secondary_subconstruct_id: "REC: sub_b.id"
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
       - step: "Assert the tags are saved"
         action: "assert"
         target: "artifact"
         asserts:
-          primary_subconstruct_id:
-            type: "m2o"
-            expected: "REC: sub_a"
-          secondary_subconstruct_id:
-            type: "m2o"
-            expected: "REC: sub_b"
+          dominant_subconstruct_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: sub_a"
+          secondary_subconstruct_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: sub_b"
   - name: "Not clearly evident empties the character marks"
     steps:
       - step: "Create construct"
@@ -716,9 +720,10 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
-          primary_subconstruct_id: "REC: sub_a.id"
-          secondary_subconstruct_id: "REC: sub_b.id"
-          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
           character_not_evident: true
       - step: "Assert the marks are empty after create"
         action: "assert"
@@ -727,13 +732,19 @@ scenarios:
           character_not_evident:
             type: "value"
             expected: true
-          primary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
-          secondary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
-          character_indicator_ids:
+          dominant_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          secondary_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          dominant_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          secondary_indicator_ids:
             type: "m2m"
             check: "count"
             expected_count: 0
@@ -753,10 +764,10 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
-          primary_subconstruct_id: "REC: sub_a.id"
-          secondary_subconstruct_id: "REC: sub_b.id"
-          character_indicator_ids:
-            [[6, 0, ["REC: indicator_a.id", "REC: indicator_b.id"]]]
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
       - step: "Mark the artifact as not clearly evident"
         action: "write"
         target: "artifact"
@@ -769,13 +780,19 @@ scenarios:
           character_not_evident:
             type: "value"
             expected: true
-          primary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
-          secondary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
-          character_indicator_ids:
+          dominant_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          secondary_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          dominant_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          secondary_indicator_ids:
             type: "m2m"
             check: "count"
             expected_count: 0
@@ -783,7 +800,7 @@ scenarios:
         action: "write"
         target: "artifact"
         values:
-          primary_subconstruct_id: "REC: sub_a.id"
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
         expect_error:
           type: "ValidationError"
           message_contains: "not clearly evident"
@@ -799,9 +816,10 @@ scenarios:
           character_not_evident:
             type: "value"
             expected: false
-          primary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
+          dominant_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
   - name: "Checking not clearly evident in the form empties the marks"
     steps:
       - step: "Create construct"
@@ -836,6 +854,15 @@ scenarios:
           code: "IND-indicator_a-S7F"
           construct_id: "REC: construct.id"
           subconstruct_id: "REC: sub_a.id"
+      - step: "Create indicator indicator_b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator indicator_b S7F"
+          code: "IND-indicator_b-S7F"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
       - step: "Create tagged artifact"
         action: "create"
         model: "school_learning_artifact"
@@ -852,9 +879,10 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
-          primary_subconstruct_id: "REC: sub_a.id"
-          secondary_subconstruct_id: "REC: sub_b.id"
-          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
       - step: "Check not clearly evident in the form"
         action: "form"
         target: "artifact_form"
@@ -863,13 +891,19 @@ scenarios:
         ops:
           - set: {character_not_evident: true}
           - assert:
-              primary_subconstruct_id:
-                type: "value"
-                operator: "is_falsy"
-              secondary_subconstruct_id:
-                type: "value"
-                operator: "is_falsy"
-              character_indicator_ids:
+              dominant_subconstruct_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+              secondary_subconstruct_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+              dominant_indicator_ids:
+                type: "m2m"
+                check: "count"
+                expected_count: 0
+              secondary_indicator_ids:
                 type: "m2m"
                 check: "count"
                 expected_count: 0
@@ -1377,13 +1411,13 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
-          primary_subconstruct_id: "REC: sub_a.id"
-          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
       - step: "Assert the indicator is saved"
         action: "assert"
         target: "artifact"
         asserts:
-          character_indicator_ids:
+          dominant_indicator_ids:
             type: "m2m"
             check: "exact"
             expected_records:
@@ -1392,7 +1426,7 @@ scenarios:
         action: "write"
         target: "artifact"
         values:
-          character_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
         expect_error:
           type: "ValidationError"
           message_contains: "does not belong"
@@ -1400,40 +1434,52 @@ scenarios:
         action: "write"
         target: "artifact"
         values:
-          secondary_subconstruct_id: "REC: sub_b.id"
-          character_indicator_ids:
-            [[6, 0, ["REC: indicator_a.id", "REC: indicator_b.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
       - step: "Assert both indicators are saved"
         action: "assert"
         target: "artifact"
         asserts:
-          character_indicator_ids:
+          dominant_indicator_ids:
             type: "m2m"
             check: "exact"
             expected_records:
               - "REC: indicator_a"
+          secondary_indicator_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
               - "REC: indicator_b"
       - step: "Mark the artifact as not clearly evident"
         action: "write"
         target: "artifact"
         values:
           character_not_evident: true
-      - step: "Assert the indicators are emptied"
+      - step: "Assert the indicators and tags are emptied"
         action: "assert"
         target: "artifact"
         asserts:
-          character_indicator_ids:
+          dominant_subconstruct_ids:
             type: "m2m"
             check: "count"
             expected_count: 0
-          primary_subconstruct_id:
-            type: "value"
-            operator: "is_falsy"
+          secondary_subconstruct_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          dominant_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          secondary_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
       - step: "Select an indicator on the marked artifact"
         action: "write"
         target: "artifact"
         values:
-          character_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
         expect_error:
           type: "ValidationError"
           message_contains: "not clearly evident"
@@ -1528,3 +1574,346 @@ scenarios:
           character_indicator_ok:
             type: "value"
             expected: true
+  - name: "Several tags and indicators are saved with their codes"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct N1"
+          code: "CT-N1"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a N1"
+          code: "SA-N1"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator a N1"
+          code: "IA-N1"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+      - step: "Indicator a effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_a.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b N1"
+          code: "SB-N1"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator b N1"
+          code: "IB-N1"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
+      - step: "Indicator b effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_b.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create sub-construct c"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_c"
+        values:
+          name: "Sub-construct c N1"
+          code: "SC-N1"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator c"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_c"
+        values:
+          name: "Indicator c N1"
+          code: "IC-N1"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_c.id"
+      - step: "Indicator c effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_c.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school2.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_1.id"
+          activity_name: "Character Activity artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student2.id"]]]
+          learning_area_id: "REC: area2.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id", "REC: sub_b.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_c.id"]]]
+      - step: "Assert the several tags are saved"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          dominant_subconstruct_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: sub_a"
+              - "REC: sub_b"
+          secondary_subconstruct_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: sub_c"
+          dominant_subconstruct_codes:
+            type: "value"
+            operator: "contains"
+            expected: "SA-N1"
+      - step: "Assert the indicators are listed per tag"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_dominant_indicator_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: indicator_a"
+              - "REC: indicator_b"
+          allowed_secondary_indicator_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: indicator_c"
+      - step: "Select the indicators"
+        action: "write"
+        target: "artifact"
+        values:
+          dominant_indicator_ids:
+            [[6, 0, ["REC: indicator_a.id", "REC: indicator_b.id"]]]
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_c.id"]]]
+      - step: "Assert the indicators are saved with their codes"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          dominant_indicator_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: indicator_a"
+              - "REC: indicator_b"
+          secondary_indicator_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: indicator_c"
+          dominant_subconstruct_codes:
+            type: "value"
+            operator: "contains"
+            expected: "SB-N1"
+          secondary_subconstruct_codes:
+            type: "value"
+            expected: "SC-N1"
+          dominant_indicator_codes:
+            type: "value"
+            operator: "contains"
+            expected: "IA-N1"
+          secondary_indicator_codes:
+            type: "value"
+            expected: "IC-N1"
+      - step: "Empty the dominant tags that have indicators"
+        action: "write"
+        target: "artifact"
+        values:
+          dominant_indicator_ids: [[5, 0, 0]]
+          dominant_subconstruct_ids: [[5, 0, 0]]
+      - step: "Assert the dominant codes are empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          dominant_subconstruct_codes:
+            type: "value"
+            operator: "is_falsy"
+          dominant_indicator_codes:
+            type: "value"
+            operator: "is_falsy"
+  - name: "A tag cannot be dominant and secondary, and indicators follow tags"
+    steps:
+      - step: "Create construct"
+        action: "create"
+        model: "school_character_construct"
+        save_as: "construct"
+        values:
+          name: "Construct N2"
+          code: "CT-N2"
+      - step: "Create sub-construct a"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_a"
+        values:
+          name: "Sub-construct a N2"
+          code: "SA-N2"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator a"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_a"
+        values:
+          name: "Indicator a N2"
+          code: "IA-N2"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_a.id"
+      - step: "Indicator a effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_a.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create sub-construct b"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_b"
+        values:
+          name: "Sub-construct b N2"
+          code: "SB-N2"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator b"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_b"
+        values:
+          name: "Indicator b N2"
+          code: "IB-N2"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_b.id"
+      - step: "Indicator b effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_b.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create sub-construct c"
+        action: "create"
+        model: "school_character_subconstruct"
+        save_as: "sub_c"
+        values:
+          name: "Sub-construct c N2"
+          code: "SC-N2"
+          construct_id: "REC: construct.id"
+      - step: "Create indicator c"
+        action: "create"
+        model: "school_character_indicator"
+        save_as: "indicator_c"
+        values:
+          name: "Indicator c N2"
+          code: "IC-N2"
+          construct_id: "REC: construct.id"
+          subconstruct_id: "REC: sub_c.id"
+      - step: "Indicator c effective at the grade type"
+        action: "create"
+        model: "school_character_indicator_grade_status"
+        values:
+          indicator_id: "REC: indicator_c.id"
+          grade_type_id: "REC: grade_type2.id"
+          status: "effective"
+      - step: "Create artifact artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school2.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_1.id"
+          activity_name: "Character Activity artifact"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student2.id"]]]
+          learning_area_id: "REC: area2.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+          dominant_subconstruct_ids: [[6, 0, ["REC: sub_a.id"]]]
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_b.id"]]]
+      - step: "Create artifact artifact_free"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_free"
+        values:
+          school_id: "REC: school2.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: class_1.id"
+          activity_name: "Character Activity artifact_free"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student2.id"]]]
+          learning_area_id: "REC: area2.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Add the dominant tag to the secondary tags"
+        action: "write"
+        target: "artifact"
+        values:
+          secondary_subconstruct_ids: [[6, 0, ["REC: sub_a.id", "REC: sub_b.id"]]]
+        expect_error:
+          type: "ValidationError"
+          message_contains: "both dominant and secondary"
+      - step: "Select a secondary indicator as a dominant indicator"
+        action: "write"
+        target: "artifact"
+        values:
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_b.id"]]]
+        expect_error:
+          type: "ValidationError"
+          message_contains: "does not belong"
+      - step: "Select a dominant indicator as a secondary indicator"
+        action: "write"
+        target: "artifact"
+        values:
+          secondary_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+        expect_error:
+          type: "ValidationError"
+          message_contains: "does not belong"
+      - step: "Select an indicator on an artifact without any tag"
+        action: "write"
+        target: "artifact_free"
+        values:
+          dominant_indicator_ids: [[6, 0, ["REC: indicator_a.id"]]]
+        expect_error:
+          type: "ValidationError"
+          message_contains: "does not belong"
+      - step: "Assert the artifact without a tag has no indicator"
+        action: "assert"
+        target: "artifact_free"
+        asserts:
+          dominant_indicator_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+          dominant_subconstruct_codes:
+            type: "value"
+            operator: "is_falsy"
