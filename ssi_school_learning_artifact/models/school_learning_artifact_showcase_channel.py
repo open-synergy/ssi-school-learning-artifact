@@ -13,7 +13,8 @@ class SchoolLearningArtifactShowcaseChannel(
     showcased. The module only records the planning and the production
     per channel, the distribution itself happens outside Odoo. A
     channel can be limited to some schools or left open to every
-    school.
+    school. It can also require a full publication consent of the
+    artifact before a production can be recorded for it.
     """
 
     _name = "school_learning_artifact_showcase_channel"
@@ -29,6 +30,21 @@ class SchoolLearningArtifactShowcaseChannel(
         help=(
             "Schools that can use this channel. Leave empty to make "
             "the channel available to every school."
+        ),
+    )
+    min_publication_consent = fields.Selection(
+        string="Minimum Publication Consent",
+        selection=[
+            ("full", "Full"),
+            ("limited", "Limited"),
+        ],
+        default="limited",
+        required=True,
+        help=(
+            "Publication consent that an artifact needs before a "
+            "production can be recorded for this channel. Limited "
+            "adds no requirement. Full accepts only the artifacts "
+            "whose effective publication consent is full."
         ),
     )
     content_guideline = fields.Text(
