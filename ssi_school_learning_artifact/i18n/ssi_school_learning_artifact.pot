@@ -20,6 +20,17 @@ msgid ""
 "\n"
 "Context: Assess learning artifact\n"
 "Database ID: %s\n"
+"Problem: Aspect %s is filled automatically from the inventory consent\n"
+"Solution: Change the consent of the students instead of picking a level\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_score.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Assess learning artifact\n"
+"Database ID: %s\n"
 "Problem: The ethics gate has not passed yet, so aspect %s is locked\n"
 "Solution: Answer every ethics gate aspect with a passing level first\n"
 msgstr ""
@@ -74,6 +85,17 @@ msgstr ""
 msgid ""
 "\n"
 "Context: Move learning artifact on the showcase board\n"
+"Database ID: %s\n"
+"Problem: %s\n"
+"Solution: %s\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Set gate source of rubric aspect\n"
 "Database ID: %s\n"
 "Problem: %s\n"
 "Solution: %s\n"
@@ -295,6 +317,12 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Add an aspect of type Ethics Gate to the rubric"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Add one failing level and one passing level"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -626,7 +654,8 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_consent_ok
 msgid ""
 "Checked when the parental consent allows the artifact into the showcase, "
-"following the consent policy of its school."
+"following the consent policy of its school. A limited inventory consent "
+"needs a review first."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -640,7 +669,7 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__consent_review_required
 msgid ""
 "Checked when the publication consent of the artifact is limited and the "
-"school treats it as a review task."
+"school treats it as a review task, or when the inventory consent is limited."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1173,6 +1202,12 @@ msgid "Full"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__gate_source
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__gate_source
+msgid "Gate Source"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_id
 msgid "Grade"
 msgstr ""
@@ -1341,13 +1376,6 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
-#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__require_publication_consent
-msgid ""
-"If checked, an artifact can move into this stage only when the parental "
-"consent allows the showcase, following the consent policy of its school."
-msgstr ""
-
-#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__is_fail
 msgid ""
 "If checked, choosing this level fails the ethics gate. Only a level of an "
@@ -1443,6 +1471,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__inventory_consent
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__gate_source__inventory_consent
 msgid "Inventory Consent"
 msgstr ""
 
@@ -1460,6 +1489,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_is_follower
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_is_follower
 msgid "Is Follower"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__require_publication_consent
+msgid ""
+"Kept for compatibility and ignored: the parental consent must allow the "
+"showcase for a move into any stage, following the consent policy of its "
+"school."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1785,6 +1822,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_channel__message_main_attachment_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_main_attachment_id
 msgid "Main Attachment"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__gate_source__manual
+msgid "Manual"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2182,6 +2224,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__state__open
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_curation_load__state__open
 msgid "On Progress"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Only an ethics gate aspect can take this source"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2703,6 +2751,12 @@ msgid "Sequence"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "Set the aspect type to Ethics Gate or the source to Manual"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__code
 msgid "Short code of the aspect, for example A1."
 msgstr ""
@@ -2882,6 +2936,12 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__academic_year_id
 msgid "The academic year of the learning artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
+#, python-format
+msgid "The aspect needs a failing and a passing level"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3069,6 +3129,8 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__level_id
 msgid ""
 "The level picked for the aspect. Empty means the aspect is not assessed yet."
+" For an aspect that takes its level from the inventory consent, the system "
+"picks it and it follows the consent of the students."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3195,10 +3257,12 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__showcase_stage_id
 msgid ""
-"The stage of the artifact on the showcase board. Moving into a stage may "
-"require an eligible curation status, a publication consent that allows the "
-"showcase, or membership of a group, as configured on the stage. Every move "
-"is logged in the chatter with the user and the time."
+"The stage of the artifact on the showcase board. Moving into any stage needs"
+" a parental consent that allows the showcase, and the stage may also require"
+" an eligible curation status or membership of a group, as configured on the "
+"stage. The artifact leaves the board by itself when the consent no longer "
+"allows the showcase or the ethics gate no longer passes. Every move made by "
+"a user is logged in the chatter with the user and the time."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3494,6 +3558,21 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "What the data subject allows when the consent level is limited."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__gate_source
+msgid ""
+"Where the level of an ethics gate aspect comes from. Manual means the "
+"assessor picks the level. Inventory Consent fills the level by itself from "
+"the inventory consent of the students of the artifact: a full or limited "
+"consent gives a passing level, any other consent gives a failing level. Only"
+" an ethics gate aspect can take it."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__gate_source
+msgid "Where the level of the aspect comes from."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
