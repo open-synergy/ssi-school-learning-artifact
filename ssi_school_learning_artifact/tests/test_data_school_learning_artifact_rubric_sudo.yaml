@@ -211,6 +211,27 @@ scenarios:
                 ],
               ],
             ]
+      - step: "Create approver user"
+        action: "create"
+        model: "res.users"
+        save_as: "approver"
+        values:
+          name: "Rubric Sudo Tester approver"
+          login: "rubric.sudo.approver@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_validator_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
       - step: "Find the model of the rubric"
         action: "search"
         model: "ir.model"
@@ -261,7 +282,7 @@ scenarios:
         action: "call"
         target: "artifact"
         method: "action_confirm"
-        as_user: "base.user_admin"
+        as_user: "approver"
         asserts:
           state:
             type: "value"
@@ -270,7 +291,7 @@ scenarios:
         action: "call"
         target: "artifact"
         method: "action_approve_approval"
-        as_user: "base.user_admin"
+        as_user: "approver"
         asserts:
           state:
             type: "value"
