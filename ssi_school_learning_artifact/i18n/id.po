@@ -107,7 +107,7 @@ msgid ""
 "Solution: %s\n"
 msgstr ""
 "\n"
-"Konteks: Memindahkan artefak pembelajaran pada papan etalase\n"
+"Konteks: Memindahkan artefak pembelajaran pada papan showcase\n"
 "ID Basis Data: %s\n"
 "Masalah: %s\n"
 "Solusi: %s\n"
@@ -679,7 +679,7 @@ msgid ""
 "Checked when the parental consent allows the artifact into the showcase, "
 "following the consent policy of its school."
 msgstr ""
-"Dicentang bila izin orang tua mengizinkan artefak masuk ke etalase, sesuai "
+"Dicentang bila izin orang tua mengizinkan artefak masuk ke showcase, sesuai "
 "kebijakan izin sekolahnya."
 
 #. module: ssi_school_learning_artifact
@@ -1056,7 +1056,7 @@ msgstr "Program Unggulan"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__distribution_note
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
 msgid "Distribution Note"
-msgstr "Catatan Distribusi"
+msgstr "Catatan Distribusi Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__media_type__document
@@ -1252,7 +1252,7 @@ msgstr "Tingkat"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__grade_type_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__grade_type_id
 msgid "Grade Type"
-msgstr "Jenis Tingkat"
+msgstr "Jenjang Sekolah"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
@@ -1436,7 +1436,7 @@ msgid ""
 "consent allows the showcase, following the consent policy of its school."
 msgstr ""
 "Jika dicentang, artefak hanya dapat pindah ke tahap ini bila izin orang tua "
-"mengizinkan etalase, sesuai kebijakan izin sekolahnya."
+"mengizinkan showcase, sesuai kebijakan izin sekolahnya."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__is_fail
@@ -1517,7 +1517,7 @@ msgid ""
 "one student remains. They must then not be recognizable in the content."
 msgstr ""
 "Jika dicentang, siswa yang menolak publikasi dikecualikan saat izin "
-"publikasi artefak diperiksa untuk etalase, selama masih ada satu siswa yang "
+"publikasi artefak diperiksa untuk showcase, selama masih ada satu siswa yang "
 "tersisa. Mereka kemudian tidak boleh dapat dikenali dalam konten."
 
 #. module: ssi_school_learning_artifact
@@ -1765,22 +1765,22 @@ msgstr "Rubrik Artefak Pembelajaran"
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_showcase_channel_group
 msgid "Learning Artifact Showcase Channel"
-msgstr "Kanal Etalase Artefak Pembelajaran"
+msgstr "Kanal Showcase Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_showcase_channel_action
 msgid "Learning Artifact Showcase Channels"
-msgstr "Kanal Etalase Artefak Pembelajaran"
+msgstr "Kanal Showcase Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:res.groups,name:ssi_school_learning_artifact.school_learning_artifact_showcase_stage_group
 msgid "Learning Artifact Showcase Stage"
-msgstr "Tahap Etalase Artefak Pembelajaran"
+msgstr "Tahap Showcase Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_learning_artifact_showcase_stage_action
 msgid "Learning Artifact Showcase Stages"
-msgstr "Tahap Etalase Artefak Pembelajaran"
+msgstr "Tahap Showcase Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__learning_artifact_usage
@@ -1864,7 +1864,7 @@ msgid ""
 "consent needs the treatment below."
 msgstr ""
 "Izin publikasi agregat terendah dari para siswa yang memungkinkan artefak "
-"sekolah ini masuk ke etalase. Dengan Penuh, artefak dengan izin terbatas "
+"sekolah ini masuk ke showcase. Dengan Penuh, artefak dengan izin terbatas "
 "memerlukan perlakuan di bawah."
 
 #. module: ssi_school_learning_artifact
@@ -2339,7 +2339,7 @@ msgid ""
 "Order of the stage on the showcase board. The lowest sequence is the first "
 "stage given to a curated artifact."
 msgstr ""
-"Urutan tahap pada papan etalase. Urutan terendah adalah tahap pertama yang "
+"Urutan tahap pada papan showcase. Urutan terendah adalah tahap pertama yang "
 "diberikan kepada artefak yang telah dikurasi."
 
 #. module: ssi_school_learning_artifact
@@ -2420,7 +2420,7 @@ msgstr "Proses"
 #. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
 msgid "Production"
-msgstr "Produksi"
+msgstr "Produksi Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__program_id
@@ -2732,17 +2732,17 @@ msgstr "Skor Artefak Pembelajaran Sekolah"
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_showcase_channel
 msgid "School Learning Artifact Showcase Channel"
-msgstr "Kanal Etalase Artefak Pembelajaran Sekolah"
+msgstr "Kanal Showcase Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_showcase_production
 msgid "School Learning Artifact Showcase Production"
-msgstr "Produksi Etalase Artefak Pembelajaran Sekolah"
+msgstr "Produksi Showcase Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_learning_artifact_showcase_stage
 msgid "School Learning Artifact Showcase Stage"
-msgstr "Tahap Etalase Artefak Pembelajaran Sekolah"
+msgstr "Tahap Showcase Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_category__school_ids
@@ -2893,52 +2893,52 @@ msgstr "Judul singkat kegiatan atau pencapaian pembelajaran."
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form_showcase
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_view_form_learning_artifact
 msgid "Showcase"
-msgstr "Etalase"
+msgstr "Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_showcase_channel_menu
 msgid "Showcase Channels"
-msgstr "Kanal Etalase"
+msgstr "Kanal Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__showcase_consent_ok
 msgid "Showcase Consent OK"
-msgstr "Izin Etalase OK"
+msgstr "Izin Showcase OK"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_consent_reviewer_group_id
 msgid "Showcase Consent Reviewer Group"
-msgstr "Grup Pemeriksa Izin Etalase"
+msgstr "Grup Pemeriksa Izin Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_exclude_refused_member
 msgid "Showcase Ignores Refusing Students"
-msgstr "Etalase Mengabaikan Siswa yang Menolak"
+msgstr "Showcase Mengabaikan Siswa yang Menolak"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_limited_treatment
 msgid "Showcase Limited Consent Treatment"
-msgstr "Perlakuan Izin Terbatas Etalase"
+msgstr "Perlakuan Izin Terbatas Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__showcase_min_publication_consent
 msgid "Showcase Minimum Publication Consent"
-msgstr "Izin Publikasi Minimum Etalase"
+msgstr "Izin Publikasi Minimum Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__production_ids
 msgid "Showcase Productions"
-msgstr "Produksi Etalase"
+msgstr "Produksi Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__showcase_stage_id
 msgid "Showcase Stage"
-msgstr "Tahap Etalase"
+msgstr "Tahap Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_showcase_stage_menu
 msgid "Showcase Stages"
-msgstr "Tahap Etalase"
+msgstr "Tahap Showcase"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__open_ok
@@ -3105,7 +3105,7 @@ msgstr "Komponen yang menyusun program ini."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__production_ids
 msgid "The content produced for each channel of the showcase."
-msgstr "Konten yang diproduksi untuk setiap kanal etalase."
+msgstr "Konten yang diproduksi untuk setiap kanal showcase."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__rubric_id
@@ -3186,12 +3186,12 @@ msgstr "Tingkat dari kelas yang dipilih, diisi otomatis."
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_curation_load__grade_type_id
 msgid "The grade type of the class of the learning artifact."
-msgstr "Jenis tingkat dari kelas artefak pembelajaran."
+msgstr "Jenjang sekolah dari kelas artefak pembelajaran."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__grade_type_id
 msgid "The grade type of the selected class, filled automatically."
-msgstr "Jenis tingkat dari kelas yang dipilih, diisi otomatis."
+msgstr "Jenjang sekolah dari kelas yang dipilih, diisi otomatis."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_graduate_profile__grade_ids
@@ -3274,7 +3274,7 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "The parental consent does not allow the showcase"
-msgstr "Izin orang tua tidak mengizinkan etalase"
+msgstr "Izin orang tua tidak mengizinkan showcase"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -3388,9 +3388,9 @@ msgid ""
 "showcase, or membership of a group, as configured on the stage. Every move "
 "is logged in the chatter with the user and the time."
 msgstr ""
-"Tahap artefak pada papan etalase. Perpindahan ke suatu tahap dapat "
+"Tahap artefak pada papan showcase. Perpindahan ke suatu tahap dapat "
 "mensyaratkan status kurasi yang memenuhi syarat, izin publikasi yang "
-"mengizinkan etalase, atau keanggotaan dalam suatu grup, sesuai konfigurasi "
+"mengizinkan showcase, atau keanggotaan dalam suatu grup, sesuai konfigurasi "
 "tahap tersebut. Setiap perpindahan dicatat di chatter beserta pengguna dan "
 "waktunya."
 
@@ -3722,7 +3722,7 @@ msgid ""
 "consent as reviewed."
 msgstr ""
 "Yang terjadi pada artefak dengan izin publikasi terbatas. Blokir "
-"menjauhkannya dari etalase. Tugas Tinjauan memasukkannya setelah pemeriksa "
+"menjauhkannya dari showcase. Tugas Tinjauan memasukkannya setelah pemeriksa "
 "menandai izin sebagai telah ditinjau."
 
 #. module: ssi_school_learning_artifact
