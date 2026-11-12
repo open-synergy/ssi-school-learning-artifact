@@ -25,8 +25,14 @@
      publication consent is full. A production for this channel is refused for any other
      artifact, and a production that no longer meets the channel is marked as not
      meeting it and loses its **Ready** check.
+   - **Minimum Words**: Optional. Enter the fewest words a narrative for the channel
+     needs before it can be submitted. Leave **0** for no minimum.
+   - **Maximum Words**: Optional. Enter the most words a narrative for the channel can
+     have before it can be submitted. Leave **0** for no maximum. The minimum cannot be
+     above the maximum. For example: newsletter 150 to 250, physical caption 30 to 50,
+     portal 80 to 100, Instagram 80 to 120, Facebook 150 to 250.
    - **Content Guideline**: Optional. Enter advice on the content for the channel, for
-     example the suggested length of the text. It never blocks the content.
+     example the tone of the text. The length is limited by the word limits above.
 4. Click **Save**.
 
 ## Post-Condition

@@ -57,12 +57,71 @@
                                         domain="['|', ('school_ids', '=', False), ('school_ids', 'in', parent.school_id)]"
                                         options="{'no_create': True}"
                                     />
-                                <field name="content" />
+                                <field
+                                        name="content"
+                                        attrs="{'readonly': [('state', 'in', ['submitted', 'confirm', 'approved'])]}"
+                                    />
                                 <field name="content_word_count" />
-                                <field name="pic_id" />
+                                <field
+                                        name="pic_id"
+                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                    />
+                                <field name="state" />
+                                <field name="narrative_revision_count" />
                                 <field name="channel_consent_ok" />
-                                <field name="ready" />
+                                <field
+                                        name="ready"
+                                        attrs="{'readonly': [('state', '!=', 'approved')]}"
+                                    />
                                 <field name="date_published" />
+                                <field name="approve_ok" invisible="1" />
+                                <field name="reject_ok" invisible="1" />
+                                <field name="restart_approval_ok" invisible="1" />
+                                <button
+                                        name="action_assign_to_teacher"
+                                        type="object"
+                                        string="Return to Teacher"
+                                        groups="ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group"
+                                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                    />
+                                <button
+                                        name="action_submit_narrative"
+                                        type="object"
+                                        string="Submit"
+                                        attrs="{'invisible': [('state', '!=', 'assigned')]}"
+                                    />
+                                <button
+                                        name="action_request_narrative_approval"
+                                        type="object"
+                                        string="Request Approval"
+                                        groups="ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group"
+                                        attrs="{'invisible': [('state', '!=', 'submitted')]}"
+                                    />
+                                <button
+                                        name="action_return_narrative"
+                                        type="object"
+                                        string="Return"
+                                        groups="ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group"
+                                        attrs="{'invisible': [('state', 'not in', ['submitted', 'reject'])]}"
+                                    />
+                                <button
+                                        name="action_approve_approval"
+                                        type="object"
+                                        string="Approve"
+                                        attrs="{'invisible': [('approve_ok', '!=', True)]}"
+                                    />
+                                <button
+                                        name="action_reject_approval"
+                                        type="object"
+                                        string="Reject"
+                                        attrs="{'invisible': [('reject_ok', '!=', True)]}"
+                                    />
+                                <button
+                                        name="action_reload_approval_template"
+                                        type="object"
+                                        string="Restart Approval"
+                                        attrs="{'invisible': [('restart_approval_ok', '!=', True)]}"
+                                    />
                             </tree>
                             <form>
                                 <group name="production_group" colspan="4" col="2">
@@ -71,14 +130,33 @@
                                             domain="['|', ('school_ids', '=', False), ('school_ids', 'in', parent.school_id)]"
                                             options="{'no_create': True}"
                                         />
-                                    <field name="content" />
+                                    <field
+                                            name="content"
+                                            attrs="{'readonly': [('state', 'in', ['submitted', 'confirm', 'approved'])]}"
+                                        />
                                     <field name="content_word_count" />
-                                    <field name="pic_id" />
+                                    <field
+                                            name="pic_id"
+                                            attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                        />
+                                    <field name="state" />
+                                    <field name="narrative_revision_count" />
                                     <field name="channel_consent_ok" />
-                                    <field name="ready" />
+                                    <field
+                                            name="ready"
+                                            attrs="{'readonly': [('state', '!=', 'approved')]}"
+                                        />
                                     <field name="date_published" />
                                     <field name="note" />
                                 </group>
+                                <field name="approval_ids" readonly="1">
+                                    <tree>
+                                        <field name="sequence" />
+                                        <field name="status" />
+                                        <field name="user_id" />
+                                        <field name="date" />
+                                    </tree>
+                                </field>
                             </form>
                         </field>
                     </group>

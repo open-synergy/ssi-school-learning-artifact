@@ -52,6 +52,17 @@ the effective publication consent of the artifact is not full, and when the
 consent is later lowered or withdrawn the production is marked as not meeting
 the channel and its Ready check is cleared.
 
+The narrative of each channel goes through a workflow. The inventory
+coordinator returns a curated artifact narrative to the teacher who made the
+artifact, the teacher writes it within the minimum and maximum words of the
+channel and submits it, and the coordinator returns it for a revision (the
+limit is set per school, beyond it the coordinator revises it) or sends it to
+a multiple approval. The approvers (for example the principal, then the branch
+person in charge) are added by the administrator as details of the approval
+template of the narrative: while the template has no detail the approval is
+refused. Only an approved narrative can be ready, and the content is locked
+once the narrative is submitted.
+
 
 Work Instruction
 ================
@@ -69,6 +80,12 @@ Learning Artifact
 * `Select Learning Artifact for Showcase <docs/school_learning_artifact/08-select-for-showcase.html>`_
 * `Record Showcase Production of Learning Artifact <docs/school_learning_artifact/09-produce-showcase.html>`_
 * `Review Limited Publication Consent of Learning Artifact <docs/school_learning_artifact/10-review-limited-consent.html>`_
+* `Return Showcase Narrative to the Teacher <docs/school_learning_artifact/13-return-narrative-to-teacher.html>`_
+* `Submit Showcase Narrative <docs/school_learning_artifact/14-submit-narrative.html>`_
+* `Request Approval of Showcase Narrative <docs/school_learning_artifact/15-request-narrative-approval.html>`_
+* `Return Showcase Narrative for Revision <docs/school_learning_artifact/16-return-narrative.html>`_
+* `Approve Showcase Narrative <docs/school_learning_artifact/17-approve-narrative.html>`_
+* `Reject Showcase Narrative <docs/school_learning_artifact/18-reject-narrative.html>`_
 * `Set the Final Status of a Learning Artifact <docs/school_learning_artifact/12-set-final-status.html>`_
 
 Learning Artifact Area

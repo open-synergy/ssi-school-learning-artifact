@@ -30,6 +30,8 @@
             <xpath expr="//field[@name='active']" position="after">
                 <field name="school_ids" widget="many2many_tags" />
                 <field name="min_publication_consent" />
+                <field name="min_words" />
+                <field name="max_words" />
                 <field name="content_guideline" />
             </xpath>
         </data>

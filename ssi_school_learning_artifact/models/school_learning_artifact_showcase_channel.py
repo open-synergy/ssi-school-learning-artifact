@@ -2,7 +2,8 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class SchoolLearningArtifactShowcaseChannel(
@@ -51,6 +52,46 @@ class SchoolLearningArtifactShowcaseChannel(
         string="Content Guideline",
         help=(
             "Advice on the content for this channel, for example the "
-            "suggested length of the text. It never blocks the content."
+            "tone of the text. The length is limited by the minimum "
+            "and maximum words."
         ),
     )
+    min_words = fields.Integer(
+        string="Minimum Words",
+        default=0,
+        help=(
+            "Fewest words a narrative for this channel needs before "
+            "it can be submitted. 0 means no minimum."
+        ),
+    )
+    max_words = fields.Integer(
+        string="Maximum Words",
+        default=0,
+        help=(
+            "Most words a narrative for this channel can have before "
+            "it can be submitted. 0 means no maximum."
+        ),
+    )
+
+    @api.constrains("min_words", "max_words")
+    def _check_words_range(self):
+        """Reject a minimum above the maximum.
+
+        :raises ValidationError: when both limits are set and the
+            minimum is above the maximum
+        """
+        for record in self:
+            if record.min_words > 0 and record.max_words > 0:
+                if record.min_words > record.max_words:
+                    error_message = (
+                        _(
+                            """
+Context: Check showcase channel
+Database ID: %s
+Problem: Minimum Words is above Maximum Words
+Solution: Set a minimum that is not above the maximum
+"""
+                        )
+                        % (record.id,)
+                    )
+                    raise ValidationError(error_message)

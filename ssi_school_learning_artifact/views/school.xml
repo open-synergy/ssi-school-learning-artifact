@@ -26,6 +26,7 @@
                                 name="showcase_consent_reviewer_group_id"
                                 options="{'no_create': True}"
                             />
+                        <field name="showcase_narrative_max_revision" />
                     </group>
                 </page>
             </xpath>

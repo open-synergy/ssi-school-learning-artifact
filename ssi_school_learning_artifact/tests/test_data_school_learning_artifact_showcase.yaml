@@ -2072,6 +2072,81 @@ scenarios:
           category_id: "REC: category.id"
           description: "one two three"
           link_url: "https://drive.example.com/file"
+      - step: "Curate - Submit artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+      - step: "Curate - Approve artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+      - step: "Curate - Find ethics gate row of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_artifact"
+        limit: 1
+        expect_count: 1
+      - step: "Curate - Find pass level of the ethics gate of artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_artifact_lvl"
+        limit: 1
+        expect_count: 1
+      - step: "Curate - Answer ethics gate of artifact with pass"
+        action: "write"
+        target: "gate_artifact"
+        values:
+          level_id: "REC: gate_artifact_lvl.id"
+      - step: "Curate - Find score of artifact"
+        action: "search"
+        model: "school_learning_artifact_score"
+        save_as: "score_artifact"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        limit: 1
+        expect_count: 1
+      - step: "Curate - Find level 3 of score_artifact"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+            ["score", "=", 3],
+          ]
+        save_as: "lvl_score_artifact_3"
+        limit: 1
+        expect_count: 1
+      - step: "Curate - Score artifact"
+        action: "write"
+        target: "score_artifact"
+        values:
+          level_id: "REC: lvl_score_artifact_3.id"
+      - step: "Curate - Done artifact"
+        action: "call"
+        target: "artifact"
+        method: "action_done"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "done"
       - step: "Create channel channel_full"
         action: "create"
         model: "school_learning_artifact_showcase_channel"
@@ -2096,7 +2171,6 @@ scenarios:
           artifact_id: "REC: artifact.id"
           channel_id: "REC: channel_full.id"
           content: "a b c"
-          ready: true
       - step: "Create production production_limited"
         action: "create"
         model: "school_learning_artifact_showcase_production"
@@ -2105,7 +2179,132 @@ scenarios:
           artifact_id: "REC: artifact.id"
           channel_id: "REC: channel_limited.id"
           content: "a b c"
+      - step: "Get admin user"
+        action: "ref"
+        xml_id: "base.user_admin"
+        save_as: "admin_user"
+
+      - step: "Create approver detail det_a"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_a"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 1
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: admin_user.id"]]]
+
+      - step: "Assign production_full"
+        action: "call"
+        target: "production_full"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of production_full"
+        action: "write"
+        target: "production_full"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit production_full"
+        action: "call"
+        target: "production_full"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Request approval production_full"
+        action: "call"
+        target: "production_full"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve production_full"
+        action: "call"
+        target: "production_full"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "approved"
+
+      - step: "Write production_full"
+        action: "write"
+        target: "production_full"
+        values:
           ready: true
+
+      - step: "Assign production_limited"
+        action: "call"
+        target: "production_limited"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of production_limited"
+        action: "write"
+        target: "production_limited"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit production_limited"
+        action: "call"
+        target: "production_limited"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Request approval production_limited"
+        action: "call"
+        target: "production_limited"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve production_limited"
+        action: "call"
+        target: "production_limited"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "approved"
+
+      - step: "Write production_limited"
+        action: "write"
+        target: "production_limited"
+        values:
+          ready: true
+
+      - step: "Unlink det_a"
+        action: "unlink"
+        target: "det_a"
       - step: "Assert production_full"
         action: "assert"
         target: "production_full"

@@ -1,0 +1,1387 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Showcase Test"
+        code: "/"
+        sequence: 10
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Showcase Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Showcase Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Showcase Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Showcase Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+    - step: "Setup - create contact a"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact a for Showcase Test"
+    - step: "Setup - create student a"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student a for Showcase Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create contact b"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Student Contact b for Showcase Test"
+    - step: "Setup - create student b"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Student b for Showcase Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Showcase Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Showcase Test"
+        code: "/"
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Showcase Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Showcase Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+    - step: "Setup - create eligible status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_eligible"
+      values:
+        name: "Showcase Status eligible"
+        code: "/"
+        category: "eligible"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create revision status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_revision"
+      values:
+        name: "Showcase Status revision"
+        code: "/"
+        category: "revision"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rejected status"
+      action: "create"
+      model: "school_learning_artifact_curation_status"
+      save_as: "st_rejected"
+      values:
+        name: "Showcase Status rejected"
+        code: "/"
+        category: "rejected"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create rubric"
+      action: "create"
+      model: "school_learning_artifact_rubric"
+      save_as: "rubric"
+      values:
+        name: "Rubric for Showcase Test"
+        code: "/"
+        school_ids: [[6, 0, ["REC: school.id"]]]
+        ethics_fail_status_id: "REC: st_rejected.id"
+        criterion_ids:
+          - - 0
+            - 0
+            - sequence: 10
+              code: "A1"
+              name: "Aspect A1"
+              aspect_type: "score"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    score: 1
+                    name: "Level 1"
+                - - 0
+                  - 0
+                  - sequence: 20
+                    score: 2
+                    name: "Level 2"
+                - - 0
+                  - 0
+                  - sequence: 30
+                    score: 3
+                    name: "Level 3"
+              knockout_score: 0
+              assessor_slot: "primary"
+          - - 0
+            - 0
+            - sequence: 90
+              code: "EG"
+              name: "Ethics Gate"
+              aspect_type: "gate"
+              assessor_slot: "secondary"
+              level_ids:
+                - - 0
+                  - 0
+                  - sequence: 10
+                    name: "Pass"
+                    is_fail: false
+                - - 0
+                  - 0
+                  - sequence: 20
+                    name: "Fail"
+                    is_fail: true
+        threshold_ids:
+          - - 0
+            - 0
+            - min_total: 3
+              status_id: "REC: st_eligible.id"
+          - - 0
+            - 0
+            - min_total: 1
+              status_id: "REC: st_revision.id"
+    - step: "Setup - create initial stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_initial"
+      values:
+        name: "Initial Stage"
+        code: "/"
+        sequence: 10
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - create gated stage"
+      action: "create"
+      model: "school_learning_artifact_showcase_stage"
+      save_as: "stage_gated"
+      values:
+        name: "Gated Stage"
+        code: "/"
+        sequence: 20
+        require_eligible: true
+        require_publication_consent: true
+        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Setup - get admin user"
+      action: "ref"
+      xml_id: "base.user_admin"
+      save_as: "admin_user"
+
+    - step: "Setup - Create artifact artifact"
+      action: "create"
+      model: "school_learning_artifact"
+      save_as: "artifact"
+      values:
+        school_id: "REC: school.id"
+        academic_year_id: "REC: academic_year.id"
+        grade_class_id: "REC: grade_class.id"
+        activity_name: "Showcase Activity"
+        media_type: "photo"
+        user_id: "REF: base.user_admin"
+        student_ids: [[6, 0, ["REC: student_a.id"]]]
+        learning_area_id: "REC: area.id"
+        category_id: "REC: category.id"
+        description: "one two three"
+        link_url: "https://drive.example.com/file"
+    - step: "Setup - Record grant full publication consent of a for artifact"
+      action: "create"
+      model: "res.partner.consent"
+      values:
+        partner_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+        notice_id: "REC: notice.id"
+        purpose_id: "REC: purpose_publication.id"
+        consent_type: "grant"
+        consent_date: "2026-10-01 08:00:00"
+        channel: "manual"
+        consent_level: "full"
+
+    - step: "Setup - Submit artifact"
+      action: "call"
+      target: "artifact"
+      method: "action_confirm"
+      as_user: "base.user_admin"
+      asserts:
+        state:
+          type: "value"
+          expected: "confirm"
+    - step: "Setup - Approve artifact"
+      action: "call"
+      target: "artifact"
+      method: "action_approve_approval"
+      as_user: "base.user_admin"
+      asserts:
+        state:
+          type: "value"
+          expected: "open"
+    - step: "Setup - Find ethics gate row of artifact"
+      action: "search"
+      model: "school_learning_artifact_score"
+      domain:
+        [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+      save_as: "gate_artifact"
+      limit: 1
+      expect_count: 1
+    - step: "Setup - Find pass level of the ethics gate of artifact"
+      action: "search"
+      model: "school_learning_artifact_rubric_criterion_level"
+      domain:
+        [
+          ["criterion_id", "=", "REC: gate_artifact.criterion_id.id"],
+          ["is_fail", "=", false],
+        ]
+      save_as: "gate_artifact_lvl"
+      limit: 1
+      expect_count: 1
+    - step: "Setup - Answer ethics gate of artifact with pass"
+      action: "write"
+      target: "gate_artifact"
+      values:
+        level_id: "REC: gate_artifact_lvl.id"
+    - step: "Setup - Find score of artifact"
+      action: "search"
+      model: "school_learning_artifact_score"
+      save_as: "score_artifact"
+      domain:
+        [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+      limit: 1
+      expect_count: 1
+    - step: "Setup - Find level 3 of score_artifact"
+      action: "search"
+      model: "school_learning_artifact_rubric_criterion_level"
+      domain:
+        [
+          ["criterion_id", "=", "REC: score_artifact.criterion_id.id"],
+          ["score", "=", 3],
+        ]
+      save_as: "lvl_score_artifact_3"
+      limit: 1
+      expect_count: 1
+    - step: "Setup - Score artifact"
+      action: "write"
+      target: "score_artifact"
+      values:
+        level_id: "REC: lvl_score_artifact_3.id"
+    - step: "Setup - Done artifact"
+      action: "call"
+      target: "artifact"
+      method: "action_done"
+      as_user: "base.user_admin"
+      asserts:
+        state:
+          type: "value"
+          expected: "done"
+
+    - step: "Create channel channel_free"
+      action: "create"
+      model: "school_learning_artifact_showcase_channel"
+      save_as: "channel_free"
+      values:
+        name: "Free Channel"
+        code: "/"
+        min_words: 0
+        max_words: 0
+
+scenarios:
+  - name: "Coordinator returns a draft narrative to the teacher"
+    steps:
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Create user plain"
+        action: "create"
+        model: "res.users"
+        save_as: "plain"
+        values:
+          name: "Narrative Tester plain"
+          login: "narrative.plain.a@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+
+      - step: "Create production prod_plain"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod_plain"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Coordinator returns the narrative to the teacher"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          pic_id:
+            type: "m2o"
+            expected: "REC: admin_user"
+
+      - step: "Teacher has the To-Do on the artifact"
+        action: "search"
+        model: "mail.activity"
+        domain:
+          [
+            ["res_model", "=", "school_learning_artifact"],
+            ["res_id", "=", "REC: artifact.id"],
+            ["user_id", "=", "REC: admin_user.id"],
+            ["summary", "ilike", "Write the showcase narrative"],
+          ]
+        save_as: "acts_a"
+        expect_count: 1
+
+      - step: "Non coordinator cannot return the narrative"
+        action: "call"
+        target: "prod_plain"
+        method: "action_assign_to_teacher"
+        as_user: "plain"
+        expect_error:
+          type: "UserError"
+          message_contains: "not an inventory coordinator"
+
+      - step: "Open - Create artifact artifact_open"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_open"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Showcase Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+      - step: "Open - Record grant full publication consent of a for artifact_open"
+        action: "create"
+        model: "res.partner.consent"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Create production prod_open"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod_open"
+        values:
+          artifact_id: "REC: artifact_open.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Artifact not curated cannot be returned"
+        action: "call"
+        target: "prod_open"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "not curated yet"
+
+  - name: "Only the teacher and the coordinator edit the content while assigned"
+    steps:
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Create user other"
+        action: "create"
+        model: "res.users"
+        save_as: "other"
+        values:
+          name: "Narrative Tester other"
+          login: "narrative.other.b@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "other"
+        expect_error:
+          type: "UserError"
+          message_contains: "assigned to"
+        values:
+          content: "intruder"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "teacher words"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          content:
+            type: "value"
+            expected: "teacher words"
+
+  - name: "Word limits of the channel block the submit"
+    steps:
+      - step: "Create channel channel_limit"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        save_as: "channel_limit"
+        values:
+          name: "Limit Channel"
+          code: "/"
+          min_words: 3
+          max_words: 5
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_limit.id"
+
+      - step: "Create production prod_free"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod_free"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b"
+
+      - step: "Submit below the minimum"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "below the minimum"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c d e f"
+
+      - step: "Submit above the maximum"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "above the maximum"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c d"
+
+      - step: "Submit within the limits"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Assign prod_free"
+        action: "call"
+        target: "prod_free"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write prod_free"
+        action: "write"
+        target: "prod_free"
+        as_user: "base.user_admin"
+        values:
+          content: "a"
+
+      - step: "Submit without limits"
+        action: "call"
+        target: "prod_free"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+  - name: "Word limit range and revision limit are validated"
+    steps:
+      - step: "Minimum above maximum is rejected"
+        action: "create"
+        model: "school_learning_artifact_showcase_channel"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Minimum Words is above Maximum Words"
+        values:
+          name: "Bad Channel"
+          code: "/"
+          min_words: 10
+          max_words: 5
+      - step: "Negative revision limit is rejected"
+        action: "write"
+        target: "school"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Showcase Narrative Revision Limit is negative"
+        values:
+          showcase_narrative_max_revision: -1
+      - step: "Assert default revision limit"
+        action: "assert"
+        target: "school"
+        asserts:
+          showcase_narrative_max_revision:
+            type: "value"
+            expected: 1
+
+  - name: "Return beyond the revision limit goes to the coordinator"
+    steps:
+      - step: "Create user coord"
+        action: "create"
+        model: "res.users"
+        save_as: "coord"
+        values:
+          name: "Narrative Tester coord"
+          login: "narrative.coord.d@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group",
+                ],
+              ],
+            ]
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "First return goes to the teacher"
+        action: "call"
+        target: "prod"
+        method: "action_return_narrative"
+        as_user: "coord"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          narrative_revision_count:
+            type: "value"
+            expected: 1
+          pic_id:
+            type: "m2o"
+            expected: "REC: admin_user"
+
+      - step: "Submit again"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Second return goes to the coordinator"
+        action: "call"
+        target: "prod"
+        method: "action_return_narrative"
+        as_user: "coord"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          narrative_revision_count:
+            type: "value"
+            expected: 1
+          pic_id:
+            type: "m2o"
+            expected: "REC: coord"
+
+      - step: "Teacher has two To-Dos"
+        action: "search"
+        model: "mail.activity"
+        domain:
+          [
+            ["res_model", "=", "school_learning_artifact"],
+            ["res_id", "=", "REC: artifact.id"],
+            ["user_id", "=", "REC: admin_user.id"],
+            ["summary", "ilike", "Write the showcase narrative"],
+          ]
+        save_as: "acts_teacher"
+        expect_count: 2
+
+      - step: "Coordinator has no To-Do"
+        action: "search"
+        model: "mail.activity"
+        domain:
+          [
+            ["res_model", "=", "school_learning_artifact"],
+            ["res_id", "=", "REC: artifact.id"],
+            ["user_id", "=", "REC: coord.id"],
+          ]
+        save_as: "acts_coord"
+        expect_count: 0
+
+  - name: "Revision limit zero sends the first return to the coordinator"
+    steps:
+      - step: "Write school"
+        action: "write"
+        target: "school"
+        values:
+          showcase_narrative_max_revision: 0
+
+      - step: "Create user coord"
+        action: "create"
+        model: "res.users"
+        save_as: "coord"
+        values:
+          name: "Narrative Tester coord"
+          login: "narrative.coord.d2@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_inventory_coordinator_group",
+                ],
+              ],
+            ]
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Return with limit zero"
+        action: "call"
+        target: "prod"
+        method: "action_return_narrative"
+        as_user: "coord"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          narrative_revision_count:
+            type: "value"
+            expected: 0
+          pic_id:
+            type: "m2o"
+            expected: "REC: coord"
+
+  - name: "Approval runs in sequence and records who and when"
+    steps:
+      - step: "Create user appr_a"
+        action: "create"
+        model: "res.users"
+        save_as: "appr_a"
+        values:
+          name: "Narrative Tester appr_a"
+          login: "narrative.appr.a@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+
+      - step: "Create user appr_b"
+        action: "create"
+        model: "res.users"
+        save_as: "appr_b"
+        values:
+          name: "Narrative Tester appr_b"
+          login: "narrative.appr.b@example.com"
+          groups_id:
+            [
+              [
+                6,
+                0,
+                [
+                  "REF: base.group_user",
+                  "REF: ssi_school_learning_artifact.school_learning_artifact_user_group",
+                  "REF:
+                  ssi_school_learning_artifact.school_learning_artifact_company_group",
+                ],
+              ],
+            ]
+
+      - step: "Create approver detail det_a"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_a"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 1
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: appr_a.id"]]]
+
+      - step: "Create approver detail det_b"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_b"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 2
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: appr_b.id"]]]
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Request approval"
+        action: "call"
+        target: "prod"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Second approver cannot go first"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "appr_b"
+        expect_error:
+          type: "UserError"
+          message_contains: "not an active approver"
+
+      - step: "First approver approves"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "appr_a"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Second approver approves"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "appr_b"
+        asserts:
+          state:
+            type: "value"
+            expected: "approved"
+
+      - step: "Both approvals are recorded"
+        action: "search"
+        model: "approval.approval"
+        domain:
+          [
+            ["model", "=", "school_learning_artifact_showcase_production"],
+            ["res_id", "=", "REC: prod.id"],
+            ["status", "=", "approved"],
+            ["user_id", "!=", false],
+          ]
+        save_as: "approvals_done"
+        expect_count: 2
+
+      - step: "Unlink det_a"
+        action: "unlink"
+        target: "det_a"
+
+      - step: "Unlink det_b"
+        action: "unlink"
+        target: "det_b"
+
+  - name: "Empty approval template refuses the approval until it is filled"
+    steps:
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Request approval"
+        action: "call"
+        target: "prod"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve without approver"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "No approver is configured"
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Create approver detail det_a"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_a"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 1
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: admin_user.id"]]]
+
+      - step: "Restart approval"
+        action: "call"
+        target: "prod"
+        method: "action_reload_approval_template"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve after restart"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "approved"
+
+      - step: "Unlink det_a"
+        action: "unlink"
+        target: "det_a"
+
+  - name: "Rejected narrative is returned and its approvals are dropped"
+    steps:
+      - step: "Create approver detail det_a"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_a"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 1
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: admin_user.id"]]]
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Request approval"
+        action: "call"
+        target: "prod"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Reject"
+        action: "call"
+        target: "prod"
+        method: "action_reject_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "reject"
+
+      - step: "Return the rejected narrative"
+        action: "call"
+        target: "prod"
+        method: "action_return_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Approvals are dropped"
+        action: "search"
+        model: "approval.approval"
+        domain:
+          [
+            ["model", "=", "school_learning_artifact_showcase_production"],
+            ["res_id", "=", "REC: prod.id"],
+          ]
+        save_as: "approvals_left"
+        expect_count: 0
+
+      - step: "Unlink det_a"
+        action: "unlink"
+        target: "det_a"
+
+  - name: "Content is locked after submit and ready needs an approved narrative"
+    steps:
+      - step: "Create approver detail det_a"
+        action: "create"
+        model: "approval.template_detail"
+        save_as: "det_a"
+        values:
+          template_id:
+            "REF:
+            ssi_school_learning_artifact.approval_template_school_learning_artifact_showcase_production"
+          sequence: 1
+          approver_selection_method: "use_user"
+          approver_user_ids: [[6, 0, ["REC: admin_user.id"]]]
+
+      - step: "Create production prod"
+        action: "create"
+        model: "school_learning_artifact_showcase_production"
+        save_as: "prod"
+        values:
+          artifact_id: "REC: artifact.id"
+          channel_id: "REC: channel_free.id"
+
+      - step: "Assign prod"
+        action: "call"
+        target: "prod"
+        method: "action_assign_to_teacher"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "assigned"
+
+      - step: "Write content of prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        values:
+          content: "a b c"
+
+      - step: "Submit prod"
+        action: "call"
+        target: "prod"
+        method: "action_submit_narrative"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "submitted"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "locked"
+        values:
+          content: "changed"
+
+      - step: "Request approval"
+        action: "call"
+        target: "prod"
+        method: "action_request_narrative_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "Only an approved narrative can be ready"
+        values:
+          ready: true
+
+      - step: "Approve"
+        action: "call"
+        target: "prod"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "approved"
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        values:
+          ready: true
+
+      - step: "Assert prod"
+        action: "assert"
+        target: "prod"
+        asserts:
+          ready:
+            type: "value"
+            expected: true
+
+      - step: "Write prod"
+        action: "write"
+        target: "prod"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "locked"
+        values:
+          content: "changed"
+
+      - step: "Unlink det_a"
+        action: "unlink"
+        target: "det_a"
