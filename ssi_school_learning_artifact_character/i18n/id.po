@@ -84,9 +84,9 @@ msgid ""
 "artifact has indicator statuses, only the sub-constructs with an Effective "
 "or Partial indicator at that grade type are listed."
 msgstr ""
-"Sub-konstruk aktif yang dapat ditandai. Bila jenis tingkat artefak memiliki "
+"Sub-konstruk aktif yang dapat ditandai. Bila jenjang sekolah artefak memiliki "
 "status indikator, hanya sub-konstruk dengan indikator Efektif atau Sebagian "
-"pada jenis tingkat tersebut yang ditampilkan."
+"pada jenjang sekolah tersebut yang ditampilkan."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_indicator_ids
@@ -212,7 +212,7 @@ msgstr "Status Tingkat"
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
 msgid "Grade Type"
-msgstr "Jenis Tingkat"
+msgstr "Jenjang Sekolah"
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_ids
@@ -226,7 +226,7 @@ msgid ""
 "Partial indicator makes its sub-construct available for tagging a learning "
 "artifact."
 msgstr ""
-"Seberapa efektif indikator pada jenis tingkat. Hanya indikator Efektif atau "
+"Seberapa efektif indikator pada jenjang sekolah. Hanya indikator Efektif atau "
 "Sebagian yang membuat sub-konstruknya tersedia untuk menandai artefak "
 "pembelajaran."
 
@@ -246,7 +246,7 @@ msgstr "Indikator"
 #: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
 #, python-format
 msgid "Indicator already has a status for this grade type"
-msgstr "Indikator sudah memiliki status untuk jenis tingkat ini"
+msgstr "Indikator sudah memiliki status untuk jenjang sekolah ini"
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
@@ -256,7 +256,7 @@ msgid ""
 "this grade type"
 msgstr ""
 "Indikator memiliki baris status tanpa tingkat dan baris status dengan "
-"tingkat untuk jenis tingkat ini"
+"tingkat untuk jenjang sekolah ini"
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
@@ -268,7 +268,7 @@ msgstr "Indikator memiliki dua baris status untuk tingkat yang sama"
 #: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
 #, python-format
 msgid "Keep one status line per grade type for each indicator"
-msgstr "Pertahankan satu baris status per jenis tingkat untuk setiap indikator"
+msgstr "Pertahankan satu baris status per jenjang sekolah untuk setiap indikator"
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator____last_update
@@ -373,7 +373,7 @@ msgstr ""
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
 msgid "The grade type at which the indicator has this status."
-msgstr "Jenis tingkat tempat indikator memiliki status ini."
+msgstr "Jenjang sekolah tempat indikator memiliki status ini."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_ids
@@ -381,8 +381,8 @@ msgid ""
 "The grades of the grade type at which the indicator has this status. Leave "
 "empty to apply the status to every grade of the grade type."
 msgstr ""
-"Tingkat dari jenis tingkat tempat indikator memiliki status ini. Kosongkan "
-"untuk menerapkan status ke setiap tingkat dari jenis tingkat tersebut."
+"Tingkat dari jenjang sekolah tempat indikator memiliki status ini. Kosongkan "
+"untuk menerapkan status ke setiap tingkat dari jenjang sekolah tersebut."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator__grade_status_ids
@@ -390,5 +390,5 @@ msgid ""
 "The status of this indicator per grade type. Leave empty when the school "
 "does not filter character tags by grade type."
 msgstr ""
-"Status indikator ini per jenis tingkat. Kosongkan bila sekolah tidak "
-"menyaring tag karakter menurut jenis tingkat."
+"Status indikator ini per jenjang sekolah. Kosongkan bila sekolah tidak "
+"menyaring tag karakter menurut jenjang sekolah."
