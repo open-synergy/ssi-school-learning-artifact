@@ -41,6 +41,10 @@
                 type="text/javascript"
                 src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_learning_artifact_showcase_channel_tour.js"
             />
+            <script
+                type="text/javascript"
+                src="/ssi_school_learning_artifact_operating_unit/static/tests/tours/school_graduate_profile_tour.js"
+            />
         </xpath>
     </template>
 </odoo>

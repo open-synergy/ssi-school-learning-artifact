@@ -14,4 +14,5 @@ from . import (  # noqa: F401
     test_ui_school_learning_artifact_curation_status,
     test_ui_school_learning_artifact_showcase_stage,
     test_ui_school_learning_artifact_showcase_channel,
+    test_ui_school_graduate_profile,
 )

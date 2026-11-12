@@ -11,3 +11,4 @@ from . import school_learning_artifact_rubric
 from . import school_learning_artifact_curation_status
 from . import school_learning_artifact_showcase_stage
 from . import school_learning_artifact_showcase_channel
+from . import school_graduate_profile

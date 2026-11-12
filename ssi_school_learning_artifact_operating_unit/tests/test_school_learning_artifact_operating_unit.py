@@ -48,3 +48,10 @@ class TestSchoolLearningArtifactOperatingUnit(
         :return: None
         """
         self.run_yaml_scenario("test_data_school_learning_artifact_allowed_ou.yaml")
+
+    def test_graduate_profile(self):
+        """Run every graduate profile scenario of the artifact unit.
+
+        :return: None
+        """
+        self.run_yaml_scenario("test_data_school_graduate_profile_operating_unit.yaml")
