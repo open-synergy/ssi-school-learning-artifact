@@ -147,23 +147,23 @@ Solution: Ask a user in the assessor groups of the aspect to assess it
                 )
 
     def _check_ethics_lock(self):
-        """Reject picking a level of a scored aspect after a failed gate.
+        """Reject picking a level of a scored aspect before the gate passes.
 
-        :raises UserError: when the artifact failed the ethics gate
-            and the row belongs to a scored aspect
+        :raises UserError: when the artifact has not passed the ethics
+            gate and the row belongs to a scored aspect
         """
         for record in self:
             if (
                 record.aspect_type == "score"
-                and record.artifact_id.sudo().ethics_result == "fail"
+                and record.artifact_id.sudo().ethics_result != "pass"
             ):
                 raise UserError(
                     _(
                         """
 Context: Assess learning artifact
 Database ID: %s
-Problem: The artifact failed the ethics gate, so aspect %s is locked
-Solution: Finish the curation without scores or change the gate answer
+Problem: The ethics gate has not passed yet, so aspect %s is locked
+Solution: Answer every ethics gate aspect with a passing level first
 """
                     )
                     % (record.id, record.criterion_id.display_name)

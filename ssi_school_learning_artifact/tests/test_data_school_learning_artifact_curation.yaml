@@ -2814,6 +2814,33 @@ scenarios:
             type: "value"
             expected: "open"
 
+      - step: "Find ethics gate row of artifact first"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_first_oth"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact first"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_first_oth.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_first_oth_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass before scoring"
+        action: "write"
+        target: "gate_first_oth"
+        values:
+          level_id: "REC: gate_first_oth_lvl.id"
+
       - step: "Find score A2 of artifact"
         action: "search"
         model: "school_learning_artifact_score"
@@ -3757,6 +3784,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
+
+      - step: "Find ethics gate row of artifact first"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "EG"]]
+        save_as: "gate_first_out"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of artifact first"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_first_out.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_first_out_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of artifact with pass before scoring"
+        action: "write"
+        target: "gate_first_out"
+        values:
+          level_id: "REC: gate_first_out_lvl.id"
 
       - step: "Find score A1 of artifact_out"
         action: "search"
@@ -5906,6 +5960,33 @@ scenarios:
           state:
             type: "value"
             expected: "open"
+      - step: "Find ethics gate row of art_snap first"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: art_snap.id"], ["criterion_id.code", "=", "G1"]]
+        save_as: "gate_first_snap"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level of the ethics gate of art_snap first"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [
+            ["criterion_id", "=", "REC: gate_first_snap.criterion_id.id"],
+            ["is_fail", "=", false],
+          ]
+        save_as: "gate_first_snap_lvl"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer ethics gate of art_snap with pass before scoring"
+        action: "write"
+        target: "gate_first_snap"
+        values:
+          level_id: "REC: gate_first_snap_lvl.id"
+
       - step: "Find row A1 of art_snap"
         action: "search"
         model: "school_learning_artifact_score"
@@ -6059,30 +6140,6 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Find row A1 of artifact a1"
-        action: "search"
-        model: "school_learning_artifact_score"
-        domain:
-          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
-        save_as: "row_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Find level for row a1"
-        action: "search"
-        model: "school_learning_artifact_rubric_criterion_level"
-        domain:
-          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
-        save_as: "lvl_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Answer row a1"
-        action: "write"
-        target: "row_a1"
-        values:
-          level_id: "REC: lvl_a1.id"
-
       - step: "Find row EG of artifact g1"
         action: "search"
         model: "school_learning_artifact_score"
@@ -6109,6 +6166,30 @@ scenarios:
         target: "row_g1"
         values:
           level_id: "REC: lvl_g1.id"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
 
       - step: "Write recommendation"
         action: "write"
@@ -6290,30 +6371,6 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Find row A1 of artifact a1"
-        action: "search"
-        model: "school_learning_artifact_score"
-        domain:
-          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
-        save_as: "row_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Find level for row a1"
-        action: "search"
-        model: "school_learning_artifact_rubric_criterion_level"
-        domain:
-          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
-        save_as: "lvl_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Answer row a1"
-        action: "write"
-        target: "row_a1"
-        values:
-          level_id: "REC: lvl_a1.id"
-
       - step: "Find row EG of artifact g1"
         action: "search"
         model: "school_learning_artifact_score"
@@ -6340,6 +6397,30 @@ scenarios:
         target: "row_g1"
         values:
           level_id: "REC: lvl_g1.id"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
 
       - step: "Write recommendation"
         action: "write"
@@ -6688,30 +6769,6 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Find row A1 of artifact a1"
-        action: "search"
-        model: "school_learning_artifact_score"
-        domain:
-          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
-        save_as: "row_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Find level for row a1"
-        action: "search"
-        model: "school_learning_artifact_rubric_criterion_level"
-        domain:
-          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
-        save_as: "lvl_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Answer row a1"
-        action: "write"
-        target: "row_a1"
-        values:
-          level_id: "REC: lvl_a1.id"
-
       - step: "Find row EG of artifact g1"
         action: "search"
         model: "school_learning_artifact_score"
@@ -6738,6 +6795,30 @@ scenarios:
         target: "row_g1"
         values:
           level_id: "REC: lvl_g1.id"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 1]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        values:
+          level_id: "REC: lvl_a1.id"
 
       - step: "Write recommendation"
         action: "write"
@@ -6986,31 +7067,6 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Find row A1 of artifact a1"
-        action: "search"
-        model: "school_learning_artifact_score"
-        domain:
-          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
-        save_as: "row_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Find level for row a1"
-        action: "search"
-        model: "school_learning_artifact_rubric_criterion_level"
-        domain:
-          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 3]]
-        save_as: "lvl_a1"
-        limit: 1
-        expect_count: 1
-
-      - step: "Answer row a1"
-        action: "write"
-        target: "row_a1"
-        as_user: "assessor_one"
-        values:
-          level_id: "REC: lvl_a1.id"
-
       - step: "Find row EG of artifact g1"
         action: "search"
         model: "school_learning_artifact_score"
@@ -7038,6 +7094,31 @@ scenarios:
         as_user: "assessor_two"
         values:
           level_id: "REC: lvl_g1.id"
+
+      - step: "Find row A1 of artifact a1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: artifact.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "row_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find level for row a1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: row_a1.criterion_id.id"], ["score", "=", 3]]
+        save_as: "lvl_a1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Answer row a1"
+        action: "write"
+        target: "row_a1"
+        as_user: "assessor_one"
+        values:
+          level_id: "REC: lvl_a1.id"
 
       - step: "Report rows of assessor_one"
         action: "search"
@@ -7091,3 +7172,324 @@ scenarios:
         save_as: "load_artifact_all"
         domain: [["artifact_id", "=", "REC: artifact.id"]]
         expect_count: 2
+
+  - name: "Scored aspects stay locked until every ethics gate passes"
+    steps:
+      - step: "Create rubric rubric_inc"
+        action: "create"
+        model: "school_learning_artifact_rubric"
+        save_as: "rubric_inc"
+        values:
+          name: "Rubric rubric_inc"
+          code: "/"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+          ethics_fail_status_id: "REC: st_rejected.id"
+          knockout_status_id: "REC: st_archive.id"
+          criterion_ids:
+            - - 0
+              - 0
+              - sequence: 10
+                code: "A1"
+                name: "Aspect A1"
+                aspect_type: "score"
+                knockout_score: 0
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Weak evidence of A1"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 2
+                      name: "Fair evidence of A1"
+                  - - 0
+                    - 0
+                    - sequence: 30
+                      score: 3
+                      name: "Strong evidence of A1"
+            - - 0
+              - 0
+              - sequence: 20
+                code: "A2"
+                name: "Aspect A2"
+                aspect_type: "score"
+                knockout_score: 0
+                assessor_slot: "primary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      score: 1
+                      name: "Weak evidence of A2"
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      score: 2
+                      name: "Fair evidence of A2"
+                  - - 0
+                    - 0
+                    - sequence: 30
+                      score: 3
+                      name: "Strong evidence of A2"
+            - - 0
+              - 0
+              - sequence: 110
+                code: "G1"
+                name: "Gate G1"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Yes"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "No"
+                      is_fail: true
+            - - 0
+              - 0
+              - sequence: 120
+                code: "G2"
+                name: "Gate G2"
+                aspect_type: "gate"
+                assessor_slot: "secondary"
+                level_ids:
+                  - - 0
+                    - 0
+                    - sequence: 10
+                      name: "Yes"
+                      is_fail: false
+                  - - 0
+                    - 0
+                    - sequence: 20
+                      name: "No"
+                      is_fail: true
+          threshold_ids:
+            - - 0
+              - 0
+              - min_total: 7
+                status_id: "REC: st_eligible.id"
+
+      - step: "Create complete artifact art_inc"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "art_inc"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Artifact art_inc"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Submit art_inc for curation"
+        action: "call"
+        target: "art_inc"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve art_inc to start curation"
+        action: "call"
+        target: "art_inc"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Find row A1 of art_inc for lk_A1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: art_inc.id"], ["criterion_id.code", "=", "A1"]]
+        save_as: "lk_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find score level for lk_A1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain: [["criterion_id", "=", "REC: lk_A1.criterion_id.id"], ["score", "=", 3]]
+        save_as: "lk_lvl_A1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find row G1 of art_inc for lk_G1"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: art_inc.id"], ["criterion_id.code", "=", "G1"]]
+        save_as: "lk_G1"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level for lk_G1"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: lk_G1.criterion_id.id"], ["is_fail", "=", false]]
+        save_as: "lk_lvl_G1_pass"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find row G2 of art_inc for lk_G2"
+        action: "search"
+        model: "school_learning_artifact_score"
+        domain:
+          [["artifact_id", "=", "REC: art_inc.id"], ["criterion_id.code", "=", "G2"]]
+        save_as: "lk_G2"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find pass level for lk_G2"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: lk_G2.criterion_id.id"], ["is_fail", "=", false]]
+        save_as: "lk_lvl_G2_pass"
+        limit: 1
+        expect_count: 1
+
+      - step: "Find fail level for lk_G2"
+        action: "search"
+        model: "school_learning_artifact_rubric_criterion_level"
+        domain:
+          [["criterion_id", "=", "REC: lk_G2.criterion_id.id"], ["is_fail", "=", true]]
+        save_as: "lk_lvl_G2_fail"
+        limit: 1
+        expect_count: 1
+
+      - step: "Scored level with every gate empty is locked"
+        action: "write"
+        target: "lk_A1"
+        expect_error:
+          type: "UserError"
+          message_contains: "locked"
+        values:
+          level_id: "REC: lk_lvl_A1.id"
+
+      - step: "Assert total score is 0"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 0
+
+      - step: "Answer gate G1 with pass"
+        action: "write"
+        target: "lk_G1"
+        values:
+          level_id: "REC: lk_lvl_G1_pass.id"
+
+      - step: "Scored level with one gate still empty is locked"
+        action: "write"
+        target: "lk_A1"
+        expect_error:
+          type: "UserError"
+          message_contains: "locked"
+        values:
+          level_id: "REC: lk_lvl_A1.id"
+
+      - step: "Answer gate G2 with fail"
+        action: "write"
+        target: "lk_G2"
+        values:
+          level_id: "REC: lk_lvl_G2_fail.id"
+
+      - step: "Assert ethics result is fail"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "fail"
+
+      - step: "Scored level after a failed gate is locked"
+        action: "write"
+        target: "lk_A1"
+        expect_error:
+          type: "UserError"
+          message_contains: "locked"
+        values:
+          level_id: "REC: lk_lvl_A1.id"
+
+      - step: "Assert total score is 0"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 0
+
+      - step: "Change gate G2 to pass"
+        action: "write"
+        target: "lk_G2"
+        values:
+          level_id: "REC: lk_lvl_G2_pass.id"
+
+      - step: "Assert ethics result is pass"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "pass"
+
+      - step: "Scored level is accepted once every gate passed"
+        action: "write"
+        target: "lk_A1"
+        values:
+          level_id: "REC: lk_lvl_A1.id"
+
+      - step: "Assert total score is 3"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 3
+
+      - step: "Change gate G2 back to fail after scoring"
+        action: "write"
+        target: "lk_G2"
+        values:
+          level_id: "REC: lk_lvl_G2_fail.id"
+
+      - step: "Assert ethics result is fail"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          ethics_result:
+            type: "value"
+            expected: "fail"
+
+      - step: "Clear the level of the scored aspect after the gate failed"
+        action: "write"
+        target: "lk_A1"
+        values:
+          level_id: false
+
+      - step: "Assert total score is 0"
+        action: "assert"
+        target: "art_inc"
+        asserts:
+          total_score:
+            type: "value"
+            expected: 0

@@ -9,8 +9,11 @@ School Learning Artifact
 Inventory of learning artifacts (photos, videos and documents of learning
 activities and achievements) for schools. A teacher records an artifact,
 submits it for curation, and may withdraw it until the curator starts the
-curation. The curator then picks a level for every ethics gate aspect and every
-scored aspect of the rubric of the school; the score of each level is recorded
+curation. The curator first picks a level for every ethics gate aspect of the
+rubric of the school in the Ethics Gate table; only when every gate aspect
+passes, the curator picks a level for every scored aspect in the Artifact
+Assessment table, and the server refuses a scored level before that, also
+through import or API. The score of each level is recorded
 automatically and the module calculates the total and the curation status, and
 the curation is finished with the Done action. A curated artifact whose status
 needs a revision can be reopened a limited number of times; when the limit

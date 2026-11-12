@@ -58,5 +58,5 @@
 
 - A new rubric is created and active.
 - Learning artifacts of the schools it applies to use it when they are created, and get
-  one row per aspect (ethics gate aspects included) in its **Scores** table when the
-  curation starts.
+  one row per aspect when the curation starts: the ethics gate aspects in its **Ethics
+  Gate** table and the scored aspects in its **Artifact Assessment** table.

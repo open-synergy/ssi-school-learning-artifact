@@ -284,7 +284,10 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
         :return: None
         """
         obj_level = cls.env["school_learning_artifact_rubric_criterion_level"]
-        for row in artifact.score_ids:
+        # The gate rows come first: the scored aspects stay locked until
+        # every gate row is answered with a passing level.
+        rows = artifact.score_ids.sorted(lambda r: r.aspect_type != "gate")
+        for row in rows:
             if row.aspect_type == "gate":
                 level = obj_level.search(
                     [
