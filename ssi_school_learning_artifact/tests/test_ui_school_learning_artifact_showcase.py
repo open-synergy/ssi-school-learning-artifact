@@ -108,7 +108,6 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
             {
                 "name": "TOUR SH Rubric",
                 "code": "TOURSHRB",
-                "school_ids": [(6, 0, cls.school.ids)],
                 "ethics_fail_status_id": rejected.id,
                 "criterion_ids": [
                     (
@@ -183,7 +182,6 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
                 "name": "TOUR SH Initial",
                 "code": "TOURSHS1",
                 "sequence": 1,
-                "school_ids": [(6, 0, cls.school.ids)],
             }
         )
         obj_stage.create(
@@ -191,14 +189,12 @@ class TestUiSchoolLearningArtifactShowcase(HttpSavepointCase):
                 "name": "TOUR SH Selected",
                 "code": "TOURSHS2",
                 "sequence": 2,
-                "school_ids": [(6, 0, cls.school.ids)],
             }
         )
         cls.env["school_learning_artifact_showcase_channel"].create(
             {
                 "name": "TOUR SH Channel",
                 "code": "TOURSHCH",
-                "school_ids": [(6, 0, cls.school.ids)],
             }
         )
         notice = cls.env["partner_consent_notice"].create(

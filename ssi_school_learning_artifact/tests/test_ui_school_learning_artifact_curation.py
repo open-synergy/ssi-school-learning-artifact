@@ -128,7 +128,6 @@ class TestUiSchoolLearningArtifactCuration(HttpSavepointCase):
             {
                 "name": "TOUR LC Rubric",
                 "code": "TOURLCRB",
-                "school_ids": [(6, 0, cls.school.ids)],
                 "ethics_fail_status_id": rejected.id,
                 "criterion_ids": [
                     (

@@ -12,9 +12,9 @@ class TestSchoolLearningArtifactAllowedMaster(YamlTransactionCase):
     """Test the allowed master choices of the Learning Artifact.
 
     Runs the YAML scenarios proving that the category, curation
-    status, showcase stage and showcase channel choices hold the
-    global records and the records of the school of the artifact,
-    and are empty when the artifact has no school.
+    status, showcase stage and showcase channel choices hold every
+    master record, because the core does not restrict them, and are
+    empty when the artifact has no school.
     """
 
     def test_school_learning_artifact_allowed_master(self):

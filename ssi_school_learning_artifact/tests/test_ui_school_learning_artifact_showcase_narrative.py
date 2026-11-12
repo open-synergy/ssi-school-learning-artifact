@@ -107,7 +107,6 @@ class TestUiSchoolLearningArtifactShowcaseNarrative(HttpSavepointCase):
             {
                 "name": "TOUR NR Rubric",
                 "code": "TOURNRRB",
-                "school_ids": [(6, 0, cls.school.ids)],
                 "ethics_fail_status_id": rejected.id,
                 "criterion_ids": [
                     (
@@ -180,7 +179,6 @@ class TestUiSchoolLearningArtifactShowcaseNarrative(HttpSavepointCase):
             {
                 "name": "TOUR NR Channel",
                 "code": "TOURNRCH",
-                "school_ids": [(6, 0, cls.school.ids)],
             }
         )
         cls.env["approval.template_detail"].create(

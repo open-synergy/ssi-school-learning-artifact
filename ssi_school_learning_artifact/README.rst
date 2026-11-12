@@ -26,7 +26,11 @@ Everything specific to a school or a branch - learning areas, categories,
 dimensions, phases, distinctive programs and their components, graduate
 profiles, curation rubrics (with their aspect levels and ethics gate aspects),
 statuses, the link prefix and the required fields - is configuration data, not
-module data.
+module data. The module does not restrict these masters per school or branch:
+the restriction per school or branch is provided by the
+``ssi_school_learning_artifact_operating_unit`` module through the Operating
+Units. Without the operating unit module every master applies to every school
+and the first active rubric is used.
 
 The module also keeps the parental consent of the students. The consent is
 recorded in the data privacy consent log of the contact of the student, once

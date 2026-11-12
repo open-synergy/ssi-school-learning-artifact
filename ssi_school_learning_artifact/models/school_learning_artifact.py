@@ -421,9 +421,8 @@ class SchoolLearningArtifact(models.Model):
         states=_DRAFT_EDITABLE,
         ondelete="restrict",
         help=(
-            "The curation rubric of the artifact. It is the active "
-            "rubric of the school, or the fallback rubric without "
-            "schools when the school has none."
+            "The curation rubric of the artifact. It is the first "
+            "active rubric that the rubric criteria allow."
         ),
     )
     score_ids = fields.One2many(
@@ -852,9 +851,9 @@ class SchoolLearningArtifact(models.Model):
     def _compute_rubric_id(self):
         """Pick the rubric that applies to the school of the artifact.
 
-        The active rubric listing the school wins. Otherwise the
-        active rubric without schools is the fallback. The field stays
-        empty when neither exists.
+        The first active rubric, by ``id``, that satisfies the rubric
+        criteria wins; extension modules narrow the criteria. The field
+        stays empty when no active rubric exists.
         """
         for record in self:
             record.rubric_id = record._get_applicable_rubric()
@@ -922,26 +921,26 @@ class SchoolLearningArtifact(models.Model):
     def _get_rubric_criteria(self):
         """Build the search domain for the rubric of the school.
 
-        Extension point: override to narrow the rubric choice.
+        Extension point: the core does not restrict the rubric, so
+        the domain is empty. Extension modules override it to narrow
+        the rubric choice, for example per operating unit.
 
         :return: search domain (list of tuples)
         """
         self.ensure_one()
-        return [
-            ("school_ids", "in", [self.school_id.id]),
-        ]
+        return []
 
     def _get_fallback_rubric_criteria(self):
         """Build the search domain for the fallback rubric.
 
-        Extension point: override to narrow the fallback choice.
+        Extension point: the core does not restrict the fallback
+        rubric, so the domain is empty. Extension modules override it
+        to narrow the fallback choice.
 
         :return: search domain (list of tuples)
         """
         self.ensure_one()
-        return [
-            ("school_ids", "=", False),
-        ]
+        return []
 
     @api.depends(
         "score_ids.score",
@@ -1244,18 +1243,14 @@ class SchoolLearningArtifact(models.Model):
 
         Single extension point for every master choice of the
         artifact (category, curation status, showcase stage and
-        channel, dimension, phase): override to narrow it. In the core
-        records without schools apply to every school, the others only
-        to the schools they list.
+        channel, dimension, phase): override to narrow it. The core
+        does not restrict the master data, so every active record
+        applies to every school; extension modules narrow the choice.
 
         :return: search domain (list of tuples)
         """
         self.ensure_one()
-        return [
-            "|",
-            ("school_ids", "=", False),
-            ("school_ids", "in", [self.school_id.id]),
-        ]
+        return []
 
     @api.depends(*_CONSENT_DEPENDS)
     def _compute_consent(self):

@@ -21,8 +21,6 @@
      **Generate Code**.
    - **Ethics Fail Status** _(required)_: Select the status given to an artifact that
      fails the ethics gate.
-   - **Schools**: Optional. Select the schools that use the rubric. Leave it empty to
-     make this the fallback rubric of the schools without a rubric.
    - **Knockout Status**: Optional. Select the status given when an aspect scores at or
      below its knockout score.
    - **Maximum Revision**: Optional. Enter how many times a curated artifact that needs
@@ -62,6 +60,6 @@
 ## Post-Condition
 
 - A new rubric is created and active.
-- Learning artifacts of the schools it applies to use it when they are created, and get
-  one row per aspect when the curation starts: the ethics gate aspects in its **Ethics
-  Gate** table and the scored aspects in its **Artifact Assessment** table.
+- Learning artifacts use it when they are created if it is the first active rubric, and
+  get one row per aspect when the curation starts: the ethics gate aspects in its
+  **Ethics Gate** table and the scored aspects in its **Artifact Assessment** table.

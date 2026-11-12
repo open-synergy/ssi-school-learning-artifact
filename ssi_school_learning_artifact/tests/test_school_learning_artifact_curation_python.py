@@ -106,7 +106,6 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
                 "name": "PY Eligible",
                 "code": "/",
                 "category": "eligible",
-                "school_ids": [(6, 0, self.school.ids)],
             }
         )
         self.revision = obj_status.create(
@@ -114,7 +113,6 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
                 "name": "PY Revision",
                 "code": "/",
                 "category": "revision",
-                "school_ids": [(6, 0, self.school.ids)],
             }
         )
         self.rejected = obj_status.create(
@@ -122,7 +120,6 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
                 "name": "PY Rejected",
                 "code": "/",
                 "category": "rejected",
-                "school_ids": [(6, 0, self.school.ids)],
             }
         )
 
@@ -144,7 +141,6 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
             {
                 "name": "PY Rubric",
                 "code": "/",
-                "school_ids": [(6, 0, self.school.ids)],
                 "ethics_fail_status_id": self.rejected.id,
                 "criterion_ids": [
                     (

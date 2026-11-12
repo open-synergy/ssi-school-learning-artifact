@@ -134,7 +134,6 @@ setup:
         name: "Showcase Status eligible"
         code: "/"
         category: "eligible"
-        school_ids: [[6, 0, ["REC: school.id"]]]
     - step: "Setup - create revision status"
       action: "create"
       model: "school_learning_artifact_curation_status"
@@ -143,7 +142,6 @@ setup:
         name: "Showcase Status revision"
         code: "/"
         category: "revision"
-        school_ids: [[6, 0, ["REC: school.id"]]]
     - step: "Setup - create rejected status"
       action: "create"
       model: "school_learning_artifact_curation_status"
@@ -152,7 +150,16 @@ setup:
         name: "Showcase Status rejected"
         code: "/"
         category: "rejected"
-        school_ids: [[6, 0, ["REC: school.id"]]]
+    - step: "Archive the rubrics of the earlier scenarios"
+      action: "search"
+      model: "school_learning_artifact_rubric"
+      domain: [["id", "!=", 0]]
+      save_as: "earlier_rubrics"
+    - step: "Archive the earlier rubrics so that this one is picked"
+      action: "write"
+      target: "earlier_rubrics"
+      values:
+        active: false
     - step: "Setup - create rubric"
       action: "create"
       model: "school_learning_artifact_rubric"
@@ -160,7 +167,6 @@ setup:
       values:
         name: "Rubric for Showcase Test"
         code: "/"
-        school_ids: [[6, 0, ["REC: school.id"]]]
         ethics_fail_status_id: "REC: st_rejected.id"
         criterion_ids:
           - - 0
@@ -222,7 +228,6 @@ setup:
         name: "Initial Stage"
         code: "/"
         sequence: 10
-        school_ids: [[6, 0, ["REC: school.id"]]]
     - step: "Setup - create gated stage"
       action: "create"
       model: "school_learning_artifact_showcase_stage"
@@ -233,7 +238,6 @@ setup:
         sequence: 20
         require_eligible: true
         require_publication_consent: true
-        school_ids: [[6, 0, ["REC: school.id"]]]
 
 scenarios:
   - name: "CRUD of showcase stage and channel"
@@ -338,16 +342,8 @@ scenarios:
           content_word_count:
             type: "value"
             expected: 4
-  - name: "Done gives the lowest sequence stage that applies to the school"
+  - name: "Done gives the lowest sequence stage"
     steps:
-      - step: "Create other school"
-        action: "create"
-        model: "school"
-        save_as: "school_other"
-        values:
-          name: "Other School for Showcase Test"
-          code: "/"
-          grade_type_id: "REC: grade_type.id"
       - step: "Create stage stage_lowest"
         action: "create"
         model: "school_learning_artifact_showcase_stage"
@@ -355,17 +351,10 @@ scenarios:
         values:
           name: "stage_lowest"
           code: "/"
-          sequence: 5
-          school_ids: [[6, 0, ["REC: school.id"]]]
-      - step: "Create stage of another school"
-        action: "create"
-        model: "school_learning_artifact_showcase_stage"
-        save_as: "stage_foreign"
-        values:
-          name: "Foreign Stage"
-          code: "/"
-          sequence: 1
-          school_ids: [[6, 0, ["REC: school_other.id"]]]
+          sequence:
+            "EVAL:
+            min(env['school_learning_artifact_showcase_stage'].search([]).mapped('sequence')
+            + [10]) - 1"
       - step: "Create artifact artifact"
         action: "create"
         model: "school_learning_artifact"
@@ -1590,7 +1579,6 @@ scenarios:
           name: "Restricted Stage"
           code: "/"
           sequence: 40
-          school_ids: [[6, 0, ["REC: school.id"]]]
           allowed_group_ids: [[6, 0, ["REC: selector_group.id"]]]
       - step: "Create artifact artifact"
         action: "create"
