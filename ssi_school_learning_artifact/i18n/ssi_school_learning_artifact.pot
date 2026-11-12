@@ -404,8 +404,18 @@ msgid "All"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_category_ids
+msgid "Allowed Categories"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_component_ids
 msgid "Allowed Components"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_curation_status_ids
+msgid "Allowed Curation Statuses"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -427,6 +437,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_policy_template_ids
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__allowed_policy_template_ids
 msgid "Allowed Policy Templates"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_channel_ids
+msgid "Allowed Showcase Channels"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_stage_ids
+msgid "Allowed Showcase Stages"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -727,6 +747,13 @@ msgid "Categories"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_category_ids
+msgid ""
+"Categories that can be picked for the selected school, as decided by the "
+"master data criteria of the artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__category_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_curation_status__category
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_curation_status_view_search
@@ -1018,6 +1045,13 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_curation_status_menu
 msgid "Curation Statuses"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_curation_status_ids
+msgid ""
+"Curation statuses that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3122,6 +3156,20 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_learning_artifact_showcase_stage_menu
 msgid "Showcase Stages"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_channel_ids
+msgid ""
+"Showcase channels that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__allowed_showcase_stage_ids
+msgid ""
+"Showcase stages that can be picked for the selected school, as decided by "
+"the master data criteria of the artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
