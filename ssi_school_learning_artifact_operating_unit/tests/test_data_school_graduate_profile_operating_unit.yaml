@@ -14,14 +14,15 @@ setup:
       values:
         name: "Graduate Profile OU B Partner"
 
-    # The unit codes are generated: the setup is replayed for every
-    # scenario and the code of an operating unit is unique.
+    # The unit names and codes are generated: the setup is replayed for
+    # every scenario and both are unique (name per company, code).
     - step: "Create operating unit A"
       action: "create"
       model: "operating.unit"
       save_as: "ou_a"
       values:
-        name: "Graduate Profile OU A"
+        name:
+          "EVAL: 'Graduate Profile OU A %d' % env['operating.unit'].search_count([])"
         code: "EVAL: 'GPOUA%d' % env['operating.unit'].search_count([])"
         company_id: "REF: base.main_company"
         partner_id: "REC: ou_a_partner.id"
@@ -31,7 +32,8 @@ setup:
       model: "operating.unit"
       save_as: "ou_b"
       values:
-        name: "Graduate Profile OU B"
+        name:
+          "EVAL: 'Graduate Profile OU B %d' % env['operating.unit'].search_count([])"
         code: "EVAL: 'GPOUB%d' % env['operating.unit'].search_count([])"
         company_id: "REF: base.main_company"
         partner_id: "REC: ou_b_partner.id"
