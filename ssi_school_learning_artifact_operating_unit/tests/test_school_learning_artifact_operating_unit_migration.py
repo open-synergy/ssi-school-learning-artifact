@@ -98,6 +98,8 @@ class TestSchoolLearningArtifactOperatingUnitMigration(YamlTransactionCase):
         without unit, and a second run changes nothing.
         """
         env = self.env
+        if "school_ids" not in env[MASTER_MODELS[0]]._fields:
+            self.skipTest("The core no longer limits the masters by school.")
         cases = {}
         for model_name in MASTER_MODELS:
             values = {"name": "OUM %s" % model_name, "code": "/"}

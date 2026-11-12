@@ -103,24 +103,84 @@ class SchoolLearningArtifact(models.Model):
             ou_criteria = [("operating_unit_ids", "=", False)]
         return expression.AND([result, ou_criteria])
 
-    def _get_rubric_criteria(self):
-        """Narrow the rubric choice to the operating unit.
+    def _get_rubric_tier_domains(self):
+        """Build the rubric search domains, best tier first.
 
-        :return: search domain (list of tuples)
+        With an operating unit the tiers are: the core school
+        criteria with the unit of the artifact, the core school
+        criteria without unit, the core fallback with the unit, and
+        the core fallback without unit. Without operating unit only
+        the rubrics without unit are offered. A rubric of another
+        operating unit is never part of a tier.
+
+        :return: list of search domains (each a list of tuples)
         """
         self.ensure_one()
-        result = super()._get_rubric_criteria()
+        base = self._get_rubric_criteria()
+        fallback = self._get_fallback_rubric_criteria()
+        no_unit = [("operating_unit_ids", "=", False)]
+        result = []
         if self.operating_unit_id:
-            ou_criteria = [("operating_unit_ids", "in", [self.operating_unit_id.id])]
-        else:
-            ou_criteria = [("operating_unit_ids", "=", False)]
-        return expression.AND([result, ou_criteria])
+            with_unit = [("operating_unit_ids", "in", [self.operating_unit_id.id])]
+            result.append(expression.AND([base, with_unit]))
+        result.append(expression.AND([base, no_unit]))
+        if self.operating_unit_id:
+            result.append(expression.AND([fallback, with_unit]))
+        result.append(expression.AND([fallback, no_unit]))
+        return result
 
-    def _get_fallback_rubric_criteria(self):
-        """Narrow the fallback rubric to the rubrics without unit.
+    def _get_applicable_rubric(self):
+        """Pick the rubric of the school and operating unit.
 
-        :return: search domain (list of tuples)
+        The tiers of ``_get_rubric_tier_domains`` are tried in order
+        and the first one that finds an active rubric wins.
+
+        :return: the rubric record, or an empty recordset when none
+            applies
         """
         self.ensure_one()
-        result = super()._get_fallback_rubric_criteria()
-        return expression.AND([result, [("operating_unit_ids", "=", False)]])
+        obj_rubric = self.env["school_learning_artifact_rubric"].sudo()
+        result = obj_rubric
+        if self.school_id:
+            for domain in self._get_rubric_tier_domains():
+                result = obj_rubric.search(domain, order="id asc", limit=1)
+                if result:
+                    break
+        return result
+
+    def _get_rubric_tier_rank(self, rubric):
+        """Tell the tier a rubric belongs to.
+
+        :param rubric: a rubric record
+        :return: index of the first tier the rubric satisfies, or the
+            number of tiers when it satisfies none
+        """
+        self.ensure_one()
+        obj_rubric = self.env["school_learning_artifact_rubric"].sudo()
+        domains = self._get_rubric_tier_domains()
+        for index, domain in enumerate(domains):
+            if obj_rubric.search_count(
+                expression.AND([domain, [("id", "=", rubric.id)]])
+            ):
+                return index
+        return len(domains)
+
+    def _is_rubric_stale(self):
+        """Tell whether the stored rubric no longer applies.
+
+        The stored rubric is stale when it is empty or inactive, or
+        when an active rubric of a better tier exists.
+
+        :return: True when the rubric should be picked again
+        """
+        self.ensure_one()
+        rubric = self.rubric_id.sudo()
+        result = False
+        if not rubric or not rubric.active:
+            result = True
+        elif self.school_id:
+            best = self._get_applicable_rubric()
+            result = bool(best) and self._get_rubric_tier_rank(
+                rubric
+            ) > self._get_rubric_tier_rank(best)
+        return result

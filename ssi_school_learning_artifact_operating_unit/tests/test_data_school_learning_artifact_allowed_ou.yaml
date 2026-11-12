@@ -274,7 +274,6 @@ scenarios:
           code: "/"
           ethics_fail_status_id: "REC: st_fail.id"
           operating_unit_ids: [[6, 0, ["REC: ou_a.id"]]]
-          school_ids: [[6, 0, ["REC: school_a.id"]]]
 
       - step: "Create rubric b"
         action: "create"
@@ -285,7 +284,6 @@ scenarios:
           code: "/"
           ethics_fail_status_id: "REC: st_fail.id"
           operating_unit_ids: [[6, 0, ["REC: ou_b.id"]]]
-          school_ids: [[6, 0, ["REC: school_a.id"]]]
 
       - step: "Create artifact of school A in operating unit A"
         action: "create"
@@ -591,7 +589,8 @@ scenarios:
         save_as: "absent_showcase_channel_none"
         expect_count: 0
 
-      - step: "Artifact of unit A picks the rubric of unit A"
+      - step:
+          "Tier 3: artifact of unit A picks the rubric of unit A over the global one"
         action: "assert"
         target: "artifact_a"
         asserts:

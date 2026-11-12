@@ -5,6 +5,7 @@
 from . import (  # noqa: F401
     test_school_learning_artifact_operating_unit,
     test_school_learning_artifact_operating_unit_migration,
+    test_school_learning_artifact_rubric_tier,
     test_ui_school_learning_artifact,
     test_ui_school_learning_artifact_category,
     test_ui_school_learning_artifact_phase,
