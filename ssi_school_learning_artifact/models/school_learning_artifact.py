@@ -1086,23 +1086,38 @@ class SchoolLearningArtifact(models.Model):
 
     @api.depends("grade_id")
     def _compute_graduate_profile_id(self):
-        """Pick the first active graduate profile covering the grade.
+        """Pick the graduate profile covering the grade.
 
-        Profiles are ordered by ``sequence``. The field stays empty
-        when no active profile lists the grade of the class.
+        Candidates are the active profiles listing the grade of the
+        class, ordered by ``sequence`` then ``id``. The choice among
+        them is delegated to ``_select_graduate_profile``. The field
+        stays empty when no active profile lists the grade.
         """
         obj_profile = self.env["school_graduate_profile"]
         for record in self:
             result = False
             if record.grade_id:
-                profile = obj_profile.search(
+                candidates = obj_profile.search(
                     record._get_graduate_profile_criteria(),
                     order="sequence asc, id asc",
-                    limit=1,
                 )
+                profile = record._select_graduate_profile(candidates)
                 if profile:
                     result = profile
             record.graduate_profile_id = result
+
+    def _select_graduate_profile(self, profiles):
+        """Select the graduate profile among the ordered candidates.
+
+        Extension point: override to change the priority among the
+        candidates.
+
+        :param profiles: candidate graduate profiles, ordered by
+            ``sequence asc, id asc``
+        :return: one graduate profile or an empty recordset
+        """
+        self.ensure_one()
+        return profiles[:1]
 
     def _get_graduate_profile_criteria(self):
         """Build the search domain for the graduate profile.
