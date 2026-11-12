@@ -433,6 +433,31 @@ class SchoolLearningArtifact(models.Model):
         states=_OPEN_EDITABLE,
         help="The scores of the aspects of the rubric.",
     )
+    gate_score_ids = fields.One2many(
+        string="Ethics Gate",
+        comodel_name="school_learning_artifact_score",
+        inverse_name="artifact_id",
+        domain=[("aspect_type", "=", "gate")],
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help=(
+            "The ethics gate rows of the artifact. Every gate row must "
+            "be answered with a passing level before the scored aspects "
+            "can be assessed."
+        ),
+    )
+    aspect_score_ids = fields.One2many(
+        string="Artifact Assessment",
+        comodel_name="school_learning_artifact_score",
+        inverse_name="artifact_id",
+        domain=[("aspect_type", "=", "score")],
+        readonly=True,
+        states=_OPEN_EDITABLE,
+        help=(
+            "The scored aspect rows of the artifact. They can be "
+            "assessed only after the ethics gate has passed."
+        ),
+    )
     ethics_result = fields.Selection(
         string="Ethics Result",
         selection=[
@@ -850,7 +875,11 @@ class SchoolLearningArtifact(models.Model):
             ("school_ids", "=", False),
         ]
 
-    @api.depends("score_ids.score", "score_ids.aspect_type")
+    @api.depends(
+        "score_ids.score",
+        "score_ids.aspect_type",
+        "aspect_score_ids.score",
+    )
     def _compute_total_score(self):
         """Sum the scores of the scored aspects.
 
@@ -863,7 +892,11 @@ class SchoolLearningArtifact(models.Model):
                     result += score.score
             record.total_score = result
 
-    @api.depends("score_ids.level_id", "score_ids.aspect_type")
+    @api.depends(
+        "score_ids.level_id",
+        "score_ids.aspect_type",
+        "gate_score_ids.level_id",
+    )
     def _compute_ethics_result(self):
         """Derive the ethics result from the ethics gate rows.
 

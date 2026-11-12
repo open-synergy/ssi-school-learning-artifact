@@ -211,7 +211,28 @@ class TestSchoolLearningArtifactCurationPython(YamlTransactionCase):
         artifact = self._create_artifact("PY Restrict")
         criterion = rubric.criterion_ids[0]
         level = criterion.level_ids[0]
-        row = self.env["school_learning_artifact_score"].create(
+        # The scored aspects stay locked until the ethics gate passes, so
+        # the rubric gets a gate aspect that is answered with its pass level.
+        gate = self.env["school_learning_artifact_rubric_criterion"].create(
+            {
+                "rubric_id": rubric.id,
+                "sequence": 90,
+                "code": "EG",
+                "name": "PY Ethics Gate",
+                "aspect_type": "gate",
+                "assessor_slot": "secondary",
+                "level_ids": [
+                    (0, 0, {"sequence": 10, "name": "Pass", "is_fail": False}),
+                    (0, 0, {"sequence": 20, "name": "Fail", "is_fail": True}),
+                ],
+            }
+        )
+        obj_score = self.env["school_learning_artifact_score"]
+        gate_row = obj_score.create(
+            {"artifact_id": artifact.id, "criterion_id": gate.id}
+        )
+        gate_row.write({"level_id": gate.level_ids[0].id})
+        row = obj_score.create(
             {"artifact_id": artifact.id, "criterion_id": criterion.id}
         )
         row.write({"level_id": level.id})

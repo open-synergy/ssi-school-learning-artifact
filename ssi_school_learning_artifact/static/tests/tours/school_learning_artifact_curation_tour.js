@@ -124,7 +124,7 @@ odoo.define(
 
                     // Flow 5 -- Pick the level of the ethics gate row.
                     // 14.0 list cells carry no name attribute; the columns of the
-                    // Scores table are Aspect, Level, Level Text, Score, Assessor,
+                    // Ethics Gate table are Aspect, Level, Level Text, Assessor,
                     // Scored On, so the Level cell is the second one (index 1).
                     {
                         content: "Click the Level cell of the ethics gate row",
@@ -144,23 +144,51 @@ odoo.define(
                             ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Gate Pass)",
                     },
 
-                    // Flow 6 -- Pick the level of the scored aspect row.
+                    // Flow 6 -- Click Save: the scored aspects unlock only once
+                    // the saved Ethics Result is Pass.
+                    {
+                        content: "Save the ethics gate answer",
+                        trigger: ".o_form_button_save",
+                    },
+                    {
+                        content: "Ethics gate answer is saved",
+                        trigger: ".o_form_view.o_form_readonly",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+
+                    // Flow 7 -- Click the Edit button again.
+                    {
+                        content: "Click Edit again",
+                        trigger: ".o_form_button_edit",
+                        extra_trigger: ".o_form_view.o_form_readonly",
+                    },
+                    {
+                        content: "Form is open in edit mode again",
+                        trigger: ".o_form_view.o_form_editable",
+                        run: function () {
+                            // Assertion only.
+                        },
+                    },
+                    {
+                        content: "Open the Curation tab again",
+                        trigger: ".o_notebook .nav-link:contains(Curation)",
+                        extra_trigger: ".o_form_view.o_form_editable",
+                    },
+
+                    // Flow 8 -- Pick the level of the scored aspect row.
                     {
                         content: "Click the Level cell of the aspect row",
                         trigger:
                             ".o_data_row:contains(TOUR Aspect One) .o_data_cell:eq(1)",
-                        extra_trigger: ".o_form_view.o_form_editable",
+                        extra_trigger:
+                            ".o_form_view.o_form_editable .o_field_widget[name='ethics_result'][raw-value='pass']",
                     },
                     {
-                        // The gate answer triggers an onchange of the artifact that
-                        // re-renders the form; typing before it returns loses the
-                        // text. Ethics Result is a read-only field that carries the
-                        // raw value, so Pass tells that the onchange is back.
                         content: "Type the level of the aspect",
                         trigger:
                             ".o_selected_row:contains(TOUR Aspect One) .o_field_many2one[name='level_id'] input",
-                        extra_trigger:
-                            ".o_field_widget[name='ethics_result'][raw-value='pass']",
                         run: "text TOUR LC Level Three",
                     },
                     {
@@ -169,7 +197,7 @@ odoo.define(
                             ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Level Three)",
                     },
 
-                    // Flow 7 -- Click Save.
+                    // Flow 9 -- Click Save.
                     {
                         content: "Save the record",
                         trigger: ".o_form_button_save",
@@ -192,7 +220,7 @@ odoo.define(
                         },
                     },
                 ],
-                // Flow 9 and 10 -- Click Done, then OK on the dialog.
+                // Flow 11 and 12 -- Click Done, then OK on the dialog.
                 clickAndConfirm("action_done", "Done", "done", "Curated")
             )
         );
