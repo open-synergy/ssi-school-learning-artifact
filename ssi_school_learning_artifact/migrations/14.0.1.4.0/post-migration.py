@@ -150,25 +150,34 @@ def _create_gate_aspects(cr):
     :param cr: the database cursor
     :return: nothing; inserts aspect, level and group rows
     """
+    # ``gate_source`` is a required column added by a later version; when
+    # the module code already has it, the new row must carry a value.
+    has_source = openupgrade.column_exists(cr, T_CRITERION, "gate_source")
     rows = openupgrade.logged_query(
         cr,
         """
         INSERT INTO %(criterion)s
             (rubric_id, sequence, code, name, aspect_type, min_score,
              max_score, knockout_score, assessor_slot,
-             create_uid, create_date, write_uid, write_date)
+             %(source_col)screate_uid, create_date, write_uid, write_date)
         SELECT r.id,
                COALESCE((SELECT max(c.sequence) FROM %(criterion)s c
                          WHERE c.rubric_id = r.id), 0) + 10,
                'EG', 'Ethics Gate', 'gate', 0, 0, 0, 'secondary',
-               1, %(now)s, 1, %(now)s
+               %(source_val)s1, %(now)s, 1, %(now)s
         FROM %(rubric)s r
         WHERE NOT EXISTS (
             SELECT 1 FROM %(criterion)s c
             WHERE c.rubric_id = r.id AND c.aspect_type = 'gate'
         )
         """
-        % {"criterion": T_CRITERION, "rubric": T_RUBRIC, "now": NOW},
+        % {
+            "criterion": T_CRITERION,
+            "rubric": T_RUBRIC,
+            "now": NOW,
+            "source_col": "gate_source, " if has_source else "",
+            "source_val": "'manual', " if has_source else "",
+        },
     )
     _logger.info("Created %s ethics gate aspect(s).", rows)
     rows = openupgrade.logged_query(
