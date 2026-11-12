@@ -199,7 +199,7 @@ class TestUiSchoolLearningArtifactShowcaseNarrative(HttpSavepointCase):
         cls._create_production("TOUR NR Return Teacher", [])
         cls._create_production("TOUR NR Submit", ["assign"])
         cls._create_production("TOUR NR Request", ["assign", "submit"])
-        cls._create_production("TOUR NR Return", ["assign", "submit"])
+        cls._create_production("TOUR NR Send Back", ["assign", "submit"])
         cls._create_production("TOUR NR Approve", ["assign", "submit", "request"])
         cls._create_production("TOUR NR Reject", ["assign", "submit", "request"])
 

@@ -142,7 +142,9 @@ odoo.define(
                     },
                     {
                         content: "Click the Content of the row",
-                        trigger: ROW + " .o_data_cell[name='content']",
+                        // 14.0 list cells have no name attribute: the columns of
+                        // the production list are 0 = channel_id, 1 = content.
+                        trigger: ROW + " .o_data_cell:eq(1)",
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                     {
@@ -202,7 +204,7 @@ odoo.define(
                 url: "/web",
             },
             [].concat(
-                openShowcase("TOUR NR Return"),
+                openShowcase("TOUR NR Send Back"),
                 // Flow 4 and 5 -- find the Submitted row and click Return.
                 clickRowButton("action_return_narrative", "Return", "Assigned")
             )
