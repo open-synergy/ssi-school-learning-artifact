@@ -42,8 +42,19 @@ msgid ""
 "\n"
 "Context: Save learning artifact character tag\n"
 "Database ID: %s\n"
+"Problem: Character tag is both dominant and secondary: %s\n"
+"Solution: Keep the character tag in the dominant or in the secondary tags only\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Save learning artifact character tag\n"
+"Database ID: %s\n"
 "Problem: Dominant character tag is filled in while the artifact is marked as not clearly evident\n"
-"Solution: Clear the dominant character tag or uncheck Not Clearly Evident\n"
+"Solution: Clear the dominant character tags or uncheck Not Clearly Evident\n"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -63,6 +74,14 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_ids
+msgid ""
+"Additional character sub-constructs that appear in this artifact. A sub-"
+"construct cannot be both a dominant and a secondary tag. There is no limit "
+"on the number of tags."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_indicator_ids
 msgid "Allowed Character Indicators"
 msgstr ""
@@ -73,8 +92,27 @@ msgid "Allowed Character Tags"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
-msgid "An additional character sub-construct that appears in this artifact."
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_dominant_indicator_ids
+msgid "Allowed Dominant Character Indicators"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_secondary_indicator_ids
+msgid "Allowed Secondary Character Indicators"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_dominant_indicator_ids
+msgid ""
+"Allowed character indicators that belong to a dominant character tag of the "
+"artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_secondary_indicator_ids
+msgid ""
+"Allowed character indicators that belong to a secondary character tag of the"
+" artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -98,11 +136,6 @@ msgid "Character Indicator Grade Status"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
-msgid "Character Indicators"
-msgstr ""
-
-#. module: ssi_school_learning_artifact_character
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_learning_artifact_view_form
 msgid "Character Tag"
 msgstr ""
@@ -112,7 +145,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Character indicator does not belong to the dominant or the secondary "
-"character tag"
+"character tags"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -127,13 +160,33 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_not_evident
 msgid ""
 "Check when no character sub-construct is clearly evident in this artifact. "
-"The dominant tag must then stay empty."
+"The character tags and indicators must then stay empty."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
 #, python-format
 msgid "Clear the character indicators or uncheck Not Clearly Evident"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_codes
+msgid "Codes of the dominant character indicators, separated by commas."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_codes
+msgid "Codes of the dominant character tags, separated by commas."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_codes
+msgid "Codes of the secondary character indicators, separated by commas."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_codes
+msgid "Codes of the secondary character tags, separated by commas."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -154,8 +207,23 @@ msgid "Display Name"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
-msgid "Dominant Character Tag"
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_codes
+msgid "Dominant Character Indicator Codes"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_ids
+msgid "Dominant Character Indicators"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_codes
+msgid "Dominant Character Tag Codes"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_ids
+msgid "Dominant Character Tags"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -293,14 +361,31 @@ msgid "School Learning Artifact"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
-msgid "Secondary Character Tag"
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_codes
+msgid "Secondary Character Indicator Codes"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_ids
+msgid "Secondary Character Indicators"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_codes
+msgid "Secondary Character Tag Codes"
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_ids
+msgid "Secondary Character Tags"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
 #, python-format
-msgid "Select only indicators of the dominant or the secondary character tag"
+msgid ""
+"Select only dominant indicators of the dominant tags and secondary "
+"indicators of the secondary tags"
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
@@ -314,18 +399,27 @@ msgid "The character indicator that this status applies to."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_ids
 msgid ""
-"The character indicators that appear in this artifact. Each indicator "
-"belongs to the dominant or the secondary character tag. It is a mark of the "
-"activity, not evidence of the character achievement of a student."
+"The character indicators that appear in this artifact and belong to a "
+"dominant character tag. It is a mark of the activity, not evidence of the "
+"character achievement of a student."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_ids
 msgid ""
-"The character sub-construct that dominates this artifact. It is a tag of the"
-" activity, not evidence of the character achievement of a student."
+"The character indicators that appear in this artifact and belong to a "
+"secondary character tag. It is a mark of the activity, not evidence of the "
+"character achievement of a student."
+msgstr ""
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_ids
+msgid ""
+"The character sub-constructs that dominate this artifact. It is a tag of the"
+" activity, not evidence of the character achievement of a student. There is "
+"no limit on the number of tags."
 msgstr ""
 
 #. module: ssi_school_learning_artifact_character
