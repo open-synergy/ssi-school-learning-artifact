@@ -15,6 +15,7 @@ MODULE = "ssi_school_learning_artifact_character"
 MIGRATION_DIR = os.path.join("migrations", "14.0.1.2.0")
 ARTIFACT_TABLE = "school_learning_artifact"
 OLD_INDICATOR_TABLE = "school_learning_artifact_character_indicator_rel"
+INDICATOR_TABLE = "school_character_indicator"
 
 
 @tagged("post_install", "-at_install")
@@ -187,6 +188,10 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
     def _create_old_indicator_table(self, table):
         """Create the old indicator table the way Odoo 14 creates it.
 
+        Primary key, index and the two foreign keys with
+        ``ON DELETE CASCADE`` are added; PostgreSQL truncates the
+        long foreign key names like it does in a real database.
+
         :param table: name of the table to create
         :return: None
         """
@@ -197,6 +202,15 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
             "PRIMARY KEY (artifact_id, indicator_id))" % table
         )
         cr.execute('CREATE INDEX ON "%s" (indicator_id, artifact_id)' % table)
+        for column, target in (
+            ("artifact_id", ARTIFACT_TABLE),
+            ("indicator_id", INDICATOR_TABLE),
+        ):
+            cr.execute(
+                'ALTER TABLE "%(t)s" ADD CONSTRAINT "%(t)s_%(c)s_fkey" '
+                'FOREIGN KEY ("%(c)s") REFERENCES "%(r)s" (id) '
+                "ON DELETE CASCADE" % {"t": table, "c": column, "r": target}
+            )
 
     def _load_script(self, name):
         """Load a migration script from its file.
@@ -361,9 +375,41 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
         for name in names:
             self.assertNotEqual(name, legacy)
             self.assertLessEqual(len(name), 63)
+        self._assert_legacy_constraints(legacy)
         post = self._load_script("post-migration.py")
         post.migrate(cr, "14.0.1.1.1")
         self._assert_migrated()
+
+    def _assert_legacy_constraints(self, legacy):
+        """Assert the constraints of the renamed table are intact.
+
+        Every constraint name is at most 63 characters and unique, the
+        primary key keeps its ``_pkey`` name, an index other than the
+        primary key exists and both foreign keys are still there.
+
+        :param legacy: name of the renamed table
+        :return: None
+        """
+        cr = self.env.cr
+        cr.execute(
+            "SELECT conname, contype, confrelid::regclass::text "
+            "FROM pg_constraint WHERE conrelid = %s::regclass",
+            ('"%s"' % legacy,),
+        )
+        rows = cr.fetchall()
+        names = [row[0] for row in rows]
+        for name in names:
+            self.assertLessEqual(len(name), 63)
+        self.assertEqual(len(names), len(set(names)))
+        self.assertIn("%s_pkey" % legacy, names)
+        targets = sorted(row[2] for row in rows if row[1] == "f")
+        self.assertEqual(targets, sorted([ARTIFACT_TABLE, INDICATOR_TABLE]))
+        cr.execute(
+            "SELECT indexname FROM pg_indexes WHERE tablename = %s "
+            "AND indexname <> %s",
+            (legacy, "%s_pkey" % legacy),
+        )
+        self.assertTrue(cr.fetchall())
 
     def test_no_legacy_data(self):
         """Do nothing when the old table and columns do not exist.
