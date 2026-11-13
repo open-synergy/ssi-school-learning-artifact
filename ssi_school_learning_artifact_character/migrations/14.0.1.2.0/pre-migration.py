@@ -20,6 +20,8 @@ _logger = logging.getLogger(__name__)
 ARTIFACT_TABLE = "school_learning_artifact"
 OLD_COLUMNS = ["primary_subconstruct_id", "secondary_subconstruct_id"]
 OLD_INDICATOR_TABLE = "school_learning_artifact_character_indicator_rel"
+# Explicit legacy name, at most 63 characters (PostgreSQL limit).
+LEGACY_INDICATOR_TABLE = "openupgrade_legacy_14_0_artifact_character_indicator_rel"
 
 
 @openupgrade.migrate()
@@ -44,11 +46,10 @@ def migrate(env, version):
     if columns:
         openupgrade.rename_columns(cr, {ARTIFACT_TABLE: columns})
     tables = []
-    legacy_table = openupgrade.get_legacy_name(OLD_INDICATOR_TABLE)
     if openupgrade.table_exists(cr, OLD_INDICATOR_TABLE) and not (
-        openupgrade.table_exists(cr, legacy_table)
+        openupgrade.table_exists(cr, LEGACY_INDICATOR_TABLE)
     ):
-        tables.append((OLD_INDICATOR_TABLE, legacy_table))
+        tables.append((OLD_INDICATOR_TABLE, LEGACY_INDICATOR_TABLE))
     if tables:
         openupgrade.rename_tables(cr, tables)
     _logger.info(
