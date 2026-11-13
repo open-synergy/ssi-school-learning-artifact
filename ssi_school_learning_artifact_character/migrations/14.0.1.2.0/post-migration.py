@@ -18,7 +18,8 @@ from openupgradelib import openupgrade
 _logger = logging.getLogger(__name__)
 
 ARTIFACT_TABLE = "school_learning_artifact"
-OLD_INDICATOR_TABLE = "school_learning_artifact_character_indicator_rel"
+# Explicit legacy name, same value as in the pre script.
+LEGACY_INDICATOR_TABLE = "openupgrade_legacy_14_0_artifact_character_indicator_rel"
 DOMINANT_TAG_REL = "school_learning_artifact_dominant_subconstruct_rel"
 SECONDARY_TAG_REL = "school_learning_artifact_secondary_subconstruct_rel"
 DOMINANT_INDICATOR_REL = "school_learning_artifact_dominant_indicator_rel"
@@ -93,7 +94,7 @@ def migrate(env, version):
     cr = env.cr
     primary = openupgrade.get_legacy_name("primary_subconstruct_id")
     secondary = openupgrade.get_legacy_name("secondary_subconstruct_id")
-    legacy_table = openupgrade.get_legacy_name(OLD_INDICATOR_TABLE)
+    legacy_table = LEGACY_INDICATOR_TABLE
     has_primary = openupgrade.column_exists(cr, ARTIFACT_TABLE, primary)
     has_secondary = openupgrade.column_exists(cr, ARTIFACT_TABLE, secondary)
     has_indicator = openupgrade.table_exists(cr, legacy_table)

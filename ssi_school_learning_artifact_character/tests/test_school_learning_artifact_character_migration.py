@@ -138,8 +138,9 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
     def _prepare_legacy(self):
         """Create the legacy columns and table holding the old data.
 
-        The columns and the table take the names that the pre script
-        gives them. ``art_tags`` has the dominant tag A, the secondary
+        The columns take the names that the pre script gives them and
+        the table the name of its ``LEGACY_INDICATOR_TABLE`` constant.
+        ``art_tags`` has the dominant tag A, the secondary
         tag B and the indicators A and B; ``art_same`` has A as the
         dominant and the secondary tag with indicator A; ``art_free``
         has no tag and the indicators A, B and one without
@@ -150,7 +151,7 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
         cr = self.env.cr
         primary = openupgrade.get_legacy_name("primary_subconstruct_id")
         secondary = openupgrade.get_legacy_name("secondary_subconstruct_id")
-        legacy_table = openupgrade.get_legacy_name(OLD_INDICATOR_TABLE)
+        legacy_table = self._load_script("pre-migration.py").LEGACY_INDICATOR_TABLE
         for column in (primary, secondary):
             cr.execute(
                 'ALTER TABLE %s ADD COLUMN "%s" integer' % (ARTIFACT_TABLE, column)
@@ -182,6 +183,20 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
                 % legacy_table,
                 (artifact.id, indicator.id),
             )
+
+    def _create_old_indicator_table(self, table):
+        """Create the old indicator table the way Odoo 14 creates it.
+
+        :param table: name of the table to create
+        :return: None
+        """
+        cr = self.env.cr
+        cr.execute(
+            'CREATE TABLE "%s" (artifact_id integer NOT NULL, '
+            "indicator_id integer NOT NULL, "
+            "PRIMARY KEY (artifact_id, indicator_id))" % table
+        )
+        cr.execute('CREATE INDEX ON "%s" (indicator_id, artifact_id)' % table)
 
     def _load_script(self, name):
         """Load a migration script from its file.
@@ -260,10 +275,7 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
             cr.execute(
                 'ALTER TABLE %s ADD COLUMN "%s" integer' % (ARTIFACT_TABLE, column)
             )
-        cr.execute(
-            'CREATE TABLE "%s" (artifact_id integer, indicator_id integer)'
-            % OLD_INDICATOR_TABLE
-        )
+        self._create_old_indicator_table(OLD_INDICATOR_TABLE)
         script = self._load_script("pre-migration.py")
         script.migrate(self.env.cr, "14.0.1.1.1")
         script.migrate(self.env.cr, "14.0.1.1.1")
@@ -275,8 +287,97 @@ class TestSchoolLearningArtifactCharacterMigration(YamlTransactionCase):
                 )
             )
         self.assertFalse(openupgrade.table_exists(cr, OLD_INDICATOR_TABLE))
-        self.assertTrue(
-            openupgrade.table_exists(
-                cr, openupgrade.get_legacy_name(OLD_INDICATOR_TABLE)
+        self.assertTrue(openupgrade.table_exists(cr, script.LEGACY_INDICATOR_TABLE))
+
+    def test_legacy_table_name(self):
+        """Both scripts share one legacy table name within the limit.
+
+        Pure Python -- trigger P10 (L-11: the scripts are loaded from
+        their files in ``migrations/14.0.1.2.0``, which ``EVAL:``
+        cannot do). The constant of the pre script equals the one of
+        the post script and is at most 63 characters, the PostgreSQL
+        identifier limit.
+        """
+        pre = self._load_script("pre-migration.py")
+        post = self._load_script("post-migration.py")
+        self.assertEqual(pre.LEGACY_INDICATOR_TABLE, post.LEGACY_INDICATOR_TABLE)
+        self.assertLessEqual(len(pre.LEGACY_INDICATOR_TABLE), 63)
+
+    def test_pre_post_chain_with_keys(self):
+        """Run pre then post on an old table with a key and an index.
+
+        Pure Python -- trigger P10 (L-11: the scripts are loaded from
+        their files in ``migrations/14.0.1.2.0``, which ``EVAL:``
+        cannot do). Regression for the duplicate table error: the old
+        table has a primary key and an index like in Odoo 14. The
+        pre script renames it without error, the old table is gone,
+        the primary key of the legacy table exists, no index of the
+        legacy table carries the table name, a second pre run changes
+        nothing, and the post script fills the new relations.
+        """
+        cr = self.env.cr
+        for column in ("primary_subconstruct_id", "secondary_subconstruct_id"):
+            cr.execute(
+                'ALTER TABLE %s ADD COLUMN "%s" integer' % (ARTIFACT_TABLE, column)
             )
+        self._create_old_indicator_table(OLD_INDICATOR_TABLE)
+        for artifact, dominant, other in (
+            (self.art_tags, self.sub_a, self.sub_b),
+            (self.art_same, self.sub_a, self.sub_a),
+        ):
+            cr.execute(
+                "UPDATE %s SET primary_subconstruct_id = %%s, "
+                "secondary_subconstruct_id = %%s WHERE id = %%s" % ARTIFACT_TABLE,
+                (dominant.id, other.id, artifact.id),
+            )
+        pairs = [
+            (self.art_tags, self.ind_a),
+            (self.art_tags, self.ind_b),
+            (self.art_same, self.ind_a),
+            (self.art_free, self.ind_a),
+            (self.art_free, self.ind_b),
+            (self.art_free, self.ind_none),
+        ]
+        for artifact, indicator in pairs:
+            cr.execute(
+                'INSERT INTO "%s" (artifact_id, indicator_id) VALUES (%%s, %%s)'
+                % OLD_INDICATOR_TABLE,
+                (artifact.id, indicator.id),
+            )
+        pre = self._load_script("pre-migration.py")
+        pre.migrate(cr, "14.0.1.1.1")
+        pre.migrate(cr, "14.0.1.1.1")
+        legacy = pre.LEGACY_INDICATOR_TABLE
+        self.assertFalse(openupgrade.table_exists(cr, OLD_INDICATOR_TABLE))
+        self.assertTrue(openupgrade.table_exists(cr, legacy))
+        cr.execute(
+            "SELECT relname FROM pg_class WHERE relname = %s",
+            ("%s_pkey" % legacy,),
         )
+        self.assertTrue(cr.fetchall())
+        cr.execute("SELECT indexname FROM pg_indexes WHERE tablename = %s", (legacy,))
+        names = [row[0] for row in cr.fetchall()]
+        self.assertTrue(names)
+        for name in names:
+            self.assertNotEqual(name, legacy)
+            self.assertLessEqual(len(name), 63)
+        post = self._load_script("post-migration.py")
+        post.migrate(cr, "14.0.1.1.1")
+        self._assert_migrated()
+
+    def test_no_legacy_data(self):
+        """Do nothing when the old table and columns do not exist.
+
+        Pure Python -- trigger P10 (L-11: the scripts are loaded from
+        their files in ``migrations/14.0.1.2.0``, which ``EVAL:``
+        cannot do). A database that never had the old indicator
+        relation neither raises in the pre or post script nor gets a
+        legacy table.
+        """
+        cr = self.env.cr
+        pre = self._load_script("pre-migration.py")
+        post = self._load_script("post-migration.py")
+        pre.migrate(cr, "14.0.1.1.1")
+        post.migrate(cr, "14.0.1.1.1")
+        self.assertFalse(openupgrade.table_exists(cr, pre.LEGACY_INDICATOR_TABLE))
+        self.assertFalse(self.art_tags.dominant_subconstruct_ids)
