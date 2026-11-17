@@ -12,7 +12,6 @@
             <xpath expr="//div[@name='div_smart_buttons']" position="inside">
                 <button
                         name="action_open_learning_artifact_consent"
-                        string="Artifact Consents"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-check-square-o"
