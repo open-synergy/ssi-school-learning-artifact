@@ -1,0 +1,548 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Current Consent Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Current Consent Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Current Consent Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Current Consent Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Current Consent Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Current Consent Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create first student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "First Student Contact for Current Consent Test"
+
+    - step: "Setup - create first student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "First Student for Current Consent Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create second student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_b"
+      values:
+        name: "Second Student Contact for Current Consent Test"
+
+    - step: "Setup - create second student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_b"
+      values:
+        name: "Second Student for Current Consent Test"
+        code: "/"
+        contact_id: "REC: contact_b.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Current Consent Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+
+    - step: "Setup - create inventory purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_inventory"
+      values:
+        name: "Purpose inventory for Current Consent Test"
+        code: "/"
+        learning_artifact_usage: "inventory"
+
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Current Consent Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Current Consent Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Current Consent Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+
+    - step: "Setup - create purpose without learning artifact usage"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_other"
+      values:
+        name: "Purpose other for Current Consent Test"
+        code: "/"
+
+scenarios:
+  - name:
+      "Withdraw after grant makes only the withdraw current and matches the artifact"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Current Consent Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record withdraw withdraw_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "withdraw_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+
+      - step: "Assert grant_pub current is false"
+        action: "assert"
+        target: "grant_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: false
+
+      - step: "Assert withdraw_pub current is true"
+        action: "assert"
+        target: "withdraw_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+      - step: "Assert the artifact consent follows the current withdraw"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          publication_consent:
+            type: "value"
+            expected: "refused"
+
+  - name: "Same consent date keeps the higher id current"
+    steps:
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record withdraw withdraw_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "withdraw_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+
+      - step: "Assert grant_pub current is false"
+        action: "assert"
+        target: "grant_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: false
+
+      - step: "Assert withdraw_pub current is true"
+        action: "assert"
+        target: "withdraw_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+  - name: "Different usages do not replace each other"
+    steps:
+      - step: "Record grant grant_inv"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_inv"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert grant_inv current is true"
+        action: "assert"
+        target: "grant_inv"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+      - step: "Assert grant_pub current is true"
+        action: "assert"
+        target: "grant_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+  - name: "Different schools do not replace each other"
+    steps:
+      - step: "Create the other school"
+        action: "create"
+        model: "school"
+        save_as: "school_other"
+        values:
+          name: "Other School for Current Consent Test"
+          code: "/"
+          grade_type_id: "REC: grade_type.id"
+          branch_id: "REC: branch.id"
+
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record withdraw withdraw_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "withdraw_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school_other.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+
+      - step: "Assert grant_pub current is true"
+        action: "assert"
+        target: "grant_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+      - step: "Assert withdraw_pub current is true"
+        action: "assert"
+        target: "withdraw_pub"
+        asserts:
+          is_current:
+            type: "value"
+            expected: true
+
+  - name: "Purpose without usage is never current"
+    steps:
+      - step: "Record grant grant_other"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_other"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_other.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Assert grant_other current is false"
+        action: "assert"
+        target: "grant_other"
+        asserts:
+          is_current:
+            type: "value"
+            expected: false
+
+  - name: "Search on the current marker"
+    steps:
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record withdraw withdraw_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "withdraw_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "withdraw"
+          consent_date: "2026-10-02 08:00:00"
+          channel: "manual"
+
+      - step: "Record grant grant_inv"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_inv"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_inventory.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Record grant grant_other"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_other"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_other.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Current consents of the contact"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+          - ["is_current", "=", true]
+        save_as: "found"
+        expect_count: 2
+
+      - step: "Not current consents of the contact"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+          - ["is_current", "=", false]
+        save_as: "found"
+        expect_count: 2
+
+      - step: "Not current filter matches the replaced grant"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+          - ["is_current", "!=", true]
+        save_as: "found_not"
+        expect_count: 2
+
+  - name: "The marker and the old records stay immutable"
+    steps:
+      - step: "Record grant grant_pub"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Write the marker as a regular user"
+        action: "write"
+        target: "grant_pub"
+        as_user: "base.user_admin"
+        values:
+          is_current: false
+        expect_error:
+          type: "UserError"
+          message_contains: "immutable"
+
+  - name: "Search on the marker refuses an unsupported operator"
+    steps:
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Search the marker with an unsupported argument"
+        action: "call"
+        target: "grant_pub"
+        method: "_search_is_current"
+        args: ["in", true]
+        expect_error:
+          type: "UserError"
+          message_contains: "boolean value"
+
+  - name: "Search on the marker refuses a value that is not boolean"
+    steps:
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Search the marker with an unsupported argument"
+        action: "call"
+        target: "grant_pub"
+        method: "_search_is_current"
+        args: ["=", "x"]
+        expect_error:
+          type: "UserError"
+          message_contains: "boolean value"

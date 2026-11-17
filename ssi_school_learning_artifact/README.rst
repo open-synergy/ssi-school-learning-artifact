@@ -41,6 +41,9 @@ be submitted when a student refused the inventory consent (or has no inventory
 consent recorded, when the school requires it).
 The consents of the four usages of a student can also be recorded at once with a
 wizard opened from the student form; every filled row becomes one consent.
+The consent list marks the consent that applies for every contact, school and usage
+(the latest event by consent date and then by id, the same rule the artifacts use),
+shows the consents that were replaced faded, and has a Current filter.
 
 A curated artifact is also placed on a showcase board. The showcase is an
 internal record of the selection of the artifact, the content produced for

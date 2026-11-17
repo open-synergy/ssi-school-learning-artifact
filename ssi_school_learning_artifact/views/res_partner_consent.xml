@@ -8,7 +8,7 @@
     <field name="model">res.partner.consent</field>
     <field name="priority">20</field>
     <field name="arch" type="xml">
-        <tree edit="false" delete="false">
+        <tree edit="false" delete="false" decoration-muted="not is_current">
             <field name="consent_date" />
             <field name="partner_id" />
             <field name="school_id" />
@@ -16,7 +16,26 @@
             <field name="consent_type" />
             <field name="consent_level" />
             <field name="date_expiry" />
+            <field name="is_current" />
         </tree>
+    </field>
+</record>
+
+<record id="res_partner_consent_view_search_learning_artifact" model="ir.ui.view">
+    <field name="name">res.partner.consent - search (learning artifact)</field>
+    <field name="model">res.partner.consent</field>
+    <field name="priority">20</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="partner_id" />
+            <field name="school_id" />
+            <field name="purpose_id" />
+            <filter
+                    name="current"
+                    string="Current"
+                    domain="[('is_current', '=', True)]"
+                />
+        </search>
     </field>
 </record>
 
@@ -62,6 +81,10 @@
     <field name="type">ir.actions.act_window</field>
     <field name="res_model">res.partner.consent</field>
     <field name="view_mode">tree,form</field>
+    <field
+            name="search_view_id"
+            ref="res_partner_consent_view_search_learning_artifact"
+        />
     <field
             name="view_ids"
             eval="[(5, 0, 0),

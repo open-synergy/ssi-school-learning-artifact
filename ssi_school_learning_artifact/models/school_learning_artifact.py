@@ -1351,13 +1351,8 @@ class SchoolLearningArtifact(models.Model):
             .sudo()
             .search(self._get_consent_criteria(student))
         )
-        consents = consents.sorted(key=lambda r: (r.consent_date, r.id), reverse=True)
-        seen = set()
-        for consent in consents:
+        for consent in consents._select_current_consents():
             usage = consent.purpose_id.learning_artifact_usage
-            if usage in seen:
-                continue
-            seen.add(usage)
             if consent.consent_type == "withdraw":
                 result[usage] = "refused"
             elif consent.consent_level == "limited":
