@@ -5,6 +5,7 @@
 from . import (  # noqa: F401
     test_school_learning_artifact_character,
     test_school_learning_artifact_character_migration,
+    test_school_learning_artifact_character_onchange,
     test_ui_school_character_indicator_grade_status,
     test_ui_school_learning_artifact_character,
     test_ui_school_learning_artifact_character_indicator,

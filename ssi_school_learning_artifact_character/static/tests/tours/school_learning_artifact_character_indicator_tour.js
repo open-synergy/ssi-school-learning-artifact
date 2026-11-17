@@ -87,18 +87,28 @@ odoo.define(
                         extra_trigger: ".o_form_view.o_form_editable",
                     },
                 ],
-                // Flow 5 -- Select the Dominant Character Indicators.
+                // Flow 5 -- Select the Dominant Character Tag, without saving.
+                pickMany2one(
+                    ".o_field_many2manytags[name='dominant_subconstruct_ids']",
+                    "TOUR CI Dominant"
+                ),
+                // Flow 6 -- Select the Secondary Character Tag, without saving.
+                pickMany2one(
+                    ".o_field_many2manytags[name='secondary_subconstruct_ids']",
+                    "TOUR CI Secondary"
+                ),
+                // Flow 7 -- Select the Dominant Character Indicators.
                 pickMany2one(
                     ".o_field_many2manytags[name='dominant_indicator_ids']",
                     "TOUR CI Indicator"
                 ),
-                // Flow 6 -- Select the Secondary Character Indicators.
+                // Flow 8 -- Select the Secondary Character Indicators.
                 pickMany2one(
                     ".o_field_many2manytags[name='secondary_indicator_ids']",
                     "TOUR CI Sec Item"
                 ),
                 [
-                    // Flow 7 -- Click Save.
+                    // Flow 9 -- Click Save.
                     {
                         content: "Save the record",
                         trigger: ".o_form_button_save",

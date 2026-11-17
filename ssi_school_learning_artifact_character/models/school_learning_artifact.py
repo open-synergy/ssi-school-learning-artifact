@@ -282,11 +282,12 @@ class SchoolLearningArtifact(models.Model):
         artifact whose sub-construct is a dominant character tag.
         """
         for record in self:
-            record.allowed_dominant_indicator_ids = (
-                record.allowed_indicator_ids.filtered(
-                    lambda indicator, tags=record.dominant_subconstruct_ids: (
-                        indicator.subconstruct_id in tags
-                    )
+            record.allowed_dominant_indicator_ids = record.allowed_indicator_ids.filtered(
+                lambda indicator, tags=record.dominant_subconstruct_ids: (
+                    # Compare origin records: on a draft record the
+                    # tags hold NewId, which never equals a real id.
+                    indicator.subconstruct_id._origin
+                    in tags._origin
                 )
             )
 
@@ -303,11 +304,12 @@ class SchoolLearningArtifact(models.Model):
         artifact whose sub-construct is a secondary character tag.
         """
         for record in self:
-            record.allowed_secondary_indicator_ids = (
-                record.allowed_indicator_ids.filtered(
-                    lambda indicator, tags=record.secondary_subconstruct_ids: (
-                        indicator.subconstruct_id in tags
-                    )
+            record.allowed_secondary_indicator_ids = record.allowed_indicator_ids.filtered(
+                lambda indicator, tags=record.secondary_subconstruct_ids: (
+                    # Compare origin records: on a draft record the
+                    # tags hold NewId, which never equals a real id.
+                    indicator.subconstruct_id._origin
+                    in tags._origin
                 )
             )
 
@@ -500,11 +502,11 @@ Solution: Clear the dominant character tags or uncheck Not Clearly Evident
                 )
             elif record.dominant_indicator_ids.filtered(
                 lambda indicator, tags=record.dominant_subconstruct_ids: (
-                    indicator.subconstruct_id not in tags
+                    indicator.subconstruct_id._origin not in tags._origin
                 )
             ) or record.secondary_indicator_ids.filtered(
                 lambda indicator, tags=record.secondary_subconstruct_ids: (
-                    indicator.subconstruct_id not in tags
+                    indicator.subconstruct_id._origin not in tags._origin
                 )
             ):
                 problem = _(
