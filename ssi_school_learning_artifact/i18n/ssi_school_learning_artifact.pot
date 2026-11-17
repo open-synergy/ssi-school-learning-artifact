@@ -174,6 +174,17 @@ msgid ""
 "\n"
 "Context: Record learning artifact consents\n"
 "Database ID: %s\n"
+"Problem: The purpose '%s' of the usage '%s' does not apply to school '%s'\n"
+"Solution: Select a purpose of the school or a purpose without a school\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
 "Problem: The usage '%s' has a consent type but no purpose\n"
 "Solution: Select the purpose of the usage or clear its consent type\n"
 msgstr ""
@@ -3163,6 +3174,11 @@ msgid "School Learning Artifact Showcase Stage"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__school_ids
+msgid "Schools"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__score
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__score
 msgid "Score"
@@ -3801,6 +3817,13 @@ msgstr ""
 msgid ""
 "The school unit this consent applies to. Leave it empty for a consent that "
 "does not concern a school."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_partner_consent_purpose__school_ids
+msgid ""
+"The schools this purpose applies to. Leave it empty when the purpose applies"
+" to every school."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
