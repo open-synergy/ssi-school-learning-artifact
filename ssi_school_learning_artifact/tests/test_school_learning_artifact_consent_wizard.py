@@ -52,6 +52,19 @@ class TestSchoolLearningArtifactConsentWizard(YamlTransactionCase):
         """
         self.run_yaml_scenario("test_data_school_learning_artifact_consent_wizard.yaml")
 
+    def test_school_learning_artifact_consent_wizard_default(self):
+        """Run the default row scenario defined in its own YAML file.
+
+        It lives in a separate file because the default purpose of a row
+        depends on the number of purposes of the usage, and the setup of
+        every scenario of a file adds purposes to the shared database.
+
+        :return: None
+        """
+        self.run_yaml_scenario(
+            "test_data_school_learning_artifact_consent_wizard_default.yaml"
+        )
+
     def test_action_open_record_learning_artifact_consent(self):
         """Assert the window action opened from the student form.
 
