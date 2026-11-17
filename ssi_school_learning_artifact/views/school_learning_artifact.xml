@@ -190,13 +190,27 @@
                             <field name="date_curated" />
                         </group>
                     </group>
-                    <group name="curation_gate" string="Ethics Gate">
-                        <field name="gate_score_ids" nolabel="1">
-                            <tree editable="bottom" create="false" delete="false">
-                                <field name="sequence" invisible="1" />
+                    <separator name="curation_gate" string="Ethics Gate" />
+                    <field name="gate_score_ids" nolabel="1">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="sequence" invisible="1" />
+                            <field name="aspect_type" invisible="1" />
+                            <field name="gate_source" invisible="1" />
+                            <field name="criterion_id" readonly="1" />
+                            <field
+                                    name="level_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    attrs="{'readonly': [('gate_source', '=', 'inventory_consent')]}"
+                                />
+                            <field name="level_text" />
+                            <field name="assessor_id" />
+                            <field name="date_score" />
+                        </tree>
+                        <form>
+                            <group name="gate_group" colspan="4" col="2">
+                                <field name="criterion_id" readonly="1" />
                                 <field name="aspect_type" invisible="1" />
                                 <field name="gate_source" invisible="1" />
-                                <field name="criterion_id" readonly="1" />
                                 <field
                                         name="level_id"
                                         options="{'no_create': True, 'no_open': True}"
@@ -205,30 +219,32 @@
                                 <field name="level_text" />
                                 <field name="assessor_id" />
                                 <field name="date_score" />
-                            </tree>
-                            <form>
-                                <group name="gate_group" colspan="4" col="2">
-                                    <field name="criterion_id" readonly="1" />
-                                    <field name="aspect_type" invisible="1" />
-                                    <field name="gate_source" invisible="1" />
-                                    <field
-                                            name="level_id"
-                                            options="{'no_create': True, 'no_open': True}"
-                                            attrs="{'readonly': [('gate_source', '=', 'inventory_consent')]}"
-                                        />
-                                    <field name="level_text" />
-                                    <field name="assessor_id" />
-                                    <field name="date_score" />
-                                </group>
-                            </form>
-                        </field>
-                    </group>
-                    <group name="curation_assessment" string="Artifact Assessment">
-                        <field name="aspect_score_ids" nolabel="1">
-                            <tree editable="bottom" create="false" delete="false">
-                                <field name="sequence" invisible="1" />
-                                <field name="aspect_type" invisible="1" />
+                            </group>
+                        </form>
+                    </field>
+                    <separator
+                            name="curation_assessment"
+                            string="Artifact Assessment"
+                        />
+                    <field name="aspect_score_ids" nolabel="1">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="sequence" invisible="1" />
+                            <field name="aspect_type" invisible="1" />
+                            <field name="criterion_id" readonly="1" />
+                            <field
+                                    name="level_id"
+                                    options="{'no_create': True, 'no_open': True}"
+                                    attrs="{'readonly': [('parent.ethics_result', '!=', 'pass')]}"
+                                />
+                            <field name="level_text" />
+                            <field name="score" />
+                            <field name="assessor_id" />
+                            <field name="date_score" />
+                        </tree>
+                        <form>
+                            <group name="assessment_group" colspan="4" col="2">
                                 <field name="criterion_id" readonly="1" />
+                                <field name="aspect_type" invisible="1" />
                                 <field
                                         name="level_id"
                                         options="{'no_create': True, 'no_open': True}"
@@ -238,24 +254,9 @@
                                 <field name="score" />
                                 <field name="assessor_id" />
                                 <field name="date_score" />
-                            </tree>
-                            <form>
-                                <group name="assessment_group" colspan="4" col="2">
-                                    <field name="criterion_id" readonly="1" />
-                                    <field name="aspect_type" invisible="1" />
-                                    <field
-                                            name="level_id"
-                                            options="{'no_create': True, 'no_open': True}"
-                                            attrs="{'readonly': [('parent.ethics_result', '!=', 'pass')]}"
-                                        />
-                                    <field name="level_text" />
-                                    <field name="score" />
-                                    <field name="assessor_id" />
-                                    <field name="date_score" />
-                                </group>
-                            </form>
-                        </field>
-                    </group>
+                            </group>
+                        </form>
+                    </field>
                     <group name="curation_recommendation" string="Recommendation">
                         <field name="recommendation" nolabel="1" />
                     </group>
