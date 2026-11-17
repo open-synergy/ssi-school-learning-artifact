@@ -135,6 +135,50 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: No usage has a consent type\n"
+"Solution: Choose Granted or Withdrawn on at least one usage\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: Student '%s' has no contact to record the consents for\n"
+"Solution: Set the contact of the student, then open the wizard again\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: The granted usage '%s' has no consent level\n"
+"Solution: Choose Full or Limited as the consent level of the usage\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: The usage '%s' has a consent type but no purpose\n"
+"Solution: Select the purpose of the usage or clear its consent type\n"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
 #, python-format
 msgid ""
@@ -194,6 +238,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
 msgid "<span class=\"o_stat_text\">Artifact Consents</span>"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
+msgid "<span class=\"o_stat_text\">Record Consents</span>"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -654,6 +703,11 @@ msgid "Attachment Count"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__manual
+msgid "Back Office"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_stage__beginning
 msgid "Beginning"
 msgstr ""
@@ -718,6 +772,11 @@ msgid "Can Start"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__cancel_reason_id
 msgid "Cancel Reason"
 msgstr ""
@@ -757,8 +816,14 @@ msgid "Category"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__channel
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_id
 msgid "Channel"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__channel
+msgid "Channel through which the consents were captured."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -902,6 +967,12 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__consent_date
+msgid "Consent Date"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_level
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__consent_level
 msgid "Consent Level"
 msgstr ""
@@ -932,6 +1003,16 @@ msgid "Consent Reviewed By"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_type
+msgid "Consent Type"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__partner_id
+msgid "Contact"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content
 msgid "Content"
 msgstr ""
@@ -959,6 +1040,8 @@ msgid "Create a rubric for the school or a fallback rubric"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__create_uid
@@ -980,6 +1063,8 @@ msgid "Created by"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__create_date
@@ -1077,6 +1162,11 @@ msgid "Date Published"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__consent_date
+msgid "Date and time at which the consents were given."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__description
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__description
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__name
@@ -1115,6 +1205,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__display_name
@@ -1240,6 +1332,7 @@ msgid "Ethics Result is empty"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__date_expiry
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__date_expiry
 msgid "Expiry Date"
 msgstr ""
@@ -1373,6 +1466,7 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_level__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__res_partner_consent__consent_level__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school__showcase_min_publication_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__assessment_consent__full
@@ -1421,6 +1515,11 @@ msgstr ""
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.school_graduate_profile_action
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_graduate_profile_menu
 msgid "Graduate Profiles"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_type__grant
+msgid "Granted"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -1479,6 +1578,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__id
@@ -1649,7 +1750,13 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__import
+msgid "Import"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__assessment
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__assessment
 msgid "Internal Assessment"
 msgstr ""
 
@@ -1665,6 +1772,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__inventory
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__inventory
 msgid "Inventory"
 msgstr ""
 
@@ -1718,6 +1826,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program____last_update
@@ -1743,6 +1853,8 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__write_uid
@@ -1764,6 +1876,8 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__write_date
@@ -1964,6 +2078,7 @@ msgid "Levels"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_level__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__res_partner_consent__consent_level__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school__showcase_min_publication_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__assessment_consent__limited
@@ -1975,6 +2090,7 @@ msgid "Limited"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__limited_preference
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "Limited Preference"
 msgstr ""
@@ -2478,6 +2594,11 @@ msgid "On Progress"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__line_ids
+msgid "One row per learning artifact usage."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
 #, python-format
 msgid "Only an ethics gate aspect can take this source"
@@ -2500,6 +2621,13 @@ msgstr ""
 msgid ""
 "Optional date until which the consent is valid. It is informative and does "
 "not change the consent of an artifact."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__date_expiry
+msgid ""
+"Optional date until which the consents are valid. It is informative and does"
+" not change the consent of an artifact."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2591,6 +2719,11 @@ msgid "Policy Template"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__portal
+msgid "Portal"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__assessor_slot__primary
 msgid "Primary Assessor"
 msgstr ""
@@ -2598,6 +2731,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__primary_component_id
 msgid "Primary Component"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__notice_id
+msgid "Privacy Notice"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2623,6 +2761,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__promotion
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__promotion
 msgid "Promotion"
 msgstr ""
 
@@ -2643,6 +2782,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__publication
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__publication
 msgid "Publication"
 msgstr ""
 
@@ -2660,6 +2800,11 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__purpose_id
+msgid "Purpose"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
 msgid "Ready"
 msgstr ""
@@ -2674,6 +2819,17 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Recommendation is empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_record_learning_artifact_consent_line
+msgid "Record Learning Artifact Consent Line"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_record_learning_artifact_consent
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Record Learning Artifact Consents"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2880,7 +3036,13 @@ msgid "Rubrics"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Save"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
@@ -3199,6 +3361,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_student
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__student_id
 msgid "Student"
 msgstr ""
 
@@ -3317,6 +3480,18 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__component_ids
 msgid "The components that make up this program."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__purpose_id
+msgid ""
+"The consent purpose of the usage. It is filled in when exactly one purpose "
+"covers the usage."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__partner_id
+msgid "The contact of the student that gives the consents."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3531,6 +3706,11 @@ msgid "The parental consent does not allow the showcase"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__notice_id
+msgid "The privacy notice version that the parent agreed to."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "The responsible user assessed the artifact"
@@ -3588,6 +3768,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
 msgid "The school unit that owns this learning area."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__school_id
+msgid "The school unit the consents apply to."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3686,6 +3871,11 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__student_id
+msgid "The student whose artifact consents are recorded."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__student_ids
 msgid ""
 "The students featured in this artifact. At least one student is required "
@@ -3751,6 +3941,11 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__usage
+msgid "The usage of a learning artifact that this row covers."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__pic_id
 msgid ""
 "The user in charge of producing this content. It is the teacher of the "
@@ -3775,6 +3970,11 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__assessor_id
 msgid "The user who picked the level."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__wizard_id
+msgid "The wizard this row belongs to."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3849,6 +4049,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__message_unread_counter
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__usage
+msgid "Usage"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__line_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Usages"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -3961,6 +4172,7 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__limited_preference
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "What the data subject allows when the consent level is limited."
 msgstr ""
@@ -3992,6 +4204,18 @@ msgid "Whether the aspect is scored or is an ethics gate."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_type
+msgid ""
+"Whether the consent of the usage is granted or withdrawn. Leave it empty to "
+"skip this usage."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_level
+msgid "Whether the granted consent is full or limited."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__consent_level
 msgid ""
 "Whether the granted consent is full or limited. A limited consent follows "
@@ -4001,6 +4225,16 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__assessor_slot
 msgid "Which assessor slot assesses this aspect."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_type__withdraw
+msgid "Withdrawn"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__wizard_id
+msgid "Wizard"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
