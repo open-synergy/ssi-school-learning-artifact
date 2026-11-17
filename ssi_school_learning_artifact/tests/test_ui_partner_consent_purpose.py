@@ -13,9 +13,20 @@ class TestUiPartnerConsentPurpose(HttpSavepointCase):
     def setUpClass(cls):
         """Create the Pre-Condition fixture of the usage tour.
 
-        One purpose without a learning artifact usage is created.
+        One purpose without a learning artifact usage is created, with a
+        school that the tour selects.
         """
         super().setUpClass()
+        grade_type = cls.env["school_grade_type"].create(
+            {"name": "TOUR LC Purpose Grade Type", "code": "/", "sequence": 10}
+        )
+        cls.school = cls.env["school"].create(
+            {
+                "name": "TOUR LC Purpose School",
+                "code": "/",
+                "grade_type_id": grade_type.id,
+            }
+        )
         cls.purpose = cls.env["partner_consent_purpose"].create(
             {
                 "name": "TOUR LC Usage Purpose",

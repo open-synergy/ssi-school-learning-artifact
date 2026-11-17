@@ -65,6 +65,52 @@ class TestSchoolLearningArtifactConsentWizard(YamlTransactionCase):
             "test_data_school_learning_artifact_consent_wizard_default.yaml"
         )
 
+    def test_school_learning_artifact_consent_wizard_school(self):
+        """Run the school scenarios defined in their own YAML file.
+
+        It lives in a separate file because the default purpose of a row
+        depends on the number of purposes of the usage, and the setup of
+        every scenario of a file adds purposes to the shared database.
+
+        :return: None
+        """
+        self.run_yaml_scenario(
+            "test_data_school_learning_artifact_consent_wizard_school.yaml"
+        )
+
+    def test_default_line_without_school(self):
+        """Assert a row only takes a purpose that has no school.
+
+        Pure Python - trigger P1 (L-01: the ``call`` action discards the
+        return value, so YAML cannot assert the values of the row).
+
+        :return: None
+        """
+        purpose_model = self.env["partner_consent_purpose"]
+        student = self._create_student()
+        purpose_model.create(
+            {
+                "name": "Publication Purpose of a School",
+                "code": "/",
+                "learning_artifact_usage": "publication",
+                "school_ids": [(6, 0, student.school_id.ids)],
+            }
+        )
+        wizard_model = self.env["record_learning_artifact_consent"]
+        no_school = self.env["school"]
+        line = wizard_model._prepare_default_line("publication", no_school)
+        self.assertEqual(line["usage"], "publication")
+        self.assertFalse(line["purpose_id"])
+        general = purpose_model.create(
+            {
+                "name": "Publication Purpose without School",
+                "code": "/",
+                "learning_artifact_usage": "publication",
+            }
+        )
+        line = wizard_model._prepare_default_line("publication", no_school)
+        self.assertEqual(line["purpose_id"], general.id)
+
     def test_action_open_record_learning_artifact_consent(self):
         """Assert the window action opened from the student form.
 

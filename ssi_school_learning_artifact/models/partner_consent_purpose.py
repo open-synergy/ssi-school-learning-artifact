@@ -26,3 +26,16 @@ class PartnerConsentPurpose(models.Model):  # pylint: disable=too-few-public-met
             "artifacts."
         ),
     )
+    # Schools the purpose applies to. An empty list means the purpose
+    # applies to every school.
+    school_ids = fields.Many2many(
+        string="Schools",
+        comodel_name="school",
+        relation="partner_consent_purpose_school_rel",
+        column1="purpose_id",
+        column2="school_id",
+        help=(
+            "The schools this purpose applies to. Leave it empty when the "
+            "purpose applies to every school."
+        ),
+    )
