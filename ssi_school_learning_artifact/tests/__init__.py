@@ -6,6 +6,7 @@ from . import (  # noqa: F401
     test_school_learning_artifact_allowed_master,
     test_school_learning_artifact,
     test_school_learning_artifact_consent,
+    test_school_learning_artifact_consent_current,
     test_school_learning_artifact_consent_wizard,
     test_school_learning_artifact_curation,
     test_school_learning_artifact_inventory_gate,
