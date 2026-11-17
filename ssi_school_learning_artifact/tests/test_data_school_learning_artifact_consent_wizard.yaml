@@ -132,6 +132,8 @@ scenarios:
         model: "record_learning_artifact_consent"
         target: "student_a"
         save_as: "wizard"
+        values:
+          notice_id: "REC: notice.id"
 
       - step: "Assert the header defaults"
         action: "assert"
@@ -252,6 +254,8 @@ scenarios:
         model: "record_learning_artifact_consent"
         target: "student_a"
         save_as: "wizard"
+        values:
+          notice_id: "REC: notice.id"
 
       - step: "Find the inventory row"
         action: "search"
