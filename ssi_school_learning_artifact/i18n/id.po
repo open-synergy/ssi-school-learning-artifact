@@ -193,6 +193,70 @@ msgstr ""
 "Solusi: %s\n"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: No usage has a consent type\n"
+"Solution: Choose Granted or Withdrawn on at least one usage\n"
+msgstr ""
+"\n"
+"Konteks: Catat izin artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Tidak ada penggunaan yang memiliki jenis izin\n"
+"Solusi: Pilih Diberikan atau Dicabut pada setidaknya satu penggunaan\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: Student '%s' has no contact to record the consents for\n"
+"Solution: Set the contact of the student, then open the wizard again\n"
+msgstr ""
+"\n"
+"Konteks: Catat izin artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Siswa '%s' tidak memiliki kontak untuk dicatatkan izinnya\n"
+"Solusi: Isi kontak siswa, lalu buka wizard lagi\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: The granted usage '%s' has no consent level\n"
+"Solution: Choose Full or Limited as the consent level of the usage\n"
+msgstr ""
+"\n"
+"Konteks: Catat izin artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Penggunaan '%s' yang diberikan tidak memiliki tingkat izin\n"
+"Solusi: Pilih Penuh atau Terbatas sebagai tingkat izin penggunaan\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
+"Problem: The usage '%s' has a consent type but no purpose\n"
+"Solution: Select the purpose of the usage or clear its consent type\n"
+msgstr ""
+"\n"
+"Konteks: Catat izin artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Penggunaan '%s' memiliki jenis izin tetapi tanpa tujuan\n"
+"Solusi: Pilih tujuan penggunaan atau kosongkan jenis izinnya\n"
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
 #, python-format
 msgid ""
@@ -269,6 +333,11 @@ msgstr "%s menolak izin inventaris"
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
 msgid "<span class=\"o_stat_text\">Artifact Consents</span>"
 msgstr "<span class=\"o_stat_text\">Izin Artefak</span>"
+
+#. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
+msgid "<span class=\"o_stat_text\">Record Consents</span>"
+msgstr "<span class=\"o_stat_text\">Catat Izin</span>"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__knockout_score
@@ -632,11 +701,6 @@ msgid "Artifact Assessment"
 msgstr "Penilaian Artefak"
 
 #. module: ssi_school_learning_artifact
-#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
-msgid "Artifact Consents"
-msgstr "Izin Artefak"
-
-#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
 #, python-format
 msgid "Ask a user in the Learning Artifact Inventory Coordinator group"
@@ -750,6 +814,11 @@ msgid "Attachment Count"
 msgstr "Jumlah Lampiran"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__manual
+msgid "Back Office"
+msgstr "Back Office"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_stage__beginning
 msgid "Beginning"
 msgstr "Awal"
@@ -814,6 +883,11 @@ msgid "Can Start"
 msgstr "Dapat Memulai"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Cancel"
+msgstr "Batal"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__cancel_reason_id
 msgid "Cancel Reason"
 msgstr "Alasan Pembatalan"
@@ -858,9 +932,15 @@ msgid "Category"
 msgstr "Kategori"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__channel
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__channel_id
 msgid "Channel"
 msgstr "Kanal"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__channel
+msgid "Channel through which the consents were captured."
+msgstr "Kanal tempat izin dicatat."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
@@ -926,6 +1006,19 @@ msgstr ""
 "Dicentang bila izin publikasi artefak memenuhi izin publikasi minimum kanal. "
 "Mengikuti izin: centang hilang bila izin seorang siswa dicabut atau "
 "diturunkan."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__is_current
+msgid ""
+"Checked when this is the consent that applies: the latest event, by consent "
+"date and then by id, of the same contact, school and learning artifact "
+"usage. A consent of a purpose without a learning artifact usage is never "
+"current."
+msgstr ""
+"Dicentang bila ini adalah izin yang berlaku: kejadian terbaru, menurut "
+"tanggal izin lalu id, dari kontak, sekolah, dan penggunaan artefak "
+"pembelajaran yang sama. Izin untuk tujuan tanpa penggunaan artefak "
+"pembelajaran tidak pernah berlaku."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -1027,6 +1120,12 @@ msgstr ""
 "* Jika aktif, pengguna dapat melihat dan menekan tombol 'Konfirmasi'"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__consent_date
+msgid "Consent Date"
+msgstr "Tanggal Izin"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_level
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__consent_level
 msgid "Consent Level"
 msgstr "Tingkat Izin"
@@ -1057,6 +1156,16 @@ msgid "Consent Reviewed By"
 msgstr "Izin Ditinjau Oleh"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_type
+msgid "Consent Type"
+msgstr "Jenis Izin"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__partner_id
+msgid "Contact"
+msgstr "Kontak"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content
 msgid "Content"
 msgstr "Konten"
@@ -1084,6 +1193,8 @@ msgid "Create a rubric for the school or a fallback rubric"
 msgstr "Buat rubrik untuk sekolah atau rubrik cadangan"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__create_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__create_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__create_uid
@@ -1105,6 +1216,8 @@ msgid "Created by"
 msgstr "Dibuat oleh"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__create_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__create_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__create_date
@@ -1189,6 +1302,12 @@ msgid "Curator Note is empty"
 msgstr "Catatan Kurator kosong"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__is_current
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.res_partner_consent_view_search_learning_artifact
+msgid "Current"
+msgstr "Berlaku"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.actions.act_window,name:ssi_school_learning_artifact.res_partner_consent_action
 msgid "Data Privacy Consents"
 msgstr "Izin Privasi Data"
@@ -1202,6 +1321,11 @@ msgstr "Tanggal"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__date_published
 msgid "Date Published"
 msgstr "Tanggal Publikasi"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__consent_date
+msgid "Date and time at which the consents were given."
+msgstr "Tanggal dan waktu izin diberikan."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__description
@@ -1245,6 +1369,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__display_name
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__display_name
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__display_name
@@ -1375,6 +1501,7 @@ msgid "Ethics Result is empty"
 msgstr "Hasil Etika kosong"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__date_expiry
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__date_expiry
 msgid "Expiry Date"
 msgstr "Tanggal Kedaluwarsa"
@@ -1503,6 +1630,16 @@ msgid "Forbid Creator Assessment"
 msgstr "Larang Penilaian oleh Pembuat"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__note
+msgid ""
+"Free-form note attached to the document, used for any additional remarks or "
+"information related to the transaction."
+msgstr ""
+"Catatan bebas yang dilampirkan pada dokumen, dipakai untuk keterangan atau "
+"informasi tambahan terkait transaksi."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_level__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__res_partner_consent__consent_level__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school__showcase_min_publication_consent__full
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__assessment_consent__full
@@ -1552,6 +1689,11 @@ msgstr "Profil Lulusan"
 #: model:ir.ui.menu,name:ssi_school_learning_artifact.school_graduate_profile_menu
 msgid "Graduate Profiles"
 msgstr "Profil Lulusan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_type__grant
+msgid "Granted"
+msgstr "Diberikan"
 
 #. module: ssi_school_learning_artifact
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_distinctive_program_component_view_search
@@ -1618,6 +1760,8 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__id
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school__id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__id
@@ -1807,7 +1951,13 @@ msgstr ""
 "tersisa. Mereka kemudian tidak boleh dapat dikenali dalam konten."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__import
+msgid "Import"
+msgstr "Impor"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__assessment
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__assessment
 msgid "Internal Assessment"
 msgstr "Penilaian Internal"
 
@@ -1823,6 +1973,7 @@ msgstr "Intrakurikuler"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__inventory
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__inventory
 msgid "Inventory"
 msgstr "Inventaris"
 
@@ -1881,6 +2032,8 @@ msgstr "Hasil Kurasi Gugur"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent____last_update
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school____last_update
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program____last_update
@@ -1906,6 +2059,8 @@ msgid "Last Modified on"
 msgstr "Terakhir Diubah pada"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__write_uid
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__write_uid
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__write_uid
@@ -1927,6 +2082,8 @@ msgid "Last Updated by"
 msgstr "Terakhir Diperbarui oleh"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__write_date
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_distinctive_program_component__write_date
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_graduate_profile__write_date
@@ -2127,6 +2284,7 @@ msgid "Levels"
 msgstr "Level"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_level__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__res_partner_consent__consent_level__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school__showcase_min_publication_consent__limited
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__assessment_consent__limited
@@ -2138,6 +2296,7 @@ msgid "Limited"
 msgstr "Terbatas"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__limited_preference
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "Limited Preference"
 msgstr "Preferensi Terbatas"
@@ -2675,10 +2834,21 @@ msgid "On Progress"
 msgstr "Dalam Proses"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__line_ids
+msgid "One row per learning artifact usage."
+msgstr "Satu baris untuk setiap penggunaan artefak pembelajaran."
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
 #, python-format
 msgid "Only an ethics gate aspect can take this source"
 msgstr "Hanya aspek gerbang etika yang dapat memakai sumber ini"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/res_partner_consent.py:0
+#, python-format
+msgid "Only the operators = and != with a boolean value are supported."
+msgstr "Hanya operator = dan != dengan nilai boolean yang didukung."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
@@ -2700,6 +2870,15 @@ msgid ""
 msgstr ""
 "Tanggal opsional hingga izin berlaku. Bersifat informatif dan tidak mengubah "
 "izin artefak."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__date_expiry
+msgid ""
+"Optional date until which the consents are valid. It is informative and does "
+"not change the consent of an artifact."
+msgstr ""
+"Tanggal opsional hingga izin berlaku. Hanya bersifat informasi dan tidak "
+"mengubah izin sebuah artefak."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion__sequence
@@ -2725,6 +2904,22 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_learning_artifact_view_form
 msgid "Parental Consent"
 msgstr "Izin Orang Tua"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__company_partner_id
+msgid ""
+"Partner (res.partner) linked to the document's company\n"
+"\n"
+"* Automatically follows 'company_id.partner_id'.\n"
+"* Used for reporting/printing documents that require the company-level\n"
+"  partner instead of the responsible user's partner."
+msgstr ""
+"Mitra (res.partner) yang terhubung dengan perusahaan pemilik dokumen\n"
+"\n"
+"* Otomatis mengikuti 'company_id.partner_id'.\n"
+"* Dipakai untuk pelaporan/pencetakan dokumen yang memerlukan mitra tingkat "
+"perusahaan\n"
+"  alih-alih mitra milik pengguna penanggung jawab."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_partner_consent_purpose
@@ -2785,6 +2980,11 @@ msgid "Policy Template"
 msgstr "Templat Kebijakan"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent__channel__portal
+msgid "Portal"
+msgstr "Portal"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact_rubric_criterion__assessor_slot__primary
 msgid "Primary Assessor"
 msgstr "Penilai Primer"
@@ -2793,6 +2993,11 @@ msgstr "Penilai Primer"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__primary_component_id
 msgid "Primary Component"
 msgstr "VP Dominan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__notice_id
+msgid "Privacy Notice"
+msgstr "Pemberitahuan Privasi"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__school_learning_artifact__activity_stage__process
@@ -2817,6 +3022,7 @@ msgstr "Komponen Program"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__promotion
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__promotion
 msgid "Promotion"
 msgstr "Promosi"
 
@@ -2837,6 +3043,7 @@ msgstr "Provinsi"
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__partner_consent_purpose__learning_artifact_usage__publication
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__usage__publication
 msgid "Publication"
 msgstr "Publikasi"
 
@@ -2857,6 +3064,11 @@ msgstr ""
 "izin publikasi efektifnya penuh."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__purpose_id
+msgid "Purpose"
+msgstr "Tujuan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__ready
 msgid "Ready"
 msgstr "Siap"
@@ -2872,6 +3084,17 @@ msgstr "Rekomendasi"
 #, python-format
 msgid "Recommendation is empty"
 msgstr "Rekomendasi kosong"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_record_learning_artifact_consent_line
+msgid "Record Learning Artifact Consent Line"
+msgstr "Baris Catat Izin Artefak Pembelajaran"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model,name:ssi_school_learning_artifact.model_record_learning_artifact_consent
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Record Learning Artifact Consents"
+msgstr "Catat Izin Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -3093,7 +3316,13 @@ msgid "Rubrics"
 msgstr "Rubrik"
 
 #. module: ssi_school_learning_artifact
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Save"
+msgstr "Simpan"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__school_id
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
@@ -3429,6 +3658,7 @@ msgstr ""
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model,name:ssi_school_learning_artifact.model_school_student
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__student_id
 msgid "Student"
 msgstr "Siswa"
 
@@ -3551,6 +3781,20 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_distinctive_program__component_ids
 msgid "The components that make up this program."
 msgstr "Komponen yang menyusun program ini."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__purpose_id
+msgid ""
+"The consent purpose of the usage. It is filled in when exactly one purpose "
+"covers the usage."
+msgstr ""
+"Tujuan izin dari penggunaan. Terisi bila tepat satu tujuan mencakup "
+"penggunaan tersebut."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__partner_id
+msgid "The contact of the student that gives the consents."
+msgstr "Kontak siswa yang memberikan izin."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
@@ -3790,6 +4034,11 @@ msgid "The parental consent does not allow the showcase"
 msgstr "Izin orang tua tidak mengizinkan showcase"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__notice_id
+msgid "The privacy notice version that the parent agreed to."
+msgstr "Versi pemberitahuan privasi yang disetujui orang tua."
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "The responsible user assessed the artifact"
@@ -3850,6 +4099,11 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_area__school_id
 msgid "The school unit that owns this learning area."
 msgstr "Unit sekolah pemilik bidang pembelajaran ini."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__school_id
+msgid "The school unit the consents apply to."
+msgstr "Unit sekolah tempat izin berlaku."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__school_id
@@ -3971,6 +4225,11 @@ msgstr ""
 "sebagai promosi, pada sekolah artefak."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent__student_id
+msgid "The student whose artifact consents are recorded."
+msgstr "Siswa yang izin artefaknya dicatat."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__student_ids
 msgid ""
 "The students featured in this artifact. At least one student is required "
@@ -4044,6 +4303,11 @@ msgstr ""
 "tujuan tidak berkaitan dengan artefak pembelajaran."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__usage
+msgid "The usage of a learning artifact that this row covers."
+msgstr "Penggunaan artefak pembelajaran yang dicakup baris ini."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__pic_id
 msgid ""
 "The user in charge of producing this content. It is the teacher of the "
@@ -4071,6 +4335,11 @@ msgstr "Pengguna yang menandai izin terbatas sebagai telah ditinjau."
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__assessor_id
 msgid "The user who picked the level."
 msgstr "Pengguna yang memilih level."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__wizard_id
+msgid "The wizard this row belongs to."
+msgstr "Wizard tempat baris ini berada."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric__threshold_ids
@@ -4156,6 +4425,17 @@ msgstr "Pesan yang Belum Dibaca"
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_stage__message_unread_counter
 msgid "Unread Messages Counter"
 msgstr "Penghitung Pesan yang Belum Dibaca"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__usage
+msgid "Usage"
+msgstr "Penggunaan"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent__line_ids
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+msgid "Usages"
+msgstr "Penggunaan"
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
@@ -4279,6 +4559,7 @@ msgstr ""
 "menandai izin sebagai telah ditinjau."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__limited_preference
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__limited_preference
 msgid "What the data subject allows when the consent level is limited."
 msgstr "Apa yang diizinkan oleh subjek data bila tingkat izin terbatas."
@@ -4315,6 +4596,20 @@ msgid "Whether the aspect is scored or is an ethics gate."
 msgstr "Apakah aspek berskor atau merupakan Gerbang Etika."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_type
+msgid ""
+"Whether the consent of the usage is granted or withdrawn. Leave it empty to "
+"skip this usage."
+msgstr ""
+"Apakah izin penggunaan diberikan atau dicabut. Kosongkan untuk melewati "
+"penggunaan ini."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__consent_level
+msgid "Whether the granted consent is full or limited."
+msgstr "Apakah izin yang diberikan penuh atau terbatas."
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__consent_level
 msgid ""
 "Whether the granted consent is full or limited. A limited consent follows "
@@ -4329,10 +4624,36 @@ msgid "Which assessor slot assesses this aspect."
 msgstr "Slot penilai mana yang menilai aspek ini."
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields.selection,name:ssi_school_learning_artifact.selection__record_learning_artifact_consent_line__consent_type__withdraw
+msgid "Withdrawn"
+msgstr "Dicabut"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_record_learning_artifact_consent_line__wizard_id
+msgid "Wizard"
+msgstr "Wizard"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact__description_word_count
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_showcase_production__content_word_count
 msgid "Word Count"
 msgstr "Jumlah Kata"
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__state
+msgid ""
+"Workflow status of the document\n"
+"\n"
+"* 'draft' is the only base state provided by this mixin.\n"
+"* Other states (e.g. confirmed, done, cancel) are added by derivative mixin\n"
+"  modules (such as confirm/done/cancel mixins) via 'selection_add'."
+msgstr ""
+"Status alur kerja dokumen\n"
+"\n"
+"* 'draft' adalah satu-satunya status dasar yang disediakan mixin ini.\n"
+"* Status lain (mis. dikonfirmasi, selesai, batal) ditambahkan oleh modul "
+"mixin turunan\n"
+"  (seperti mixin konfirmasi/selesai/batal) melalui 'selection_add'."
 
 #. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
@@ -4386,3 +4707,6 @@ msgstr "Anda bukan koordinator inventaris"
 #: model:ir.model,name:ssi_school_learning_artifact.model_res_partner_consent
 msgid "res.partner - Data Privacy Consent"
 msgstr "res.partner - Izin Privasi Data"
+
+#~ msgid "Artifact Consents"
+#~ msgstr "Izin Artefak"
