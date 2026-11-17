@@ -10,6 +10,7 @@ from . import (  # noqa: F401
     test_school_learning_artifact_consent_wizard,
     test_school_learning_artifact_curation,
     test_school_learning_artifact_inventory_gate,
+    test_school_learning_artifact_phase_default,
     test_school_learning_artifact_curation_python,
     test_school_learning_artifact_master,
     test_school_learning_artifact_rubric_sudo,
