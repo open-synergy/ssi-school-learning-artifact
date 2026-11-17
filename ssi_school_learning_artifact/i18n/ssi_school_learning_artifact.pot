@@ -877,6 +877,15 @@ msgid ""
 msgstr ""
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_res_partner_consent__is_current
+msgid ""
+"Checked when this is the consent that applies: the latest event, by consent "
+"date and then by id, of the same contact, school and learning artifact "
+"usage. A consent of a purpose without a learning artifact usage is never "
+"current."
+msgstr ""
+
+#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Choose the final status"
@@ -1144,6 +1153,12 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact.py:0
 #, python-format
 msgid "Curator Note is empty"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_res_partner_consent__is_current
+#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.res_partner_consent_view_search_learning_artifact
+msgid "Current"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
@@ -2602,6 +2617,12 @@ msgstr ""
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_rubric_criterion.py:0
 #, python-format
 msgid "Only an ethics gate aspect can take this source"
+msgstr ""
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/res_partner_consent.py:0
+#, python-format
+msgid "Only the operators = and != with a boolean value are supported."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
