@@ -13,11 +13,13 @@ class TestUiSchoolLearningArtifactCharacterIndicator(HttpSavepointCase):
     def setUpClass(cls):
         """Create the Pre-Condition fixtures of the indicator tour.
 
-        One school with a draft artifact tagged with a dominant and a
-        secondary sub-construct and an indicator of each sub-construct
-        are created. ``user_id`` is set to ``base.user_admin`` because
-        ``cls.env`` runs as SUPERUSER and the internal user record
-        rule would otherwise hide the record from the tour session.
+        One school with a draft artifact and a dominant and a
+        secondary sub-construct, each with an indicator, are created.
+        The artifact has no tag: the tour picks the tags and their
+        indicators in one edit session, without saving in between.
+        ``user_id`` is set to ``base.user_admin`` because ``cls.env``
+        runs as SUPERUSER and the internal user record rule would
+        otherwise hide the record from the tour session.
         """
         super().setUpClass()
         cls.admin = cls.env.ref("base.user_admin")
@@ -153,8 +155,6 @@ class TestUiSchoolLearningArtifactCharacterIndicator(HttpSavepointCase):
                 "category_id": category.id,
                 "description": "one two three",
                 "link_url": "https://drive.example.com/file",
-                "dominant_subconstruct_ids": [(6, 0, cls.dominant.ids)],
-                "secondary_subconstruct_ids": [(6, 0, cls.secondary.ids)],
             }
         )
 

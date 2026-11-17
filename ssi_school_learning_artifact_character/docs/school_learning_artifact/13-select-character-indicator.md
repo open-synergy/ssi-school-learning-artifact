@@ -12,8 +12,9 @@
 
 - **Record:** Status is **Draft** (a user in group
   `School Learning Artifact — Validator` can also select indicators while the status is
-  **Waiting for Approval** or **On Progress**). At least one **Dominant Character Tag**
-  or **Secondary Character Tag** is filled in (`11-tag-character`).
+  **Waiting for Approval** or **On Progress**). The **Dominant Character Tag** or
+  **Secondary Character Tag** can be picked in the same edit session
+  (`11-tag-character`); it does not have to be saved first.
 - **Data:** At least one active **Character Indicator** exists for a dominant or a
   secondary tag (`ssi_school_character/school_character_indicator/01-create`).
 - **Config:** When the school filters indicators by grade, the **Grade Status** lines of
@@ -33,15 +34,17 @@
 2. Open the record to fill in.
 3. Click the **Edit** button.
 4. Open the **Character Tag** tab.
-5. Select the **Dominant Character Indicators**. You can select more than one. The
+5. Select the **Dominant Character Tags** (`11-tag-character`). Do not click **Save**.
+6. Select the **Secondary Character Tags** (`11-tag-character`). Do not click **Save**.
+7. Select the **Dominant Character Indicators**. You can select more than one. The
    choice lists only the active indicators of the selected dominant tags; when a status
    line applies to the grade of the artifact, it lists only the indicators that are
    **Effective** or **Partial** on those lines. The **Dominant Character Indicator
    Codes** field shows the codes of the selected indicators and cannot be edited.
-6. Select the **Secondary Character Indicators** in the same way, from the selected
+8. Select the **Secondary Character Indicators** in the same way, from the selected
    secondary tags. The **Secondary Character Indicator Codes** field shows the codes of
    the selected indicators and cannot be edited.
-7. Click **Save**.
+9. Click **Save**.
 
 ## Post-Condition
 
