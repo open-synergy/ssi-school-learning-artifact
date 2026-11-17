@@ -41,6 +41,10 @@ be submitted when a student refused the inventory consent (or has no inventory
 consent recorded, when the school requires it).
 The consents of the four usages of a student can also be recorded at once with a
 wizard opened from the student form; every filled row becomes one consent.
+A consent purpose can be limited to some schools (empty means every school). The
+wizard proposes, for each usage, the purpose of the school of the student, or
+else the purpose without a school, only when exactly one is found, and refuses
+a purpose that belongs to other schools.
 The consent list marks the consent that applies for every contact, school and usage
 (the latest event by consent date and then by id, the same rule the artifacts use),
 shows the consents that were replaced faded, and has a Current filter.

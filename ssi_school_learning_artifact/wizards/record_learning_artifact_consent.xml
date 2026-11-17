@@ -29,7 +29,7 @@
                             <field name="usage" />
                             <field
                                     name="purpose_id"
-                                    domain="[('learning_artifact_usage', '=', usage)]"
+                                    domain="[('learning_artifact_usage', '=', usage), '|', ('school_ids', '=', False), ('school_ids', 'in', [parent.school_id])]"
                                     options="{'no_create': True}"
                                 />
                             <field name="consent_type" />
@@ -47,7 +47,7 @@
                                 <field name="usage" />
                                 <field
                                         name="purpose_id"
-                                        domain="[('learning_artifact_usage', '=', usage)]"
+                                        domain="[('learning_artifact_usage', '=', usage), '|', ('school_ids', '=', False), ('school_ids', 'in', [parent.school_id])]"
                                         options="{'no_create': True}"
                                     />
                                 <field name="consent_type" />

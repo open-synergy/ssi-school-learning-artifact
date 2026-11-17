@@ -14,6 +14,24 @@
         <data>
             <xpath expr="//field[@name='code']" position="after">
                 <field name="learning_artifact_usage" />
+                <field name="school_ids" widget="many2many_tags" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="partner_consent_purpose_view_tree_learning_artifact" model="ir.ui.view">
+    <field name="name">partner_consent_purpose - tree (learning artifact)</field>
+    <field name="model">partner_consent_purpose</field>
+    <field
+            name="inherit_id"
+            ref="ssi_partner_data_privacy_consent.partner_consent_purpose_view_tree"
+        />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="learning_artifact_usage" />
+                <field name="school_ids" widget="many2many_tags" />
             </xpath>
         </data>
     </field>

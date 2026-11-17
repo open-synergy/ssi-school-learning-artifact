@@ -1,0 +1,377 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Consent Wizard School Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Consent Wizard School Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Consent Wizard School Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Consent Wizard School Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Consent Wizard School Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Consent Wizard School Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact for Consent Wizard School Test"
+
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student for Consent Wizard School Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Consent Wizard School Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+
+    - step: "Setup - create second school"
+      action: "create"
+      model: "school"
+      save_as: "school_b"
+      values:
+        name: "Second School for Consent Wizard School Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+scenarios:
+  - name: "The default purpose follows the school of the student"
+    steps:
+      - step: "Publication purpose without school"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pub_all"
+        values:
+          name: "Publication purpose without school"
+          code: "/"
+          learning_artifact_usage: "publication"
+
+      - step: "Open the wizard - one purpose without school"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_1"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the publication row - one purpose without school"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_1.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_1"
+        expect_count: 1
+
+      - step: "Assert the publication row purpose - one purpose without school"
+        action: "assert"
+        target: "row_1"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: p_pub_all"
+
+      - step: "Publication purpose of school B"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pub_b"
+        values:
+          name: "Publication purpose of school B"
+          code: "/"
+          learning_artifact_usage: "publication"
+          school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+      - step: "Open the wizard - purpose of another school is ignored"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_2"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the publication row - purpose of another school is ignored"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_2.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_2"
+        expect_count: 1
+
+      - step:
+          "Assert the publication row purpose - purpose of another school is ignored"
+        action: "assert"
+        target: "row_2"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: p_pub_all"
+
+      - step: "Publication purpose of school A"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pub_a"
+        values:
+          name: "Publication purpose of school A"
+          code: "/"
+          learning_artifact_usage: "publication"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+
+      - step: "Open the wizard - purpose of the school wins"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_3"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the publication row - purpose of the school wins"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_3.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_3"
+        expect_count: 1
+
+      - step: "Assert the publication row purpose - purpose of the school wins"
+        action: "assert"
+        target: "row_3"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: p_pub_a"
+
+      - step: "Second publication purpose of school A"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pub_a2"
+        values:
+          name: "Second publication purpose of school A"
+          code: "/"
+          learning_artifact_usage: "publication"
+          school_ids: [[6, 0, ["REC: school.id"]]]
+
+      - step: "Open the wizard - two purposes of the school"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_4"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the publication row - two purposes of the school"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_4.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_4"
+        expect_count: 1
+
+      - step: "Assert the publication row purpose - two purposes of the school"
+        action: "assert"
+        target: "row_4"
+        asserts:
+          purpose_id:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Inventory purpose of school B"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_inv_b"
+        values:
+          name: "Inventory purpose of school B"
+          code: "/"
+          learning_artifact_usage: "inventory"
+          school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+      - step: "Open the wizard - only a purpose of another school"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_5"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the inventory row - only a purpose of another school"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_5.id"]
+          - ["usage", "=", "inventory"]
+        save_as: "row_5"
+        expect_count: 1
+
+      - step: "Assert the inventory row purpose - only a purpose of another school"
+        action: "assert"
+        target: "row_5"
+        asserts:
+          purpose_id:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Promotion purpose without school 1"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pro_1"
+        values:
+          name: "Promotion purpose without school 1"
+          code: "/"
+          learning_artifact_usage: "promotion"
+
+      - step: "Promotion purpose without school 2"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_pro_2"
+        values:
+          name: "Promotion purpose without school 2"
+          code: "/"
+          learning_artifact_usage: "promotion"
+
+      - step: "Open the wizard - two purposes without school"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard_6"
+        values:
+          notice_id: "REC: notice.id"
+
+      - step: "Find the promotion row - two purposes without school"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard_6.id"]
+          - ["usage", "=", "promotion"]
+        save_as: "row_6"
+        expect_count: 1
+
+      - step: "Assert the promotion row purpose - two purposes without school"
+        action: "assert"
+        target: "row_6"
+        asserts:
+          purpose_id:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "A purpose of another school is refused and nothing is created"
+    steps:
+      - step: "Inventory purpose of school B for the refusal"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_inv_b"
+        values:
+          name: "Inventory purpose of school B for the refusal"
+          code: "/"
+          learning_artifact_usage: "inventory"
+          school_ids: [[6, 0, ["REC: school_b.id"]]]
+
+      - step: "Assessment purpose without school for the refusal"
+        action: "create"
+        model: "partner_consent_purpose"
+        save_as: "p_ass_all"
+        values:
+          name: "Assessment purpose without school for the refusal"
+          code: "/"
+          learning_artifact_usage: "assessment"
+
+      - step: "Record a purpose of another school"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "assessment"
+                purpose_id: "REC: p_ass_all.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: p_inv_b.id"
+                consent_type: "grant"
+                consent_level: "full"
+        method: "action_create_consents"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "does not apply to school"
+
+      - step: "No consent was created"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 0

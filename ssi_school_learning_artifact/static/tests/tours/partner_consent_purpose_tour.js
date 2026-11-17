@@ -65,7 +65,27 @@ odoo.define("ssi_school_learning_artifact.partner_consent_purpose_tour", functio
                 extra_trigger: ".o_form_view.o_form_editable",
                 run: "text Publication",
             },
-            // Flow 5 -- Click Save.
+            // Flow 5 -- Optionally select the Schools.
+            {
+                content: "Type the school",
+                trigger: ".o_field_many2manytags[name='school_ids'] input",
+                extra_trigger: ".o_form_view.o_form_editable",
+                run: "text TOUR LC Purpose School",
+            },
+            {
+                content: "Pick the school",
+                trigger:
+                    ".ui-autocomplete:visible .ui-menu-item a:contains(TOUR LC Purpose School)",
+            },
+            {
+                content: "The school tag is shown",
+                trigger:
+                    ".o_field_many2manytags[name='school_ids'] .o_badge_text:contains(TOUR LC Purpose School)",
+                run: function () {
+                    // Assertion only; do not trigger the default click action.
+                },
+            },
+            // Flow 6 -- Click Save.
             {
                 content: "Save the record",
                 trigger: ".o_form_button_save",
@@ -75,6 +95,14 @@ odoo.define("ssi_school_learning_artifact.partner_consent_purpose_tour", functio
             {
                 content: "Record is saved",
                 trigger: ".o_form_view.o_form_readonly",
+                run: function () {
+                    // Assertion only; do not trigger the default click action.
+                },
+            },
+            {
+                content: "The school is shown",
+                trigger:
+                    ".o_form_view.o_form_readonly .o_field_many2manytags[name='school_ids'] .o_badge_text:contains(TOUR LC Purpose School)",
                 run: function () {
                     // Assertion only; do not trigger the default click action.
                 },

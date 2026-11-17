@@ -93,7 +93,8 @@ class RecordLearningArtifactConsent(models.TransientModel):
         Reads the student from the ``active_id`` of the context (or from
         ``default_student_id``), takes the school of the student and
         builds one row per usage. A row gets its purpose when exactly one
-        purpose covers the usage.
+        purpose of the school of the student covers the usage, or, when
+        none does, exactly one purpose without a school.
 
         :param fields_list: field names requested by the client
         :return: dict of default values
@@ -109,22 +110,36 @@ class RecordLearningArtifactConsent(models.TransientModel):
         if student and "school_id" in fields_list and not res.get("school_id"):
             res["school_id"] = student.school_id.id
         if "line_ids" in fields_list:
+            school = self.env["school"].browse(res.get("school_id") or [])
             res["line_ids"] = [
-                (0, 0, self._prepare_default_line(usage))
+                (0, 0, self._prepare_default_line(usage, school))
                 for usage in LEARNING_ARTIFACT_USAGES
             ]
         return res
 
     @api.model
-    def _prepare_default_line(self, usage):
+    def _prepare_default_line(self, usage, school):
         """Prepare the values of the row of one usage.
 
+        The purposes of the usage are looked up in two tiers. The first
+        tier holds the purposes that list the school; the second tier,
+        used only when the first one is empty, holds the purposes without
+        a school. The purpose is filled only when the winning tier has
+        exactly one purpose.
+
         :param usage: key of the learning artifact usage
+        :param school: ``school`` recordset, may be empty
         :return: dict of values of the row
         """
-        purposes = self.env["partner_consent_purpose"].search(
-            [("learning_artifact_usage", "=", usage)]
-        )
+        purpose_model = self.env["partner_consent_purpose"]
+        base_domain = [("learning_artifact_usage", "=", usage)]
+        purposes = purpose_model.browse()
+        if school:
+            purposes = purpose_model.search(
+                base_domain + [("school_ids", "in", school.ids)]
+            )
+        if not purposes:
+            purposes = purpose_model.search(base_domain + [("school_ids", "=", False)])
         return {
             "usage": usage,
             "purpose_id": purposes.id if len(purposes) == 1 else False,
@@ -161,6 +176,7 @@ class RecordLearningArtifactConsent(models.TransientModel):
         :raises UserError: when the student has no contact, when no row has
             a consent type or when a filled row has no purpose
         :raises ValidationError: when a granted row has no consent level
+            or when the purpose of a filled row belongs to other schools
         """
         self.ensure_one()
         if not self.partner_id:
@@ -200,6 +216,26 @@ Solution: Select the purpose of the usage or clear its consent type
 """
                     )
                     % (self.id, line.usage)
+                )
+            if (
+                line.purpose_id.school_ids
+                and self.school_id not in line.purpose_id.school_ids
+            ):
+                raise ValidationError(
+                    _(
+                        """
+Context: Record learning artifact consents
+Database ID: %s
+Problem: The purpose '%s' of the usage '%s' does not apply to school '%s'
+Solution: Select a purpose of the school or a purpose without a school
+"""
+                    )
+                    % (
+                        self.id,
+                        line.purpose_id.display_name,
+                        line.usage,
+                        self.school_id.display_name,
+                    )
                 )
             if line.consent_type == "grant" and not line.consent_level:
                 raise ValidationError(
