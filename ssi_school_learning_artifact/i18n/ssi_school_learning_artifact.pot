@@ -3696,8 +3696,9 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__phase_id
 msgid ""
-"The learning phase covered by this artifact. Required when the school "
-"requires a phase."
+"The learning phase covered by this artifact. It is filled in automatically "
+"when exactly one phase matches the school and the class, and can be changed "
+"while the artifact is in draft. Required when the school requires a phase."
 msgstr ""
 
 #. module: ssi_school_learning_artifact
