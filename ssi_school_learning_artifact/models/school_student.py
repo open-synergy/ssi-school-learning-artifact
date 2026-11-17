@@ -2,7 +2,7 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import _, models
 
 
 class SchoolStudent(models.Model):  # pylint: disable=too-few-public-methods
@@ -40,7 +40,7 @@ class SchoolStudent(models.Model):  # pylint: disable=too-few-public-methods
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "name": "Record Learning Artifact Consents",
+            "name": _("Record Learning Artifact Consents"),
             "res_model": "record_learning_artifact_consent",
             "view_mode": "form",
             "target": "new",
