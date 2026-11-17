@@ -54,14 +54,31 @@ msgid ""
 "\n"
 "Context: Save learning artifact character tag\n"
 "Database ID: %s\n"
-"Problem: Dominant character tag is filled in while the artifact is marked as "
-"not clearly evident\n"
-"Solution: Clear the dominant character tag or uncheck Not Clearly Evident\n"
+"Problem: Character tag is both dominant and secondary: %s\n"
+"Solution: Keep the character tag in the dominant or in the secondary tags "
+"only\n"
 msgstr ""
 "\n"
 "Konteks: Menyimpan tag karakter artefak pembelajaran\n"
 "ID Basis Data: %s\n"
-"Masalah: Tag karakter dominan terisi sementara artefak ditandai tidak jelas "
+"Masalah: Tag karakter berstatus dominan sekaligus sekunder: %s\n"
+"Solusi: Pertahankan tag karakter hanya pada tag dominan atau tag sekunder\n"
+
+#. module: ssi_school_learning_artifact_character
+#: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Save learning artifact character tag\n"
+"Database ID: %s\n"
+"Problem: Dominant character tag is filled in while the artifact is marked as "
+"not clearly evident\n"
+"Solution: Clear the dominant character tags or uncheck Not Clearly Evident\n"
+msgstr ""
+"\n"
+"Konteks: Menyimpan tag karakter artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Tag karakter dominan terisi padahal artefak ditandai tidak jelas "
 "terlihat\n"
 "Solusi: Kosongkan tag karakter dominan atau hapus centang Tidak Jelas "
 "Terlihat\n"
@@ -84,9 +101,20 @@ msgid ""
 "artifact has indicator statuses, only the sub-constructs with an Effective "
 "or Partial indicator at that grade type are listed."
 msgstr ""
-"Sub-konstruk aktif yang dapat ditandai. Bila jenjang sekolah artefak memiliki "
-"status indikator, hanya sub-konstruk dengan indikator Efektif atau Sebagian "
-"pada jenjang sekolah tersebut yang ditampilkan."
+"Sub-konstruk aktif yang dapat ditandai. Bila jenjang sekolah artefak "
+"memiliki status indikator, hanya sub-konstruk dengan indikator Efektif atau "
+"Sebagian pada jenjang sekolah tersebut yang ditampilkan."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_ids
+msgid ""
+"Additional character sub-constructs that appear in this artifact. A sub-"
+"construct cannot be both a dominant and a secondary tag. There is no limit "
+"on the number of tags."
+msgstr ""
+"Subkonstruk karakter tambahan yang muncul pada artefak ini. Satu subkonstruk "
+"tidak dapat menjadi tag dominan sekaligus sekunder. Jumlah tag tidak "
+"dibatasi."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_indicator_ids
@@ -99,9 +127,32 @@ msgid "Allowed Character Tags"
 msgstr "Tag Karakter yang Diizinkan"
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
-msgid "An additional character sub-construct that appears in this artifact."
-msgstr "Sub-konstruk karakter tambahan yang muncul dalam artefak ini."
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_dominant_indicator_ids
+msgid "Allowed Dominant Character Indicators"
+msgstr "Indikator Karakter Dominan yang Diizinkan"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_secondary_indicator_ids
+msgid "Allowed Secondary Character Indicators"
+msgstr "Indikator Karakter Sekunder yang Diizinkan"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_dominant_indicator_ids
+msgid ""
+"Allowed character indicators that belong to a dominant character tag of the "
+"artifact."
+msgstr ""
+"Indikator karakter yang diizinkan, yaitu yang termasuk dalam tag karakter "
+"dominan artefak."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__allowed_secondary_indicator_ids
+msgid ""
+"Allowed character indicators that belong to a secondary character tag of the "
+"artifact."
+msgstr ""
+"Indikator karakter yang diizinkan, yaitu yang termasuk dalam tag karakter "
+"sekunder artefak."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ok
@@ -124,11 +175,6 @@ msgid "Character Indicator Grade Status"
 msgstr "Status Tingkat Indikator Karakter"
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
-msgid "Character Indicators"
-msgstr "Indikator Karakter"
-
-#. module: ssi_school_learning_artifact_character
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact_character.school_learning_artifact_view_form
 msgid "Character Tag"
 msgstr "Tag Karakter"
@@ -138,9 +184,9 @@ msgstr "Tag Karakter"
 #, python-format
 msgid ""
 "Character indicator does not belong to the dominant or the secondary "
-"character tag"
+"character tags"
 msgstr ""
-"Indikator karakter tidak termasuk dalam tag karakter dominan atau sekunder"
+"Indikator karakter tidak termasuk dalam tag karakter dominan maupun sekunder"
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
@@ -155,16 +201,36 @@ msgstr ""
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_not_evident
 msgid ""
 "Check when no character sub-construct is clearly evident in this artifact. "
-"The dominant tag must then stay empty."
+"The character tags and indicators must then stay empty."
 msgstr ""
-"Centang bila tidak ada sub-konstruk karakter yang jelas terlihat dalam "
-"artefak ini. Tag dominan kemudian harus tetap kosong."
+"Centang bila tidak ada subkonstruk karakter yang terlihat jelas pada artefak "
+"ini. Tag dan indikator karakter harus tetap kosong."
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
 #, python-format
 msgid "Clear the character indicators or uncheck Not Clearly Evident"
 msgstr "Kosongkan indikator karakter atau hapus centang Tidak Jelas Terlihat"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_codes
+msgid "Codes of the dominant character indicators, separated by commas."
+msgstr "Kode indikator karakter dominan, dipisahkan dengan koma."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_codes
+msgid "Codes of the dominant character tags, separated by commas."
+msgstr "Kode tag karakter dominan, dipisahkan dengan koma."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_codes
+msgid "Codes of the secondary character indicators, separated by commas."
+msgstr "Kode indikator karakter sekunder, dipisahkan dengan koma."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_codes
+msgid "Codes of the secondary character tags, separated by commas."
+msgstr "Kode tag karakter sekunder, dipisahkan dengan koma."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__create_uid
@@ -184,8 +250,23 @@ msgid "Display Name"
 msgstr "Nama Tampilan"
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
-msgid "Dominant Character Tag"
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_codes
+msgid "Dominant Character Indicator Codes"
+msgstr "Kode Indikator Karakter Dominan"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_ids
+msgid "Dominant Character Indicators"
+msgstr "Indikator Karakter Dominan"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_codes
+msgid "Dominant Character Tag Codes"
+msgstr "Kode Tag Karakter Dominan"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_ids
+msgid "Dominant Character Tags"
 msgstr "Tag Karakter Dominan"
 
 #. module: ssi_school_learning_artifact_character
@@ -226,8 +307,8 @@ msgid ""
 "Partial indicator makes its sub-construct available for tagging a learning "
 "artifact."
 msgstr ""
-"Seberapa efektif indikator pada jenjang sekolah. Hanya indikator Efektif atau "
-"Sebagian yang membuat sub-konstruknya tersedia untuk menandai artefak "
+"Seberapa efektif indikator pada jenjang sekolah. Hanya indikator Efektif "
+"atau Sebagian yang membuat sub-konstruknya tersedia untuk menandai artefak "
 "pembelajaran."
 
 #. module: ssi_school_learning_artifact_character
@@ -268,7 +349,8 @@ msgstr "Indikator memiliki dua baris status untuk tingkat yang sama"
 #: code:addons/ssi_school_learning_artifact_character/models/school_character_indicator_grade_status.py:0
 #, python-format
 msgid "Keep one status line per grade type for each indicator"
-msgstr "Pertahankan satu baris status per jenjang sekolah untuk setiap indikator"
+msgstr ""
+"Pertahankan satu baris status per jenjang sekolah untuk setiap indikator"
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator____last_update
@@ -330,15 +412,34 @@ msgid "School Learning Artifact"
 msgstr "Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_id
-msgid "Secondary Character Tag"
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_codes
+msgid "Secondary Character Indicator Codes"
+msgstr "Kode Indikator Karakter Sekunder"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_ids
+msgid "Secondary Character Indicators"
+msgstr "Indikator Karakter Sekunder"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_codes
+msgid "Secondary Character Tag Codes"
+msgstr "Kode Tag Karakter Sekunder"
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_subconstruct_ids
+msgid "Secondary Character Tags"
 msgstr "Tag Karakter Sekunder"
 
 #. module: ssi_school_learning_artifact_character
 #: code:addons/ssi_school_learning_artifact_character/models/school_learning_artifact.py:0
 #, python-format
-msgid "Select only indicators of the dominant or the secondary character tag"
-msgstr "Pilih hanya indikator dari tag karakter dominan atau sekunder"
+msgid ""
+"Select only dominant indicators of the dominant tags and secondary "
+"indicators of the secondary tags"
+msgstr ""
+"Pilih hanya indikator dominan dari tag dominan dan indikator sekunder dari "
+"tag sekunder"
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__status
@@ -351,24 +452,36 @@ msgid "The character indicator that this status applies to."
 msgstr "Indikator karakter tempat status ini berlaku."
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__character_indicator_ids
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_indicator_ids
 msgid ""
-"The character indicators that appear in this artifact. Each indicator "
-"belongs to the dominant or the secondary character tag. It is a mark of the "
-"activity, not evidence of the character achievement of a student."
+"The character indicators that appear in this artifact and belong to a "
+"dominant character tag. It is a mark of the activity, not evidence of the "
+"character achievement of a student."
 msgstr ""
-"Indikator karakter yang muncul dalam artefak ini. Setiap indikator termasuk "
-"dalam tag karakter dominan atau sekunder. Ini adalah penanda aktivitas, "
-"bukan bukti capaian karakter siswa."
+"Indikator karakter yang muncul pada artefak ini dan termasuk dalam tag "
+"karakter dominan. Ini adalah penanda aktivitas, bukan bukti pencapaian "
+"karakter siswa."
 
 #. module: ssi_school_learning_artifact_character
-#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__primary_subconstruct_id
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__secondary_indicator_ids
 msgid ""
-"The character sub-construct that dominates this artifact. It is a tag of the "
-"activity, not evidence of the character achievement of a student."
+"The character indicators that appear in this artifact and belong to a "
+"secondary character tag. It is a mark of the activity, not evidence of the "
+"character achievement of a student."
 msgstr ""
-"Sub-konstruk karakter yang mendominasi artefak ini. Ini adalah tag kegiatan, "
-"bukan bukti pencapaian karakter seorang siswa."
+"Indikator karakter yang muncul pada artefak ini dan termasuk dalam tag "
+"karakter sekunder. Ini adalah penanda aktivitas, bukan bukti pencapaian "
+"karakter siswa."
+
+#. module: ssi_school_learning_artifact_character
+#: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_learning_artifact__dominant_subconstruct_ids
+msgid ""
+"The character sub-constructs that dominate this artifact. It is a tag of the "
+"activity, not evidence of the character achievement of a student. There is "
+"no limit on the number of tags."
+msgstr ""
+"Subkonstruk karakter yang mendominasi artefak ini. Ini adalah tag aktivitas, "
+"bukan bukti pencapaian karakter siswa. Jumlah tag tidak dibatasi."
 
 #. module: ssi_school_learning_artifact_character
 #: model:ir.model.fields,help:ssi_school_learning_artifact_character.field_school_character_indicator_grade_status__grade_type_id
