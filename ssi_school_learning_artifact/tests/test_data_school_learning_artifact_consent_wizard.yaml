@@ -1,0 +1,627 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Consent Wizard Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Consent Wizard Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Consent Wizard Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Consent Wizard Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Consent Wizard Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Consent Wizard Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact_a"
+      values:
+        name: "Student Contact for Consent Wizard Test"
+
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student_a"
+      values:
+        name: "Student for Consent Wizard Test"
+        code: "/"
+        contact_id: "REC: contact_a.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create privacy notice"
+      action: "create"
+      model: "partner_consent_notice"
+      save_as: "notice"
+      values:
+        name: "Notice for Consent Wizard Test"
+        code: "/"
+        version: "1.0"
+        body: "Privacy notice text"
+
+    - step: "Setup - create inventory purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_inventory"
+      values:
+        name: "Purpose inventory for Consent Wizard Test"
+        code: "/"
+        learning_artifact_usage: "inventory"
+
+    - step: "Setup - create assessment purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_assessment"
+      values:
+        name: "Purpose assessment for Consent Wizard Test"
+        code: "/"
+        learning_artifact_usage: "assessment"
+
+    - step: "Setup - create publication purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_publication"
+      values:
+        name: "Purpose publication for Consent Wizard Test"
+        code: "/"
+        learning_artifact_usage: "publication"
+
+    - step: "Setup - create promotion purpose"
+      action: "create"
+      model: "partner_consent_purpose"
+      save_as: "purpose_promotion"
+      values:
+        name: "Purpose promotion for Consent Wizard Test"
+        code: "/"
+        learning_artifact_usage: "promotion"
+
+scenarios:
+  - name: "The wizard opens with one row per usage and the student defaults"
+    steps:
+      - step: "Open the wizard from the student"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard"
+
+      - step: "Assert the header defaults"
+        action: "assert"
+        target: "wizard"
+        asserts:
+          student_id:
+            type: "m2o"
+            expected: "REC: student_a"
+          school_id:
+            type: "m2o"
+            expected: "REC: school"
+          partner_id:
+            type: "m2o"
+            expected: "REC: contact_a"
+          channel:
+            type: "value"
+            expected: "manual"
+          consent_date:
+            type: "value"
+            operator: "is_truthy"
+          line_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 4
+
+      - step: "Find the inventory row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "inventory"]
+        save_as: "row_inventory"
+        expect_count: 1
+
+      - step: "Assert the inventory row defaults"
+        action: "assert"
+        target: "row_inventory"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: purpose_inventory"
+          consent_type:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Find the assessment row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "assessment"]
+        save_as: "row_assessment"
+        expect_count: 1
+
+      - step: "Assert the assessment row defaults"
+        action: "assert"
+        target: "row_assessment"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: purpose_assessment"
+          consent_type:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Find the publication row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_publication"
+        expect_count: 1
+
+      - step: "Assert the publication row defaults"
+        action: "assert"
+        target: "row_publication"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: purpose_publication"
+          consent_type:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Find the promotion row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "promotion"]
+        save_as: "row_promotion"
+        expect_count: 1
+
+      - step: "Assert the promotion row defaults"
+        action: "assert"
+        target: "row_promotion"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: purpose_promotion"
+          consent_type:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "A usage covered by two purposes has no default purpose"
+    steps:
+      - step: "Create a second inventory purpose"
+        action: "create"
+        model: "partner_consent_purpose"
+        values:
+          name: "Second inventory purpose for Consent Wizard Test"
+          code: "/"
+          learning_artifact_usage: "inventory"
+
+      - step: "Open the wizard from the student"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        save_as: "wizard"
+
+      - step: "Find the inventory row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "inventory"]
+        save_as: "row_inventory"
+        expect_count: 1
+
+      - step: "Assert the inventory row has no purpose"
+        action: "assert"
+        target: "row_inventory"
+        asserts:
+          purpose_id:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Find the publication row"
+        action: "search"
+        model: "record_learning_artifact_consent_line"
+        domain:
+          - ["wizard_id", "=", "REC: wizard.id"]
+          - ["usage", "=", "publication"]
+        save_as: "row_publication"
+        expect_count: 1
+
+      - step: "Assert the publication row keeps its purpose"
+        action: "assert"
+        target: "row_publication"
+        asserts:
+          purpose_id:
+            type: "m2o"
+            expected: "REC: purpose_publication"
+
+  - name: "Four filled rows create four consents that share the header"
+    steps:
+      - step: "Create artifact of the student"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Consent Wizard Activity"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student_a.id"]]]
+
+      - step: "Record the four consents"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "assessment"
+                purpose_id: "REC: purpose_assessment.id"
+                consent_type: "grant"
+                consent_level: "limited"
+                limited_preference: "Only inside the school"
+            - - 0
+              - 0
+              - usage: "publication"
+                purpose_id: "REC: purpose_publication.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "promotion"
+                purpose_id: "REC: purpose_promotion.id"
+                consent_type: "withdraw"
+        method: "action_create_consents"
+
+      - step: "Four consents exist for the contact"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 4
+
+      - step: "Find the limited assessment consent"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+          - ["purpose_id", "=", "REC: purpose_assessment.id"]
+        save_as: "consent_assessment"
+        expect_count: 1
+
+      - step: "Assert the consent copies the header and the row"
+        action: "assert"
+        target: "consent_assessment"
+        asserts:
+          school_id:
+            type: "m2o"
+            expected: "REC: school"
+          notice_id:
+            type: "m2o"
+            expected: "REC: notice"
+          channel:
+            type: "value"
+            expected: "manual"
+          consent_type:
+            type: "value"
+            expected: "grant"
+          consent_level:
+            type: "value"
+            expected: "limited"
+          limited_preference:
+            type: "value"
+            expected: "Only inside the school"
+          date_expiry:
+            type: "value"
+            expected: 2027-06-30
+
+      - step: "Find the withdrawn promotion consent"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+          - ["purpose_id", "=", "REC: purpose_promotion.id"]
+        save_as: "consent_promotion"
+        expect_count: 1
+
+      - step: "Assert the withdrawn consent"
+        action: "assert"
+        target: "consent_promotion"
+        asserts:
+          consent_type:
+            type: "value"
+            expected: "withdraw"
+          notice_id:
+            type: "m2o"
+            expected: "REC: notice"
+          date_expiry:
+            type: "value"
+            expected: 2027-06-30
+
+      - step: "Assert the artifact mirrors the rows"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          inventory_consent:
+            type: "value"
+            expected: "full"
+          assessment_consent:
+            type: "value"
+            expected: "limited"
+          publication_consent:
+            type: "value"
+            expected: "full"
+          promotion_consent:
+            type: "value"
+            expected: "refused"
+
+  - name: "Rows without a consent type are skipped"
+    steps:
+      - step: "Record two of the four rows"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "assessment"
+                purpose_id: "REC: purpose_assessment.id"
+            - - 0
+              - 0
+              - usage: "publication"
+                purpose_id: "REC: purpose_publication.id"
+                consent_type: "withdraw"
+            - - 0
+              - 0
+              - usage: "promotion"
+                purpose_id: "REC: purpose_promotion.id"
+        method: "action_create_consents"
+
+      - step: "Only the two filled rows became consents"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 2
+
+  - name: "A granted row without a consent level is refused and nothing is created"
+    steps:
+      - step: "Record a granted row without a level"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "assessment"
+                purpose_id: "REC: purpose_assessment.id"
+                consent_type: "grant"
+        method: "action_create_consents"
+        expect_error:
+          type: "ValidationError"
+          message_contains: "consent level"
+
+      - step: "No consent was created"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 0
+
+  - name: "A wizard with no consent type on any row is refused"
+    steps:
+      - step: "Record only empty rows"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+            - - 0
+              - 0
+              - usage: "assessment"
+                purpose_id: "REC: purpose_assessment.id"
+            - - 0
+              - 0
+              - usage: "publication"
+                purpose_id: "REC: purpose_publication.id"
+            - - 0
+              - 0
+              - usage: "promotion"
+                purpose_id: "REC: purpose_promotion.id"
+        method: "action_create_consents"
+        expect_error:
+          type: "UserError"
+          message_contains: "No usage has a consent type"
+
+      - step: "No consent was created"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 0
+
+  - name: "A filled row without a purpose is refused and nothing is created"
+    steps:
+      - step: "Record a row without a purpose"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+                consent_type: "grant"
+                consent_level: "full"
+            - - 0
+              - 0
+              - usage: "assessment"
+                consent_type: "withdraw"
+        method: "action_create_consents"
+        expect_error:
+          type: "UserError"
+          message_contains: "no purpose"
+
+      - step: "No consent was created"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 0
+
+  - name: "A user outside the consent officer group cannot open the wizard"
+    steps:
+      - step: "Create a plain user"
+        action: "create"
+        model: "res.users"
+        save_as: "plain_user"
+        values:
+          name: "Consent Wizard Plain User"
+          login: "consent.wizard.plain@example.com"
+          groups_id: [[6, 0, ["REF: base.group_user"]]]
+
+      - step: "Create the wizard as the plain user"
+        action: "wizard"
+        model: "record_learning_artifact_consent"
+        target: "student_a"
+        as_user: "plain_user"
+        values:
+          student_id: "REC: student_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          date_expiry: "2027-06-30"
+          line_ids:
+            - - 0
+              - 0
+              - usage: "inventory"
+                purpose_id: "REC: purpose_inventory.id"
+                consent_type: "grant"
+                consent_level: "full"
+        method: "action_create_consents"
+        expect_error:
+          type: "AccessError"
+
+      - step: "No consent was created"
+        action: "search"
+        model: "res.partner.consent"
+        domain:
+          - ["partner_id", "=", "REC: contact_a.id"]
+        save_as: "consents"
+        expect_count: 0

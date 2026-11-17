@@ -143,4 +143,132 @@ odoo.define("ssi_school_learning_artifact.school_student_tour", function (requir
             ]
         )
     );
+
+    // IK: docs/school_student/02-record-learning-artifact-consents.md
+    tour.register(
+        "ssi_school_learning_artifact_school_student_record_learning_artifact_consents",
+        {
+            test: true,
+            url: "/web",
+        },
+        [].concat(
+            // Flow 1 -- Open the Students menu.
+            openStudentList(),
+            [
+                // Flow 2 -- Open the student record.
+                {
+                    content: "Open the student",
+                    trigger: ".o_data_row:contains(TOUR LC Student) .o_data_cell:first",
+                    extra_trigger: ".o_list_view",
+                },
+                // Flow 3 -- Click the Record Consents smart button.
+                {
+                    content: "Click the Record Consents smart button",
+                    trigger:
+                        ".oe_button_box button[name='action_open_record_learning_artifact_consent']",
+                    extra_trigger: ".o_form_view",
+                },
+                {
+                    content: "The wizard shows the four usage rows",
+                    trigger: ".o_data_row:contains(Promotion)",
+                    extra_trigger:
+                        ".modal .o_form_view .o_data_row:contains(Inventory)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click action.
+                    },
+                },
+            ],
+            // Flow 4 -- Fill in the fields shared by all rows.
+            [
+                {
+                    content: "Type the Privacy Notice",
+                    trigger: ".o_field_many2one[name='notice_id'] input",
+                    extra_trigger: ".modal .o_form_view.o_form_editable",
+                    run: "text TOUR LC Notice",
+                },
+                {
+                    content: "Pick the Privacy Notice from the dropdown",
+                    trigger:
+                        ".ui-autocomplete .ui-menu-item a:contains(TOUR LC Notice)",
+                    in_modal: false,
+                },
+                // Flow 5 -- Fill in the usage rows.
+                {
+                    content: "Select the Inventory row",
+                    trigger: ".o_data_row:contains(Inventory) .o_data_cell:eq(2)",
+                },
+                {
+                    content: "Choose Granted on the Inventory row",
+                    trigger:
+                        ".o_selected_row select.o_field_widget[name='consent_type']",
+                    run: "text Granted",
+                },
+                {
+                    content: "Choose Full on the Inventory row",
+                    trigger:
+                        ".o_selected_row select.o_field_widget[name='consent_level']",
+                    run: "text Full",
+                },
+                {
+                    content: "Select the Publication row",
+                    trigger: ".o_data_row:contains(Publication) .o_data_cell:eq(2)",
+                },
+                {
+                    content: "Choose Withdrawn on the Publication row",
+                    trigger:
+                        ".o_selected_row select.o_field_widget[name='consent_type']",
+                    run: "text Withdrawn",
+                },
+                {
+                    // Commit the row by clicking a field outside the list;
+                    // do not commit with Tab on an editable list.
+                    content: "Commit the usage rows",
+                    trigger: ".o_field_many2one[name='school_id'] input",
+                    extra_trigger: ".modal .o_selected_row",
+                },
+                // Flow 6 -- Click Save.
+                {
+                    content: "Click Save",
+                    trigger: ".modal-footer button[name='action_create_consents']",
+                    extra_trigger: ".modal .o_form_view:not(:has(.o_selected_row))",
+                },
+
+                // Post-Condition -- the consents are added to the log.
+                {
+                    content: "The dialog is closed and the student form is shown",
+                    trigger: ".o_form_view .oe_button_box",
+                    extra_trigger: "body:not(.modal-open)",
+                    in_modal: false,
+                    run: function () {
+                        // Assertion only; do not trigger the default click action.
+                    },
+                },
+                {
+                    content: "Open the consent log of the student",
+                    trigger:
+                        ".oe_button_box button[name='action_open_learning_artifact_consent']",
+                    extra_trigger: "body:not(.modal-open)",
+                    in_modal: false,
+                },
+                {
+                    content: "The granted inventory consent is listed",
+                    trigger:
+                        ".o_list_view .o_data_row:contains(TOUR LC Inventory Purpose)",
+                    extra_trigger:
+                        ".o_control_panel .breadcrumb-item.active:contains(Data Privacy Consents)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click action.
+                    },
+                },
+                {
+                    content: "The withdrawn publication consent is listed",
+                    trigger:
+                        ".o_list_view .o_data_row:contains(TOUR LC Publication Purpose)",
+                    run: function () {
+                        // Assertion only; do not trigger the default click action.
+                    },
+                },
+            ]
+        )
+    );
 });

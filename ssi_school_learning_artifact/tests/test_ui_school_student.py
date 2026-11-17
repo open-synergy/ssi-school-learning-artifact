@@ -7,7 +7,7 @@ from odoo.tests import HttpSavepointCase, tagged
 
 @tagged("post_install", "-at_install")
 class TestUiSchoolStudent(HttpSavepointCase):
-    """Tour tests for the ``school_student`` consent work instruction."""
+    """Tour tests for the ``school_student`` consent work instructions."""
 
     @classmethod
     def setUpClass(cls):
@@ -55,6 +55,20 @@ class TestUiSchoolStudent(HttpSavepointCase):
                 "learning_artifact_usage": "publication",
             }
         )
+        # One purpose per remaining usage, so the rows of the wizard get
+        # their purpose automatically.
+        for usage, label in (
+            ("inventory", "Inventory"),
+            ("assessment", "Assessment"),
+            ("promotion", "Promotion"),
+        ):
+            cls.env["partner_consent_purpose"].create(
+                {
+                    "name": "TOUR LC %s Purpose" % label,
+                    "code": "TOURLC%s" % label.upper(),
+                    "learning_artifact_usage": usage,
+                }
+            )
 
     def test_record_learning_artifact_consent(self):
         """Run the record consent tour for ``school_student``.
@@ -64,5 +78,16 @@ class TestUiSchoolStudent(HttpSavepointCase):
         self.start_tour(
             "/web",
             "ssi_school_learning_artifact_school_student_record_learning_artifact_consent",
+            login="admin",
+        )
+
+    def test_record_learning_artifact_consents(self):
+        """Run the record consents wizard tour for ``school_student``.
+
+        IK: docs/school_student/02-record-learning-artifact-consents.md
+        """
+        self.start_tour(
+            "/web",
+            "ssi_school_learning_artifact_school_student_record_learning_artifact_consents",
             login="admin",
         )

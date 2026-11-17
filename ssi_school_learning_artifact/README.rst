@@ -39,6 +39,8 @@ an artifact: inventory, internal assessment, publication and promotion. Every
 artifact shows the strictest consent of its students per usage, and it cannot
 be submitted when a student refused the inventory consent (or has no inventory
 consent recorded, when the school requires it).
+The consents of the four usages of a student can also be recorded at once with a
+wizard opened from the student form; every filled row becomes one consent.
 
 A curated artifact is also placed on a showcase board. The showcase is an
 internal record of the selection of the artifact, the content produced for
@@ -151,6 +153,7 @@ Student
 -------
 
 * `Record Learning Artifact Consent <docs/school_student/01-record-learning-artifact-consent.html>`_
+* `Record Learning Artifact Consents <docs/school_student/02-record-learning-artifact-consents.html>`_
 
 Consent Purpose
 ---------------
