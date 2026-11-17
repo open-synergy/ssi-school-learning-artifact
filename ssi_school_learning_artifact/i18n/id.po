@@ -4002,11 +4002,13 @@ msgstr ""
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__phase_id
 msgid ""
-"The learning phase covered by this artifact. Required when the school "
-"requires a phase."
+"The learning phase covered by this artifact. It is filled in automatically "
+"when exactly one phase matches the school and the class, and can be changed "
+"while the artifact is in draft. Required when the school requires a phase."
 msgstr ""
-"Fase pembelajaran yang dicakup artefak ini. Wajib diisi bila sekolah "
-"mensyaratkan fase."
+"Fase pembelajaran yang dicakup artefak ini. Terisi otomatis bila tepat "
+"satu fase cocok dengan sekolah dan kelas, dan dapat diubah selama artefak "
+"berstatus draf. Wajib diisi bila sekolah mensyaratkan fase."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact__achievement_level
@@ -4739,6 +4741,3 @@ msgstr "Anda bukan koordinator inventaris"
 #: model:ir.model,name:ssi_school_learning_artifact.model_res_partner_consent
 msgid "res.partner - Data Privacy Consent"
 msgstr "res.partner - Izin Privasi Data"
-
-#~ msgid "Artifact Consents"
-#~ msgstr "Izin Artefak"
