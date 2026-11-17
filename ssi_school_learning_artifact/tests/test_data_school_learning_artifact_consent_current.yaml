@@ -496,3 +496,53 @@ scenarios:
         expect_error:
           type: "UserError"
           message_contains: "immutable"
+
+  - name: "Search on the marker refuses an unsupported operator"
+    steps:
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Search the marker with an unsupported argument"
+        action: "call"
+        target: "grant_pub"
+        method: "_search_is_current"
+        args: ["in", true]
+        expect_error:
+          type: "UserError"
+          message_contains: "boolean value"
+
+  - name: "Search on the marker refuses a value that is not boolean"
+    steps:
+      - step: "Grant publication"
+        action: "create"
+        model: "res.partner.consent"
+        save_as: "grant_pub"
+        values:
+          partner_id: "REC: contact_a.id"
+          school_id: "REC: school.id"
+          notice_id: "REC: notice.id"
+          purpose_id: "REC: purpose_publication.id"
+          consent_type: "grant"
+          consent_date: "2026-10-01 08:00:00"
+          channel: "manual"
+          consent_level: "full"
+
+      - step: "Search the marker with an unsupported argument"
+        action: "call"
+        target: "grant_pub"
+        method: "_search_is_current"
+        args: ["=", "x"]
+        expect_error:
+          type: "UserError"
+          message_contains: "boolean value"
