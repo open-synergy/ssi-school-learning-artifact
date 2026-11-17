@@ -72,10 +72,23 @@
                                         widget="many2many_tags"
                                     />
                             </group>
-                            <group name="criterion_level_group" string="Levels">
-                                <field name="level_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="sequence" widget="handle" />
+                            <separator name="criterion_level_group" string="Levels" />
+                            <field name="level_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="name" />
+                                    <field
+                                            name="score"
+                                            attrs="{'invisible': [('parent.aspect_type', '=', 'gate')]}"
+                                        />
+                                    <field
+                                            name="is_fail"
+                                            attrs="{'invisible': [('parent.aspect_type', '!=', 'gate')]}"
+                                        />
+                                </tree>
+                                <form>
+                                    <group name="level_group" colspan="4" col="2">
+                                        <field name="sequence" />
                                         <field name="name" />
                                         <field
                                                 name="score"
@@ -85,23 +98,9 @@
                                                 name="is_fail"
                                                 attrs="{'invisible': [('parent.aspect_type', '!=', 'gate')]}"
                                             />
-                                    </tree>
-                                    <form>
-                                        <group name="level_group" colspan="4" col="2">
-                                            <field name="sequence" />
-                                            <field name="name" />
-                                            <field
-                                                    name="score"
-                                                    attrs="{'invisible': [('parent.aspect_type', '=', 'gate')]}"
-                                                />
-                                            <field
-                                                    name="is_fail"
-                                                    attrs="{'invisible': [('parent.aspect_type', '!=', 'gate')]}"
-                                                />
-                                        </group>
-                                    </form>
-                                </field>
-                            </group>
+                                    </group>
+                                </form>
+                            </field>
                         </form>
                     </field>
                 </page>
