@@ -247,6 +247,22 @@ msgid ""
 "\n"
 "Context: Record learning artifact consents\n"
 "Database ID: %s\n"
+"Problem: The purpose '%s' of the usage '%s' does not apply to school '%s'\n"
+"Solution: Select a purpose of the school or a purpose without a school\n"
+msgstr ""
+"\n"
+"Konteks: Catat izin artefak pembelajaran\n"
+"ID Basis Data: %s\n"
+"Masalah: Tujuan '%s' dari penggunaan '%s' tidak berlaku untuk sekolah '%s'\n"
+"Solusi: Pilih tujuan milik sekolah atau tujuan tanpa sekolah\n"
+
+#. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/wizards/record_learning_artifact_consent.py:0
+#, python-format
+msgid ""
+"\n"
+"Context: Record learning artifact consents\n"
+"Database ID: %s\n"
 "Problem: The usage '%s' has a consent type but no purpose\n"
 "Solution: Select the purpose of the usage or clear its consent type\n"
 msgstr ""
@@ -3422,6 +3438,11 @@ msgid "School Learning Artifact Showcase Stage"
 msgstr "Tahap Showcase Artefak Pembelajaran Sekolah"
 
 #. module: ssi_school_learning_artifact
+#: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_partner_consent_purpose__school_ids
+msgid "Schools"
+msgstr "Sekolah"
+
+#. module: ssi_school_learning_artifact
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_rubric_criterion_level__score
 #: model:ir.model.fields,field_description:ssi_school_learning_artifact.field_school_learning_artifact_score__score
 msgid "Score"
@@ -4113,6 +4134,15 @@ msgid ""
 msgstr ""
 "Unit sekolah tempat izin ini berlaku. Kosongkan untuk izin yang tidak "
 "berkaitan dengan sekolah."
+
+#. module: ssi_school_learning_artifact
+#: model:ir.model.fields,help:ssi_school_learning_artifact.field_partner_consent_purpose__school_ids
+msgid ""
+"The schools this purpose applies to. Leave it empty when the purpose applies "
+"to every school."
+msgstr ""
+"Sekolah tempat tujuan ini berlaku. Kosongkan bila tujuan ini berlaku untuk "
+"semua sekolah."
 
 #. module: ssi_school_learning_artifact
 #: model:ir.model.fields,help:ssi_school_learning_artifact.field_school_learning_artifact_score__score
