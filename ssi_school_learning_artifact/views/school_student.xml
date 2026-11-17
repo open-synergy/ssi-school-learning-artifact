@@ -21,6 +21,17 @@
                         <span class="o_stat_text">Artifact Consents</span>
                     </div>
                 </button>
+                <button
+                        name="action_open_record_learning_artifact_consent"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        groups="ssi_school_learning_artifact.school_learning_artifact_consent_officer_group"
+                    >
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Record Consents</span>
+                    </div>
+                </button>
             </xpath>
         </data>
     </field>

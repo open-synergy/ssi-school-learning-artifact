@@ -54,6 +54,8 @@
         "security/ir_model_access/school_learning_artifact_showcase_channel.xml",
         "security/ir_model_access/school_learning_artifact_showcase_production.xml",
         "security/ir_model_access/school_learning_artifact_curation_load.xml",
+        "security/ir_model_access/record_learning_artifact_consent.xml",
+        "security/ir_model_access/record_learning_artifact_consent_line.xml",
         "security/ir_model_access/school_distinctive_program.xml",
         "security/ir_model_access/school_distinctive_program_component.xml",
         "security/ir_model_access/school_graduate_profile.xml",
@@ -83,6 +85,7 @@
         "views/school_learning_artifact.xml",
         "views/school_learning_artifact_showcase.xml",
         "views/school_learning_artifact_curation_load.xml",
+        "wizards/record_learning_artifact_consent.xml",
         "views/assets.xml",
     ],
 }

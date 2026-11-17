@@ -28,3 +28,24 @@ class SchoolStudent(models.Model):  # pylint: disable=too-few-public-methods
             "default_channel": "manual",
         }
         return action
+
+    def action_open_record_learning_artifact_consent(self):
+        """Open the wizard that records the artifact consents at once.
+
+        The wizard shows one row per learning artifact usage and creates
+        one consent per filled row for the contact of the student.
+
+        :return: window action opening the wizard in a dialog
+        """
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Record Learning Artifact Consents",
+            "res_model": "record_learning_artifact_consent",
+            "view_mode": "form",
+            "target": "new",
+            "context": {
+                "default_student_id": self.id,
+                "default_school_id": self.school_id.id,
+            },
+        }

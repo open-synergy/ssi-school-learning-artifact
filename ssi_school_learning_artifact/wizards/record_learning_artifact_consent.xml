@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<record id="record_learning_artifact_consent_view_form" model="ir.ui.view">
+    <field name="name">record_learning_artifact_consent - form</field>
+    <field name="model">record_learning_artifact_consent</field>
+    <field name="arch" type="xml">
+        <form string="Record Learning Artifact Consents">
+            <group name="group_1" colspan="4" col="2">
+                <group name="group_1_1" colspan="1" col="2">
+                    <field name="student_id" readonly="1" />
+                    <field name="partner_id" />
+                    <field name="school_id" />
+                    <field name="notice_id" />
+                </group>
+                <group name="group_1_2" colspan="1" col="2">
+                    <field name="consent_date" />
+                    <field name="channel" />
+                    <field name="date_expiry" />
+                </group>
+            </group>
+            <notebook>
+                <page name="line" string="Usages">
+                    <field name="line_ids" nolabel="1">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="usage" />
+                            <field
+                                    name="purpose_id"
+                                    domain="[('learning_artifact_usage', '=', usage)]"
+                                    options="{'no_create': True}"
+                                />
+                            <field name="consent_type" />
+                            <field
+                                    name="consent_level"
+                                    attrs="{'readonly': [('consent_type', '!=', 'grant')]}"
+                                />
+                            <field
+                                    name="limited_preference"
+                                    attrs="{'readonly': [('consent_level', '!=', 'limited')]}"
+                                />
+                        </tree>
+                        <form>
+                            <group name="line_group_1" colspan="4" col="2">
+                                <field name="usage" />
+                                <field
+                                        name="purpose_id"
+                                        domain="[('learning_artifact_usage', '=', usage)]"
+                                        options="{'no_create': True}"
+                                    />
+                                <field name="consent_type" />
+                                <field name="consent_level" />
+                                <field name="limited_preference" />
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </notebook>
+            <footer>
+                <button
+                        name="action_create_consents"
+                        type="object"
+                        string="Save"
+                        class="btn-primary"
+                    />
+                <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+        </form>
+    </field>
+</record>
+
+</odoo>
