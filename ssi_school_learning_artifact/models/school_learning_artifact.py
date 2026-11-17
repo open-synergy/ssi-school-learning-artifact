@@ -306,11 +306,15 @@ class SchoolLearningArtifact(models.Model):
         comodel_name="school_learning_artifact_phase",
         ondelete="restrict",
         domain="[('id', 'in', allowed_phase_ids)]",
-        readonly=True,
-        states=_DRAFT_EDITABLE,
+        compute="_compute_phase_id",
+        store=True,
+        readonly=False,
+        compute_sudo=True,
         help=(
-            "The learning phase covered by this artifact. Required "
-            "when the school requires a phase."
+            "The learning phase covered by this artifact. It is filled "
+            "in automatically when exactly one phase matches the school "
+            "and the class, and can be changed while the artifact is in "
+            "draft. Required when the school requires a phase."
         ),
     )
     graduate_profile_id = fields.Many2one(
@@ -1203,6 +1207,23 @@ class SchoolLearningArtifact(models.Model):
                 result = obj_phase.search(criteria)
             record.allowed_phase_ids = result
 
+    @api.depends("school_id", "grade_id", "grade_type_id")
+    def _compute_phase_id(self):
+        """Default the phase to the only phase matching the class.
+
+        The phase is the single record of the allowed phases when
+        exactly one applies to the school and class, and empty when
+        none or several apply. It is recomputed only when the school
+        or class changes, so a phase picked by the user is kept
+        otherwise.
+        """
+        for record in self:
+            result = False
+            allowed = record.allowed_phase_ids
+            if len(allowed) == 1:
+                result = allowed
+            record.phase_id = result
+
     def _get_allowed_phase_grade_criteria(self):
         """Build the domain of the phases matching the class grade.
 
@@ -1399,10 +1420,6 @@ class SchoolLearningArtifact(models.Model):
     @api.onchange("school_id")
     def onchange_dimension_id(self):
         self.dimension_id = False
-
-    @api.onchange("school_id", "grade_class_id")
-    def onchange_phase_id(self):
-        self.phase_id = False
 
     @ssi_decorator.pre_confirm_check()
     def _10_check_submit_students(self):

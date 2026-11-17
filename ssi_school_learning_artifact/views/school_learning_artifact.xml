@@ -122,7 +122,7 @@
                             <field name="dimension_id" />
                             <field
                                     name="phase_id"
-                                    attrs="{'invisible': [('allowed_phase_ids', '=', [])]}"
+                                    attrs="{'invisible': [('allowed_phase_ids', '=', [])], 'readonly': [('state', '!=', 'draft')]}"
                                 />
                         </group>
                     </group>

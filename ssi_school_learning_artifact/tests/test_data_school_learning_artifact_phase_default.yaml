@@ -1,0 +1,413 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Setup - create grade type"
+      action: "create"
+      model: "school_grade_type"
+      save_as: "grade_type"
+      values:
+        name: "Grade Type for Learning Artifact Test"
+        code: "/"
+        sequence: 10
+
+    - step: "Setup - create branch"
+      action: "create"
+      model: "school_branch"
+      save_as: "branch"
+      values:
+        name: "Branch for Learning Artifact Test"
+        code: "/"
+
+    - step: "Setup - create school"
+      action: "create"
+      model: "school"
+      save_as: "school"
+      values:
+        name: "School for Learning Artifact Test"
+        code: "/"
+        grade_type_id: "REC: grade_type.id"
+        branch_id: "REC: branch.id"
+
+    - step: "Setup - create grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade"
+      values:
+        name: "Grade for Learning Artifact Test"
+        code: "/"
+        sequence: 10
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class"
+      values:
+        name: "Class for Learning Artifact Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade.id"
+        capacity: 30
+
+    - step: "Setup - create academic year"
+      action: "create"
+      model: "school_academic_year"
+      save_as: "academic_year"
+      values:
+        name: "Year for Learning Artifact Test"
+        code: "/"
+        date_start: "2026-07-01"
+        date_end: "2027-06-30"
+
+    - step: "Setup - create student contact"
+      action: "create"
+      model: "res.partner"
+      save_as: "contact"
+      values:
+        name: "Student Contact for Learning Artifact Test"
+
+    - step: "Setup - create student"
+      action: "create"
+      model: "school_student"
+      save_as: "student"
+      values:
+        name: "Student for Learning Artifact Test"
+        code: "/"
+        contact_id: "REC: contact.id"
+        school_id: "REC: school.id"
+
+    - step: "Setup - create learning area"
+      action: "create"
+      model: "school_learning_artifact_area"
+      save_as: "area"
+      values:
+        name: "Area for Learning Artifact Test"
+        code: "/"
+        school_id: "REC: school.id"
+        area_type: "subject"
+
+    - step: "Setup - create category"
+      action: "create"
+      model: "school_learning_artifact_category"
+      save_as: "category"
+      values:
+        name: "Category for Learning Artifact Test"
+        code: "/"
+
+    - step: "Setup - create second grade"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade_second"
+      values:
+        name: "Second Grade for Phase Default Test"
+        code: "/"
+        sequence: 20
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create grade without phase"
+      action: "create"
+      model: "school_grade"
+      save_as: "grade_third"
+      values:
+        name: "Third Grade for Phase Default Test"
+        code: "/"
+        sequence: 30
+        type_id: "REC: grade_type.id"
+
+    - step: "Setup - create second class"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class_second"
+      values:
+        name: "Second Class for Phase Default Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade_second.id"
+        capacity: 30
+
+    - step: "Setup - create class without phase"
+      action: "create"
+      model: "school_grade_class"
+      save_as: "grade_class_third"
+      values:
+        name: "Third Class for Phase Default Test"
+        code: "/"
+        school_id: "REC: school.id"
+        grade_id: "REC: grade_third.id"
+        capacity: 30
+
+    - step: "Setup - find the phases left by earlier replays"
+      action: "search"
+      model: "school_learning_artifact_phase"
+      domain: [["active", "=", true]]
+      save_as: "stale_phases"
+
+    - step: "Setup - deactivate them so only the phases below apply"
+      action: "write"
+      target: "stale_phases"
+      values:
+        active: false
+
+    - step: "Setup - create phase of the first grade"
+      action: "create"
+      model: "school_learning_artifact_phase"
+      save_as: "phase_first"
+      values:
+        name: "First Grade Phase for Default Test"
+        code: "/"
+        grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+    - step: "Setup - create phase of the second grade"
+      action: "create"
+      model: "school_learning_artifact_phase"
+      save_as: "phase_second"
+      values:
+        name: "Second Grade Phase for Default Test"
+        code: "/"
+        grade_ids: [[6, 0, ["REC: grade_second.id"]]]
+
+scenarios:
+  - name: "Create fills the only matching phase"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Default Create First"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert the phase of the first grade is filled in"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "m2o"
+            expected: "REC: phase_first"
+
+      - step: "Create artifact in the second class"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_second"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class_second.id"
+          activity_name: "Phase Default Create Second"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert the phase of the second grade is filled in"
+        action: "assert"
+        target: "artifact_second"
+        asserts:
+          phase_id:
+            type: "m2o"
+            expected: "REC: phase_second"
+
+      - step: "Create artifact in the class matching no phase"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact_none"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class_third.id"
+          activity_name: "Phase Default Create None"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+
+      - step: "Assert no phase is filled in when none matches"
+        action: "assert"
+        target: "artifact_none"
+        asserts:
+          phase_id:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "Several matching phases leave the phase empty"
+    steps:
+      - step: "Create phase without grade filter"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_open"
+        values:
+          name: "Open Phase for Default Test"
+          code: "/"
+
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Default Several"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert more than one phase applies"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          allowed_phase_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 2
+
+      - step: "Assert the phase stays empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "Form fills the phase and keeps a manual choice"
+    steps:
+      - step: "Select school and class, pick another phase, change class"
+        action: "form"
+        model: "school_learning_artifact"
+        save: false
+        ops:
+          - set: {school_id: "REC: school"}
+          - set: {grade_class_id: "REC: grade_class"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_first"
+          - set: {phase_id: "REC: phase_second"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_second"
+          - set: {grade_class_id: "REC: grade_class_second"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_second"
+          - set: {grade_class_id: "REC: grade_class"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_first"
+
+  - name: "A manual phase survives a write of another field"
+    steps:
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Default Manual"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Choose another phase manually"
+        action: "write"
+        target: "artifact"
+        values:
+          phase_id: "REC: phase_second"
+
+      - step: "Write a field that is not a dependency"
+        action: "write"
+        target: "artifact"
+        values:
+          activity_name: "Phase Default Manual Renamed"
+
+      - step: "Assert the manual phase is kept"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "m2o"
+            expected: "REC: phase_second"
+
+      - step: "Change the class so the phase is recomputed"
+        action: "write"
+        target: "artifact"
+        values:
+          grade_class_id: "REC: grade_class_third.id"
+
+      - step: "Assert the phase is emptied as no phase matches"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "value"
+            operator: "is_falsy"
+
+  - name: "Submit is rejected when several phases match and none is chosen"
+    steps:
+      - step: "Require phase on the school"
+        action: "write"
+        target: "school"
+        values:
+          learning_artifact_require_phase: true
+
+      - step: "Create phase without grade filter"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_open"
+        values:
+          name: "Open Phase for Submit Default Test"
+          code: "/"
+
+      - step: "Create artifact"
+        action: "create"
+        model: "school_learning_artifact"
+        save_as: "artifact"
+        values:
+          school_id: "REC: school.id"
+          academic_year_id: "REC: academic_year.id"
+          grade_class_id: "REC: grade_class.id"
+          activity_name: "Phase Default Submit"
+          media_type: "photo"
+          user_id: "REF: base.user_admin"
+          student_ids: [[6, 0, ["REC: student.id"]]]
+          learning_area_id: "REC: area.id"
+          category_id: "REC: category.id"
+          description: "one two three"
+          link_url: "https://drive.example.com/file"
+
+      - step: "Assert the phase is left empty"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "value"
+            operator: "is_falsy"
+
+      - step: "Submit without phase is rejected"
+        action: "call"
+        target: "artifact"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+          message_contains: "Phase is empty"

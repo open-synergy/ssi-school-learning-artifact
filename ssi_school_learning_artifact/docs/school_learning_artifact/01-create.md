@@ -20,19 +20,21 @@
 2. Click the **New** button. **(14.0: "Create")**
 3. Fill in the required fields:
    - **School** _(required)_: Select the school unit that owns the artifact. Changing
-     the school clears the class, students, learning area, components, dimension and
-     phase.
+     the school clears the class, students, learning area, components and dimension, and
+     recomputes **Phase**.
    - **Academic Year** _(required)_: Select the academic year of the activity.
    - **Class** _(required)_: Select a class of the selected school. **Grade** and
      **Grade Type** are filled automatically, read-only, from the class, and **Graduate
-     Profile** is filled automatically from the grade. Changing the class clears
-     **Phase**.
+     Profile** is filled automatically from the grade. **Phase** is filled automatically
+     when exactly one phase matches the school and the class, and stays empty when none
+     or several match. A phase chosen by hand while the artifact is a draft is kept
+     until the school or the class changes, which recomputes **Phase**.
    - **Activity Name** _(required)_: Enter a short title of the activity.
    - **Media Type** _(required)_: Select **Photo**, **Video** or **Document**.
    - **Date**: Defaults to today. Change if needed.
    - **Students**, **Learning Area**, **Category**, **Description**, **Link**, the
-     component, dimension and phase fields and the reflections are optional while the
-     artifact is a draft, but most of them are required before it can be submitted (see
+     component and dimension fields and the reflections are optional while the artifact
+     is a draft, but most of them are required before it can be submitted (see
      `02-submit`).
 4. Click **Save**.
 

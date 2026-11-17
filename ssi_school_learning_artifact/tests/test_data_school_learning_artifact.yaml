@@ -836,6 +836,20 @@ scenarios:
             check: "count"
             expected_count: 1
 
+      - step: "Assert the only phase is filled in automatically"
+        action: "assert"
+        target: "artifact"
+        asserts:
+          phase_id:
+            type: "m2o"
+            expected: "REC: phase"
+
+      - step: "Empty the phase explicitly"
+        action: "write"
+        target: "artifact"
+        values:
+          phase_id: false
+
       - step: "Submit without phase is rejected"
         action: "call"
         target: "artifact"
@@ -1032,16 +1046,26 @@ scenarios:
         save_as: "not_allowed_p_t2_g1"
         expect_count: 0
 
-  - name: "Changing the class clears the phase"
+  - name: "Changing the class recomputes the phase"
     steps:
       - step: "Create grade of the first grade type"
         action: "create"
         model: "school_grade"
         save_as: "grade_second"
         values:
-          name: "Second Grade for Phase Clear Test"
+          name: "Second Grade for Phase Recompute Test"
           code: "/"
           sequence: 20
+          type_id: "REC: grade_type.id"
+
+      - step: "Create grade matching no phase"
+        action: "create"
+        model: "school_grade"
+        save_as: "grade_third"
+        values:
+          name: "Third Grade for Phase Recompute Test"
+          code: "/"
+          sequence: 30
           type_id: "REC: grade_type.id"
 
       - step: "Create second class"
@@ -1049,19 +1073,50 @@ scenarios:
         model: "school_grade_class"
         save_as: "grade_class_second"
         values:
-          name: "Second Class for Phase Clear Test"
+          name: "Second Class for Phase Recompute Test"
           code: "/"
           school_id: "REC: school.id"
           grade_id: "REC: grade_second.id"
           capacity: 30
 
-      - step: "Create phase without grade filter"
+      - step: "Find the phases left by the scenarios above"
+        action: "search"
+        model: "school_learning_artifact_phase"
+        domain: [["active", "=", true]]
+        save_as: "stale_phases"
+
+      - step: "Deactivate them so only the phases below apply"
+        action: "write"
+        target: "stale_phases"
+        values:
+          active: false
+
+      - step: "Create phase of the first grade"
         action: "create"
         model: "school_learning_artifact_phase"
-        save_as: "phase_open"
+        save_as: "phase_first"
         values:
-          name: "Open Phase for Clear Test"
+          name: "First Grade Phase for Recompute Test"
           code: "/"
+          grade_ids: [[6, 0, ["REC: grade.id"]]]
+
+      - step: "Create phase of the second grade"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_second"
+        values:
+          name: "Second Grade Phase for Recompute Test"
+          code: "/"
+          grade_ids: [[6, 0, ["REC: grade_second.id"]]]
+
+      - step: "Create phase of the third grade"
+        action: "create"
+        model: "school_learning_artifact_phase"
+        save_as: "phase_third"
+        values:
+          name: "Third Grade Phase for Recompute Test"
+          code: "/"
+          grade_ids: [[6, 0, ["REC: grade_third.id"]]]
 
       - step: "Pick the phase, then change the class"
         action: "form"
@@ -1070,13 +1125,17 @@ scenarios:
         ops:
           - set: {school_id: "REC: school"}
           - set: {grade_class_id: "REC: grade_class"}
-          - set: {phase_id: "REC: phase_open"}
           - assert:
               phase_id:
                 type: "m2o"
-                expected: "REC: phase_open"
+                expected: "REC: phase_first"
+          - set: {phase_id: "REC: phase_third"}
+          - assert:
+              phase_id:
+                type: "m2o"
+                expected: "REC: phase_third"
           - set: {grade_class_id: "REC: grade_class_second"}
           - assert:
               phase_id:
-                type: "value"
-                operator: "is_falsy"
+                type: "m2o"
+                expected: "REC: phase_second"
