@@ -545,11 +545,6 @@ msgid "Artifact Assessment"
 msgstr ""
 
 #. module: ssi_school_learning_artifact
-#: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.school_student_view_form_learning_artifact
-msgid "Artifact Consents"
-msgstr ""
-
-#. module: ssi_school_learning_artifact
 #: code:addons/ssi_school_learning_artifact/models/school_learning_artifact_showcase_production.py:0
 #, python-format
 msgid "Ask a user in the Learning Artifact Inventory Coordinator group"
