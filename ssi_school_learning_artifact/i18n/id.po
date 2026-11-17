@@ -3107,8 +3107,10 @@ msgid "Record Learning Artifact Consent Line"
 msgstr "Baris Catat Izin Artefak Pembelajaran"
 
 #. module: ssi_school_learning_artifact
+#: code:addons/ssi_school_learning_artifact/models/school_student.py:0
 #: model:ir.model,name:ssi_school_learning_artifact.model_record_learning_artifact_consent
 #: model_terms:ir.ui.view,arch_db:ssi_school_learning_artifact.record_learning_artifact_consent_view_form
+#, python-format
 msgid "Record Learning Artifact Consents"
 msgstr "Catat Izin Artefak Pembelajaran"
 
